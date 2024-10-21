@@ -20,9 +20,12 @@ public class BlackListButtonsPane extends JPanel {
         remove = new JButton("Remove");
         clear = new JButton("Clear");
 
-        setAlign(add, remove, clear);
+//        setAlign(add, remove, clear);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//        type.setAlignmentY(LEFT_ALIGNMENT);
+        type.setAlignmentX(LEFT_ALIGNMENT);
+        type.setMaximumSize(type.getPreferredSize());
         this.add(type);
         this.add(Box.createVerticalStrut(5));
         this.add(add);
@@ -34,8 +37,8 @@ public class BlackListButtonsPane extends JPanel {
 
     private void setAlign(JButton... buttons) {
         for (var button : buttons) {
-            button.setAlignmentX(Component.CENTER_ALIGNMENT);
-            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
+            button.setAlignmentX(Component.LEFT_ALIGNMENT);
+//            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
         }
     }
 }

@@ -15,18 +15,19 @@ public class BlackListPane2 extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         blackListButtonsPane = new BlackListButtonsPane();
         label = new JLabel("Ignore setting");
-        label.setAlignmentX(LEFT_ALIGNMENT);
+//        label.setAlignmentX(LEFT_ALIGNMENT);
         label.setFont(new Font("Arial", Font.BOLD, 16));
 
         description = new JLabel("Description");
-        description.setAlignmentX(LEFT_ALIGNMENT);
-        blackListButtonsPane.setAlignmentX(LEFT_ALIGNMENT);
+//        description.setAlignmentX(LEFT_ALIGNMENT);
+//        blackListButtonsPane.setAlignmentX(LEFT_ALIGNMENT);
 
+//        this.setAlignmentY(LEFT_ALIGNMENT);
         this.add(label);
         this.add(description);
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
-        buttonPanel.add(blackListButtonsPane);
-        this.add(buttonPanel);
+//        JPanel buttonPanel = new JPanel();
+//        buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
+//        buttonPanel.add(blackListButtonsPane);
+        this.add(blackListButtonsPane);
     }
 }
