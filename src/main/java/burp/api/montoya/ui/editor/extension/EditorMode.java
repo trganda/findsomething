@@ -11,8 +11,7 @@ package burp.api.montoya.ui.editor.extension;
 /**
  * An enum to describe the different modes of Burp Suites message editor.
  */
-public enum EditorMode
-{
+public enum EditorMode {
     DEFAULT,
     READ_ONLY
 }

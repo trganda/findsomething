@@ -13,15 +13,13 @@ import java.io.PrintStream;
 /**
  * Provides access to the functionality related to logging and events.
  */
-public interface Logging
-{
+public interface Logging {
     /**
      * Obtain the current extension's standard output
      * stream. Extensions should write all output to this stream, allowing the
      * Burp user to configure how that output is handled from within the UI.
      *
      * @return The extension's standard output stream.
-     *
      * @deprecated Use {@link burp.api.montoya.logging.Logging#logToOutput} instead.
      */
     @Deprecated
@@ -34,7 +32,6 @@ public interface Logging
      * within the UI.
      *
      * @return The extension's standard error stream.
-     *
      * @deprecated Use {@link burp.api.montoya.logging.Logging#logToError} instead.
      */
     @Deprecated
@@ -61,7 +58,7 @@ public interface Logging
      * error stream.
      *
      * @param message The message to print.
-     * @param cause The cause of the error being logged.
+     * @param cause   The cause of the error being logged.
      */
     void logToError(String message, Throwable cause);
 

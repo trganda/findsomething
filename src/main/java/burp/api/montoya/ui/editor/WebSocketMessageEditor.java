@@ -11,14 +11,13 @@ package burp.api.montoya.ui.editor;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.ui.Selection;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Optional;
 
 /**
  * Provides extensions with an instance of Burp Suite's WebSocket message editor to use in their own user interface.
  */
-public interface WebSocketMessageEditor extends Editor
-{
+public interface WebSocketMessageEditor extends Editor {
     /**
      * @return The contents of the message editor.
      */

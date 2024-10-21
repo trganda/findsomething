@@ -11,8 +11,7 @@ package burp.api.montoya.collaborator;
 /**
  * SMTP interaction detected by Burp Collaborator.
  */
-public interface SmtpDetails
-{
+public interface SmtpDetails {
     /**
      * SMTP protocol.
      *

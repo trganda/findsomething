@@ -13,8 +13,7 @@ import burp.api.montoya.core.ByteArray;
 /**
  * Provides access to the functionality of the Comparer tool.
  */
-public interface Comparer
-{
+public interface Comparer {
     /**
      * Send data to the Comparer tool.
      *

@@ -11,8 +11,7 @@ package burp.api.montoya.http.message.responses.analysis;
 /**
  * Otions that Burp can use to query attributes of HTTP responses.
  */
-public enum AttributeType
-{
+public enum AttributeType {
     STATUS_CODE,
     ETAG_HEADER,
     LAST_MODIFIED_HEADER,

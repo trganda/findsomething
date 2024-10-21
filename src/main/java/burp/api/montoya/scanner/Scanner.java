@@ -20,8 +20,7 @@ import java.util.List;
 /**
  * [Professional only] Provides access to the functionality of the Scanner tool.
  */
-public interface Scanner
-{
+public interface Scanner {
     /**
      * Register a handler which will be notified of new
      * audit issues that are reported by the Scanner tool. Extensions can
@@ -30,7 +29,6 @@ public interface Scanner
      *
      * @param auditIssueHandler An object created by the extension that
      *                          implements the {@link AuditIssueHandler} interface.
-     *
      * @return The {@link Registration} for the handler.
      */
     Registration registerAuditIssueHandler(AuditIssueHandler auditIssueHandler);
@@ -42,7 +40,6 @@ public interface Scanner
      *
      * @param scanCheck An object created by the extension that implements the
      *                  {@link ScanCheck} interface.
-     *
      * @return The {@link Registration} for the check.
      */
     Registration registerScanCheck(ScanCheck scanCheck);
@@ -55,7 +52,6 @@ public interface Scanner
      *
      * @param insertionPointProvider An object created by the extension that
      *                               implements the {@link AuditInsertionPointProvider} interface.
-     *
      * @return The {@link Registration} for the provider.
      */
     Registration registerInsertionPointProvider(AuditInsertionPointProvider insertionPointProvider);

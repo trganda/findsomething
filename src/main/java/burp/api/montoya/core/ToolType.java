@@ -11,8 +11,7 @@ package burp.api.montoya.core;
 /**
  * Tools in Burp Suite.
  */
-public enum ToolType
-{
+public enum ToolType {
     SUITE("Suite"),
     TARGET("Target"),
     PROXY("Proxy"),
@@ -29,16 +28,14 @@ public enum ToolType
 
     private final String toolName;
 
-    ToolType(String toolName)
-    {
+    ToolType(String toolName) {
         this.toolName = toolName;
     }
 
     /**
      * @return The tool name.
      */
-    public String toolName()
-    {
+    public String toolName() {
         return toolName;
     }
 
@@ -46,8 +43,7 @@ public enum ToolType
      * @return The tool name.
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return toolName;
     }
 }

@@ -21,15 +21,13 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * List that has been persisted in the project.
  * The methods of this list operate on the underlying persisted data.
  */
-public interface PersistedList<T> extends List<T>
-{
+public interface PersistedList<T> extends List<T> {
     /**
      * Create a new instance of {@link PersistedList} that contains instances of {@link Boolean}.
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<Boolean> persistedBooleanList()
-    {
+    static PersistedList<Boolean> persistedBooleanList() {
         return FACTORY.persistedBooleanList();
     }
 
@@ -38,8 +36,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<Short> persistedShortList()
-    {
+    static PersistedList<Short> persistedShortList() {
         return FACTORY.persistedShortList();
     }
 
@@ -48,8 +45,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<Integer> persistedIntegerList()
-    {
+    static PersistedList<Integer> persistedIntegerList() {
         return FACTORY.persistedIntegerList();
     }
 
@@ -58,8 +54,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<Long> persistedLongList()
-    {
+    static PersistedList<Long> persistedLongList() {
         return FACTORY.persistedLongList();
     }
 
@@ -68,8 +63,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<String> persistedStringList()
-    {
+    static PersistedList<String> persistedStringList() {
         return FACTORY.persistedStringList();
     }
 
@@ -78,8 +72,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<ByteArray> persistedByteArrayList()
-    {
+    static PersistedList<ByteArray> persistedByteArrayList() {
         return FACTORY.persistedByteArrayList();
     }
 
@@ -88,8 +81,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<HttpRequest> persistedHttpRequestList()
-    {
+    static PersistedList<HttpRequest> persistedHttpRequestList() {
         return FACTORY.persistedHttpRequestList();
     }
 
@@ -98,8 +90,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<HttpResponse> persistedHttpResponseList()
-    {
+    static PersistedList<HttpResponse> persistedHttpResponseList() {
         return FACTORY.persistedHttpResponseList();
     }
 
@@ -108,8 +99,7 @@ public interface PersistedList<T> extends List<T>
      *
      * @return A new {@link PersistedList} instance.
      */
-    static PersistedList<HttpRequestResponse> persistedHttpRequestResponseList()
-    {
+    static PersistedList<HttpRequestResponse> persistedHttpRequestResponseList() {
         return FACTORY.persistedHttpRequestResponseList();
     }
 }

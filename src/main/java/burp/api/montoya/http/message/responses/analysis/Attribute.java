@@ -11,8 +11,7 @@ package burp.api.montoya.http.message.responses.analysis;
 /**
  * Burp attribute able to retrieve to hold details about HTTP response attributes.
  */
-public interface Attribute
-{
+public interface Attribute {
     /**
      * @return The attribute type.
      */

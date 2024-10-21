@@ -11,8 +11,7 @@ package burp.api.montoya.http.handler;
 /**
  * Action to be taken when intercepting HTTP requests.
  */
-public enum RequestAction
-{
+public enum RequestAction {
     /**
      * Causes Burp to send the request.
      */

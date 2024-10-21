@@ -11,14 +11,13 @@ package burp.api.montoya.ui.editor;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.ui.Selection;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Optional;
 
 /**
  * Provides extensions with an instance of Burp Suite's HTTP text editor to use in their own user interface.
  */
-public interface RawEditor extends Editor
-{
+public interface RawEditor extends Editor {
     /**
      * @param editable Boolean flag to toggle if this text editor is editable or not.
      */

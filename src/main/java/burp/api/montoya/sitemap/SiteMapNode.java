@@ -11,8 +11,7 @@ package burp.api.montoya.sitemap;
 /**
  * This interface is used to represent items in the Burp's site map.
  */
-public interface SiteMapNode
-{
+public interface SiteMapNode {
     /**
      * Retrieve the URL associated with the site map's node.
      *

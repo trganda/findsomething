@@ -15,8 +15,7 @@ import java.util.Set;
 /**
  * Analyze HTTP responses and find variations between them, according to various attributes.
  */
-public interface ResponseVariationsAnalyzer
-{
+public interface ResponseVariationsAnalyzer {
     /**
      * @return The attributes that vary between the analyzed responses.
      */

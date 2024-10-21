@@ -25,8 +25,30 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * This interface is used to define a coupling between {@link HttpRequest} and {@link HttpResponse}.
  */
-public interface HttpRequestResponse
-{
+public interface HttpRequestResponse {
+    /**
+     * Create a new instance of {@link HttpRequestResponse}.<br>
+     *
+     * @param request  The HTTP request.
+     * @param response The HTTP response.
+     * @return A new {@link HttpRequestResponse} instance.
+     */
+    static HttpRequestResponse httpRequestResponse(HttpRequest request, HttpResponse response) {
+        return FACTORY.httpRequestResponse(request, response);
+    }
+
+    /**
+     * Create a new instance of {@link HttpRequestResponse}.<br>
+     *
+     * @param httpRequest  The HTTP request.
+     * @param httpResponse The HTTP response.
+     * @param annotations  annotations.
+     * @return A new {@link HttpRequestResponse} instance.
+     */
+    static HttpRequestResponse httpRequestResponse(HttpRequest httpRequest, HttpResponse httpResponse, Annotations annotations) {
+        return FACTORY.httpRequestResponse(httpRequest, httpResponse, annotations);
+    }
+
     /**
      * @return The HTTP request message.
      */
@@ -103,7 +125,6 @@ public interface HttpRequestResponse
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return True if the search term is found.
      */
     boolean contains(String searchTerm, boolean caseSensitive);
@@ -112,7 +133,6 @@ public interface HttpRequestResponse
      * Searches the data in the HTTP request, response and notes for the specified regular expression.
      *
      * @param pattern The regular expression to be searched for.
-     *
      * @return True if the pattern is matched.
      */
     boolean contains(Pattern pattern);
@@ -131,7 +151,6 @@ public interface HttpRequestResponse
      * Create a copy of the {@code HttpRequestResponse} with the added annotations.
      *
      * @param annotations annotations to add.
-     *
      * @return A new {@code HttpRequestResponse} instance.
      */
     HttpRequestResponse withAnnotations(Annotations annotations);
@@ -140,7 +159,6 @@ public interface HttpRequestResponse
      * Create a copy of the {@code HttpRequestResponse} with the added request markers.
      *
      * @param requestMarkers Request markers to add.
-     *
      * @return A new {@code HttpRequestResponse} instance.
      */
     HttpRequestResponse withRequestMarkers(List<Marker> requestMarkers);
@@ -149,7 +167,6 @@ public interface HttpRequestResponse
      * Create a copy of the {@code HttpRequestResponse} with the added request markers.
      *
      * @param requestMarkers Request markers to add.
-     *
      * @return A new {@code HttpRequestResponse} instance.
      */
     HttpRequestResponse withRequestMarkers(Marker... requestMarkers);
@@ -158,7 +175,6 @@ public interface HttpRequestResponse
      * Create a copy of the {@code HttpRequestResponse} with the added response markers.
      *
      * @param responseMarkers Response markers to add.
-     *
      * @return A new {@code HttpRequestResponse} instance.
      */
     HttpRequestResponse withResponseMarkers(List<Marker> responseMarkers);
@@ -167,35 +183,7 @@ public interface HttpRequestResponse
      * Create a copy of the {@code HttpRequestResponse} with the added response markers.
      *
      * @param responseMarkers Response markers to add.
-     *
      * @return A new {@code HttpRequestResponse} instance.
      */
     HttpRequestResponse withResponseMarkers(Marker... responseMarkers);
-
-    /**
-     * Create a new instance of {@link HttpRequestResponse}.<br>
-     *
-     * @param request  The HTTP request.
-     * @param response The HTTP response.
-     *
-     * @return A new {@link HttpRequestResponse} instance.
-     */
-    static HttpRequestResponse httpRequestResponse(HttpRequest request, HttpResponse response)
-    {
-        return FACTORY.httpRequestResponse(request, response);
-    }
-
-    /**
-     * Create a new instance of {@link HttpRequestResponse}.<br>
-     *
-     * @param httpRequest  The HTTP request.
-     * @param httpResponse The HTTP response.
-     * @param annotations  annotations.
-     *
-     * @return A new {@link HttpRequestResponse} instance.
-     */
-    static HttpRequestResponse httpRequestResponse(HttpRequest httpRequest, HttpResponse httpResponse, Annotations annotations)
-    {
-        return FACTORY.httpRequestResponse(httpRequest, httpResponse, annotations);
-    }
 }

@@ -11,13 +11,11 @@ package burp.api.montoya.utilities;
 /**
  * This interface gives you access to HTML encoding and decoding features.
  */
-public interface HtmlUtils
-{
+public interface HtmlUtils {
     /**
      * Encode HTML text using {@link HtmlEncoding#STANDARD} encoding.
      *
      * @param html {@code String} to be encoded.
-     *
      * @return the encoded {@code String}.
      */
     String encode(String html);
@@ -27,7 +25,6 @@ public interface HtmlUtils
      *
      * @param html     {@code String} to be encoded.
      * @param encoding {@link HtmlEncoding} to be used.
-     *
      * @return the encoded {@code String}.
      */
     String encode(String html, HtmlEncoding encoding);
@@ -36,7 +33,6 @@ public interface HtmlUtils
      * Decode encoded HTML text.
      *
      * @param encodedHtml {@code String} to be decoded.
-     *
      * @return the decoded {@code String}.
      */
     String decode(String encodedHtml);

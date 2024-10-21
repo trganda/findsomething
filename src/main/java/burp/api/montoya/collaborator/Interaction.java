@@ -16,8 +16,7 @@ import java.util.Optional;
  * Provides details of an interaction with the Burp Collaborator
  * server.
  */
-public interface Interaction
-{
+public interface Interaction {
     /**
      * Interaction id.
      *

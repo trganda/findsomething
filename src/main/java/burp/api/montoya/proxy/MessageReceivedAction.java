@@ -12,8 +12,7 @@ package burp.api.montoya.proxy;
  * This enum represents the initial action to be taken when intercepting HTTP and WebSocket
  * messages in the Proxy.
  */
-public enum MessageReceivedAction
-{
+public enum MessageReceivedAction {
     /**
      * Causes Burp Proxy to follow the current interception rules to determine
      * the appropriate action to take for the message.

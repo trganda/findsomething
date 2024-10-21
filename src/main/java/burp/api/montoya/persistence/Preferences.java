@@ -13,14 +13,12 @@ import java.util.Set;
 /**
  * Enables data to be stored and accessed from the Java preference store. Supports primitives.
  */
-public interface Preferences
-{
+public interface Preferences {
     /**
      * {@link String} associated with the specified key.
      * Returns {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -31,7 +29,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      */
     void setString(String key, String value);
@@ -55,7 +53,6 @@ public interface Preferences
      * Returns {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -66,7 +63,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      *              If this value is {@code null} then any value that is currently mapped to the specified key is removed.
      */
@@ -91,7 +88,6 @@ public interface Preferences
      * Returns {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -102,7 +98,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      *              If this value is {@code null} then any value that is currently mapped to the specified key is removed.
      */
@@ -127,7 +123,6 @@ public interface Preferences
      * Returns {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -138,7 +133,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      *              If this value is {@code null} then any value that is currently mapped to the specified key is removed.
      */
@@ -163,7 +158,6 @@ public interface Preferences
      * Returns {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -174,7 +168,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      *              If this value is {@code null} then any value that is currently mapped to the specified key is removed.
      */
@@ -199,7 +193,6 @@ public interface Preferences
      * or {@code null}} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -210,7 +203,7 @@ public interface Preferences
      * This is an optional operation.  If the map previously contained a mapping for
      * the key, the old value is replaced by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      *              If this value is {@code null} then any value currently mapped to the specified key is removed.
      */

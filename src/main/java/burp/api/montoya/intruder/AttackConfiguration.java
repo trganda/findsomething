@@ -15,8 +15,7 @@ import java.util.Optional;
 /**
  * Intruder attack configuration.
  */
-public interface AttackConfiguration
-{
+public interface AttackConfiguration {
     /**
      * {@link HttpService} for the attack.
      *

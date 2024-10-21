@@ -12,8 +12,7 @@ package burp.api.montoya.core;
  * Product version.<br>
  * e.g. Burp Suite Professional 2022.8.1-9320
  */
-public interface Version
-{
+public interface Version {
     /**
      * The product name (e.g. Burp Suite Professional).
      *

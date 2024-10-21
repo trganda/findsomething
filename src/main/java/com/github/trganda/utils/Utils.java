@@ -34,7 +34,7 @@ public class Utils {
         }
     }
 
-    public static String calHash(String... vals ) {
+    public static String calHash(String... vals) {
 
         StringBuilder sb = new StringBuilder();
         for (String val : vals) {

@@ -15,22 +15,19 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * This class represents the configuration required for an crawl in the Burp Scanner Tool.
  */
-public interface CrawlConfiguration
-{
-    /**
-     * @return the seed urls for the crawl
-     */
-    List<String> seedUrls();
-
+public interface CrawlConfiguration {
     /**
      * Build a crawl configuration with seed urls
      *
      * @param seedUrls used by the crawler
-     *
      * @return crawl configuration required by the crawler.
      */
-    static CrawlConfiguration crawlConfiguration(String... seedUrls)
-    {
+    static CrawlConfiguration crawlConfiguration(String... seedUrls) {
         return FACTORY.crawlConfiguration(seedUrls);
     }
+
+    /**
+     * @return the seed urls for the crawl
+     */
+    List<String> seedUrls();
 }

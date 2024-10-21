@@ -21,8 +21,7 @@ import java.util.regex.Pattern;
 /**
  * HTTP request and response intercepted by the Proxy.
  */
-public interface ProxyHttpRequestResponse
-{
+public interface ProxyHttpRequestResponse {
     /**
      * This method retrieves the HTTP request that was sent by Burp Proxy.
      *
@@ -183,7 +182,6 @@ public interface ProxyHttpRequestResponse
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return True if the search term is found.
      */
     boolean contains(String searchTerm, boolean caseSensitive);
@@ -192,7 +190,6 @@ public interface ProxyHttpRequestResponse
      * Searches the data in the HTTP request and response for the specified regular expression.
      *
      * @param pattern The regular expression to be searched for.
-     *
      * @return True if the pattern is matched.
      */
     boolean contains(Pattern pattern);

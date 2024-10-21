@@ -11,13 +11,11 @@ package burp.api.montoya.utilities;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public interface RandomUtils
-{
+public interface RandomUtils {
     /**
      * Generate a random string using alphanumeric characters
      *
      * @param length length of the resulting random string
-     *
      * @return randomly generated string
      */
     String randomString(int length);
@@ -27,7 +25,6 @@ public interface RandomUtils
      *
      * @param length length of the resulting random string
      * @param chars  the characters to use to generate the string
-     *
      * @return randomly generated string
      */
     String randomString(int length, String chars);
@@ -37,7 +34,6 @@ public interface RandomUtils
      *
      * @param length        length of the resulting random string
      * @param characterSets the list {@code CharacterSet} to use to generate the string
-     *
      * @return randomly generated string
      */
     String randomString(int length, CharacterSet... characterSets);
@@ -48,7 +44,6 @@ public interface RandomUtils
      * @param minLength the inclusive minimum length of the generated string
      * @param maxLength the inclusive maximum length of the generated string
      * @param chars     the characters to use to generate the string
-     *
      * @return randomly generated string
      */
     String randomString(int minLength, int maxLength, String chars);
@@ -59,13 +54,11 @@ public interface RandomUtils
      * @param minLength     the inclusive minimum length of the generated string
      * @param maxLength     the inclusive maximum length of the generated string
      * @param characterSets the list {@code CharacterSet} to use to generate the string
-     *
      * @return randomly generated string
      */
     String randomString(int minLength, int maxLength, CharacterSet... characterSets);
 
-    enum CharacterSet
-    {
+    enum CharacterSet {
         ASCII_LOWERCASE("abcdefghijklmnopqrstvwxyz"),
         ASCII_UPPERCASE("ABCDEFGHIJKLMNOPQRSTVWXYZ"),
         ASCII_LETTERS(ASCII_LOWERCASE, ASCII_UPPERCASE),
@@ -76,13 +69,11 @@ public interface RandomUtils
 
         public final String characters;
 
-        CharacterSet(String characters)
-        {
+        CharacterSet(String characters) {
             this.characters = characters;
         }
 
-        CharacterSet(CharacterSet... charsList)
-        {
+        CharacterSet(CharacterSet... charsList) {
             characters = Arrays.stream(charsList).map(charSet -> charSet.characters).collect(Collectors.joining());
         }
     }

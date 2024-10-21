@@ -16,8 +16,7 @@ import java.util.Optional;
 /**
  * Burp cookie able to retrieve and hold details about a cookie.
  */
-public interface Cookie
-{
+public interface Cookie {
     /**
      * @return The name of the cookie
      */

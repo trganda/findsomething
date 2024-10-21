@@ -13,8 +13,7 @@ package burp.api.montoya;
  * <p>
  * Implementations must be declared public, and must provide a default (public, no-argument) constructor.
  */
-public interface BurpExtension
-{
+public interface BurpExtension {
     /**
      * Invoked when the extension is loaded. Any registered handlers will only be enabled once this method has completed.
      *

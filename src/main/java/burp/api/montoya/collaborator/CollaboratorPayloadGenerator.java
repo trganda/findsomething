@@ -12,8 +12,7 @@ package burp.api.montoya.collaborator;
  * Burp Collaborator payload generator
  * that can be used to generate Burp Collaborator payloads.
  */
-public interface CollaboratorPayloadGenerator
-{
+public interface CollaboratorPayloadGenerator {
     /**
      * Generate new Burp Collaborator payloads. Options
      * can be specified to alter the way the payloads are generated. If no
@@ -21,9 +20,7 @@ public interface CollaboratorPayloadGenerator
      * location.
      *
      * @param options The optional payload options to apply
-     *
      * @return The generated payload.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     CollaboratorPayload generatePayload(PayloadOption... options);

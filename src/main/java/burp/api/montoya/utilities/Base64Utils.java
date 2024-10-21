@@ -15,8 +15,7 @@ import java.util.Base64;
 /**
  * This interface contains various methods that give you access to base64 encoding and decoding features.
  */
-public interface Base64Utils
-{
+public interface Base64Utils {
     /**
      * Encodes all bytes from the specified byte array into a newly-allocated
      * byte array using the {@link Base64} encoding scheme. The returned byte
@@ -24,7 +23,6 @@ public interface Base64Utils
      *
      * @param data    the byte array to encode
      * @param options the options to use for encoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * encoded bytes.
      */
@@ -37,7 +35,6 @@ public interface Base64Utils
      *
      * @param data    the string to encode.
      * @param options the options to use for encoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * encoded bytes.
      */
@@ -48,7 +45,6 @@ public interface Base64Utils
      *
      * @param data    the byte array to encode
      * @param options the options to use for encoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * encoded bytes.
      */
@@ -59,7 +55,6 @@ public interface Base64Utils
      *
      * @param data    the string to encode.
      * @param options the options to use for encoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * encoded bytes.
      */
@@ -72,7 +67,6 @@ public interface Base64Utils
      *
      * @param data    the bytes to decode.
      * @param options the options to use for decoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * decoded bytes.
      */
@@ -85,7 +79,6 @@ public interface Base64Utils
      *
      * @param data    the string to decode.
      * @param options the options to use for decoding
-     *
      * @return A newly-allocated byte array containing the resulting
      * decoded bytes.
      */

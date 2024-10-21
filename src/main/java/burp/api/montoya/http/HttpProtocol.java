@@ -11,8 +11,7 @@ package burp.api.montoya.http;
 /**
  * HTTP protocols.
  */
-public enum HttpProtocol
-{
+public enum HttpProtocol {
     /**
      * Hypertext Transfer Protocol
      */

@@ -16,13 +16,51 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * Burp ByteArray with various methods for querying and manipulating byte arrays.
  */
-public interface ByteArray extends Iterable<Byte>
-{
+public interface ByteArray extends Iterable<Byte> {
+    /**
+     * Create a new {@code ByteArray} with the provided length.<br>
+     *
+     * @param length array length.
+     * @return New {@code ByteArray} with the provided length.
+     */
+    static ByteArray byteArrayOfLength(int length) {
+        return FACTORY.byteArrayOfLength(length);
+    }
+
+    /**
+     * Create a new {@code ByteArray} with the provided byte data.<br>
+     *
+     * @param data byte[] to wrap, or sequence of bytes to wrap.
+     * @return New {@code ByteArray} wrapping the provided byte array.
+     */
+    static ByteArray byteArray(byte... data) {
+        return FACTORY.byteArray(data);
+    }
+
+    /**
+     * Create a new {@code ByteArray} with the provided integers after a narrowing primitive conversion to bytes.<br>
+     *
+     * @param data int[] to wrap or sequence of integers to wrap.
+     * @return New {@code ByteArray} wrapping the provided data after a narrowing primitive conversion to bytes.
+     */
+    static ByteArray byteArray(int... data) {
+        return FACTORY.byteArray(data);
+    }
+
+    /**
+     * Create a new {@code ByteArray} from the provided text using the encoding specified by Burp Suite.<br>
+     *
+     * @param text the text for the byte array.
+     * @return New {@code ByteArray} holding a copy of the text as bytes.
+     */
+    static ByteArray byteArray(String text) {
+        return FACTORY.byteArray(text);
+    }
+
     /**
      * Access the byte stored at the provided index.
      *
      * @param index Index of the byte to be retrieved.
-     *
      * @return The byte at the index.
      */
     byte getByte(int index);
@@ -86,7 +124,6 @@ public interface ByteArray extends Iterable<Byte>
      *
      * @param startIndexInclusive The inclusive start index of retrieved range.
      * @param endIndexExclusive   The exclusive end index of retrieved range.
-     *
      * @return ByteArray containing all bytes in the specified range.
      */
     ByteArray subArray(int startIndexInclusive, int endIndexExclusive);
@@ -95,7 +132,6 @@ public interface ByteArray extends Iterable<Byte>
      * New ByteArray with all bytes in the specified range.
      *
      * @param range The {@link Range} of bytes to be returned.
-     *
      * @return ByteArray containing all bytes in the specified range.
      */
     ByteArray subArray(Range range);
@@ -122,7 +158,6 @@ public interface ByteArray extends Iterable<Byte>
      * It works on byte-based data in a way that is similar to the way the native Java method {@link String#indexOf(String)} works on String-based data.
      *
      * @param searchTerm The value to be searched for.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(ByteArray searchTerm);
@@ -132,7 +167,6 @@ public interface ByteArray extends Iterable<Byte>
      * It works on byte-based data in a way that is similar to the way the native Java method {@link String#indexOf(String)} works on String-based data.
      *
      * @param searchTerm The value to be searched for.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(String searchTerm);
@@ -143,7 +177,6 @@ public interface ByteArray extends Iterable<Byte>
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(ByteArray searchTerm, boolean caseSensitive);
@@ -154,7 +187,6 @@ public interface ByteArray extends Iterable<Byte>
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(String searchTerm, boolean caseSensitive);
@@ -167,7 +199,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param caseSensitive       Flags whether the search is case-sensitive.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(ByteArray searchTerm, boolean caseSensitive, int startIndexInclusive, int endIndexExclusive);
@@ -180,7 +211,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param caseSensitive       Flags whether the search is case-sensitive.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(String searchTerm, boolean caseSensitive, int startIndexInclusive, int endIndexExclusive);
@@ -189,7 +219,6 @@ public interface ByteArray extends Iterable<Byte>
      * Searches the data in the ByteArray for the first occurrence of a specified pattern.
      *
      * @param pattern The pattern to be matched.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(Pattern pattern);
@@ -200,7 +229,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param pattern             The pattern to be matched.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(Pattern pattern, int startIndexInclusive, int endIndexExclusive);
@@ -209,7 +237,6 @@ public interface ByteArray extends Iterable<Byte>
      * Searches the data in the ByteArray and counts all matches for a specified term.
      *
      * @param searchTerm The value to be searched for.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(ByteArray searchTerm);
@@ -218,7 +245,6 @@ public interface ByteArray extends Iterable<Byte>
      * Searches the data in the ByteArray and counts all matches for a specified term.
      *
      * @param searchTerm The value to be searched for.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(String searchTerm);
@@ -228,7 +254,6 @@ public interface ByteArray extends Iterable<Byte>
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(ByteArray searchTerm, boolean caseSensitive);
@@ -238,7 +263,6 @@ public interface ByteArray extends Iterable<Byte>
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(String searchTerm, boolean caseSensitive);
@@ -250,7 +274,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param caseSensitive       Flags whether the search is case-sensitive.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(ByteArray searchTerm, boolean caseSensitive, int startIndexInclusive, int endIndexExclusive);
@@ -262,7 +285,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param caseSensitive       Flags whether the search is case-sensitive.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(String searchTerm, boolean caseSensitive, int startIndexInclusive, int endIndexExclusive);
@@ -271,7 +293,6 @@ public interface ByteArray extends Iterable<Byte>
      * Searches the data in the ByteArray and counts all matches for a specified pattern.
      *
      * @param pattern The pattern to be matched.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(Pattern pattern);
@@ -282,7 +303,6 @@ public interface ByteArray extends Iterable<Byte>
      * @param pattern             The pattern to be matched.
      * @param startIndexInclusive The inclusive start index for the search.
      * @param endIndexExclusive   The exclusive end index for the search.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(Pattern pattern, int startIndexInclusive, int endIndexExclusive);
@@ -322,53 +342,5 @@ public interface ByteArray extends Iterable<Byte>
      * @param byteArray The ByteArray to append.
      */
     ByteArray withAppended(ByteArray byteArray);
-
-    /**
-     * Create a new {@code ByteArray} with the provided length.<br>
-     *
-     * @param length array length.
-     *
-     * @return New {@code ByteArray} with the provided length.
-     */
-    static ByteArray byteArrayOfLength(int length)
-    {
-        return FACTORY.byteArrayOfLength(length);
-    }
-
-    /**
-     * Create a new {@code ByteArray} with the provided byte data.<br>
-     *
-     * @param data byte[] to wrap, or sequence of bytes to wrap.
-     *
-     * @return New {@code ByteArray} wrapping the provided byte array.
-     */
-    static ByteArray byteArray(byte... data)
-    {
-        return FACTORY.byteArray(data);
-    }
-
-    /**
-     * Create a new {@code ByteArray} with the provided integers after a narrowing primitive conversion to bytes.<br>
-     *
-     * @param data int[] to wrap or sequence of integers to wrap.
-     *
-     * @return New {@code ByteArray} wrapping the provided data after a narrowing primitive conversion to bytes.
-     */
-    static ByteArray byteArray(int... data)
-    {
-        return FACTORY.byteArray(data);
-    }
-
-    /**
-     * Create a new {@code ByteArray} from the provided text using the encoding specified by Burp Suite.<br>
-     *
-     * @param text the text for the byte array.
-     *
-     * @return New {@code ByteArray} holding a copy of the text as bytes.
-     */
-    static ByteArray byteArray(String text)
-    {
-        return FACTORY.byteArray(text);
-    }
 }
 

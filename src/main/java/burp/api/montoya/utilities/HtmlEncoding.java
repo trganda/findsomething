@@ -11,8 +11,7 @@ package burp.api.montoya.utilities;
 /**
  * This enum defines HTML encodings.
  */
-public enum HtmlEncoding
-{
+public enum HtmlEncoding {
     /**
      * Encode only HTML special characters.
      */

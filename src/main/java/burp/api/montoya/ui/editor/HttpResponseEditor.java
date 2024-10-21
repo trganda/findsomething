@@ -11,14 +11,13 @@ package burp.api.montoya.ui.editor;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.ui.Selection;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Optional;
 
 /**
  * Provides extensions with an instance of Burp Suites HTTP response editor to use in their own user interface.
  */
-public interface HttpResponseEditor extends Editor
-{
+public interface HttpResponseEditor extends Editor {
     /**
      * @return an instance of {@link HttpResponse} derived from the contents of the editor.
      */

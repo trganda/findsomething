@@ -11,8 +11,7 @@ package burp.api.montoya.core;
 /**
  * Task on the Dashboard.
  */
-public interface Task
-{
+public interface Task {
     /**
      * Delete the task.
      */

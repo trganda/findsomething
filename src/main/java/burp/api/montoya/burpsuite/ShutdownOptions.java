@@ -11,8 +11,7 @@ package burp.api.montoya.burpsuite;
 /**
  * Shutdown options that can be used when calling {@link BurpSuite#shutdown(ShutdownOptions...)}.
  */
-public enum ShutdownOptions
-{
+public enum ShutdownOptions {
     /**
      * Display a dialog to the user allowing them to confirm or cancel the shutdown
      */

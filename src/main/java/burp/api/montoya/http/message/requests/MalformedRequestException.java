@@ -11,10 +11,8 @@ package burp.api.montoya.http.message.requests;
 /**
  * This class represents an exception which is thrown when trying to retrieve attributes from a malformed request.
  */
-public class MalformedRequestException extends RuntimeException
-{
-    public MalformedRequestException(String message)
-    {
+public class MalformedRequestException extends RuntimeException {
+    public MalformedRequestException(String message) {
         super(message);
     }
 }

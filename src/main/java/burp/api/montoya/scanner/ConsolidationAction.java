@@ -12,8 +12,7 @@ package burp.api.montoya.scanner;
  * This enum represents the action to be taken when duplicate audit issues are
  * found.
  */
-public enum ConsolidationAction
-{
+public enum ConsolidationAction {
     KEEP_EXISTING,
     KEEP_BOTH,
     KEEP_NEW

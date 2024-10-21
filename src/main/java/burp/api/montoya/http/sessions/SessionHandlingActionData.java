@@ -17,8 +17,7 @@ import java.util.List;
 /**
  * Information required for session handling.
  */
-public interface SessionHandlingActionData
-{
+public interface SessionHandlingActionData {
     /**
      * @return The base request that is currently being processed.
      */

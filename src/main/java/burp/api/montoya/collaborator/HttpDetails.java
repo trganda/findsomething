@@ -15,8 +15,7 @@ import burp.api.montoya.http.message.HttpRequestResponse;
  * Provides information about an HTTP interaction detected by
  * Burp Collaborator.
  */
-public interface HttpDetails
-{
+public interface HttpDetails {
     /**
      * HTTP protocol.
      *

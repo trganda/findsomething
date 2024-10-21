@@ -14,8 +14,7 @@ import burp.api.montoya.websocket.TextMessage;
 /**
  * This interface allows an extension to be notified when messages are received or the WebSocket has been closed.
  */
-public interface ExtensionWebSocketMessageHandler
-{
+public interface ExtensionWebSocketMessageHandler {
     /**
      * Invoked when a text message is received from the application.
      *
@@ -33,7 +32,6 @@ public interface ExtensionWebSocketMessageHandler
     /**
      * Invoked when the WebSocket is closed.
      */
-    default void onClose()
-    {
+    default void onClose() {
     }
 }

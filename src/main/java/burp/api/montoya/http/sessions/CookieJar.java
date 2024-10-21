@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * Provides access to Burp's Cookie Jar functionality.
  */
-public interface CookieJar
-{
+public interface CookieJar {
     /**
      * Add a new HTTP cookie to the Cookie Jar.
      *

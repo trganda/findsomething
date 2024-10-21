@@ -11,8 +11,7 @@ package burp.api.montoya.core;
 /**
  * Editions of Burp Suite.
  */
-public enum BurpSuiteEdition
-{
+public enum BurpSuiteEdition {
     /**
      * Burp Suite professional edition
      */
@@ -28,16 +27,14 @@ public enum BurpSuiteEdition
 
     private final String displayName;
 
-    BurpSuiteEdition(String displayName)
-    {
+    BurpSuiteEdition(String displayName) {
         this.displayName = displayName;
     }
 
     /**
      * @return displayName for this edition of Burp Suite.
      */
-    public String displayName()
-    {
+    public String displayName() {
         return displayName;
     }
 }

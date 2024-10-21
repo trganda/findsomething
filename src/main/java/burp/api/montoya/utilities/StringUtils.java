@@ -11,14 +11,12 @@ package burp.api.montoya.utilities;
 /**
  * This interface gives you access to String manipulation features.
  */
-public interface StringUtils
-{
+public interface StringUtils {
     /**
      * Convert a string to the hex values of its ASCII characters.
      * Each character will be converted to a two digit hex value.
      *
      * @param data The ASCII data to convert.
-     *
      * @return The string of hex values.
      */
     String convertAsciiToHexString(String data);
@@ -28,7 +26,6 @@ public interface StringUtils
      * Each pair of hex digits will be converted to a single ASCII character.
      *
      * @param data The string of hex values to convert.
-     *
      * @return The string of ASCII characters.
      */
     String convertHexStringToAscii(String data);

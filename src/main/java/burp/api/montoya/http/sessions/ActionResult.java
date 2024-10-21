@@ -16,8 +16,29 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * An instance of this interface should be returned by {@link SessionHandlingAction#performAction(SessionHandlingActionData)}.
  */
-public interface ActionResult
-{
+public interface ActionResult {
+    /**
+     * Create a new instance of {@code ActionResult}.<br>
+     * Annotations will not be modified.
+     *
+     * @param request An HTTP request.
+     * @return A new {@code ActionResult} instance.
+     */
+    static ActionResult actionResult(HttpRequest request) {
+        return FACTORY.actionResult(request);
+    }
+
+    /**
+     * Create a new instance of {@code ActionResult}.
+     *
+     * @param request     An HTTP request.
+     * @param annotations modified annotations.
+     * @return A new {@code ActionResult} instance.
+     */
+    static ActionResult actionResult(HttpRequest request, Annotations annotations) {
+        return FACTORY.actionResult(request, annotations);
+    }
+
     /**
      * @return The HTTP request.
      */
@@ -27,30 +48,4 @@ public interface ActionResult
      * @return The annotations.
      */
     Annotations annotations();
-
-    /**
-     * Create a new instance of {@code ActionResult}.<br>
-     * Annotations will not be modified.
-     *
-     * @param request An HTTP request.
-     *
-     * @return A new {@code ActionResult} instance.
-     */
-    static ActionResult actionResult(HttpRequest request)
-    {
-        return FACTORY.actionResult(request);
-    }
-
-    /**
-     * Create a new instance of {@code ActionResult}.
-     *
-     * @param request     An HTTP request.
-     * @param annotations modified annotations.
-     *
-     * @return A new {@code ActionResult} instance.
-     */
-    static ActionResult actionResult(HttpRequest request, Annotations annotations)
-    {
-        return FACTORY.actionResult(request, annotations);
-    }
 }

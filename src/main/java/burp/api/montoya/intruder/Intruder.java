@@ -15,8 +15,7 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 /**
  * Provides access to the functionality of the Burp Intruder tool.
  */
-public interface Intruder
-{
+public interface Intruder {
     /**
      * Register a custom Intruder payload processor. Each registered
      * processor will be available within the Intruder UI for the user to select as the
@@ -24,7 +23,6 @@ public interface Intruder
      *
      * @param payloadProcessor An object created by the extension that implements the
      *                         {@link PayloadProcessor} interface.
-     *
      * @return The {@link Registration} for the payload processor.
      */
     Registration registerPayloadProcessor(PayloadProcessor payloadProcessor);
@@ -38,7 +36,6 @@ public interface Intruder
      *
      * @param payloadGeneratorProvider An object created by the extension that implements the
      *                                 PayloadGeneratorProvider interface.
-     *
      * @return The {@link Registration} for the payload generator provider.
      */
     Registration registerPayloadGeneratorProvider(PayloadGeneratorProvider payloadGeneratorProvider);

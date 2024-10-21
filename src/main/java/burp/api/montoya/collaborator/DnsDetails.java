@@ -14,8 +14,7 @@ import burp.api.montoya.core.ByteArray;
  * Provides information about a DNS interaction detected by Burp
  * Collaborator.
  */
-public interface DnsDetails
-{
+public interface DnsDetails {
     /**
      * DNS query type.
      *

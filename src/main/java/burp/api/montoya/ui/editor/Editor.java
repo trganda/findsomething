@@ -10,14 +10,13 @@ package burp.api.montoya.ui.editor;
 
 import burp.api.montoya.ui.Selection;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Optional;
 
 /**
  * Provides the shared behaviour between the different editor types.
  */
-public interface Editor
-{
+public interface Editor {
     /**
      * Update the search expression that is shown in the search bar below the editor.
      *

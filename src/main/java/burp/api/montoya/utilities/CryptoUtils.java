@@ -13,14 +13,12 @@ import burp.api.montoya.core.ByteArray;
 /**
  * This interface gives you access to cryptographic features.
  */
-public interface CryptoUtils
-{
+public interface CryptoUtils {
     /**
      * Generate a message digest for the supplied data using the specified algorithm
      *
      * @param data      the data to generate the digest from
      * @param algorithm the message {@link DigestAlgorithm} to use
-     *
      * @return the generated message digest
      */
     ByteArray generateDigest(ByteArray data, DigestAlgorithm algorithm);

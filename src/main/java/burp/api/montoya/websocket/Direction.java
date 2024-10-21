@@ -11,8 +11,7 @@ package burp.api.montoya.websocket;
 /**
  * This enum is used to indicate the direction of the WebSocket message.
  */
-public enum Direction
-{
+public enum Direction {
     CLIENT_TO_SERVER,
     SERVER_TO_CLIENT
 }

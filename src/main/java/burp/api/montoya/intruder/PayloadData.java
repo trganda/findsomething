@@ -13,8 +13,7 @@ import burp.api.montoya.core.ByteArray;
 /**
  * Contains information about the payload
  */
-public interface PayloadData
-{
+public interface PayloadData {
     /**
      * @return The value of the payload to be processed.
      */

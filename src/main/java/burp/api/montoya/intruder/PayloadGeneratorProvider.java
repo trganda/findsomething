@@ -12,8 +12,7 @@ package burp.api.montoya.intruder;
  * Extensions can implement this interface and then call {@link Intruder#registerPayloadGeneratorProvider}
  * to register a provider for custom Intruder payload generators.
  */
-public interface PayloadGeneratorProvider
-{
+public interface PayloadGeneratorProvider {
     /**
      * Name Burp will use when displaying the payload generator
      * in a dropdown list in the UI.
@@ -28,7 +27,6 @@ public interface PayloadGeneratorProvider
      *
      * @param attackConfiguration An object containing information about the currently
      *                            selected attack configuration tab.
-     *
      * @return An instance of an object that implements the {@link PayloadGenerator} interface.
      */
     PayloadGenerator providePayloadGenerator(AttackConfiguration attackConfiguration);

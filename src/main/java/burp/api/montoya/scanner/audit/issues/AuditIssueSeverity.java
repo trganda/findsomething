@@ -11,8 +11,7 @@ package burp.api.montoya.scanner.audit.issues;
 /**
  * This enum represents the severity level of an audit issue.
  */
-public enum AuditIssueSeverity
-{
+public enum AuditIssueSeverity {
     HIGH,
     MEDIUM,
     LOW,

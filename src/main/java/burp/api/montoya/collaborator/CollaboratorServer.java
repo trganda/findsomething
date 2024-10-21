@@ -12,8 +12,7 @@ package burp.api.montoya.collaborator;
  * Provides details of the Collaborator server associated with
  * this client.
  */
-public interface CollaboratorServer
-{
+public interface CollaboratorServer {
     /**
      * Address of the Collaborator server.
      *

@@ -10,8 +10,7 @@ package burp.api.montoya.websocket;
 
 import burp.api.montoya.core.ByteArray;
 
-public interface BinaryMessage
-{
+public interface BinaryMessage {
     /**
      * @return Binary based WebSocket payload.
      */

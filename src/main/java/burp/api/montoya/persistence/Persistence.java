@@ -11,8 +11,7 @@ package burp.api.montoya.persistence;
 /**
  * Provides access to the persistence functionality.
  */
-public interface Persistence
-{
+public interface Persistence {
     /**
      * Access data storage functionality in the Burp project. When Burp is started without
      * a project file, the data is stored in memory.

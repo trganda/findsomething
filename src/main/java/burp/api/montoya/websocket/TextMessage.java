@@ -8,8 +8,7 @@
 
 package burp.api.montoya.websocket;
 
-public interface TextMessage
-{
+public interface TextMessage {
     /**
      * @return Text based WebSocket payload.
      */

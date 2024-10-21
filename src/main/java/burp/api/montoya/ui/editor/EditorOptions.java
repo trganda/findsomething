@@ -11,7 +11,6 @@ package burp.api.montoya.ui.editor;
 /**
  * These options allow you to configure additional behaviour to {@link Editor} implementations.
  */
-public enum EditorOptions
-{
+public enum EditorOptions {
     READ_ONLY
 }

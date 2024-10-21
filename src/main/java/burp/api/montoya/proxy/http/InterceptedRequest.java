@@ -28,8 +28,7 @@ import java.util.regex.Pattern;
 /**
  * HTTP request intercepted by Burp Proxy.
  */
-public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
-{
+public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest {
     /**
      * @return Annotations for request/response.
      */
@@ -108,7 +107,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param header The header to check if it exists in the request.
-     *
      * @return True if the header exists in the request.
      */
     @Override
@@ -116,7 +114,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param name The name of the header to query within the request.
-     *
      * @return True if a header exists in the request with the supplied name.
      */
     @Override
@@ -125,7 +122,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
     /**
      * @param name  The name of the header to check.
      * @param value The value of the header to check.
-     *
      * @return True if a header exists in the request that matches the name and value supplied.
      */
     @Override
@@ -133,7 +129,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return An instance of {@link HttpHeader} that matches the name supplied, {@code null} if no match found.
      */
     @Override
@@ -141,7 +136,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return The {@code String} value of the header that matches the name supplied, {@code null} if no match found.
      */
     @Override
@@ -162,7 +156,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
     /**
      * @param name The name of the parameter to find.
      * @param type The type of the parameter to find.
-     *
      * @return An instance of {@link ParsedHttpParameter} that matches the type and name specified. {@code null} if not found.
      */
     @Override
@@ -171,7 +164,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
     /**
      * @param name The name of the parameter to get the value from.
      * @param type The type of the parameter to get the value from.
-     *
      * @return The value of the parameter that matches the name and type specified. {@code null} if not found.
      */
     @Override
@@ -180,7 +172,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
     /**
      * @param name The name of the parameter to find.
      * @param type The type of the parameter to find.
-     *
      * @return {@code true} if a parameter exists that matches the name and type specified. {@code false} if not found.
      */
     @Override
@@ -188,7 +179,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param parameter An instance of {@link HttpParameter} to match to an existing parameter.
-     *
      * @return {@code true} if a parameter exists that matches the data within the provided {@link HttpParameter}. {@code false} if not found.
      */
     @Override
@@ -208,7 +198,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
 
     /**
      * @param type The type of parameter that will be returned in the filtered list.
-     *
      * @return A filtered list of {@link ParsedHttpParameter} containing only the provided type.
      */
     @Override
@@ -251,7 +240,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return True if the search term is found.
      */
     @Override
@@ -261,7 +249,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Searches the data in the HTTP message for the specified regular expression.
      *
      * @param pattern The regular expression to be searched for.
-     *
      * @return True if the pattern is matched.
      */
     @Override
@@ -297,7 +284,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the new service.
      *
      * @param service An {@link HttpService} reference to add.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -307,7 +293,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the new path.
      *
      * @param path The path to use.
-     *
      * @return A new {@code HttpRequest} instance with updated path.
      */
     @Override
@@ -317,7 +302,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the new method.
      *
      * @param method the method to use
-     *
      * @return a new {@code HttpRequest} instance with updated method.
      */
     @Override
@@ -329,7 +313,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * If the header doesn't exist in the request, it is added.
      *
      * @param header HTTP header to add or update.
-     *
      * @return A new {@code HttpRequest} with the added or updated header.
      */
     @Override
@@ -342,7 +325,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      *
      * @param name  The name of the header.
      * @param value The value of the header.
-     *
      * @return A new {@code HttpRequest} with the added or updated header.
      */
     @Override
@@ -354,7 +336,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * If the parameter doesn't exist in the request, it is added.
      *
      * @param parameters HTTP parameter to add or update.
-     *
      * @return A new {@code HttpRequest} with the added or updated parameter.
      */
     @Override
@@ -364,7 +345,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the added HTTP parameters.
      *
      * @param parameters HTTP parameters to add.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -374,7 +354,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the added HTTP parameters.
      *
      * @param parameters HTTP parameters to add.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -384,7 +363,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the removed HTTP parameters.
      *
      * @param parameters HTTP parameters to remove.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -394,7 +372,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the removed HTTP parameters.
      *
      * @param parameters HTTP parameters to remove.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -404,7 +381,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the updated HTTP parameters.<br>
      *
      * @param parameters HTTP parameters to update.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -414,7 +390,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the updated HTTP parameters.<br>
      *
      * @param parameters HTTP parameters to update.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -424,7 +399,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the transformation applied.
      *
      * @param transformation Transformation to apply.
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -435,7 +409,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Updates Content-Length header.
      *
      * @param body the new body for the request
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -446,7 +419,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Updates Content-Length header.
      *
      * @param body the new body for the request
-     *
      * @return A new {@code HttpRequest} instance.
      */
     @Override
@@ -457,7 +429,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      *
      * @param name  The name of the header.
      * @param value The value of the header.
-     *
      * @return The updated HTTP request with the added header.
      */
     @Override
@@ -467,7 +438,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the added header.
      *
      * @param header The {@link HttpHeader} to add to the HTTP request.
-     *
      * @return The updated HTTP request with the added header.
      */
     @Override
@@ -478,7 +448,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      *
      * @param name  The name of the header to update the value of.
      * @param value The new value of the specified HTTP header.
-     *
      * @return The updated request containing the updated header.
      */
     @Override
@@ -488,7 +457,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the updated header.
      *
      * @param header The {@link HttpHeader} to update containing the new value.
-     *
      * @return The updated request containing the updated header.
      */
     @Override
@@ -498,7 +466,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Removes an existing HTTP header from the current request.
      *
      * @param name The name of the HTTP header to remove from the request.
-     *
      * @return The updated request containing the removed header.
      */
     @Override
@@ -508,7 +475,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Removes an existing HTTP header from the current request.
      *
      * @param header The {@link HttpHeader} to remove from the request.
-     *
      * @return The updated request containing the removed header.
      */
     @Override
@@ -518,7 +484,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the added markers.
      *
      * @param markers Request markers to add.
-     *
      * @return A new {@link HttpRequest} instance.
      */
     @Override
@@ -528,7 +493,6 @@ public interface InterceptedRequest extends InterceptedHttpMessage, HttpRequest
      * Create a copy of the {@code HttpRequest} with the added markers.
      *
      * @param markers Request markers to add.
-     *
      * @return A new {@link HttpRequest} instance.
      */
     @Override

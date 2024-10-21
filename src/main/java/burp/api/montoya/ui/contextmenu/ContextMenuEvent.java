@@ -18,8 +18,7 @@ import java.util.Optional;
 /**
  * Provides useful information when generating context menu items from a {@link ContextMenuItemsProvider}.
  */
-public interface ContextMenuEvent extends ComponentEvent, ToolSource, InvocationSource
-{
+public interface ContextMenuEvent extends ComponentEvent, ToolSource, InvocationSource {
     /**
      * This method can be used to retrieve details of the currently selected HTTP request/response when the context menu was invoked.
      *

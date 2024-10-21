@@ -13,8 +13,7 @@ import java.util.Optional;
 /**
  * Burp Collaborator payload.
  */
-public interface CollaboratorPayload
-{
+public interface CollaboratorPayload {
     /**
      * Payload's interaction id.
      *

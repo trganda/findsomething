@@ -11,8 +11,7 @@ package burp.api.montoya.http.message;
 /**
  * Content types recognised by Burp.
  */
-public enum ContentType
-{
+public enum ContentType {
     NONE,
     UNKNOWN,
     AMF,

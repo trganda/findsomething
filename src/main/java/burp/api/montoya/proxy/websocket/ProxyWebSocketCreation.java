@@ -13,8 +13,7 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 /**
  * Information about the proxy web socket that is being created.
  */
-public interface ProxyWebSocketCreation
-{
+public interface ProxyWebSocketCreation {
     /**
      * @return The ProxyWebSocket that is being created.
      */

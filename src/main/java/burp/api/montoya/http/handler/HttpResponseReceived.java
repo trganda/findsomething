@@ -28,8 +28,7 @@ import java.util.regex.Pattern;
 /**
  * Burp {@link HttpResponse} with additional methods to retrieve initiating {@link HttpRequest} as well as the {@link Annotations} and {@link ToolSource} of the request.
  */
-public interface HttpResponseReceived extends HttpResponse
-{
+public interface HttpResponseReceived extends HttpResponse {
     /**
      * @return The ID for this response which is identical to the ID on the corresponding request.
      */
@@ -71,7 +70,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Test whether the status code is in the specified class.
      *
      * @param statusCodeClass The class of status code to test.
-     *
      * @return True if the status code is in the class.
      */
     @Override
@@ -104,7 +102,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the header to query within the request.
-     *
      * @return True if a header exists in the request with the supplied name.
      */
     @Override
@@ -113,7 +110,6 @@ public interface HttpResponseReceived extends HttpResponse
     /**
      * @param name  The name of the header to check.
      * @param value The value of the header to check.
-     *
      * @return True if a header exists in the request that matches the name and value supplied.
      */
     @Override
@@ -121,7 +117,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return An instance of {@link HttpHeader} that matches the name supplied, {@code null} if no match found.
      */
     @Override
@@ -129,7 +124,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return The {@code String} value of the header that matches the name supplied, {@code null} if no match found.
      */
     @Override
@@ -177,7 +171,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the cookie to find.
-     *
      * @return An instance of {@link Cookie} that matches the name provided. {@code null} if not found.
      */
     @Override
@@ -185,7 +178,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the cookie to retrieve the value from.
-     *
      * @return The value of the cookie that matches the name provided. {@code null} if not found.
      */
     @Override
@@ -193,7 +185,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param name The name of the cookie to check if it exists in the response.
-     *
      * @return {@code true} If a cookie exists within the response that matches the name provided. {@code false} if not.
      */
     @Override
@@ -201,7 +192,6 @@ public interface HttpResponseReceived extends HttpResponse
 
     /**
      * @param cookie An instance of {@link Cookie} to check if it exists in the response.
-     *
      * @return {@code true} If a cookie exists within the response that matches the {@link Cookie} provided. {@code false} if not.
      */
     @Override
@@ -235,7 +225,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Retrieve the number of types given keywords appear in the response.
      *
      * @param keywords Keywords to count.
-     *
      * @return List of keyword counts in the order they were provided.
      */
     @Override
@@ -245,7 +234,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Retrieve the values of response attributes.
      *
      * @param types Response attributes to retrieve values for.
-     *
      * @return List of {@link Attribute} objects.
      */
     @Override
@@ -256,7 +244,6 @@ public interface HttpResponseReceived extends HttpResponse
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return True if the search term is found.
      */
     @Override
@@ -266,7 +253,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Searches the data in the HTTP message for the specified regular expression.
      *
      * @param pattern The regular expression to be searched for.
-     *
      * @return True if the pattern is matched.
      */
     @Override
@@ -292,7 +278,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the provided status code.
      *
      * @param statusCode the new status code for response
-     *
      * @return A new {@code HttpResponse} instance.
      */
     @Override
@@ -302,7 +287,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the new reason phrase.
      *
      * @param reasonPhrase the new reason phrase for response
-     *
      * @return A new {@code HttpResponse} instance.
      */
     @Override
@@ -312,7 +296,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the new http version.
      *
      * @param httpVersion the new http version for response
-     *
      * @return A new {@code HttpResponse} instance.
      */
     @Override
@@ -323,7 +306,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Updates Content-Length header.
      *
      * @param body the new body for the response
-     *
      * @return A new {@code HttpResponse} instance.
      */
     @Override
@@ -334,7 +316,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Updates Content-Length header.
      *
      * @param body the new body for the response
-     *
      * @return A new {@code HttpResponse} instance.
      */
     @Override
@@ -344,7 +325,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the added header.
      *
      * @param header The {@link HttpHeader} to add to the response.
-     *
      * @return The updated response containing the added header.
      */
     @Override
@@ -355,7 +335,6 @@ public interface HttpResponseReceived extends HttpResponse
      *
      * @param name  The name of the header.
      * @param value The value of the header.
-     *
      * @return The updated response containing the added header.
      */
     @Override
@@ -365,7 +344,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse}  with the updated header.
      *
      * @param header The {@link HttpHeader} to update containing the new value.
-     *
      * @return The updated response containing the updated header.
      */
     @Override
@@ -376,7 +354,6 @@ public interface HttpResponseReceived extends HttpResponse
      *
      * @param name  The name of the header to update the value of.
      * @param value The new value of the specified HTTP header.
-     *
      * @return The updated response containing the updated header.
      */
     @Override
@@ -386,7 +363,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse}  with the removed header.
      *
      * @param header The {@link HttpHeader} to remove from the response.
-     *
      * @return The updated response containing the removed header.
      */
     @Override
@@ -396,7 +372,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse}  with the removed header.
      *
      * @param name The name of the HTTP header to remove from the response.
-     *
      * @return The updated response containing the removed header.
      */
     @Override
@@ -406,7 +381,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the added markers.
      *
      * @param markers Request markers to add.
-     *
      * @return A new {@code MarkedHttpRequestResponse} instance.
      */
     @Override
@@ -416,7 +390,6 @@ public interface HttpResponseReceived extends HttpResponse
      * Create a copy of the {@code HttpResponse} with the added markers.
      *
      * @param markers Request markers to add.
-     *
      * @return A new {@code MarkedHttpRequestResponse} instance.
      */
     @Override

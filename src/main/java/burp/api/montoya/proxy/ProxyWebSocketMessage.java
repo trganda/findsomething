@@ -17,8 +17,7 @@ import burp.api.montoya.websocket.Direction;
 /**
  * WebSocket message intercepted by the Proxy.
  */
-public interface ProxyWebSocketMessage extends WebSocketMessage
-{
+public interface ProxyWebSocketMessage extends WebSocketMessage {
     /**
      * This method retrieves the annotations for the message.
      *

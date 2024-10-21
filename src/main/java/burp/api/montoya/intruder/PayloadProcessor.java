@@ -12,8 +12,7 @@ package burp.api.montoya.intruder;
  * Extensions can implement this interface and then call {@link Intruder#registerPayloadProcessor} to register a
  * custom Intruder payload processor.
  */
-public interface PayloadProcessor
-{
+public interface PayloadProcessor {
     /**
      * Name Burp will use when displaying the payload processor
      * in a dropdown list in the UI.
@@ -26,7 +25,6 @@ public interface PayloadProcessor
      * Invoked by Burp each time the processor should be applied to an Intruder payload.
      *
      * @param payloadData Information about the current payload to be processed
-     *
      * @return The value of the processed payload.
      */
     PayloadProcessingResult processPayload(PayloadData payloadData);

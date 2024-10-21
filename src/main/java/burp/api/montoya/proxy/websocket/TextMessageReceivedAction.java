@@ -18,30 +18,17 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * Extensions can implement this interface when returning a text message from
  * {@link ProxyMessageHandler#handleTextMessageReceived(InterceptedTextMessage)}.
  */
-public interface TextMessageReceivedAction
-{
-    /**
-     * @return The action associated with this message.
-     */
-    MessageReceivedAction action();
-
-    /**
-     * @return The payload of this message.
-     */
-    String payload();
-
+public interface TextMessageReceivedAction {
     /**
      * Build a text WebSocket message to
      * follow the current interception rules to determine the appropriate
      * action to take for the message.
      *
      * @param payload The text message payload.
-     *
      * @return The {@link TextMessageReceivedAction} that allows user rules to be
      * followed.
      */
-    static TextMessageReceivedAction continueWith(String payload)
-    {
+    static TextMessageReceivedAction continueWith(String payload) {
         return FACTORY.followUserRulesInitialProxyTextMessage(payload);
     }
 
@@ -51,12 +38,10 @@ public interface TextMessageReceivedAction
      * action to take for the message.
      *
      * @param message The text message.
-     *
      * @return The {@link TextMessageReceivedAction} that allows user rules to be
      * followed.
      */
-    static TextMessageReceivedAction continueWith(TextMessage message)
-    {
+    static TextMessageReceivedAction continueWith(TextMessage message) {
         return FACTORY.followUserRulesInitialProxyTextMessage(message.payload());
     }
 
@@ -64,11 +49,9 @@ public interface TextMessageReceivedAction
      * Build a text WebSocket message to be intercepted within the Proxy.
      *
      * @param payload The text message payload.
-     *
      * @return The message.
      */
-    static TextMessageReceivedAction intercept(String payload)
-    {
+    static TextMessageReceivedAction intercept(String payload) {
         return FACTORY.interceptInitialProxyTextMessage(payload);
     }
 
@@ -76,11 +59,9 @@ public interface TextMessageReceivedAction
      * Build a text WebSocket message to be intercepted within the Proxy.
      *
      * @param message The text message.
-     *
      * @return The message.
      */
-    static TextMessageReceivedAction intercept(TextMessage message)
-    {
+    static TextMessageReceivedAction intercept(TextMessage message) {
         return FACTORY.interceptInitialProxyTextMessage(message.payload());
     }
 
@@ -88,11 +69,9 @@ public interface TextMessageReceivedAction
      * Build a text WebSocket message to continue within the Proxy without interception.
      *
      * @param payload The text message payload.
-     *
      * @return The message.
      */
-    static TextMessageReceivedAction doNotIntercept(String payload)
-    {
+    static TextMessageReceivedAction doNotIntercept(String payload) {
         return FACTORY.doNotInterceptInitialProxyTextMessage(payload);
     }
 
@@ -100,11 +79,9 @@ public interface TextMessageReceivedAction
      * Build a text WebSocket message to continue within the Proxy without interception.
      *
      * @param message The text message payload.
-     *
      * @return The message.
      */
-    static TextMessageReceivedAction doNotIntercept(TextMessage message)
-    {
+    static TextMessageReceivedAction doNotIntercept(TextMessage message) {
         return FACTORY.doNotInterceptInitialProxyTextMessage(message.payload());
     }
 
@@ -113,8 +90,17 @@ public interface TextMessageReceivedAction
      *
      * @return The message to be dropped.
      */
-    static TextMessageReceivedAction drop()
-    {
+    static TextMessageReceivedAction drop() {
         return FACTORY.dropInitialProxyTextMessage();
     }
+
+    /**
+     * @return The action associated with this message.
+     */
+    MessageReceivedAction action();
+
+    /**
+     * @return The payload of this message.
+     */
+    String payload();
 }

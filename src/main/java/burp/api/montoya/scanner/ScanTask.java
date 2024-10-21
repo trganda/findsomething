@@ -13,8 +13,7 @@ import burp.api.montoya.core.Task;
 /**
  * This interface is used to retrieve details of tasks in the Burp Scanner.
  */
-public interface ScanTask extends Task
-{
+public interface ScanTask extends Task {
     /**
      * Number of requests that have been made for the
      * scan task.

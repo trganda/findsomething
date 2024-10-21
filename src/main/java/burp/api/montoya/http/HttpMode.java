@@ -11,8 +11,7 @@ package burp.api.montoya.http;
 /**
  * HTTP modes when sending a request.
  */
-public enum HttpMode
-{
+public enum HttpMode {
     /**
      * Use the HTTP protocol specified by the server
      */

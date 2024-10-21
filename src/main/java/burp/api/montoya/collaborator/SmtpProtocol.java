@@ -11,8 +11,7 @@ package burp.api.montoya.collaborator;
 /**
  * Simple Mail Transfer Protocol (SMTP) protocols.
  */
-public enum SmtpProtocol
-{
+public enum SmtpProtocol {
     /**
      * Simple Mail Transfer Protocol
      */

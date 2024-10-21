@@ -14,14 +14,12 @@ import burp.api.montoya.core.Registration;
  * Provides access to the functionality related to Burp's
  * Suite-wide target scope.
  */
-public interface Scope
-{
+public interface Scope {
     /**
      * This method can be used to query whether a specified URL is within the
      * current Suite-wide target scope.
      *
      * @param url The URL to query.
-     *
      * @return Returns {@code true} if the URL is within the current Suite-wide
      * target scope.
      */
@@ -49,7 +47,6 @@ public interface Scope
      *
      * @param handler An object created by the extension that implements the
      *                {@link ScopeChangeHandler} interface.
-     *
      * @return The {@link Registration} for the handler.
      */
     Registration registerScopeChangeHandler(ScopeChangeHandler handler);

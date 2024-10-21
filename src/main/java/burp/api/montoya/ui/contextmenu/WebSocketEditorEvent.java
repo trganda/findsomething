@@ -14,8 +14,7 @@ import burp.api.montoya.core.ToolSource;
 
 import java.util.Optional;
 
-public interface WebSocketEditorEvent extends ComponentEvent, ToolSource
-{
+public interface WebSocketEditorEvent extends ComponentEvent, ToolSource {
     /**
      * @return The contents of the message editor.
      */

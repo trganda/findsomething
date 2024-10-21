@@ -35,8 +35,7 @@ import burp.api.montoya.websocket.WebSockets;
  * methods of this interface as required in order to extend Burp's
  * functionality.
  */
-public interface MontoyaApi
-{
+public interface MontoyaApi {
     /**
      * Access functionality related to the Burp Suite application.
      *

@@ -11,8 +11,7 @@ package burp.api.montoya.http.message;
 /**
  * MIME types that are recognised by Burp.
  */
-public enum MimeType
-{
+public enum MimeType {
     NONE("none"),
     UNRECOGNIZED("unrecognized content"),
     AMBIGUOUS("ambiguous"),
@@ -41,16 +40,14 @@ public enum MimeType
 
     private final String description;
 
-    MimeType(String description)
-    {
+    MimeType(String description) {
         this.description = description;
     }
 
     /**
      * @return MIME type description.
      */
-    public String description()
-    {
+    public String description() {
         return description;
     }
 }

@@ -11,8 +11,7 @@ package burp.api.montoya.collaborator;
 /**
  * [Professional only] Provides access to the facilities of Burp Collaborator.
  */
-public interface Collaborator
-{
+public interface Collaborator {
     /**
      * Create a new Burp Collaborator client
      * that can be used to generate Burp Collaborator payloads and poll the
@@ -30,7 +29,6 @@ public interface Collaborator
      * from a specific payloads.
      *
      * @param secretKey The key to restore the {@link CollaboratorClient} from the previous session.
-     *
      * @return A new instance of {@link CollaboratorClient} that can be used to
      * generate Collaborator payloads and retrieve interactions.
      */

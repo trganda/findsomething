@@ -13,14 +13,12 @@ import burp.api.montoya.core.ByteArray;
 /**
  * This interface gives you access to data compression features.
  */
-public interface CompressionUtils
-{
+public interface CompressionUtils {
     /**
      * Compress data using the specified compression type.
      *
      * @param data data to be compressed
      * @param type {@link CompressionType} to use. Only GZIP is supported
-     *
      * @return compressed data
      */
     ByteArray compress(ByteArray data, CompressionType type);
@@ -30,7 +28,6 @@ public interface CompressionUtils
      *
      * @param compressedData data to be decompressed
      * @param type           {@link CompressionType} of the compressed data
-     *
      * @return decompressed data
      */
     ByteArray decompress(ByteArray compressedData, CompressionType type);

@@ -11,8 +11,7 @@ package burp.api.montoya.collaborator;
 /**
  * Possible types of interaction with Burp Collaborator.
  */
-public enum InteractionType
-{
+public enum InteractionType {
     /**
      * Domain Name System
      */

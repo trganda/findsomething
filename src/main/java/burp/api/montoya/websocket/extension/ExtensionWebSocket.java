@@ -14,8 +14,7 @@ import burp.api.montoya.core.Registration;
 /**
  * A WebSocket created via the Extension API.
  */
-public interface ExtensionWebSocket
-{
+public interface ExtensionWebSocket {
     /**
      * This method allows an extension to send a text message via the WebSocket.
      *
@@ -39,7 +38,6 @@ public interface ExtensionWebSocket
      * Register an interface that is notified when messages arrive from the server.
      *
      * @param handler An object created by the extension that implements {@link ExtensionWebSocketMessageHandler} interface.
-     *
      * @return The {@link Registration} for the handler.
      */
     Registration registerMessageHandler(ExtensionWebSocketMessageHandler handler);

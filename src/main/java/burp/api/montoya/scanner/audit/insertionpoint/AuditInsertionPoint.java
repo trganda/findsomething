@@ -23,8 +23,20 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * {@link ScanCheck}, or can create instances for use by Burp's own scan checks
  * by registering an {@link AuditInsertionPointProvider}.
  */
-public interface AuditInsertionPoint
-{
+public interface AuditInsertionPoint {
+    /**
+     * This method can be used to create an audit insertion point based on offsets.
+     *
+     * @param name                The name of the audit insertion point.
+     * @param baseRequest         The base {@link HttpRequest}.
+     * @param startIndexInclusive The start index inclusive.
+     * @param endIndexExclusive   The end index exclusive.
+     * @return The {@link AuditInsertionPoint} based on offsets.
+     */
+    static AuditInsertionPoint auditInsertionPoint(String name, HttpRequest baseRequest, int startIndexInclusive, int endIndexExclusive) {
+        return FACTORY.auditInsertionPoint(name, baseRequest, startIndexInclusive, endIndexExclusive);
+    }
+
     /**
      * Name of this insertion point.
      *
@@ -57,7 +69,6 @@ public interface AuditInsertionPoint
      *
      * @param payload The payload that should be placed into the insertion
      *                point.
-     *
      * @return The resulting request.
      */
     HttpRequest buildHttpRequestWithPayload(ByteArray payload);
@@ -70,7 +81,6 @@ public interface AuditInsertionPoint
      *
      * @param payload The payload that should be placed into the insertion
      *                point.
-     *
      * @return A list of {@link Range} objects containing the start and end
      * offsets of the payload within the request, or an empty list if this is
      * not applicable (for example, where the insertion point places a payload
@@ -84,23 +94,7 @@ public interface AuditInsertionPoint
      *
      * @return The {@link AuditInsertionPointType} for this insertion point.
      */
-    default AuditInsertionPointType type()
-    {
+    default AuditInsertionPointType type() {
         return AuditInsertionPointType.EXTENSION_PROVIDED;
-    }
-
-    /**
-     * This method can be used to create an audit insertion point based on offsets.
-     *
-     * @param name                The name of the audit insertion point.
-     * @param baseRequest         The base {@link HttpRequest}.
-     * @param startIndexInclusive The start index inclusive.
-     * @param endIndexExclusive   The end index exclusive.
-     *
-     * @return The {@link AuditInsertionPoint} based on offsets.
-     */
-    static AuditInsertionPoint auditInsertionPoint(String name, HttpRequest baseRequest, int startIndexInclusive, int endIndexExclusive)
-    {
-        return FACTORY.auditInsertionPoint(name, baseRequest, startIndexInclusive, endIndexExclusive);
     }
 }

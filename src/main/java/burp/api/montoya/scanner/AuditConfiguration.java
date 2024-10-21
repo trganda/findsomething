@@ -13,17 +13,14 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * This class represents the configuration required for an audit in the Burp Scanner Tool.
  */
-public interface AuditConfiguration
-{
+public interface AuditConfiguration {
     /**
      * This method can be used to create a built-in audit configuration.
      *
      * @param configuration The {@link BuiltInAuditConfiguration} to use for the audit.
-     *
      * @return a {@code AuditConfiguration} based on a built-in configuration
      */
-    static AuditConfiguration auditConfiguration(BuiltInAuditConfiguration configuration)
-    {
+    static AuditConfiguration auditConfiguration(BuiltInAuditConfiguration configuration) {
         return FACTORY.auditConfiguration(configuration);
     }
 }

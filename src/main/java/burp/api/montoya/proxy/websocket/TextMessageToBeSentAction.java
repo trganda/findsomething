@@ -18,8 +18,36 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * Extensions can implement this interface when returning a text message from
  * {@link ProxyMessageHandler#handleTextMessageToBeSent(InterceptedTextMessage)}.
  */
-public interface TextMessageToBeSentAction
-{
+public interface TextMessageToBeSentAction {
+    /**
+     * Build a text WebSocket message to continue through Burp.
+     *
+     * @param payload The text message payload.
+     * @return The message.
+     */
+    static TextMessageToBeSentAction continueWith(String payload) {
+        return FACTORY.continueWithFinalProxyTextMessage(payload);
+    }
+
+    /**
+     * Build a text WebSocket message to continue through Burp.
+     *
+     * @param message The text message.
+     * @return The message.
+     */
+    static TextMessageToBeSentAction continueWith(TextMessage message) {
+        return FACTORY.continueWithFinalProxyTextMessage(message.payload());
+    }
+
+    /**
+     * Build a text WebSocket message to be dropped.
+     *
+     * @return The message to be dropped.
+     */
+    static TextMessageToBeSentAction drop() {
+        return FACTORY.dropFinalProxyTextMessage();
+    }
+
     /**
      * @return The action associated with this message.
      */
@@ -29,38 +57,4 @@ public interface TextMessageToBeSentAction
      * @return The payload of this message.
      */
     String payload();
-
-    /**
-     * Build a text WebSocket message to continue through Burp.
-     *
-     * @param payload The text message payload.
-     *
-     * @return The message.
-     */
-    static TextMessageToBeSentAction continueWith(String payload)
-    {
-        return FACTORY.continueWithFinalProxyTextMessage(payload);
-    }
-
-    /**
-     * Build a text WebSocket message to continue through Burp.
-     *
-     * @param message The text message.
-     *
-     * @return The message.
-     */
-    static TextMessageToBeSentAction continueWith(TextMessage message)
-    {
-        return FACTORY.continueWithFinalProxyTextMessage(message.payload());
-    }
-
-    /**
-     * Build a text WebSocket message to be dropped.
-     *
-     * @return The message to be dropped.
-     */
-    static TextMessageToBeSentAction drop()
-    {
-        return FACTORY.dropFinalProxyTextMessage();
-    }
 }

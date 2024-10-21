@@ -11,8 +11,7 @@ package burp.api.montoya.ui.contextmenu;
 /**
  * An enum containing different types of context menu invocations.
  */
-public enum InvocationType
-{
+public enum InvocationType {
     MESSAGE_EDITOR_REQUEST,
     MESSAGE_EDITOR_RESPONSE,
     MESSAGE_VIEWER_REQUEST,
@@ -28,10 +27,8 @@ public enum InvocationType
     /**
      * @return A helper method to ask if this type contains HTTP messages.
      */
-    public boolean containsHttpMessage()
-    {
-        switch (this)
-        {
+    public boolean containsHttpMessage() {
+        switch (this) {
             case MESSAGE_EDITOR_REQUEST:
             case MESSAGE_EDITOR_RESPONSE:
             case MESSAGE_VIEWER_REQUEST:
@@ -46,10 +43,8 @@ public enum InvocationType
     /**
      * @return A helper method to ask if this type contains HTTP request/responses.
      */
-    public boolean containsHttpRequestResponses()
-    {
-        switch (this)
-        {
+    public boolean containsHttpRequestResponses() {
+        switch (this) {
             case SITE_MAP_TREE:
             case SITE_MAP_TABLE:
             case PROXY_HISTORY:
@@ -64,8 +59,7 @@ public enum InvocationType
     /**
      * @return A helper method to ask if this type contains any scan issues.
      */
-    public boolean containsScanIssues()
-    {
+    public boolean containsScanIssues() {
         return this == SCANNER_RESULTS;
     }
 }

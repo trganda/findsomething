@@ -13,8 +13,7 @@ import burp.api.montoya.core.ByteArray;
 /**
  * Provides access to the functionality of the Decoder tool.
  */
-public interface Decoder
-{
+public interface Decoder {
     /**
      * Send data to the Decoder tool.
      *

@@ -14,8 +14,7 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 /**
  * Provides access to the functionality of the Organizer tool.
  */
-public interface Organizer
-{
+public interface Organizer {
     /**
      * This method can be used to send an HTTP request to the Burp Organizer
      * tool.

@@ -15,8 +15,7 @@ import java.util.Optional;
 /**
  * Result of a WebSocket creation attempt
  */
-public interface ExtensionWebSocketCreation
-{
+public interface ExtensionWebSocketCreation {
     /**
      * The status of the WebSocket creation attempt.
      *

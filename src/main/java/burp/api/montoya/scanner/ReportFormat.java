@@ -11,8 +11,7 @@ package burp.api.montoya.scanner;
 /**
  * This enum represents the formats for scan reports.
  */
-public enum ReportFormat
-{
+public enum ReportFormat {
     HTML,
     XML
 }

@@ -18,8 +18,7 @@ import java.util.List;
  * {@link Scanner#registerInsertionPointProvider(AuditInsertionPointProvider)}
  * to register a provider for custom audit insertion points.
  */
-public interface AuditInsertionPointProvider
-{
+public interface AuditInsertionPointProvider {
     /**
      * The Scanner invokes this method when a request is actively audited. The
      * provider should provide a list of custom insertion points that
@@ -29,7 +28,6 @@ public interface AuditInsertionPointProvider
      *
      * @param baseHttpRequestResponse The base {@link HttpRequestResponse} that
      *                                will be actively audited.
-     *
      * @return A list of {@link AuditInsertionPoint} objects
      * that should be used in the audit, or {@code null} if no custom insertion
      * points are applicable for this request.

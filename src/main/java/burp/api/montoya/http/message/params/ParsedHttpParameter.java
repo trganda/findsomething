@@ -13,8 +13,7 @@ import burp.api.montoya.core.Range;
 /**
  * Burp {@link HttpParameter} with additional details about an HTTP request parameter that has been parsed by Burp.
  */
-public interface ParsedHttpParameter extends HttpParameter
-{
+public interface ParsedHttpParameter extends HttpParameter {
     /**
      * @return The parameter type.
      */

@@ -13,8 +13,7 @@ import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.websocket.Direction;
 
-public interface WebSocketMessage
-{
+public interface WebSocketMessage {
     /**
      * This method retrieves the annotations for the message.
      *

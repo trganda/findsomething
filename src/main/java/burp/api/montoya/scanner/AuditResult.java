@@ -14,17 +14,14 @@ import java.util.List;
 
 import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 
-public interface AuditResult
-{
+public interface AuditResult {
+    static AuditResult auditResult(List<AuditIssue> auditIssues) {
+        return FACTORY.auditResult(auditIssues);
+    }
+
+    static AuditResult auditResult(AuditIssue... auditIssues) {
+        return FACTORY.auditResult(auditIssues);
+    }
+
     List<AuditIssue> auditIssues();
-
-    static AuditResult auditResult(List<AuditIssue> auditIssues)
-    {
-        return FACTORY.auditResult(auditIssues);
-    }
-
-    static AuditResult auditResult(AuditIssue... auditIssues)
-    {
-        return FACTORY.auditResult(auditIssues);
-    }
 }

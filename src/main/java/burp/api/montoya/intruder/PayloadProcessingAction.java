@@ -11,8 +11,7 @@ package burp.api.montoya.intruder;
 /**
  * Instructions that the payload processor can give Intruder for the current payload.
  */
-public enum PayloadProcessingAction
-{
+public enum PayloadProcessingAction {
     /**
      * Skip the current payload
      */

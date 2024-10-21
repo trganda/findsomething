@@ -11,8 +11,7 @@ package burp.api.montoya.utilities;
 /**
  * This enum defines HTML encodings.
  */
-public enum Base64EncodingOptions
-{
+public enum Base64EncodingOptions {
     /**
      * Encode using the URL and Filename safe type base64 transcoding scheme
      */

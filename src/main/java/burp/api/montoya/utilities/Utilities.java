@@ -11,8 +11,7 @@ package burp.api.montoya.utilities;
 /**
  * This interface gives you access to other interfaces that have various data conversion and querying features.
  */
-public interface Utilities
-{
+public interface Utilities {
     /**
      * @return an instance of {@link burp.api.montoya.utilities.Base64Utils}
      */

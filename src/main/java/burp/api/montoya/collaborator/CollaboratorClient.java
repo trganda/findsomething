@@ -21,8 +21,7 @@ import java.util.List;
  * server configuration that was in place at the time the client was created.
  * </p>
  */
-public interface CollaboratorClient extends CollaboratorPayloadGenerator
-{
+public interface CollaboratorClient extends CollaboratorPayloadGenerator {
     /**
      * Generate new Burp Collaborator payloads. Options
      * can be specified to alter the way the payloads are generated. If no
@@ -30,9 +29,7 @@ public interface CollaboratorClient extends CollaboratorPayloadGenerator
      * location.
      *
      * @param options The optional payload options to apply
-     *
      * @return The generated payload.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     @Override
@@ -46,9 +43,7 @@ public interface CollaboratorClient extends CollaboratorPayloadGenerator
      *
      * @param customData The custom data to add to the payload. Maximum size is 16 characters. Must be alphanumeric.
      * @param options    The optional payload options to apply
-     *
      * @return The generated payload.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     CollaboratorPayload generatePayload(String customData, PayloadOption... options);
@@ -59,7 +54,6 @@ public interface CollaboratorClient extends CollaboratorPayloadGenerator
      *
      * @return The Collaborator interactions that have occurred resulting from
      * payloads that were generated for this client.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     List<Interaction> getAllInteractions();
@@ -70,10 +64,8 @@ public interface CollaboratorClient extends CollaboratorPayloadGenerator
      * client. Only interactions matching the supplied filter will be returned.
      *
      * @param filter The filter that will be applied to each interaction.
-     *
      * @return The filtered Collaborator interactions resulting from payloads
      * that were generated for this client.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     List<Interaction> getInteractions(InteractionFilter filter);
@@ -83,7 +75,6 @@ public interface CollaboratorClient extends CollaboratorPayloadGenerator
      * associated with this client.
      *
      * @return The Collaborator server details.
-     *
      * @throws IllegalStateException if Burp Collaborator is disabled
      */
     CollaboratorServer server();

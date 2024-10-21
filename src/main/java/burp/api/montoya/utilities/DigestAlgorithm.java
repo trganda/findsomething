@@ -11,8 +11,7 @@ package burp.api.montoya.utilities;
 /**
  * Enum of available message digest algorithms.
  */
-public enum DigestAlgorithm
-{
+public enum DigestAlgorithm {
     BLAKE2B_160("BLAKE2B-160"),
     BLAKE2B_256("BLAKE2B-256"),
     BLAKE2B_384("BLAKE2B-384"),
@@ -78,8 +77,7 @@ public enum DigestAlgorithm
 
     public final String displayName;
 
-    DigestAlgorithm(String displayName)
-    {
+    DigestAlgorithm(String displayName) {
         this.displayName = displayName;
     }
 }

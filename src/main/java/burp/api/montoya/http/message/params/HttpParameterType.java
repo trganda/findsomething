@@ -11,8 +11,7 @@ package burp.api.montoya.http.message.params;
 /**
  * HTTP parameter types.
  */
-public enum HttpParameterType
-{
+public enum HttpParameterType {
     URL,
     BODY,
     COOKIE,

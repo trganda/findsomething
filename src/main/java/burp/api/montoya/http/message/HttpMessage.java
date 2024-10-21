@@ -19,18 +19,15 @@ import java.util.regex.Pattern;
 /**
  * Burp message retrieve common information shared by {@link HttpRequest} and {@link HttpResponse}.
  */
-public interface HttpMessage
-{
+public interface HttpMessage {
     /**
      * @param header The header to check if it exists in the request.
-     *
      * @return True if the header exists in the request.
      */
     boolean hasHeader(HttpHeader header);
 
     /**
      * @param name The name of the header to query within the request.
-     *
      * @return True if a header exists in the request with the supplied name.
      */
     boolean hasHeader(String name);
@@ -38,21 +35,18 @@ public interface HttpMessage
     /**
      * @param name  The name of the header to check.
      * @param value The value of the header to check.
-     *
      * @return True if a header exists in the request that matches the name and value supplied.
      */
     boolean hasHeader(String name, String value);
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return An instance of {@link HttpHeader} that matches the name supplied, {@code null} if no match found.
      */
     HttpHeader header(String name);
 
     /**
      * @param name The name of the header to retrieve.
-     *
      * @return The {@code String} value of the header that matches the name supplied, {@code null} if no match found.
      */
     String headerValue(String name);
@@ -105,7 +99,6 @@ public interface HttpMessage
      *
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return True if the search term is found.
      */
     boolean contains(String searchTerm, boolean caseSensitive);
@@ -114,7 +107,6 @@ public interface HttpMessage
      * Searches the data in the HTTP message for the specified regular expression.
      *
      * @param pattern The regular expression to be searched for.
-     *
      * @return True if the pattern is matched.
      */
     boolean contains(Pattern pattern);

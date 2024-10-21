@@ -14,8 +14,7 @@ package burp.api.montoya.scope;
  * handler. The handler will be notified whenever a change occurs to Burp's
  * Suite-wide target scope.
  */
-public interface ScopeChangeHandler
-{
+public interface ScopeChangeHandler {
     /**
      * This method is invoked whenever a change occurs to Burp's Suite-wide
      * target scope.

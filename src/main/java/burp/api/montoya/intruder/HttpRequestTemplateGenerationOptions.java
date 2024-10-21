@@ -11,8 +11,7 @@ package burp.api.montoya.intruder;
 /**
  * Options that can be used to generate a new HttpRequestTemplate.
  */
-public enum HttpRequestTemplateGenerationOptions
-{
+public enum HttpRequestTemplateGenerationOptions {
     /**
      * Replace base parameter value with offsets.
      */

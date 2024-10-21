@@ -13,15 +13,13 @@ import java.util.regex.Pattern;
 /**
  * This interface gives you access to various methods for querying and manipulating byte arrays.
  */
-public interface ByteUtils
-{
+public interface ByteUtils {
     /**
      * This method searches a piece of data for the first occurrence of a specified pattern.
      * It works on byte-based data in a way that is similar to the way the native Java method {@link String#indexOf(String)} works on String-based data.
      *
      * @param data       The data to be searched.
      * @param searchTerm The value to be searched for.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(byte[] data, byte[] searchTerm);
@@ -33,7 +31,6 @@ public interface ByteUtils
      * @param data          The data to be searched.
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(byte[] data, byte[] searchTerm, boolean caseSensitive);
@@ -47,7 +44,6 @@ public interface ByteUtils
      * @param caseSensitive Flags whether the search is case-sensitive.
      * @param from          The offset within data where the search should begin.
      * @param to            The offset within data where the search should end.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(byte[] data, byte[] searchTerm, boolean caseSensitive, int from, int to);
@@ -57,7 +53,6 @@ public interface ByteUtils
      *
      * @param data    The data to be searched.
      * @param pattern The pattern to be matched.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(byte[] data, Pattern pattern);
@@ -69,7 +64,6 @@ public interface ByteUtils
      * @param pattern The pattern to be matched.
      * @param from    The offset within data where the search should begin.
      * @param to      The offset within data where the search should end.
-     *
      * @return The offset of the first occurrence of the pattern within the specified bounds, or -1 if no match is found.
      */
     int indexOf(byte[] data, Pattern pattern, int from, int to);
@@ -79,7 +73,6 @@ public interface ByteUtils
      *
      * @param data       The data to be searched.
      * @param searchTerm The value to be searched for.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(byte[] data, byte[] searchTerm);
@@ -90,7 +83,6 @@ public interface ByteUtils
      * @param data          The data to be searched.
      * @param searchTerm    The value to be searched for.
      * @param caseSensitive Flags whether the search is case-sensitive.
-     *
      * @return The count of all matches of the pattern.
      */
     int countMatches(byte[] data, byte[] searchTerm, boolean caseSensitive);
@@ -103,7 +95,6 @@ public interface ByteUtils
      * @param caseSensitive Flags whether the search is case-sensitive.
      * @param from          The offset within data where the search should begin.
      * @param to            The offset within data where the search should end.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(byte[] data, byte[] searchTerm, boolean caseSensitive, int from, int to);
@@ -113,7 +104,6 @@ public interface ByteUtils
      *
      * @param data    The data to be searched.
      * @param pattern The pattern to be matched.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(byte[] data, Pattern pattern);
@@ -125,7 +115,6 @@ public interface ByteUtils
      * @param pattern The pattern to be matched.
      * @param from    The offset within data where the search should begin.
      * @param to      The offset within data where the search should end.
-     *
      * @return The count of all matches of the pattern within the specified bounds.
      */
     int countMatches(byte[] data, Pattern pattern, int from, int to);
@@ -137,7 +126,6 @@ public interface ByteUtils
      * conversions that reflect a given character set).
      *
      * @param bytes The data to be converted.
-     *
      * @return The converted data.
      */
     String convertToString(byte[] bytes);
@@ -149,7 +137,6 @@ public interface ByteUtils
      * conversions that reflect a given character set).
      *
      * @param string The data to be converted
-     *
      * @return The converted data.
      */
     byte[] convertFromString(String string);

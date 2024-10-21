@@ -13,8 +13,7 @@ package burp.api.montoya.proxy;
  * {@link Proxy#history(ProxyHistoryFilter)} to get a filtered list of items in
  * the Proxy history.
  */
-public interface ProxyHistoryFilter
-{
+public interface ProxyHistoryFilter {
     /**
      * This method is invoked for every item in the Proxy history to determine
      * whether it should be included in the filtered list of items.
@@ -22,7 +21,6 @@ public interface ProxyHistoryFilter
      * @param requestResponse A {@link ProxyHttpRequestResponse} object that
      *                        extensions can use to determine whether the item should be included in
      *                        the filtered list of items.
-     *
      * @return Return {@code true} if the item should be included in the
      * filtered list of items.
      */

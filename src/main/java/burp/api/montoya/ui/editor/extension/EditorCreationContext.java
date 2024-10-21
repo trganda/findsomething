@@ -24,8 +24,7 @@ import burp.api.montoya.core.ToolSource;
  * generate, which the tab can invoke if it requires further information about
  * the current message.
  */
-public interface EditorCreationContext
-{
+public interface EditorCreationContext {
     /**
      * Indicates which Burp tool is requesting the editor.
      *

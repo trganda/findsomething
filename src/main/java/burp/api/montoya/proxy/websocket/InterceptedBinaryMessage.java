@@ -13,8 +13,7 @@ import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.websocket.BinaryMessage;
 import burp.api.montoya.websocket.Direction;
 
-public interface InterceptedBinaryMessage extends BinaryMessage
-{
+public interface InterceptedBinaryMessage extends BinaryMessage {
     /**
      * @return The annotations.
      */

@@ -8,8 +8,7 @@
 
 package burp.api.montoya.internal;
 
-public class ObjectFactoryLocator
-{
+public class ObjectFactoryLocator {
     /**
      * This is initialized when your extension is loaded.
      */

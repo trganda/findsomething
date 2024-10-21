@@ -12,8 +12,7 @@ package burp.api.montoya.collaborator;
 /**
  * Burp Collaborator interaction id.
  */
-public interface InteractionId
-{
+public interface InteractionId {
     /**
      * Interaction id.
      *

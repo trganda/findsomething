@@ -18,8 +18,7 @@ import burp.api.montoya.scanner.audit.issues.AuditIssue;
  * reported by the Scanner tool. Extensions can perform custom analysis or
  * logging of audit issues by registering an audit issue handler.
  */
-public interface AuditIssueHandler
-{
+public interface AuditIssueHandler {
     /**
      * This method is invoked when a new issue is added to Burp Scanner's
      * results.

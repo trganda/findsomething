@@ -11,8 +11,7 @@ package burp.api.montoya.http.message.requests;
 /**
  * This enum defines transformations that Burp can apply to an HTTP request.
  */
-public enum HttpTransformation
-{
+public enum HttpTransformation {
     /**
      * Convert a GET request into a POST request<br>
      * or<br>

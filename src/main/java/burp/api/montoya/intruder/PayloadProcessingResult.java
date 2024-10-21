@@ -16,8 +16,32 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * An instance of this interface should be returned by {@link PayloadProcessor#processPayload} if a custom
  * {@link PayloadProcessor} was registered with Intruder.
  */
-public interface PayloadProcessingResult
-{
+public interface PayloadProcessingResult {
+    /**
+     * Create a new instance of {@link PayloadProcessingResult} with a
+     * {@link PayloadProcessingAction#USE_PAYLOAD} action.
+     *
+     * @param processedPayload Processed payload value
+     * @return A new {@link PayloadProcessingResult} instance.
+     */
+    static PayloadProcessingResult usePayload(ByteArray processedPayload) {
+        return FACTORY.usePayload(processedPayload);
+    }
+
+    /**
+     * Create a new instance of {@link PayloadProcessingResult} with a
+     * {@link PayloadProcessingAction#SKIP_PAYLOAD} action.
+     *
+     * @return A new {@link PayloadProcessingResult} instance.
+     */
+    static PayloadProcessingResult skipPayload() {
+        return FACTORY.skipPayload();
+    }
+
+    static PayloadProcessingResult payloadProcessingResult(ByteArray processedPayload, PayloadProcessingAction action) {
+        return FACTORY.payloadProcessingResult(processedPayload, action);
+    }
+
     /**
      * @return The current value of the processed payload.
      */
@@ -31,33 +55,4 @@ public interface PayloadProcessingResult
      * @return Action to perform with the payload.
      */
     PayloadProcessingAction action();
-
-    /**
-     * Create a new instance of {@link PayloadProcessingResult} with a
-     * {@link PayloadProcessingAction#USE_PAYLOAD} action.
-     *
-     * @param processedPayload Processed payload value
-     *
-     * @return A new {@link PayloadProcessingResult} instance.
-     */
-    static PayloadProcessingResult usePayload(ByteArray processedPayload)
-    {
-        return FACTORY.usePayload(processedPayload);
-    }
-
-    /**
-     * Create a new instance of {@link PayloadProcessingResult} with a
-     * {@link PayloadProcessingAction#SKIP_PAYLOAD} action.
-     *
-     * @return A new {@link PayloadProcessingResult} instance.
-     */
-    static PayloadProcessingResult skipPayload()
-    {
-        return FACTORY.skipPayload();
-    }
-
-    static PayloadProcessingResult payloadProcessingResult(ByteArray processedPayload, PayloadProcessingAction action)
-    {
-        return FACTORY.payloadProcessingResult(processedPayload, action);
-    }
 }

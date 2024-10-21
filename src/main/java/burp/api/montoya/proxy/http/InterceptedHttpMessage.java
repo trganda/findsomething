@@ -13,8 +13,7 @@ import java.net.InetAddress;
 /**
  * HTTP message intercepted by Burp Proxy.
  */
-public interface InterceptedHttpMessage
-{
+public interface InterceptedHttpMessage {
     /**
      * This method retrieves a unique ID for this request/response.
      *

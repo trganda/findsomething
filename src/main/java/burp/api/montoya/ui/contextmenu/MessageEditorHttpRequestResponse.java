@@ -18,8 +18,7 @@ import java.util.Optional;
 /**
  * This class contains information about a user selection of a request or response within a Burp Suite message editor.
  */
-public interface MessageEditorHttpRequestResponse
-{
+public interface MessageEditorHttpRequestResponse {
     /**
      * @return An {@link SelectionContext} which indicates what data has been selected by the user and has focus.
      */
@@ -57,8 +56,7 @@ public interface MessageEditorHttpRequestResponse
     void setResponse(HttpResponse response);
 
 
-    enum SelectionContext
-    {
+    enum SelectionContext {
         REQUEST,
         RESPONSE
     }

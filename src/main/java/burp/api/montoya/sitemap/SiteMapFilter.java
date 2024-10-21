@@ -13,28 +13,24 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * This interface is used to filter items when querying Burp's site map.
  */
-public interface SiteMapFilter
-{
-    /**
-     * Invoked by Burp to check whether a given site map node matches the filter.
-     *
-     * @param node Site map node to match.
-     *
-     * @return Returns true if the site map node matches the filter.
-     */
-    boolean matches(SiteMapNode node);
-
+public interface SiteMapFilter {
     /**
      * This method returns a site map filter object that matches site map nodes with URLs
      * starting with the specified prefix. Note that the prefix is case-sensitive.
      *
      * @param prefix Case-sensitive URL prefix used to match site tree nodes. If {@code null} is
      *               passed, the resulting filter will match all site map nodes.
-     *
      * @return A site map filter object that matches nodes via a URL prefix
      */
-    static SiteMapFilter prefixFilter(String prefix)
-    {
+    static SiteMapFilter prefixFilter(String prefix) {
         return FACTORY.prefixFilter(prefix);
     }
+
+    /**
+     * Invoked by Burp to check whether a given site map node matches the filter.
+     *
+     * @param node Site map node to match.
+     * @return Returns true if the site map node matches the filter.
+     */
+    boolean matches(SiteMapNode node);
 }

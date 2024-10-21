@@ -12,14 +12,13 @@ import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.ui.Selection;
 
-import java.awt.Component;
+import java.awt.*;
 
 /**
  * Extensions that register an {@link HttpRequestEditorProvider} must return an instance of this interface.<br/>
  * Burp will then use that instance to create custom tabs within its HTTP request editor.
  */
-public interface ExtensionProvidedHttpRequestEditor extends ExtensionProvidedEditor
-{
+public interface ExtensionProvidedHttpRequestEditor extends ExtensionProvidedEditor {
     /**
      * @return An instance of {@link HttpRequest} derived from the content of the HTTP request editor.
      */
@@ -37,7 +36,6 @@ public interface ExtensionProvidedHttpRequestEditor extends ExtensionProvidedEdi
      * A check to determine if the HTTP message editor is enabled for a specific {@link HttpRequestResponse}
      *
      * @param requestResponse The {@link HttpRequestResponse} to check.
-     *
      * @return True if the HTTP message editor is enabled for the provided request and response.
      */
     @Override

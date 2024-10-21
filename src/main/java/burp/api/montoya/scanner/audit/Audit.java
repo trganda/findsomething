@@ -19,8 +19,7 @@ import java.util.List;
 /**
  * Audit in the Burp Scanner tool.
  */
-public interface Audit extends ScanTask
-{
+public interface Audit extends ScanTask {
     /**
      * This method retrieves the number of insertion points.
      *

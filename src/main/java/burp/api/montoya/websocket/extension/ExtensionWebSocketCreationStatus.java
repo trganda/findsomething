@@ -11,8 +11,7 @@ package burp.api.montoya.websocket.extension;
 /**
  * Status of a WebSocket creation attempt
  */
-public enum ExtensionWebSocketCreationStatus
-{
+public enum ExtensionWebSocketCreationStatus {
     /**
      * WebSocket creation was successful.
      */

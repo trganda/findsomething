@@ -1,4 +1,4 @@
-package com.github.trganda.componets.pane;
+package com.github.trganda.components;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.ui.editor.HttpRequestEditor;

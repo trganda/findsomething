@@ -13,8 +13,7 @@ import burp.api.montoya.core.ToolSource;
 import java.util.List;
 import java.util.Optional;
 
-public interface WebSocketContextMenuEvent extends ComponentEvent, ToolSource
-{
+public interface WebSocketContextMenuEvent extends ComponentEvent, ToolSource {
     /**
      * This method can be used to retrieve details of the currently selected WebSocket message when the context menu was invoked from an editor.
      *

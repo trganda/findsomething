@@ -13,8 +13,7 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 /**
  * Provides access to the functionality of the Repeater tool.
  */
-public interface Repeater
-{
+public interface Repeater {
     /**
      * This method can be used to send an HTTP request to the Burp Repeater
      * tool. The request will be displayed in the user interface using a

@@ -18,8 +18,61 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * Extensions can implement this interface when returning a result from
  * {@link ProxyRequestHandler#handleRequestToBeSent(InterceptedRequest)}.
  */
-public interface ProxyRequestToBeSentAction
-{
+public interface ProxyRequestToBeSentAction {
+    /**
+     * This method can be used to create a result that causes Burp Proxy to
+     * forward the request.<br>
+     * Annotations are not modified.
+     *
+     * @param request The {@link HttpRequest} to forward after any
+     *                modifications by the extension.
+     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
+     * to forward the request.
+     */
+    static ProxyRequestToBeSentAction continueWith(HttpRequest request) {
+        return FACTORY.requestFinalInterceptResultContinueWith(request);
+    }
+
+    /**
+     * This method can be used to create a result that causes Burp Proxy to
+     * forward the request.
+     *
+     * @param request     The {@link HttpRequest} to forward after any
+     *                    modifications by the extension.
+     * @param annotations The {@link Annotations} for the intercepted
+     *                    HTTP request.
+     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
+     * to forward the request.
+     */
+    static ProxyRequestToBeSentAction continueWith(HttpRequest request, Annotations annotations) {
+        return FACTORY.requestFinalInterceptResultContinueWith(request, annotations);
+    }
+
+    /**
+     * This method can be used to create a result that causes Burp Proxy to
+     * drop the request.
+     *
+     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
+     * to drop the request.
+     */
+    static ProxyRequestToBeSentAction drop() {
+        return FACTORY.requestFinalInterceptResultDrop();
+    }
+
+    /**
+     * This method can be used to create a default implementation of a final
+     * intercept result for an HTTP request.
+     *
+     * @param request     The {@link HttpRequest} to forward after any modifications by the extension.
+     * @param annotations The {@link Annotations} for the intercepted HTTP request. {@code null} value will leave the annotations unmodified.
+     * @param action      The {@link MessageToBeSentAction} for the HTTP request.
+     * @return The {@link ProxyRequestToBeSentAction} including the HTTP
+     * request, annotations and final intercept action.
+     */
+    static ProxyRequestToBeSentAction proxyRequestToBeSentAction(HttpRequest request, Annotations annotations, MessageToBeSentAction action) {
+        return FACTORY.proxyRequestToBeSentAction(request, annotations, action);
+    }
+
     /**
      * This method retrieves the current final intercept action.
      *
@@ -43,65 +96,4 @@ public interface ProxyRequestToBeSentAction
      * @return The {@link Annotations} for the intercepted HTTP request.
      */
     Annotations annotations();
-
-    /**
-     * This method can be used to create a result that causes Burp Proxy to
-     * forward the request.<br>
-     * Annotations are not modified.
-     *
-     * @param request The {@link HttpRequest} to forward after any
-     *                modifications by the extension.
-     *
-     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
-     * to forward the request.
-     */
-    static ProxyRequestToBeSentAction continueWith(HttpRequest request)
-    {
-        return FACTORY.requestFinalInterceptResultContinueWith(request);
-    }
-
-    /**
-     * This method can be used to create a result that causes Burp Proxy to
-     * forward the request.
-     *
-     * @param request     The {@link HttpRequest} to forward after any
-     *                    modifications by the extension.
-     * @param annotations The {@link Annotations} for the intercepted
-     *                    HTTP request.
-     *
-     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
-     * to forward the request.
-     */
-    static ProxyRequestToBeSentAction continueWith(HttpRequest request, Annotations annotations)
-    {
-        return FACTORY.requestFinalInterceptResultContinueWith(request, annotations);
-    }
-
-    /**
-     * This method can be used to create a result that causes Burp Proxy to
-     * drop the request.
-     *
-     * @return The {@link ProxyRequestToBeSentAction} that causes Burp Proxy
-     * to drop the request.
-     */
-    static ProxyRequestToBeSentAction drop()
-    {
-        return FACTORY.requestFinalInterceptResultDrop();
-    }
-
-    /**
-     * This method can be used to create a default implementation of a final
-     * intercept result for an HTTP request.
-     *
-     * @param request     The {@link HttpRequest} to forward after any modifications by the extension.
-     * @param annotations The {@link Annotations} for the intercepted HTTP request. {@code null} value will leave the annotations unmodified.
-     * @param action      The {@link MessageToBeSentAction} for the HTTP request.
-     *
-     * @return The {@link ProxyRequestToBeSentAction} including the HTTP
-     * request, annotations and final intercept action.
-     */
-    static ProxyRequestToBeSentAction proxyRequestToBeSentAction(HttpRequest request, Annotations annotations, MessageToBeSentAction action)
-    {
-        return FACTORY.proxyRequestToBeSentAction(request, annotations, action);
-    }
 }

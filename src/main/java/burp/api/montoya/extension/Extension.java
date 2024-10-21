@@ -13,8 +13,7 @@ import burp.api.montoya.core.Registration;
 /**
  * Provides access to functionality related to your Extension.
  */
-public interface Extension
-{
+public interface Extension {
     /**
      * Set the display name for the current extension.<br/>
      * This will be displayed within the user interface for the Extensions tool and
@@ -54,7 +53,6 @@ public interface Extension
      *
      * @param handler An object created by the extension that implements the
      *                {@link ExtensionUnloadingHandler} interface.
-     *
      * @return The {@link Registration} for the handler.
      */
     Registration registerUnloadingHandler(ExtensionUnloadingHandler handler);

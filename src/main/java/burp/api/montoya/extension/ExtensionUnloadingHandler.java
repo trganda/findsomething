@@ -19,8 +19,7 @@ package burp.api.montoya.extension;
  * should register a handler and terminate threads / close resources when the
  * extension is unloaded.
  */
-public interface ExtensionUnloadingHandler
-{
+public interface ExtensionUnloadingHandler {
     /**
      * This method is invoked when the extension is unloaded.
      */

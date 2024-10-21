@@ -13,8 +13,18 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 /**
  * Range of integer values between two values in which the range includes the start value but excludes the end value.
  */
-public interface Range
-{
+public interface Range {
+    /**
+     * Create a range object from two indices.
+     *
+     * @param startIndexInclusive The start index of the range inclusive of this value.
+     * @param endIndexExclusive   The end index of the range exclusive of this value.
+     * @return The range.
+     */
+    static Range range(int startIndexInclusive, int endIndexExclusive) {
+        return FACTORY.range(startIndexInclusive, endIndexExclusive);
+    }
+
     /**
      * @return the inclusive start index
      */
@@ -27,21 +37,7 @@ public interface Range
 
     /**
      * @param index The index to test.
-     *
      * @return True if the index is in the range.
      */
     boolean contains(int index);
-
-    /**
-     * Create a range object from two indices.
-     *
-     * @param startIndexInclusive The start index of the range inclusive of this value.
-     * @param endIndexExclusive   The end index of the range exclusive of this value.
-     *
-     * @return The range.
-     */
-    static Range range(int startIndexInclusive, int endIndexExclusive)
-    {
-        return FACTORY.range(startIndexInclusive, endIndexExclusive);
-    }
 }

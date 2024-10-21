@@ -12,8 +12,7 @@ import burp.api.montoya.core.Annotations;
 import burp.api.montoya.websocket.Direction;
 import burp.api.montoya.websocket.TextMessage;
 
-public interface InterceptedTextMessage extends TextMessage
-{
+public interface InterceptedTextMessage extends TextMessage {
     /**
      * @return The annotations.
      */

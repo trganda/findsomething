@@ -14,8 +14,7 @@ import java.time.ZonedDateTime;
 /**
  * Timing data
  */
-public interface TimingData
-{
+public interface TimingData {
     /**
      * The time between when Burp sent the request and the start of the response being received.
      *

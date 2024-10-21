@@ -11,8 +11,7 @@ package burp.api.montoya.utilities;
 /**
  * This enum defines available compression types.
  */
-public enum CompressionType
-{
+public enum CompressionType {
     GZIP,
     DEFLATE,
     BROTLI

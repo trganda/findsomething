@@ -11,8 +11,7 @@ package burp.api.montoya.scanner.audit.insertionpoint;
 /**
  * This enum represents the audit insertion point type.
  */
-public enum AuditInsertionPointType
-{
+public enum AuditInsertionPointType {
     PARAM_URL,
     PARAM_BODY,
     PARAM_COOKIE,

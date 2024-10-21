@@ -11,6 +11,5 @@ package burp.api.montoya.scope;
 /**
  * Change to Burp's Suite-wide target scope.
  */
-public interface ScopeChange
-{
+public interface ScopeChange {
 }

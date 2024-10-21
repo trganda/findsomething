@@ -15,8 +15,7 @@ import java.util.Set;
 /**
  * Analyze HTTP responses and retrieve keywords.
  */
-public interface ResponseKeywordsAnalyzer
-{
+public interface ResponseKeywordsAnalyzer {
     /**
      * @return A set of keywords whose counts vary between the analyzed responses.
      */

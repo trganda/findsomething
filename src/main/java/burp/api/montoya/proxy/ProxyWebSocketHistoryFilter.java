@@ -13,16 +13,14 @@ package burp.api.montoya.proxy;
  * {@link Proxy#webSocketHistory(ProxyWebSocketHistoryFilter)} to get a filtered list of items in
  * the Proxy WebSockets history.
  */
-public interface ProxyWebSocketHistoryFilter
-{
+public interface ProxyWebSocketHistoryFilter {
     /**
      * This method is invoked for every item in the Proxy WebSockets history to determine
      * whether it should be included in the filtered list of items.
      *
      * @param message A {@link ProxyWebSocketMessage} object that
-     *                        extensions can use to determine whether the item should be included in
-     *                        the filtered list of items.
-     *
+     *                extensions can use to determine whether the item should be included in
+     *                the filtered list of items.
      * @return Return {@code true} if the item should be included in the
      * filtered list of items.
      */

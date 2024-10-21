@@ -11,6 +11,5 @@ package burp.api.montoya.scanner;
 /**
  * Configurations for the Burp Scanner tool.
  */
-public interface ScanConfiguration
-{
+public interface ScanConfiguration {
 }

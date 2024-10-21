@@ -21,14 +21,21 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  * [Professional only] Enables data to be stored and accessed from the Burp project.
  * Supports HTTP requests, HTTP responses, byte arrays, primitives, lists of all these, and object hierarchies.
  */
-public interface PersistedObject
-{
+public interface PersistedObject {
+    /**
+     * Create a new instance of {@link PersistedObject}.
+     *
+     * @return A new {@link PersistedObject} instance.
+     */
+    static PersistedObject persistedObject() {
+        return FACTORY.persistedObject();
+    }
+
     /**
      * {@link PersistedObject} associated with the specified key,
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -63,7 +70,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -98,7 +104,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -134,7 +139,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -170,7 +174,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -206,7 +209,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -242,7 +244,6 @@ public interface PersistedObject
      * or {@code null}} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -278,7 +279,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -289,7 +289,7 @@ public interface PersistedObject
      * If the map previously contained a mapping for the key, the old value is replaced
      * by the specified value.
      *
-     * @param key  The key with which the specified value is to be associated.
+     * @param key   The key with which the specified value is to be associated.
      * @param value The value to be associated with the specified key.
      */
     void setByteArray(String key, ByteArray value);
@@ -313,7 +313,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -348,7 +347,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -384,7 +382,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -419,7 +416,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -455,7 +451,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -490,7 +485,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -526,7 +520,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -561,7 +554,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -596,7 +588,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -631,7 +622,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -666,7 +656,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value to which the specified key is mapped, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -701,7 +690,6 @@ public interface PersistedObject
      * or {@code null} if this map contains no mapping for the key.
      *
      * @param key The key whose associated value is to be returned.
-     *
      * @return The value associated with the specified key, or
      * {@code null} if this map contains no mapping for the key.
      */
@@ -731,14 +719,4 @@ public interface PersistedObject
      * @return Set of keys.
      */
     Set<String> byteArrayListKeys();
-
-    /**
-     * Create a new instance of {@link PersistedObject}.
-     *
-     * @return A new {@link PersistedObject} instance.
-     */
-    static PersistedObject persistedObject()
-    {
-        return FACTORY.persistedObject();
-    }
 }

@@ -11,8 +11,7 @@ package burp.api.montoya.scanner;
 /**
  * Crawl and audit in the Burp Scanner tool.
  */
-public interface CrawlAndAudit extends ScanTask
-{
+public interface CrawlAndAudit extends ScanTask {
     /**
      * Number of requests that have been made for the
      * scan task.

@@ -11,8 +11,7 @@ package burp.api.montoya.collaborator;
 /**
  * Domain Name System (DNS) query types.
  */
-public enum DnsQueryType
-{
+public enum DnsQueryType {
     /**
      * Address Record
      */

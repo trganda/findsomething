@@ -11,15 +11,13 @@ package burp.api.montoya.proxy.websocket;
 /**
  * This interface allows an extension to be notified when messages are sent or received via the proxy WebSocket, or it has been closed.
  */
-public interface ProxyMessageHandler
-{
+public interface ProxyMessageHandler {
     /**
      * Invoked when a text message is received from either the client or server.
      * This gives the extension the ability to modify the message before it is
      * processed by Burp.
      *
      * @param interceptedTextMessage Intercepted text WebSocket message.
-     *
      * @return The {@link TextMessageReceivedAction} containing the required action and text message to be passed through.
      */
     TextMessageReceivedAction handleTextMessageReceived(InterceptedTextMessage interceptedTextMessage);
@@ -30,7 +28,6 @@ public interface ProxyMessageHandler
      * sent.
      *
      * @param interceptedTextMessage Intercepted text WebSocket message.
-     *
      * @return The {@link TextMessageReceivedAction} containing the required action and text message to be passed through.
      */
     TextMessageToBeSentAction handleTextMessageToBeSent(InterceptedTextMessage interceptedTextMessage);
@@ -41,7 +38,6 @@ public interface ProxyMessageHandler
      * processed by Burp.
      *
      * @param interceptedBinaryMessage Intercepted binary WebSocket message.
-     *
      * @return The {@link BinaryMessageReceivedAction} containing the required action and binary message to be passed through.
      */
     BinaryMessageReceivedAction handleBinaryMessageReceived(InterceptedBinaryMessage interceptedBinaryMessage);
@@ -52,7 +48,6 @@ public interface ProxyMessageHandler
      * sent.
      *
      * @param interceptedBinaryMessage Intercepted binary WebSocket message.
-     *
      * @return The {@link BinaryMessageReceivedAction} containing the required action and binary message to be passed through.
      */
     BinaryMessageToBeSentAction handleBinaryMessageToBeSent(InterceptedBinaryMessage interceptedBinaryMessage);
@@ -60,7 +55,6 @@ public interface ProxyMessageHandler
     /**
      * Invoked when the WebSocket is closed.
      */
-    default void onClose()
-    {
+    default void onClose() {
     }
 }

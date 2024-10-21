@@ -15,8 +15,7 @@ import burp.api.montoya.http.Http;
  * available within the session handling rule UI for the user to select as a rule action. Users can choose to invoke an action directly in its own right, or following execution of
  * a macro.
  */
-public interface SessionHandlingAction
-{
+public interface SessionHandlingAction {
     /**
      * @return Action name
      */
@@ -28,7 +27,6 @@ public interface SessionHandlingAction
      * It can issue additional requests of its own if necessary, and can return a modified base request in the {@link ActionResult}
      *
      * @param actionData {@link SessionHandlingActionData} The action can query this object to obtain details about the base request.
-     *
      * @return A new {@link ActionResult} instance.
      */
     ActionResult performAction(SessionHandlingActionData actionData);
