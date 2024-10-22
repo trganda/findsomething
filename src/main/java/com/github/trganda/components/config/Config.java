@@ -1,6 +1,7 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class Config extends JPanel {
@@ -10,15 +11,39 @@ public class Config extends JPanel {
     private BlackListPane2 blackListPane2;
 
     public Config() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 20));
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.setLayout(gridBagLayout);
+        this.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20));
 
-//        rulePane = new RulePane();
-//        rulePane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        rulePane = new RulePane();
         blackListPane2 = new BlackListPane2();
-//        this.add(rulePane);
-//        this.add(new JSeparator());
-        this.add(blackListPane2);
+
+//        gbc.gridx = 0;
+//        gbc.gridy = 0;
+//        gbc.weightx = 1.0;
+//        gbc.weighty = 0.0;
+//        gbc.fill = GridBagConstraints.HORIZONTAL;
+//        gbc.anchor = GridBagConstraints.NORTHWEST;
+//        this.add(new BlackListPane2(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(30, 0, 30, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JSeparator(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+//        blackListPane2.setBorder(new TitledBorder("list"));
+        this.add(blackListPane2, gbc);
     }
 
 }

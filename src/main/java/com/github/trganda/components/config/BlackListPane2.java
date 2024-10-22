@@ -1,33 +1,40 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class BlackListPane2 extends JPanel {
 
     private JLabel label;
-
     private JLabel description;
-
-    private BlackListButtonsPane blackListButtonsPane;
+    private BlackListInnerPane blackListInnerPane;
 
     public BlackListPane2() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        blackListButtonsPane = new BlackListButtonsPane();
-        label = new JLabel("Ignore setting");
-//        label.setAlignmentX(LEFT_ALIGNMENT);
+        blackListInnerPane = new BlackListInnerPane();
+        label = new JLabel("Blacklist setting");
         label.setFont(new Font("Arial", Font.BOLD, 16));
+        description = new JLabel("You can set different type black list to ignore while grep for information.");
 
-        description = new JLabel("Description");
-//        description.setAlignmentX(LEFT_ALIGNMENT);
-//        blackListButtonsPane.setAlignmentX(LEFT_ALIGNMENT);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.setLayout(gridBagLayout);
 
-//        this.setAlignmentY(LEFT_ALIGNMENT);
-        this.add(label);
-        this.add(description);
-//        JPanel buttonPanel = new JPanel();
-//        buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
-//        buttonPanel.add(blackListButtonsPane);
-        this.add(blackListButtonsPane);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 15, 5);
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        this.add(label, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(description, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add(blackListInnerPane, gbc);
     }
+
 }

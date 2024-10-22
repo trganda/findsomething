@@ -12,14 +12,11 @@ public class RulePane extends JPanel {
     public RulePane() {
         label = new JLabel("Rules set");
         label.setFont(new Font("Arial", Font.BOLD, 16));
-        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         description = new JLabel("description");
-        description.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Information", new RuleTypePane());
-        tabbedPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         tabbedPane.setMaximumSize(tabbedPane.getPreferredSize());
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
