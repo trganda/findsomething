@@ -1,6 +1,7 @@
 package com.github.trganda.components;
 
 import burp.api.montoya.MontoyaApi;
+import com.github.trganda.FindSomething;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
 
@@ -14,13 +15,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class InformationPane extends JPanel implements DataChangeListener {
-
-    private final MontoyaApi api;
     private JTable infoTable;
     private DefaultTableModel infoTableModel;
 
-    public InformationPane(MontoyaApi api) {
-        this.api = api;
+    public InformationPane() {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -79,7 +77,7 @@ public class InformationPane extends JPanel implements DataChangeListener {
                     }
                     infoTableModel.fireTableDataChanged();
                 } catch (InterruptedException | ExecutionException e) {
-                    api.logging().logToError(new RuntimeException(e));
+                    FindSomething.api.logging().logToError(new RuntimeException(e));
                 }
             }
         };

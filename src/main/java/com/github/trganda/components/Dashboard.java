@@ -1,7 +1,7 @@
 package com.github.trganda.components;
 
-import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.proxy.http.InterceptedResponse;
+import com.github.trganda.FindSomething;
 import com.github.trganda.model.RequestDataModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
@@ -16,15 +16,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Dashboard extends JSplitPane {
-
-    private final MontoyaApi api;
     private final InformationPane informationPane;
     private final RequestSplitFrame requestSplitFrame;
 
-    public Dashboard(MontoyaApi api) {
-        this.api = api;
-        informationPane = new InformationPane(api);
-        requestSplitFrame = new RequestSplitFrame(api);
+    public Dashboard() {
+        informationPane = new InformationPane();
+        requestSplitFrame = new RequestSplitFrame();
 
         this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         this.setLeftComponent(informationPane);
@@ -73,7 +70,7 @@ public class Dashboard extends JSplitPane {
                                 }
                                 requestSplitFrame.getRequestDetailsTableModel().fireTableDataChanged();
                             } catch (InterruptedException | ExecutionException e) {
-                                api.logging().logToError(new RuntimeException(e));
+                                FindSomething.api.logging().logToError(new RuntimeException(e));
                             }
                         }
                     };

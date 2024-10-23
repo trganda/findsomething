@@ -15,9 +15,9 @@ public class RequestSplitFrame extends JSplitPane {
 
     private final InformationDetailsPane informationDetailsPane;
 
-    public RequestSplitFrame(MontoyaApi api) {
-        requestPane = new RequestPane(api);
-        informationDetailsPane = new InformationDetailsPane(api);
+    public RequestSplitFrame() {
+        requestPane = new RequestPane();
+        informationDetailsPane = new InformationDetailsPane();
         this.setOrientation(VERTICAL_SPLIT);
         this.setTopComponent(informationDetailsPane);
         this.setBottomComponent(requestPane);

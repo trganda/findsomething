@@ -1,57 +1,39 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class BlackListPane extends JPanel {
 
-    private BlackListButtonsPane blackListButtonsPane;
-
-    private JTextField blackListTextField;
-
-    private JTable table;
-
-    private DefaultTableModel tableModel;
+    private JLabel label;
+    private JLabel description;
+    private BlackListInnerPane blackListInnerPane;
 
     public BlackListPane() {
-        blackListButtonsPane = new BlackListButtonsPane();
-        blackListTextField = new JTextField("Input");
-        tableModel = new DefaultTableModel(new Object[]{"Value"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        table = new JTable(tableModel);
+        blackListInnerPane = new BlackListInnerPane();
+        label = new JLabel("Blacklist setting");
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        description = new JLabel("You can set different type black list to ignore while grep for information.");
 
-        this.setBorder(new TitledBorder("Black List"));
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.setLayout(gridBagLayout);
 
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        this.setLayout(layout);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 15, 5);
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        this.add(label, gbc);
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 1.0;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.insets = new Insets(5, 5, 5, 5);
-        this.add(blackListTextField, constraints);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(description, gbc);
 
-        constraints.weightx = 0;
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridheight = 2;
-        constraints.insets = new Insets(5, 0, 5, 5);
-        this.add(blackListButtonsPane, constraints);
-
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.insets = new Insets(0, 5, 5, 5);
-        this.add(new JScrollPane(table), constraints);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add(blackListInnerPane, gbc);
     }
+
 }

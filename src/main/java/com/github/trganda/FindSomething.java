@@ -11,12 +11,15 @@ import java.util.concurrent.Executors;
 
 public class FindSomething implements BurpExtension {
 
+    public static MontoyaApi api;
+
     @Override
     public void initialize(MontoyaApi api) {
+        FindSomething.api = api;
         ExecutorService pool = Executors.newCachedThreadPool();
 
-        InfoHttpResponseHandler handler = new InfoHttpResponseHandler(api, pool);
-        ExtensionFrame extensionFrame = new ExtensionFrame(api);
+        InfoHttpResponseHandler handler = new InfoHttpResponseHandler(pool);
+        ExtensionFrame extensionFrame = new ExtensionFrame();
 
         handler.registerDataChangeListener(extensionFrame.getFilterSplitPane());
         // register HTTP response handler

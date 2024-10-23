@@ -1,7 +1,5 @@
 package com.github.trganda.components;
 
-import burp.api.montoya.MontoyaApi;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ComponentAdapter;
@@ -13,10 +11,7 @@ public class InformationDetailsPane extends JScrollPane {
 
     private final DefaultTableModel tableModel;
 
-    private final MontoyaApi api;
-
-    public InformationDetailsPane(MontoyaApi api) {
-        this.api = api;
+    public InformationDetailsPane() {
         table = new JTable();
         tableModel = new DefaultTableModel(new Object[]{"#", "Path", "Host", "Status", "Time"}, 0) {
             @Override

@@ -1,14 +1,13 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class Config extends JPanel {
 
     private RulePane rulePane;
 
-    private BlackListPane2 blackListPane2;
+    private BlackListPane blackListPane;
 
     public Config() {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -17,7 +16,7 @@ public class Config extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20));
 
         rulePane = new RulePane();
-        blackListPane2 = new BlackListPane2();
+        blackListPane = new BlackListPane();
 
 //        gbc.gridx = 0;
 //        gbc.gridy = 0;
@@ -43,7 +42,7 @@ public class Config extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTHWEST;
 //        blackListPane2.setBorder(new TitledBorder("list"));
-        this.add(blackListPane2, gbc);
+        this.add(blackListPane, gbc);
     }
 
 }

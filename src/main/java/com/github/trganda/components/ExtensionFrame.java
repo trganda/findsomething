@@ -7,16 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ExtensionFrame extends JPanel {
-
-    private final MontoyaApi api;
     private final Dashboard dashboard;
     private final Config config;
 
-    public ExtensionFrame(MontoyaApi api) {
-        this.api = api;
+    public ExtensionFrame() {
         this.setLayout(new BorderLayout());
 
-        dashboard = new Dashboard(api);
+        dashboard = new Dashboard();
         config = new Config();
 
         // main panel

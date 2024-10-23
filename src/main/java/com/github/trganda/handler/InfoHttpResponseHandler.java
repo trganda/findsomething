@@ -6,6 +6,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
+import com.github.trganda.FindSomething;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDataModel;
 import com.github.trganda.model.cache.CachePool;
@@ -21,12 +22,10 @@ import java.util.regex.Pattern;
 public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     private final Long id = 0L;
-    private final MontoyaApi api;
     private final ExecutorService pool;
     private final List<DataChangeListener> listeners = new ArrayList<>();
 
-    public InfoHttpResponseHandler(MontoyaApi api, ExecutorService pool) {
-        this.api = api;
+    public InfoHttpResponseHandler(ExecutorService pool) {
         this.pool = pool;
     }
 
@@ -40,7 +39,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
         HttpRequest req = interceptedResponse.request();
         String path = req.pathWithoutQuery();
         if (path.endsWith(".js")) {
-            api.logging().logToOutput(req.url());
+            FindSomething.api.logging().logToOutput(req.url());
             pool.submit(() -> {
                 process(interceptedResponse);
             });
