@@ -49,7 +49,7 @@ public class BlackListInnerPane extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.weightx = 0;
+        gbc.weightx = 0.0;
         gbc.insets = new Insets(5, 0, 0, 5);
         gbc.anchor = GridBagConstraints.SOUTHWEST;
         this.add(addBlackListButton, gbc);
