@@ -21,8 +21,8 @@ public class BlackListPane extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5, 5, 15, 5);
-        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(0, 0, 12, 0);
+        gbc.anchor = GridBagConstraints.LINE_START;
         this.add(label, gbc);
 
         gbc.gridx = 0;
@@ -32,7 +32,7 @@ public class BlackListPane extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         this.add(blackListInnerPane, gbc);
     }
 

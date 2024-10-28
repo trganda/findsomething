@@ -1,6 +1,5 @@
 package com.github.trganda.components;
 
-import burp.api.montoya.MontoyaApi;
 import com.github.trganda.components.config.Config;
 
 import javax.swing.*;
@@ -19,7 +18,8 @@ public class ExtensionFrame extends JPanel {
         // main panel
         JTabbedPane mainTabs = new JTabbedPane();
         mainTabs.addTab("Dashboard", dashboard);
-        mainTabs.addTab("Config", config);
+        JScrollPane scrollPane = new JScrollPane(config);
+        mainTabs.addTab("Config", scrollPane);
 
         this.add(mainTabs);
     }

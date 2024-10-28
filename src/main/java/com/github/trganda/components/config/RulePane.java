@@ -1,27 +1,41 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class RulePane extends JPanel {
 
     private JLabel label;
     private JLabel description;
-    private JTabbedPane tabbedPane;
+    private RuleInnerPane ruleInnerPane;
 
     public RulePane() {
         label = new JLabel("Rules set");
         label.setFont(new Font("Arial", Font.BOLD, 16));
+        description = new JLabel("Defining rules to extract information that you are looking for.");
+        ruleInnerPane = new RuleInnerPane();
 
-        description = new JLabel("description");
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.setLayout(gridBagLayout);
 
-        tabbedPane = new JTabbedPane();
-        tabbedPane.add("Information", new RuleTypePane());
-        tabbedPane.setMaximumSize(tabbedPane.getPreferredSize());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(0, 0, 12, 5);
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        this.add(label, gbc);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(label);
-        this.add(description);
-        this.add(tabbedPane);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(description, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add(ruleInnerPane, gbc);
     }
 }
