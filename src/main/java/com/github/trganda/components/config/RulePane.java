@@ -1,7 +1,6 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class RulePane extends JPanel {

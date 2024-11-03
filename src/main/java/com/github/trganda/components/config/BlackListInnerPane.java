@@ -22,12 +22,11 @@ public class BlackListInnerPane extends JPanel {
     private DefaultTableModel blackListTableModel;
     private JButton addBlackListButton;
     private JTextField inputTextField;
+    private JComponent wrap;
 
     public BlackListInnerPane() {
-        addBlackListButton = new JButton("Add");
-        blackListTableModel = new DefaultTableModel(new Object[]{""}, 0);
-        blackListTable = new JTable(blackListTableModel);
-        blackListButtonsPane = new BlackListButtonsPane();
+        // initialize each component
+        this.setupComponents();
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -45,7 +44,7 @@ public class BlackListInnerPane extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
-        this.add(setupTable(), gbc);
+        this.add(wrap, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -59,22 +58,44 @@ public class BlackListInnerPane extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 0, 0, 0);
         gbc.anchor = GridBagConstraints.WEST;
-        setupInputTextField();
         this.add(inputTextField, gbc);
-        setupComponents();
     }
 
     private void setupComponents() {
+        addBlackListButton = new JButton("Add");
+        blackListTableModel = new DefaultTableModel(new Object[]{""}, 0);
+        blackListTable = new JTable(blackListTableModel);
+        blackListButtonsPane = new BlackListButtonsPane();
+
+        wrap = this.setupTable();
+
+        this.setupInputTextField();
         addBlackListButton.addActionListener(e -> {
             String val = inputTextField.getText();
             if (val.isEmpty() || val.equals(placeHolder)) {
                 return;
             }
+            // show in table
             blackListTableModel.addRow(new Object[]{val});
+            // sync to configuration
+            String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
+            if (selectedItem != null) {
+                switch (selectedItem) {
+                    case BLACKLIST_SUFFIX:
+                        Config.addSuffix(val);
+                        break;
+                    case BLACKLIST_HOST:
+                        Config.addHost(val);
+                        break;
+                    case BLACKLIST_STATUS:
+                        Config.addStatus(val);
+                        break;
+                }
+            }
         });
     }
 
-    private JSplitPane setupTable() {
+    private JComponent setupTable() {
         JScrollPane scrollPane = new JScrollPane(blackListTable);
         scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width, 160));
         scrollPane.setMaximumSize(new Dimension(scrollPane.getMaximumSize().width, 160));
@@ -82,9 +103,9 @@ public class BlackListInnerPane extends JPanel {
 
         blackListTable.setTableHeader(null);
 
-        JSplitPane splitPane = new JSplitPane();
-        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(scrollPane);
+        // add a empty component
         splitPane.setRightComponent(new JPanel());
 
         // show suffixes blacklist default
@@ -122,9 +143,9 @@ public class BlackListInnerPane extends JPanel {
     }
 
     private class BlackListButtonsPane extends JPanel {
-        private JComboBox<String> type;
-        private JButton remove;
-        private JButton clear;
+        private final JComboBox<String> type;
+        private final JButton remove;
+        private final JButton clear;
 
         public BlackListButtonsPane() {
             type = new JComboBox<>(new String[]{BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS});
@@ -145,6 +166,7 @@ public class BlackListInnerPane extends JPanel {
         private void setupButtonEventHandler() {
             type.addActionListener(e -> {
                 String selectedItem = (String) type.getSelectedItem();
+                FindSomething.API.logging().logToOutput("selected item: " + selectedItem);
                 if (selectedItem == null) {
                     return;
                 }
@@ -155,6 +177,10 @@ public class BlackListInnerPane extends JPanel {
                     case BLACKLIST_HOST:
                         loadBlackListWithType(Config.getHosts());
                         break;
+                    case BLACKLIST_STATUS:
+                        loadBlackListWithType(Config.getStatus());
+                        break;
+
                 }
             });
 
@@ -165,13 +191,11 @@ public class BlackListInnerPane extends JPanel {
                 }
             });
 
-            clear.addActionListener(e -> {
-                blackListTableModel.setRowCount(0);
-            });
+            clear.addActionListener(e -> blackListTableModel.setRowCount(0));
         }
 
         public void loadBlackListWithType(String[] data) {
-            FindSomething.api.logging().logToOutput("data " + data.length);
+            FindSomething.API.logging().logToOutput("data " + data.length);
             SwingWorker<java.util.List<String[]>, Void> worker = new SwingWorker<>() {
                 @Override
                 protected java.util.List<String[]> doInBackground() {
@@ -193,7 +217,7 @@ public class BlackListInnerPane extends JPanel {
                             blackListTableModel.addRow(row);
                         }
                     } catch (InterruptedException | ExecutionException e) {
-                        FindSomething.api.logging().logToError(new RuntimeException(e));
+                        FindSomething.API.logging().logToError(new RuntimeException(e));
                     }
                 }
             };

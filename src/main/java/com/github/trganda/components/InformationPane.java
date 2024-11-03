@@ -1,6 +1,5 @@
 package com.github.trganda.components;
 
-import burp.api.montoya.MontoyaApi;
 import com.github.trganda.FindSomething;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
@@ -77,7 +76,7 @@ public class InformationPane extends JPanel implements DataChangeListener {
                     }
                     infoTableModel.fireTableDataChanged();
                 } catch (InterruptedException | ExecutionException e) {
-                    FindSomething.api.logging().logToError(new RuntimeException(e));
+                    FindSomething.API.logging().logToError(new RuntimeException(e));
                 }
             }
         };

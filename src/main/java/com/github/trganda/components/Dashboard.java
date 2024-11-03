@@ -70,7 +70,7 @@ public class Dashboard extends JSplitPane {
                                 }
                                 requestSplitFrame.getRequestDetailsTableModel().fireTableDataChanged();
                             } catch (InterruptedException | ExecutionException e) {
-                                FindSomething.api.logging().logToError(new RuntimeException(e));
+                                FindSomething.API.logging().logToError(new RuntimeException(e));
                             }
                         }
                     };

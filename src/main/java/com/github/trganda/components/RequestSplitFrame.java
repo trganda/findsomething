@@ -1,6 +1,5 @@
 package com.github.trganda.components;
 
-import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 

@@ -12,12 +12,10 @@ public class RuleInnerPane extends JPanel {
     private JComboBox<String> selector;
     private JTable table;
     private DefaultTableModel model;
+    private JComponent wrap;
 
     public RuleInnerPane() {
-        ruleButtonsPane = new RuleButtonsPane();
-        selector = new JComboBox<>(new String[]{GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION});
-        model = new DefaultTableModel(new Object[]{"Enabled", "Name", "Regex", "Sensitive"}, 0);
-        table = new JTable(model);
+        this.setupComponents();
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -26,18 +24,19 @@ public class RuleInnerPane extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.LINE_START;
-        JLabel label = new JLabel("Rule type:");
-        this.add(label, gbc);
+        this.add(new JLabel("Rule type:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        selector.setPreferredSize(new Dimension(160, selector.getPreferredSize().height));
+//        selector.setPreferredSize(new Dimension(160, selector.getPreferredSize().height));
+//        selector.setMaximumSize(new Dimension(160, selector.getPreferredSize().height));
         this.add(selector, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(15, 0, 20, 0);
         JSeparator separator = new JSeparator();
         this.add(separator, gbc);
@@ -55,13 +54,23 @@ public class RuleInnerPane extends JPanel {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 0);
-        this.add(setupTable(), gbc);
+        this.add(wrap, gbc);
     }
 
     private JComponent setupTable() {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(table.getPreferredSize().width, 160));
         return scrollPane;
+    }
+
+    private void setupComponents() {
+        // TODO:
+        ruleButtonsPane = new RuleButtonsPane();
+        selector = new JComboBox<>(new String[]{GROUP_ADD, GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION});
+
+        model = new DefaultTableModel(new Object[]{"Enabled", "Name", "Regex", "Sensitive"}, 0);
+        table = new JTable(model);
+        wrap = setupTable();
     }
 
     private class RuleButtonsPane extends JPanel {

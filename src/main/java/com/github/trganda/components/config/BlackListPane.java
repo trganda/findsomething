@@ -1,20 +1,15 @@
 package com.github.trganda.components.config;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class BlackListPane extends JPanel {
 
-    private JLabel label;
-    private JLabel description;
-    private BlackListInnerPane blackListInnerPane;
-
     public BlackListPane() {
-        blackListInnerPane = new BlackListInnerPane();
-        label = new JLabel("Blacklist setting");
+        BlackListInnerPane blackListInnerPane = new BlackListInnerPane();
+        JLabel label = new JLabel("Blacklist setting");
         label.setFont(new Font("Arial", Font.BOLD, 16));
-        description = new JLabel("You can set different type black list to ignore while grep for information.");
+        JLabel description = new JLabel("You can set different type black list to ignore while grep for information.");
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();

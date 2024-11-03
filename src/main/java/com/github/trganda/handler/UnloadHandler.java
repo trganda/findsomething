@@ -1,6 +1,7 @@
 package com.github.trganda.handler;
 
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
+import com.github.trganda.config.Config;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,9 @@ public class UnloadHandler implements ExtensionUnloadingHandler {
 
     @Override
     public void extensionUnloaded() {
+        // saving configuration
+        Config.saveConfig();
+        // shutdown the thread pool
         shutdown();
     }
 

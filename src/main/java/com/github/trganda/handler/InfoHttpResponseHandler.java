@@ -1,12 +1,12 @@
 package com.github.trganda.handler;
 
-import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
 import com.github.trganda.FindSomething;
+import com.github.trganda.config.Config;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDataModel;
 import com.github.trganda.model.cache.CachePool;
@@ -37,13 +37,10 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
         }
 
         HttpRequest req = interceptedResponse.request();
-        String path = req.pathWithoutQuery();
-        if (path.endsWith(".js")) {
-            FindSomething.api.logging().logToOutput(req.url());
-            pool.submit(() -> {
-                process(interceptedResponse);
-            });
-        }
+        FindSomething.API.logging().logToOutput(req.url());
+        pool.submit(() -> {
+            process(interceptedResponse);
+        });
 
         return ProxyResponseReceivedAction.continueWith(interceptedResponse);
     }
@@ -84,19 +81,30 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     private boolean filter(InterceptedResponse interceptedResponse) {
         HttpRequest req = interceptedResponse.request();
-        if (interceptedResponse.statusCode() > 200 && interceptedResponse.statusCode() < 400) {
-            return true;
+        String path = req.pathWithoutQuery();
+        for (String suffix : Config.getSuffixes()) {
+            if (path.endsWith(suffix)) {
+                return false;
+            }
         }
 
-        if (interceptedResponse.body().length() == 0) {
-            return true;
+        for (String host: Config.getHosts()) {
+            if (req.httpService().host().equals(host)) {
+                return false;
+            }
         }
 
-        return false;
+        for (String status : Config.getStatus()) {
+            if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
+                return false;
+            }
+        }
+
+        return interceptedResponse.body().length() == 0;
     }
 
     private String[] match(String rspBody) {
-        Pattern pattern = Pattern.compile("(?:\"|')(((?:[a-zA-Z]{1,10}://|//)[^\"'/]{1,}\\.[a-zA-Z]{2,}[^\"']{0,})|((?:/|\\.\\./|\\./)[^\"'><,;|*()(%%$^/\\\\\\[\\]][^\"'><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|']{0,}|)))(?:\"|')");
+        Pattern pattern = Pattern.compile("(?:\"|')(((?:[a-zA-Z]{1,10}://|//)[^\"'/]{1,}\\.[a-zA-Z]{2,}[^\"']{0,})|((?:/|\\.\\./|\\./)[^\"'><,;|*()(%$^/\\\\\\[\\]][^\"'><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|']{0,}|)))(?:\"|')");
         Matcher matcher = pattern.matcher(rspBody);
 
         HashSet<String> set = new HashSet<>();
