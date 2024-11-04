@@ -1,0 +1,19 @@
+rules:
+  - group: Fingerprint
+    rule:
+      - enabled: true
+        name: shiro
+        regex: (=deleteMe|rememberMe=)
+        sensitive: true
+  - group: Sensitive
+    rule:
+      - enabled: true
+        name: sensitive
+        regex: (=deleteMe|rememberMe=)
+        sensitive: false
+  - group: Information
+    rule:
+      - enabled: true
+        name: information
+        regex: (=deleteMe|rememberMe=)
+        sensitive: false

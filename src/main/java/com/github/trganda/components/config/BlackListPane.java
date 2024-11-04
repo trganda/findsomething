@@ -7,7 +7,7 @@ public class BlackListPane extends JPanel {
 
     public BlackListPane() {
         BlackListInnerPane blackListInnerPane = new BlackListInnerPane();
-        JLabel label = new JLabel("Blacklist setting");
+        JLabel label = new JLabel("Filter setting");
         label.setFont(new Font("Arial", Font.BOLD, 16));
         JLabel description = new JLabel("You can set different type black list to ignore while grep for information.");
 

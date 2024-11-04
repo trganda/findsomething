@@ -109,7 +109,7 @@ public class BlackListInnerPane extends JPanel {
         splitPane.setRightComponent(new JPanel());
 
         // show suffixes blacklist default
-        blackListButtonsPane.loadBlackListWithType(Config.getSuffixes());
+        blackListButtonsPane.loadBlackListWithType(Config.getInstance().getSuffixes());
         return splitPane;
     }
 
@@ -172,13 +172,13 @@ public class BlackListInnerPane extends JPanel {
                 }
                 switch (selectedItem) {
                     case BLACKLIST_SUFFIX:
-                        loadBlackListWithType(Config.getSuffixes());
+                        loadBlackListWithType(Config.getInstance().getSuffixes());
                         break;
                     case BLACKLIST_HOST:
-                        loadBlackListWithType(Config.getHosts());
+                        loadBlackListWithType(Config.getInstance().getHosts());
                         break;
                     case BLACKLIST_STATUS:
-                        loadBlackListWithType(Config.getStatus());
+                        loadBlackListWithType(Config.getInstance().getStatus());
                         break;
 
                 }
@@ -194,11 +194,10 @@ public class BlackListInnerPane extends JPanel {
             clear.addActionListener(e -> blackListTableModel.setRowCount(0));
         }
 
-        public void loadBlackListWithType(String[] data) {
-            FindSomething.API.logging().logToOutput("data " + data.length);
-            SwingWorker<java.util.List<String[]>, Void> worker = new SwingWorker<>() {
+        public void loadBlackListWithType(List<String> data) {
+            SwingWorker<List<String[]>, Void> worker = new SwingWorker<>() {
                 @Override
-                protected java.util.List<String[]> doInBackground() {
+                protected List<String[]> doInBackground() {
                     ArrayList<String[]> list = new ArrayList<>();
                     for (String s : data) {
                         list.add(new String[]{s});

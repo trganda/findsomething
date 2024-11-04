@@ -82,19 +82,19 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     private boolean filter(InterceptedResponse interceptedResponse) {
         HttpRequest req = interceptedResponse.request();
         String path = req.pathWithoutQuery();
-        for (String suffix : Config.getSuffixes()) {
+        for (String suffix : Config.getInstance().getSuffixes()) {
             if (path.endsWith(suffix)) {
                 return false;
             }
         }
 
-        for (String host: Config.getHosts()) {
+        for (String host: Config.getInstance().getHosts()) {
             if (req.httpService().host().equals(host)) {
                 return false;
             }
         }
 
-        for (String status : Config.getStatus()) {
+        for (String status : Config.getInstance().getStatus()) {
             if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
                 return false;
             }

@@ -18,6 +18,8 @@ public class UnloadHandler implements ExtensionUnloadingHandler {
     public void extensionUnloaded() {
         // saving configuration
         Config.saveConfig();
+        // saving rules
+        Config.saveRules();
         // shutdown the thread pool
         shutdown();
     }
