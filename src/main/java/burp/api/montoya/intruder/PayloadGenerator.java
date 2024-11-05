@@ -14,12 +14,12 @@ package burp.api.montoya.intruder;
  * of a new Intruder attack.
  */
 public interface PayloadGenerator {
-    /**
-     * Invoked by Burp to obtain the value of the next payload.
-     * Should return {@link GeneratedPayload#end()} instance to signal to Burp that the generator has finished.
-     *
-     * @param insertionPoint Insertion point for the payload.
-     * @return A generated Intruder payload.
-     */
-    GeneratedPayload generatePayloadFor(IntruderInsertionPoint insertionPoint);
+  /**
+   * Invoked by Burp to obtain the value of the next payload.
+   * Should return {@link GeneratedPayload#end()} instance to signal to Burp that the generator has finished.
+   *
+   * @param insertionPoint Insertion point for the payload.
+   * @return A generated Intruder payload.
+   */
+  GeneratedPayload generatePayloadFor(IntruderInsertionPoint insertionPoint);
 }

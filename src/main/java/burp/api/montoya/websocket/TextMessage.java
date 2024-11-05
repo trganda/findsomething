@@ -9,13 +9,13 @@
 package burp.api.montoya.websocket;
 
 public interface TextMessage {
-    /**
-     * @return Text based WebSocket payload.
-     */
-    String payload();
+  /**
+   * @return Text based WebSocket payload.
+   */
+  String payload();
 
-    /**
-     * @return The direction of the message.
-     */
-    Direction direction();
+  /**
+   * @return The direction of the message.
+   */
+  Direction direction();
 }

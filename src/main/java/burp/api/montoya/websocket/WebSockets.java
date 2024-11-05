@@ -17,28 +17,28 @@ import burp.api.montoya.websocket.extension.ExtensionWebSocketCreation;
  * Provides access to WebSocket related functionality of Burp.
  */
 public interface WebSockets {
-    /**
-     * Register a handler which will be invoked whenever a WebSocket is created by any Burp tool.
-     *
-     * @param handler An object created by the extension that implements {@link WebSocketCreatedHandler} interface.
-     * @return The {@link Registration} for the handler.
-     */
-    Registration registerWebSocketCreatedHandler(WebSocketCreatedHandler handler);
+  /**
+   * Register a handler which will be invoked whenever a WebSocket is created by any Burp tool.
+   *
+   * @param handler An object created by the extension that implements {@link WebSocketCreatedHandler} interface.
+   * @return The {@link Registration} for the handler.
+   */
+  Registration registerWebSocketCreatedHandler(WebSocketCreatedHandler handler);
 
-    /**
-     * Create a new WebSocket using the specified service and path.
-     *
-     * @param service An {@link HttpService} specifying the target host
-     * @param path    path for the upgrade HTTP request
-     * @return The {@link ExtensionWebSocketCreation} result.
-     */
-    ExtensionWebSocketCreation createWebSocket(HttpService service, String path);
+  /**
+   * Create a new WebSocket using the specified service and path.
+   *
+   * @param service An {@link HttpService} specifying the target host
+   * @param path    path for the upgrade HTTP request
+   * @return The {@link ExtensionWebSocketCreation} result.
+   */
+  ExtensionWebSocketCreation createWebSocket(HttpService service, String path);
 
-    /**
-     * Create a new WebSocket using the specified upgrade request.
-     *
-     * @param upgradeRequest The {@link HttpRequest} upgrade request
-     * @return The {@link ExtensionWebSocketCreation} result.
-     */
-    ExtensionWebSocketCreation createWebSocket(HttpRequest upgradeRequest);
+  /**
+   * Create a new WebSocket using the specified upgrade request.
+   *
+   * @param upgradeRequest The {@link HttpRequest} upgrade request
+   * @return The {@link ExtensionWebSocketCreation} result.
+   */
+  ExtensionWebSocketCreation createWebSocket(HttpRequest upgradeRequest);
 }

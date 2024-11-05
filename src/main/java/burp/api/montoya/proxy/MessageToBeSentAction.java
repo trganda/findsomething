@@ -13,13 +13,13 @@ package burp.api.montoya.proxy;
  * messages in the Proxy.
  */
 public enum MessageToBeSentAction {
-    /**
-     * Causes Burp Proxy to forward the message.
-     */
-    CONTINUE,
+  /**
+   * Causes Burp Proxy to forward the message.
+   */
+  CONTINUE,
 
-    /**
-     * Causes Burp Proxy to drop the message.
-     */
-    DROP
+  /**
+   * Causes Burp Proxy to drop the message.
+   */
+  DROP
 }

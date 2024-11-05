@@ -14,20 +14,20 @@ import burp.api.montoya.websocket.BinaryMessage;
 import burp.api.montoya.websocket.Direction;
 
 public interface InterceptedBinaryMessage extends BinaryMessage {
-    /**
-     * @return The annotations.
-     */
-    Annotations annotations();
+  /**
+   * @return The annotations.
+   */
+  Annotations annotations();
 
-    /**
-     * @return Binary based WebSocket payload.
-     */
-    @Override
-    ByteArray payload();
+  /**
+   * @return Binary based WebSocket payload.
+   */
+  @Override
+  ByteArray payload();
 
-    /**
-     * @return The direction of the message.
-     */
-    @Override
-    Direction direction();
+  /**
+   * @return The direction of the message.
+   */
+  @Override
+  Direction direction();
 }

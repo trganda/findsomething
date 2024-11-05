@@ -11,13 +11,13 @@ package burp.api.montoya.websocket;
 import burp.api.montoya.core.ByteArray;
 
 public interface BinaryMessage {
-    /**
-     * @return Binary based WebSocket payload.
-     */
-    ByteArray payload();
+  /**
+   * @return Binary based WebSocket payload.
+   */
+  ByteArray payload();
 
-    /**
-     * @return The direction of the message.
-     */
-    Direction direction();
+  /**
+   * @return The direction of the message.
+   */
+  Direction direction();
 }

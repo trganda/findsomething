@@ -12,12 +12,12 @@ package burp.api.montoya.intruder;
  * Instructions that the payload processor can give Intruder for the current payload.
  */
 public enum PayloadProcessingAction {
-    /**
-     * Skip the current payload
-     */
-    SKIP_PAYLOAD,
-    /**
-     * Use the current payload
-     */
-    USE_PAYLOAD
+  /**
+   * Skip the current payload
+   */
+  SKIP_PAYLOAD,
+  /**
+   * Use the current payload
+   */
+  USE_PAYLOAD
 }

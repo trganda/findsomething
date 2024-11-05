@@ -14,18 +14,18 @@ import burp.api.montoya.core.ByteArray;
  * Contains information about the payload
  */
 public interface PayloadData {
-    /**
-     * @return The value of the payload to be processed.
-     */
-    ByteArray currentPayload();
+  /**
+   * @return The value of the payload to be processed.
+   */
+  ByteArray currentPayload();
 
-    /**
-     * @return The value of the original payload prior to processing by any already-applied processing rules
-     */
-    ByteArray originalPayload();
+  /**
+   * @return The value of the original payload prior to processing by any already-applied processing rules
+   */
+  ByteArray originalPayload();
 
-    /**
-     * @return The insertion point data.
-     */
-    IntruderInsertionPoint insertionPoint();
+  /**
+   * @return The insertion point data.
+   */
+  IntruderInsertionPoint insertionPoint();
 }

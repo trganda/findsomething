@@ -12,12 +12,12 @@ package burp.api.montoya.http;
  * HTTP protocols.
  */
 public enum HttpProtocol {
-    /**
-     * Hypertext Transfer Protocol
-     */
-    HTTP,
-    /**
-     * Hypertext Transfer Protocol Secure
-     */
-    HTTPS
+  /**
+   * Hypertext Transfer Protocol
+   */
+  HTTP,
+  /**
+   * Hypertext Transfer Protocol Secure
+   */
+  HTTPS
 }

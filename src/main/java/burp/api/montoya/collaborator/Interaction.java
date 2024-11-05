@@ -17,69 +17,69 @@ import java.util.Optional;
  * server.
  */
 public interface Interaction {
-    /**
-     * Interaction id.
-     *
-     * @return The interaction id.
-     */
-    InteractionId id();
+  /**
+   * Interaction id.
+   *
+   * @return The interaction id.
+   */
+  InteractionId id();
 
-    /**
-     * Interaction Type.
-     *
-     * @return The type of interaction.
-     */
-    InteractionType type();
+  /**
+   * Interaction Type.
+   *
+   * @return The type of interaction.
+   */
+  InteractionType type();
 
-    /**
-     * Timestamp of the interaction.
-     *
-     * @return The timestamp of the interaction.
-     */
-    ZonedDateTime timeStamp();
+  /**
+   * Timestamp of the interaction.
+   *
+   * @return The timestamp of the interaction.
+   */
+  ZonedDateTime timeStamp();
 
-    /**
-     * Client IP address of the interaction.
-     *
-     * @return The IP address of the client performing the interaction.
-     */
-    InetAddress clientIp();
+  /**
+   * Client IP address of the interaction.
+   *
+   * @return The IP address of the client performing the interaction.
+   */
+  InetAddress clientIp();
 
-    /**
-     * Client port of the interaction.
-     *
-     * @return The port of the client initiating the interaction.
-     */
-    int clientPort();
+  /**
+   * Client port of the interaction.
+   *
+   * @return The port of the client initiating the interaction.
+   */
+  int clientPort();
 
-    /**
-     * DNS interaction details.
-     *
-     * @return Details of the DNS interaction or empty if the interaction was
-     * not DNS.
-     */
-    Optional<DnsDetails> dnsDetails();
+  /**
+   * DNS interaction details.
+   *
+   * @return Details of the DNS interaction or empty if the interaction was
+   * not DNS.
+   */
+  Optional<DnsDetails> dnsDetails();
 
-    /**
-     * HTTP interaction details.
-     *
-     * @return Details of the HTTP interaction or empty if the interaction was
-     * not HTTP.
-     */
-    Optional<HttpDetails> httpDetails();
+  /**
+   * HTTP interaction details.
+   *
+   * @return Details of the HTTP interaction or empty if the interaction was
+   * not HTTP.
+   */
+  Optional<HttpDetails> httpDetails();
 
-    /**
-     * SMTP interaction details.
-     *
-     * @return Details of the SMTP interaction or empty if the interaction was
-     * not SMTP.
-     */
-    Optional<SmtpDetails> smtpDetails();
+  /**
+   * SMTP interaction details.
+   *
+   * @return Details of the SMTP interaction or empty if the interaction was
+   * not SMTP.
+   */
+  Optional<SmtpDetails> smtpDetails();
 
-    /**
-     * Custom data from the payload.
-     *
-     * @return The custom data.
-     */
-    Optional<String> customData();
+  /**
+   * Custom data from the payload.
+   *
+   * @return The custom data.
+   */
+  Optional<String> customData();
 }

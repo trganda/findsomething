@@ -8,16 +8,15 @@
 
 package burp.api.montoya.collaborator;
 
-
 /**
  * Burp Collaborator interaction id.
  */
 public interface InteractionId {
-    /**
-     * Interaction id.
-     *
-     * @return The interaction id string.
-     */
-    @Override
-    String toString();
+  /**
+   * Interaction id.
+   *
+   * @return The interaction id string.
+   */
+  @Override
+  String toString();
 }

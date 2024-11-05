@@ -14,10 +14,10 @@ import burp.api.montoya.core.ByteArray;
  * Provides access to the functionality of the Comparer tool.
  */
 public interface Comparer {
-    /**
-     * Send data to the Comparer tool.
-     *
-     * @param data The data to be sent to Comparer.
-     */
-    void sendToComparer(ByteArray... data);
+  /**
+   * Send data to the Comparer tool.
+   *
+   * @param data The data to be sent to Comparer.
+   */
+  void sendToComparer(ByteArray... data);
 }

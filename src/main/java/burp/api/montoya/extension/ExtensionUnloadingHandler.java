@@ -8,7 +8,6 @@
 
 package burp.api.montoya.extension;
 
-
 /**
  * Extensions can implement this interface and then call
  * {@link Extension#registerUnloadingHandler(ExtensionUnloadingHandler)}  to
@@ -20,8 +19,8 @@ package burp.api.montoya.extension;
  * extension is unloaded.
  */
 public interface ExtensionUnloadingHandler {
-    /**
-     * This method is invoked when the extension is unloaded.
-     */
-    void extensionUnloaded();
+  /**
+   * This method is invoked when the extension is unloaded.
+   */
+  void extensionUnloaded();
 }

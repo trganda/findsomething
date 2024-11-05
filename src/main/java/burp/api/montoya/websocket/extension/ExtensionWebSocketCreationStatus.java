@@ -12,43 +12,43 @@ package burp.api.montoya.websocket.extension;
  * Status of a WebSocket creation attempt
  */
 public enum ExtensionWebSocketCreationStatus {
-    /**
-     * WebSocket creation was successful.
-     */
-    SUCCESS,
+  /**
+   * WebSocket creation was successful.
+   */
+  SUCCESS,
 
-    /**
-     * Specified host was invalid.
-     */
-    INVALID_HOST,
+  /**
+   * Specified host was invalid.
+   */
+  INVALID_HOST,
 
-    /**
-     * Unable to resolve address for specified host.
-     */
-    UNKNOWN_HOST,
+  /**
+   * Unable to resolve address for specified host.
+   */
+  UNKNOWN_HOST,
 
-    /**
-     * Specified port was invalid.
-     */
-    INVALID_PORT,
+  /**
+   * Specified port was invalid.
+   */
+  INVALID_PORT,
 
-    /**
-     * Unable to connect to specified host.
-     */
-    CONNECTION_FAILED,
+  /**
+   * Unable to connect to specified host.
+   */
+  CONNECTION_FAILED,
 
-    /**
-     * Specified upgrade request was invalid.
-     */
-    INVALID_REQUEST,
+  /**
+   * Specified upgrade request was invalid.
+   */
+  INVALID_REQUEST,
 
-    /**
-     * Server returned a non-upgrade response.
-     */
-    NON_UPGRADE_RESPONSE,
+  /**
+   * Server returned a non-upgrade response.
+   */
+  NON_UPGRADE_RESPONSE,
 
-    /**
-     * Specified endpoint is configured for streaming responses.
-     */
-    STREAMING_RESPONSE
+  /**
+   * Specified endpoint is configured for streaming responses.
+   */
+  STREAMING_RESPONSE
 }

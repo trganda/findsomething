@@ -9,8 +9,8 @@
 package burp.api.montoya.internal;
 
 public class ObjectFactoryLocator {
-    /**
-     * This is initialized when your extension is loaded.
-     */
-    public static MontoyaObjectFactory FACTORY = null;
+  /**
+   * This is initialized when your extension is loaded.
+   */
+  public static MontoyaObjectFactory FACTORY = null;
 }

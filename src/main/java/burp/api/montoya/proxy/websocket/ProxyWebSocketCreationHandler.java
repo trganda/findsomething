@@ -15,11 +15,11 @@ import burp.api.montoya.proxy.Proxy;
  * The handler will be notified of new WebSockets being created by the Proxy tool.
  */
 public interface ProxyWebSocketCreationHandler {
-    /**
-     * Invoked by Burp when a WebSocket is being created by the Proxy tool.<br>
-     * <b>Note</b> that the client side of the connection will not be upgraded until after this method completes.
-     *
-     * @param webSocketCreation {@link ProxyWebSocketCreation} containing information about the proxy websocket that is being created
-     */
-    void handleWebSocketCreation(ProxyWebSocketCreation webSocketCreation);
+  /**
+   * Invoked by Burp when a WebSocket is being created by the Proxy tool.<br>
+   * <b>Note</b> that the client side of the connection will not be upgraded until after this method completes.
+   *
+   * @param webSocketCreation {@link ProxyWebSocketCreation} containing information about the proxy websocket that is being created
+   */
+  void handleWebSocketCreation(ProxyWebSocketCreation webSocketCreation);
 }

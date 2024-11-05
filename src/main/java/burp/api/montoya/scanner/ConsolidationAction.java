@@ -13,7 +13,7 @@ package burp.api.montoya.scanner;
  * found.
  */
 public enum ConsolidationAction {
-    KEEP_EXISTING,
-    KEEP_BOTH,
-    KEEP_NEW
+  KEEP_EXISTING,
+  KEEP_BOTH,
+  KEEP_NEW
 }

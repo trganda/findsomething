@@ -12,18 +12,18 @@ import burp.api.montoya.core.ToolSource;
 import burp.api.montoya.http.message.requests.HttpRequest;
 
 public interface WebSocketCreated {
-    /**
-     * @return The WebSocket that was created.
-     */
-    WebSocket webSocket();
+  /**
+   * @return The WebSocket that was created.
+   */
+  WebSocket webSocket();
 
-    /**
-     * @return The HTTP upgrade request that initiated the WebSocket creation.
-     */
-    HttpRequest upgradeRequest();
+  /**
+   * @return The HTTP upgrade request that initiated the WebSocket creation.
+   */
+  HttpRequest upgradeRequest();
 
-    /**
-     * @return Indicates which Burp tool that created the WebSocket.
-     */
-    ToolSource toolSource();
+  /**
+   * @return Indicates which Burp tool that created the WebSocket.
+   */
+  ToolSource toolSource();
 }

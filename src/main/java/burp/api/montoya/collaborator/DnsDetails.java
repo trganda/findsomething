@@ -15,17 +15,17 @@ import burp.api.montoya.core.ByteArray;
  * Collaborator.
  */
 public interface DnsDetails {
-    /**
-     * DNS query type.
-     *
-     * @return The type of DNS query performed by the interaction.
-     */
-    DnsQueryType queryType();
+  /**
+   * DNS query type.
+   *
+   * @return The type of DNS query performed by the interaction.
+   */
+  DnsQueryType queryType();
 
-    /**
-     * Raw DNS query.
-     *
-     * @return The raw DNS query sent to the Collaborator server.
-     */
-    ByteArray query();
+  /**
+   * Raw DNS query.
+   *
+   * @return The raw DNS query sent to the Collaborator server.
+   */
+  ByteArray query();
 }

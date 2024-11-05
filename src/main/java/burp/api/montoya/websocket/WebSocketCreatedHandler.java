@@ -13,10 +13,10 @@ package burp.api.montoya.websocket;
  * The handler will be notified of new WebSockets created by any Burp tool.
  */
 public interface WebSocketCreatedHandler {
-    /**
-     * Invoked by Burp when an application WebSocket has been created.
-     *
-     * @param webSocketCreated {@link WebSocketCreated} containing information about the application websocket that is being created.
-     */
-    void handleWebSocketCreated(WebSocketCreated webSocketCreated);
+  /**
+   * Invoked by Burp when an application WebSocket has been created.
+   *
+   * @param webSocketCreated {@link WebSocketCreated} containing information about the application websocket that is being created.
+   */
+  void handleWebSocketCreated(WebSocketCreated webSocketCreated);
 }

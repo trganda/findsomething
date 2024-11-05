@@ -15,12 +15,12 @@ package burp.api.montoya.scope;
  * Suite-wide target scope.
  */
 public interface ScopeChangeHandler {
-    /**
-     * This method is invoked whenever a change occurs to Burp's Suite-wide
-     * target scope.
-     *
-     * @param scopeChange An object representing the change to Burp's
-     *                    Suite-wide target scope.
-     */
-    void scopeChanged(ScopeChange scopeChange);
+  /**
+   * This method is invoked whenever a change occurs to Burp's Suite-wide
+   * target scope.
+   *
+   * @param scopeChange An object representing the change to Burp's
+   *                    Suite-wide target scope.
+   */
+  void scopeChanged(ScopeChange scopeChange);
 }

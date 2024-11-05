@@ -14,11 +14,11 @@ import java.awt.event.InputEvent;
  * This interface describes an action or event that has occurred with a user interface component.
  */
 public interface ComponentEvent {
-    /**
-     * This method can be used to retrieve the native Java input event that was
-     * the trigger for the context menu invocation.
-     *
-     * @return The {@link InputEvent} that was the trigger for the context menu invocation.
-     */
-    InputEvent inputEvent();
+  /**
+   * This method can be used to retrieve the native Java input event that was
+   * the trigger for the context menu invocation.
+   *
+   * @return The {@link InputEvent} that was the trigger for the context menu invocation.
+   */
+  InputEvent inputEvent();
 }

@@ -14,8 +14,8 @@ import burp.api.montoya.core.ByteArray;
  * Intruder insertion point for attack payloads.
  */
 public interface IntruderInsertionPoint {
-    /**
-     * @return The base value of the insertion point.
-     */
-    ByteArray baseValue();
+  /**
+   * @return The base value of the insertion point.
+   */
+  ByteArray baseValue();
 }

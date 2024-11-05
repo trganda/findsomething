@@ -8,20 +8,19 @@
 
 package burp.api.montoya.scanner;
 
-import burp.api.montoya.scanner.audit.issues.AuditIssue;
-
-import java.util.List;
-
 import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
 
+import burp.api.montoya.scanner.audit.issues.AuditIssue;
+import java.util.List;
+
 public interface AuditResult {
-    static AuditResult auditResult(List<AuditIssue> auditIssues) {
-        return FACTORY.auditResult(auditIssues);
-    }
+  static AuditResult auditResult(List<AuditIssue> auditIssues) {
+    return FACTORY.auditResult(auditIssues);
+  }
 
-    static AuditResult auditResult(AuditIssue... auditIssues) {
-        return FACTORY.auditResult(auditIssues);
-    }
+  static AuditResult auditResult(AuditIssue... auditIssues) {
+    return FACTORY.auditResult(auditIssues);
+  }
 
-    List<AuditIssue> auditIssues();
+  List<AuditIssue> auditIssues();
 }

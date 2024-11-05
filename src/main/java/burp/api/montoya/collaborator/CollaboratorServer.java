@@ -13,18 +13,18 @@ package burp.api.montoya.collaborator;
  * this client.
  */
 public interface CollaboratorServer {
-    /**
-     * Address of the Collaborator server.
-     *
-     * @return The hostname or IP address of the Collaborator server.
-     */
-    String address();
+  /**
+   * Address of the Collaborator server.
+   *
+   * @return The hostname or IP address of the Collaborator server.
+   */
+  String address();
 
-    /**
-     * Indicates whether the server address is an IP address.
-     *
-     * @return {@code true} if the address is an IP address; {@code false}
-     * otherwise.
-     */
-    boolean isLiteralAddress();
+  /**
+   * Indicates whether the server address is an IP address.
+   *
+   * @return {@code true} if the address is an IP address; {@code false}
+   * otherwise.
+   */
+  boolean isLiteralAddress();
 }

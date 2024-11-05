@@ -25,18 +25,18 @@ import burp.api.montoya.core.ToolSource;
  * the current message.
  */
 public interface EditorCreationContext {
-    /**
-     * Indicates which Burp tool is requesting the editor.
-     *
-     * @return The tool requesting an editor
-     */
-    ToolSource toolSource();
+  /**
+   * Indicates which Burp tool is requesting the editor.
+   *
+   * @return The tool requesting an editor
+   */
+  ToolSource toolSource();
 
-    /**
-     * Indicates which modes the Burp tool requests of the editor.
-     * e.g. Proxy expects a read only editor, Repeater expects the default editor.
-     *
-     * @return The mode required by the editor.
-     */
-    EditorMode editorMode();
+  /**
+   * Indicates which modes the Burp tool requests of the editor.
+   * e.g. Proxy expects a read only editor, Repeater expects the default editor.
+   *
+   * @return The mode required by the editor.
+   */
+  EditorMode editorMode();
 }

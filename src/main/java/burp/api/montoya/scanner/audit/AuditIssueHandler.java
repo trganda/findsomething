@@ -19,12 +19,12 @@ import burp.api.montoya.scanner.audit.issues.AuditIssue;
  * logging of audit issues by registering an audit issue handler.
  */
 public interface AuditIssueHandler {
-    /**
-     * This method is invoked when a new issue is added to Burp Scanner's
-     * results.
-     *
-     * @param auditIssue An {@link AuditIssue} object that the extension can
-     *                   query to obtain details about the new issue.
-     */
-    void handleNewAuditIssue(AuditIssue auditIssue);
+  /**
+   * This method is invoked when a new issue is added to Burp Scanner's
+   * results.
+   *
+   * @param auditIssue An {@link AuditIssue} object that the extension can
+   *                   query to obtain details about the new issue.
+   */
+  void handleNewAuditIssue(AuditIssue auditIssue);
 }

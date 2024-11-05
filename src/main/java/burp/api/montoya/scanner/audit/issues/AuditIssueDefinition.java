@@ -17,58 +17,59 @@ import static burp.api.montoya.internal.ObjectFactoryLocator.FACTORY;
  */
 public interface AuditIssueDefinition {
 
-    /**
-     * This method can be used to create a default implementation of an audit
-     * issue definition.
-     *
-     * @param name            The name of the issue type.
-     * @param background      The background description for the type of issue.
-     * @param remediation     The background description of the remediation for
-     *                        this type of issue.
-     * @param typicalSeverity The typical {@link AuditIssueSeverity} level.
-     * @return The audit issue definition.
-     */
-    static AuditIssueDefinition auditIssueDefinition(String name, String background, String remediation, AuditIssueSeverity typicalSeverity) {
-        return FACTORY.auditIssueDefinition(name, background, remediation, typicalSeverity);
-    }
+  /**
+   * This method can be used to create a default implementation of an audit
+   * issue definition.
+   *
+   * @param name            The name of the issue type.
+   * @param background      The background description for the type of issue.
+   * @param remediation     The background description of the remediation for
+   *                        this type of issue.
+   * @param typicalSeverity The typical {@link AuditIssueSeverity} level.
+   * @return The audit issue definition.
+   */
+  static AuditIssueDefinition auditIssueDefinition(
+      String name, String background, String remediation, AuditIssueSeverity typicalSeverity) {
+    return FACTORY.auditIssueDefinition(name, background, remediation, typicalSeverity);
+  }
 
-    /**
-     * Name of this issue type.
-     *
-     * @return The name of this issue type (e.g. "SQL injection").
-     */
-    String name();
+  /**
+   * Name of this issue type.
+   *
+   * @return The name of this issue type (e.g. "SQL injection").
+   */
+  String name();
 
-    /**
-     * This method returns a background description for this issue type.
-     *
-     * @return A background description for this type of issue, or {@code null}
-     * if none applies. A limited set of HTML tags may be used.
-     */
-    String background();
+  /**
+   * This method returns a background description for this issue type.
+   *
+   * @return A background description for this type of issue, or {@code null}
+   * if none applies. A limited set of HTML tags may be used.
+   */
+  String background();
 
-    /**
-     * This method returns a background description of the remediation for this
-     * type of issue.
-     *
-     * @return A background description of the remediation for this type of
-     * issue, or {@code null} if none applies. A limited set of HTML tags may
-     * be used.
-     */
-    String remediation();
+  /**
+   * This method returns a background description of the remediation for this
+   * type of issue.
+   *
+   * @return A background description of the remediation for this type of
+   * issue, or {@code null} if none applies. A limited set of HTML tags may
+   * be used.
+   */
+  String remediation();
 
-    /**
-     * Typical issue severity level.
-     *
-     * @return The typical {@link AuditIssueSeverity} level.
-     */
-    AuditIssueSeverity typicalSeverity();
+  /**
+   * Typical issue severity level.
+   *
+   * @return The typical {@link AuditIssueSeverity} level.
+   */
+  AuditIssueSeverity typicalSeverity();
 
-    /**
-     * This method returns an index of the issue type. See the Burp Scanner
-     * documentation for a listing of all the issue types.
-     *
-     * @return An index of the issue type.
-     */
-    int typeIndex();
+  /**
+   * This method returns an index of the issue type. See the Burp Scanner
+   * documentation for a listing of all the issue types.
+   *
+   * @return An index of the issue type.
+   */
+  int typeIndex();
 }

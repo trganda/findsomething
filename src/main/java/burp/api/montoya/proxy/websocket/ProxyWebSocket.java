@@ -16,32 +16,32 @@ import burp.api.montoya.websocket.Direction;
  * ProxyWebSocket within Burp.
  */
 public interface ProxyWebSocket {
-    /**
-     * This method allows an extension to send a text message via the WebSocket to either the client or the server.
-     *
-     * @param textMessage The message to be sent.
-     * @param direction   The direction of the message.
-     */
-    void sendTextMessage(String textMessage, Direction direction);
+  /**
+   * This method allows an extension to send a text message via the WebSocket to either the client or the server.
+   *
+   * @param textMessage The message to be sent.
+   * @param direction   The direction of the message.
+   */
+  void sendTextMessage(String textMessage, Direction direction);
 
-    /**
-     * This method allows an extension to send a binary message via the WebSocket to either the client or the server.
-     *
-     * @param binaryMessage The message to be sent.
-     * @param direction     The direction of the message.
-     */
-    void sendBinaryMessage(ByteArray binaryMessage, Direction direction);
+  /**
+   * This method allows an extension to send a binary message via the WebSocket to either the client or the server.
+   *
+   * @param binaryMessage The message to be sent.
+   * @param direction     The direction of the message.
+   */
+  void sendBinaryMessage(ByteArray binaryMessage, Direction direction);
 
-    /**
-     * This method will close the WebSocket.
-     */
-    void close();
+  /**
+   * This method will close the WebSocket.
+   */
+  void close();
 
-    /**
-     * Register a handler which will perform actions when messages are sent or received by the WebSocket.
-     *
-     * @param handler An object created by the extension that implements {@link ProxyMessageHandler} interface.
-     * @return The {@link Registration} for the handler.
-     */
-    Registration registerProxyMessageHandler(ProxyMessageHandler handler);
+  /**
+   * Register a handler which will perform actions when messages are sent or received by the WebSocket.
+   *
+   * @param handler An object created by the extension that implements {@link ProxyMessageHandler} interface.
+   * @return The {@link Registration} for the handler.
+   */
+  Registration registerProxyMessageHandler(ProxyMessageHandler handler);
 }

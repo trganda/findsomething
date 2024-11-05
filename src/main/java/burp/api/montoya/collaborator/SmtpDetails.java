@@ -12,18 +12,18 @@ package burp.api.montoya.collaborator;
  * SMTP interaction detected by Burp Collaborator.
  */
 public interface SmtpDetails {
-    /**
-     * SMTP protocol.
-     *
-     * @return The protocol used by the interaction.
-     */
-    SmtpProtocol protocol();
+  /**
+   * SMTP protocol.
+   *
+   * @return The protocol used by the interaction.
+   */
+  SmtpProtocol protocol();
 
-    /**
-     * SMTP conversation.
-     *
-     * @return The SMTP conversation between the client and the Collaborator
-     * server.
-     */
-    String conversation();
+  /**
+   * SMTP conversation.
+   *
+   * @return The SMTP conversation between the client and the Collaborator
+   * server.
+   */
+  String conversation();
 }

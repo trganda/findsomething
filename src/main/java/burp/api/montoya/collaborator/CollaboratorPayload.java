@@ -14,35 +14,35 @@ import java.util.Optional;
  * Burp Collaborator payload.
  */
 public interface CollaboratorPayload {
-    /**
-     * Payload's interaction id.
-     *
-     * @return The interaction id of the payload.
-     */
-    InteractionId id();
+  /**
+   * Payload's interaction id.
+   *
+   * @return The interaction id of the payload.
+   */
+  InteractionId id();
 
-    /**
-     * Custom data from the payload.
-     *
-     * @return The payload's custom data.
-     */
-    Optional<String> customData();
+  /**
+   * Custom data from the payload.
+   *
+   * @return The payload's custom data.
+   */
+  Optional<String> customData();
 
-    /**
-     * Optional instance of CollaboratorServer describing the
-     * server location for this payload. If the payload was generated without
-     * the server location this method will return an empty Optional.
-     *
-     * @return Details of the collaborator server referenced in the payload
-     * or empty if the payload was generated without the server location.
-     */
-    Optional<CollaboratorServer> server();
+  /**
+   * Optional instance of CollaboratorServer describing the
+   * server location for this payload. If the payload was generated without
+   * the server location this method will return an empty Optional.
+   *
+   * @return Details of the collaborator server referenced in the payload
+   * or empty if the payload was generated without the server location.
+   */
+  Optional<CollaboratorServer> server();
 
-    /**
-     * The payload.
-     *
-     * @return The payload string.
-     */
-    @Override
-    String toString();
+  /**
+   * The payload.
+   *
+   * @return The payload string.
+   */
+  @Override
+  String toString();
 }

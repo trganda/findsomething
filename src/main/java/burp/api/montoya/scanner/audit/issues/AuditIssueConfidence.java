@@ -12,7 +12,7 @@ package burp.api.montoya.scanner.audit.issues;
  * This enum represents the confidence level of an audit issue.
  */
 public enum AuditIssueConfidence {
-    CERTAIN,
-    FIRM,
-    TENTATIVE
+  CERTAIN,
+  FIRM,
+  TENTATIVE
 }

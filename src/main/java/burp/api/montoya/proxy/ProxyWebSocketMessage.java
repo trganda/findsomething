@@ -18,29 +18,29 @@ import burp.api.montoya.websocket.Direction;
  * WebSocket message intercepted by the Proxy.
  */
 public interface ProxyWebSocketMessage extends WebSocketMessage {
-    /**
-     * This method retrieves the annotations for the message.
-     *
-     * @return The {@link Annotations} for the message.
-     */
-    @Override
-    Annotations annotations();
+  /**
+   * This method retrieves the annotations for the message.
+   *
+   * @return The {@link Annotations} for the message.
+   */
+  @Override
+  Annotations annotations();
 
-    /**
-     * @return The direction of the message.
-     */
-    @Override
-    Direction direction();
+  /**
+   * @return The direction of the message.
+   */
+  @Override
+  Direction direction();
 
-    /**
-     * @return WebSocket payload.
-     */
-    @Override
-    ByteArray payload();
+  /**
+   * @return WebSocket payload.
+   */
+  @Override
+  ByteArray payload();
 
-    /**
-     * @return The {@link HttpRequest} used to create the WebSocket.
-     */
-    @Override
-    HttpRequest upgradeRequest();
+  /**
+   * @return The {@link HttpRequest} used to create the WebSocket.
+   */
+  @Override
+  HttpRequest upgradeRequest();
 }

@@ -12,36 +12,36 @@ package burp.api.montoya.scanner;
  * Crawl in the Burp Scanner tool.
  */
 public interface Crawl extends ScanTask {
-    /**
-     * Number of requests that have been made for the
-     * scan task.
-     *
-     * @return The number of requests that have been made for the scan task.
-     */
-    @Override
-    int requestCount();
+  /**
+   * Number of requests that have been made for the
+   * scan task.
+   *
+   * @return The number of requests that have been made for the scan task.
+   */
+  @Override
+  int requestCount();
 
-    /**
-     * Number of network errors that have occurred for
-     * the scan task.
-     *
-     * @return The number of network errors that have occurred for the scan
-     * task.
-     */
-    @Override
-    int errorCount();
+  /**
+   * Number of network errors that have occurred for
+   * the scan task.
+   *
+   * @return The number of network errors that have occurred for the scan
+   * task.
+   */
+  @Override
+  int errorCount();
 
-    /**
-     * Delete the task.
-     */
-    @Override
-    void delete();
+  /**
+   * Delete the task.
+   */
+  @Override
+  void delete();
 
-    /**
-     * This functionality is not yet implemented.
-     *
-     * @return the current status message of the task
-     */
-    @Override
-    String statusMessage();
+  /**
+   * This functionality is not yet implemented.
+   *
+   * @return the current status message of the task
+   */
+  @Override
+  String statusMessage();
 }

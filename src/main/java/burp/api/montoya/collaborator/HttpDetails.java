@@ -16,18 +16,18 @@ import burp.api.montoya.http.message.HttpRequestResponse;
  * Burp Collaborator.
  */
 public interface HttpDetails {
-    /**
-     * HTTP protocol.
-     *
-     * @return The HTTP protocol used by the interaction.
-     */
-    HttpProtocol protocol();
+  /**
+   * HTTP protocol.
+   *
+   * @return The HTTP protocol used by the interaction.
+   */
+  HttpProtocol protocol();
 
-    /**
-     * HTTP request and response.
-     *
-     * @return The HTTP request sent to the Collaborator server and the
-     * server's response.
-     */
-    HttpRequestResponse requestResponse();
+  /**
+   * HTTP request and response.
+   *
+   * @return The HTTP request sent to the Collaborator server and the
+   * server's response.
+   */
+  HttpRequestResponse requestResponse();
 }

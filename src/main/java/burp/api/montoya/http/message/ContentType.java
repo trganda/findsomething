@@ -12,11 +12,11 @@ package burp.api.montoya.http.message;
  * Content types recognised by Burp.
  */
 public enum ContentType {
-    NONE,
-    UNKNOWN,
-    AMF,
-    JSON,
-    MULTIPART,
-    URL_ENCODED,
-    XML
+  NONE,
+  UNKNOWN,
+  AMF,
+  JSON,
+  MULTIPART,
+  URL_ENCODED,
+  XML
 }

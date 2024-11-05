@@ -14,25 +14,25 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.websocket.Direction;
 
 public interface WebSocketMessage {
-    /**
-     * This method retrieves the annotations for the message.
-     *
-     * @return The {@link Annotations} for the message.
-     */
-    Annotations annotations();
+  /**
+   * This method retrieves the annotations for the message.
+   *
+   * @return The {@link Annotations} for the message.
+   */
+  Annotations annotations();
 
-    /**
-     * @return The direction of the message.
-     */
-    Direction direction();
+  /**
+   * @return The direction of the message.
+   */
+  Direction direction();
 
-    /**
-     * @return WebSocket payload.
-     */
-    ByteArray payload();
+  /**
+   * @return WebSocket payload.
+   */
+  ByteArray payload();
 
-    /**
-     * @return The {@link HttpRequest} used to create the WebSocket.
-     */
-    HttpRequest upgradeRequest();
+  /**
+   * @return The {@link HttpRequest} used to create the WebSocket.
+   */
+  HttpRequest upgradeRequest();
 }

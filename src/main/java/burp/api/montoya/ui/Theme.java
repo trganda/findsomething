@@ -12,6 +12,6 @@ package burp.api.montoya.ui;
  * This enum contains the different themes available in Burp Suites user interface.
  */
 public enum Theme {
-    DARK,
-    LIGHT
+  DARK,
+  LIGHT
 }

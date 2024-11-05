@@ -9,31 +9,30 @@
 package burp.api.montoya.ui.swing;
 
 import burp.api.montoya.core.HighlightColor;
-
 import java.awt.*;
 
 /**
  * This interface gives you access to swing utilities.
  */
 public interface SwingUtils {
-    /**
-     * @return the main Burp suite frame.
-     */
-    Frame suiteFrame();
+  /**
+   * @return the main Burp suite frame.
+   */
+  Frame suiteFrame();
 
-    /**
-     * Retrieve the top-level {@code Window} containing the supplied component.
-     *
-     * @param component the component.
-     * @return the top-level {@code Window} containing the component.
-     */
-    Window windowForComponent(Component component);
+  /**
+   * Retrieve the top-level {@code Window} containing the supplied component.
+   *
+   * @param component the component.
+   * @return the top-level {@code Window} containing the component.
+   */
+  Window windowForComponent(Component component);
 
-    /**
-     * Convert a highlight color to a java color.
-     *
-     * @param highlightColor the {@link HighlightColor}
-     * @return the java color for the highlight color.
-     */
-    Color colorForHighLight(HighlightColor highlightColor);
+  /**
+   * Convert a highlight color to a java color.
+   *
+   * @param highlightColor the {@link HighlightColor}
+   * @return the java color for the highlight color.
+   */
+  Color colorForHighLight(HighlightColor highlightColor);
 }

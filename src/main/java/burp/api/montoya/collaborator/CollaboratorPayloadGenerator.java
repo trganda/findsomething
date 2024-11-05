@@ -13,15 +13,15 @@ package burp.api.montoya.collaborator;
  * that can be used to generate Burp Collaborator payloads.
  */
 public interface CollaboratorPayloadGenerator {
-    /**
-     * Generate new Burp Collaborator payloads. Options
-     * can be specified to alter the way the payloads are generated. If no
-     * options are specified, generated payloads will include the server
-     * location.
-     *
-     * @param options The optional payload options to apply
-     * @return The generated payload.
-     * @throws IllegalStateException if Burp Collaborator is disabled
-     */
-    CollaboratorPayload generatePayload(PayloadOption... options);
+  /**
+   * Generate new Burp Collaborator payloads. Options
+   * can be specified to alter the way the payloads are generated. If no
+   * options are specified, generated payloads will include the server
+   * location.
+   *
+   * @param options The optional payload options to apply
+   * @return The generated payload.
+   * @throws IllegalStateException if Burp Collaborator is disabled
+   */
+  CollaboratorPayload generatePayload(PayloadOption... options);
 }

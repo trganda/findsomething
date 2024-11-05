@@ -12,15 +12,15 @@ package burp.api.montoya.core;
  * Returned when an object is registered by an extension in Burp Suite.
  */
 public interface Registration {
-    /**
-     * Determines whether the object registered by the extension is currently registered.
-     *
-     * @return Returns {@code true} if the object is registered.
-     */
-    boolean isRegistered();
+  /**
+   * Determines whether the object registered by the extension is currently registered.
+   *
+   * @return Returns {@code true} if the object is registered.
+   */
+  boolean isRegistered();
 
-    /**
-     * Remove the object registered by the extension.
-     */
-    void deregister();
+  /**
+   * Remove the object registered by the extension.
+   */
+  void deregister();
 }

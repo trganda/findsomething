@@ -13,26 +13,26 @@ package burp.api.montoya.proxy;
  * messages in the Proxy.
  */
 public enum MessageReceivedAction {
-    /**
-     * Causes Burp Proxy to follow the current interception rules to determine
-     * the appropriate action to take for the message.
-     */
-    CONTINUE,
+  /**
+   * Causes Burp Proxy to follow the current interception rules to determine
+   * the appropriate action to take for the message.
+   */
+  CONTINUE,
 
-    /**
-     * Causes Burp Proxy to present the message to the user for manual review
-     * or modification.
-     */
-    INTERCEPT,
+  /**
+   * Causes Burp Proxy to present the message to the user for manual review
+   * or modification.
+   */
+  INTERCEPT,
 
-    /**
-     * Causes Burp Proxy to forward the message without presenting it to the
-     * user.
-     */
-    DO_NOT_INTERCEPT,
+  /**
+   * Causes Burp Proxy to forward the message without presenting it to the
+   * user.
+   */
+  DO_NOT_INTERCEPT,
 
-    /**
-     * Causes Burp Proxy to drop the message.
-     */
-    DROP
+  /**
+   * Causes Burp Proxy to drop the message.
+   */
+  DROP
 }

@@ -12,13 +12,13 @@ package burp.api.montoya.http.message.responses.analysis;
  * Stores the number of types a given keyword appeared in a response.
  */
 public interface KeywordCount {
-    /**
-     * @return The keyword.
-     */
-    String keyword();
+  /**
+   * @return The keyword.
+   */
+  String keyword();
 
-    /**
-     * @return The number of times the keyword appeared in a response.
-     */
-    int count();
+  /**
+   * @return The number of times the keyword appeared in a response.
+   */
+  int count();
 }

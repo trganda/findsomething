@@ -12,24 +12,24 @@ package burp.api.montoya.utilities;
  * This enum defines HTML encodings.
  */
 public enum HtmlEncoding {
-    /**
-     * Encode only HTML special characters.
-     */
-    STANDARD,
+  /**
+   * Encode only HTML special characters.
+   */
+  STANDARD,
 
-    /**
-     * Encode HTML special characters as per STANDARD,
-     * encode all other characters as decimal entities.
-     */
-    ALL_CHARACTERS,
+  /**
+   * Encode HTML special characters as per STANDARD,
+   * encode all other characters as decimal entities.
+   */
+  ALL_CHARACTERS,
 
-    /**
-     * Encode all characters as decimal entities.
-     */
-    ALL_CHARACTERS_DECIMAL,
+  /**
+   * Encode all characters as decimal entities.
+   */
+  ALL_CHARACTERS_DECIMAL,
 
-    /**
-     * Encode all characters as hex entities.
-     */
-    ALL_CHARACTERS_HEX
+  /**
+   * Encode all characters as hex entities.
+   */
+  ALL_CHARACTERS_HEX
 }

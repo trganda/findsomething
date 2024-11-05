@@ -18,24 +18,24 @@ import burp.api.montoya.proxy.Proxy;
  * modification of these responses, and control in-UI message interception.
  */
 public interface ProxyResponseHandler {
-    /**
-     * This method is invoked when an HTTP response is received in the Proxy.
-     *
-     * @param interceptedResponse An {@link InterceptedResponse} object
-     *                            that extensions can use to query and update details of the response, and
-     *                            control whether the response should be intercepted and displayed to the
-     *                            user for manual review or modification.
-     * @return The {@link ProxyResponseReceivedAction} containing the required action, HTTP response and annotations to be passed through.
-     */
-    ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse);
+  /**
+   * This method is invoked when an HTTP response is received in the Proxy.
+   *
+   * @param interceptedResponse An {@link InterceptedResponse} object
+   *                            that extensions can use to query and update details of the response, and
+   *                            control whether the response should be intercepted and displayed to the
+   *                            user for manual review or modification.
+   * @return The {@link ProxyResponseReceivedAction} containing the required action, HTTP response and annotations to be passed through.
+   */
+  ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse);
 
-    /**
-     * This method is invoked when an HTTP response has been processed by the
-     * Proxy before it is returned to the client.
-     *
-     * @param interceptedResponse An {@link InterceptedResponse} object
-     *                            that extensions can use to query and update details of the response.
-     * @return The {@link ProxyResponseToBeSentAction} containing the required action, HTTP response and annotations to be passed through.
-     */
-    ProxyResponseToBeSentAction handleResponseToBeSent(InterceptedResponse interceptedResponse);
+  /**
+   * This method is invoked when an HTTP response has been processed by the
+   * Proxy before it is returned to the client.
+   *
+   * @param interceptedResponse An {@link InterceptedResponse} object
+   *                            that extensions can use to query and update details of the response.
+   * @return The {@link ProxyResponseToBeSentAction} containing the required action, HTTP response and annotations to be passed through.
+   */
+  ProxyResponseToBeSentAction handleResponseToBeSent(InterceptedResponse interceptedResponse);
 }

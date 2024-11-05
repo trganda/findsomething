@@ -12,13 +12,13 @@ package burp.api.montoya.core;
  * Task on the Dashboard.
  */
 public interface Task {
-    /**
-     * Delete the task.
-     */
-    void delete();
+  /**
+   * Delete the task.
+   */
+  void delete();
 
-    /**
-     * @return the current status message of the task
-     */
-    String statusMessage();
+  /**
+   * @return the current status message of the task
+   */
+  String statusMessage();
 }

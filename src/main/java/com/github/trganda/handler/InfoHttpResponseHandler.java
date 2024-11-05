@@ -11,7 +11,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDataModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,98 +20,109 @@ import java.util.regex.Pattern;
 
 public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
-    private final Long id = 0L;
-    private final ExecutorService pool;
-    private final List<DataChangeListener> listeners = new ArrayList<>();
+  private final Long id = 0L;
+  private final ExecutorService pool;
+  private final List<DataChangeListener> listeners = new ArrayList<>();
 
-    public InfoHttpResponseHandler(ExecutorService pool) {
-        this.pool = pool;
+  public InfoHttpResponseHandler(ExecutorService pool) {
+    this.pool = pool;
+  }
+
+  @Override
+  public ProxyResponseReceivedAction handleResponseReceived(
+      InterceptedResponse interceptedResponse) {
+
+    if (filter(interceptedResponse)) {
+      return ProxyResponseReceivedAction.continueWith(interceptedResponse);
     }
 
-    @Override
-    public ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse) {
-
-        if (filter(interceptedResponse)) {
-            return ProxyResponseReceivedAction.continueWith(interceptedResponse);
-        }
-
-        HttpRequest req = interceptedResponse.request();
-        FindSomething.API.logging().logToOutput(req.url());
-        pool.submit(() -> {
-            process(interceptedResponse);
+    HttpRequest req = interceptedResponse.request();
+    FindSomething.API.logging().logToOutput(req.url());
+    pool.submit(
+        () -> {
+          process(interceptedResponse);
         });
 
-        return ProxyResponseReceivedAction.continueWith(interceptedResponse);
+    return ProxyResponseReceivedAction.continueWith(interceptedResponse);
+  }
+
+  @Override
+  public ProxyResponseToBeSentAction handleResponseToBeSent(
+      InterceptedResponse interceptedResponse) {
+    return ProxyResponseToBeSentAction.continueWith(interceptedResponse);
+  }
+
+  public void registerDataChangeListener(DataChangeListener listener) {
+    this.listeners.add(listener);
+  }
+
+  private void process(InterceptedResponse interceptedResponse) {
+    HttpRequest req = interceptedResponse.request();
+    String body = interceptedResponse.body().toString();
+    String[] results = match(body);
+
+    List<InfoDataModel> data = new ArrayList<>();
+    for (String result : results) {
+      InfoDataModel infoDataModel = new InfoDataModel(result);
+      data.add(infoDataModel);
+
+      // set request info
+      String hash = Utils.calHash(result);
+      RequestDataModel requestDataModel =
+          new RequestDataModel(
+              interceptedResponse.messageId(),
+              req.path(),
+              req.httpService().host(),
+              interceptedResponse.statusCode(),
+              "1");
+      CachePool.addRequestDataModel(hash, requestDataModel);
+
+      // set request and response for future use
+      String reqHash = Utils.calHash(req.path(), req.httpService().host());
+      CachePool.putInterceptedResponse(reqHash, interceptedResponse);
     }
 
-    @Override
-    public ProxyResponseToBeSentAction handleResponseToBeSent(InterceptedResponse interceptedResponse) {
-        return ProxyResponseToBeSentAction.continueWith(interceptedResponse);
+    for (DataChangeListener listener : listeners) {
+      listener.onDataChanged(data);
+    }
+  }
+
+  private boolean filter(InterceptedResponse interceptedResponse) {
+    HttpRequest req = interceptedResponse.request();
+    String path = req.pathWithoutQuery();
+    for (String suffix : Config.getInstance().getSuffixes()) {
+      if (path.endsWith(suffix)) {
+        return false;
+      }
     }
 
-    public void registerDataChangeListener(DataChangeListener listener) {
-        this.listeners.add(listener);
+    for (String host : Config.getInstance().getHosts()) {
+      if (req.httpService().host().equals(host)) {
+        return false;
+      }
     }
 
-    private void process(InterceptedResponse interceptedResponse) {
-        HttpRequest req = interceptedResponse.request();
-        String body = interceptedResponse.body().toString();
-        String[] results = match(body);
-
-        List<InfoDataModel> data = new ArrayList<>();
-        for (String result : results) {
-            InfoDataModel infoDataModel = new InfoDataModel(result);
-            data.add(infoDataModel);
-
-            // set request info
-            String hash = Utils.calHash(result);
-            RequestDataModel requestDataModel = new RequestDataModel(interceptedResponse.messageId(), req.path(), req.httpService().host(), interceptedResponse.statusCode(), "1");
-            CachePool.addRequestDataModel(hash, requestDataModel);
-
-            // set request and response for future use
-            String reqHash = Utils.calHash(req.path(), req.httpService().host());
-            CachePool.putInterceptedResponse(reqHash, interceptedResponse);
-        }
-
-        for (DataChangeListener listener : listeners) {
-            listener.onDataChanged(data);
-        }
+    for (String status : Config.getInstance().getStatus()) {
+      if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
+        return false;
+      }
     }
 
-    private boolean filter(InterceptedResponse interceptedResponse) {
-        HttpRequest req = interceptedResponse.request();
-        String path = req.pathWithoutQuery();
-        for (String suffix : Config.getInstance().getSuffixes()) {
-            if (path.endsWith(suffix)) {
-                return false;
-            }
-        }
+    return interceptedResponse.body().length() == 0;
+  }
 
-        for (String host: Config.getInstance().getHosts()) {
-            if (req.httpService().host().equals(host)) {
-                return false;
-            }
-        }
+  private String[] match(String rspBody) {
+    Pattern pattern =
+        Pattern.compile(
+            "(?:\"|')(((?:[a-zA-Z]{1,10}://|//)[^\"'/]{1,}\\.[a-zA-Z]{2,}[^\"']{0,})|((?:/|\\.\\./|\\./)[^\"'><,;|*()(%$^/\\\\\\[\\]][^\"'><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|']{0,}|)))(?:\"|')");
+    Matcher matcher = pattern.matcher(rspBody);
 
-        for (String status : Config.getInstance().getStatus()) {
-            if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
-                return false;
-            }
-        }
+    HashSet<String> set = new HashSet<>();
 
-        return interceptedResponse.body().length() == 0;
+    while (matcher.find()) {
+      set.add(matcher.group());
     }
 
-    private String[] match(String rspBody) {
-        Pattern pattern = Pattern.compile("(?:\"|')(((?:[a-zA-Z]{1,10}://|//)[^\"'/]{1,}\\.[a-zA-Z]{2,}[^\"']{0,})|((?:/|\\.\\./|\\./)[^\"'><,;|*()(%$^/\\\\\\[\\]][^\"'><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|']{0,}|)))(?:\"|')");
-        Matcher matcher = pattern.matcher(rspBody);
-
-        HashSet<String> set = new HashSet<>();
-
-        while (matcher.find()) {
-            set.add(matcher.group());
-        }
-
-        return set.toArray(new String[0]);
-    }
+    return set.toArray(new String[0]);
+  }
 }

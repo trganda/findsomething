@@ -9,31 +9,30 @@
 package burp.api.montoya.websocket.extension;
 
 import burp.api.montoya.http.message.responses.HttpResponse;
-
 import java.util.Optional;
 
 /**
  * Result of a WebSocket creation attempt
  */
 public interface ExtensionWebSocketCreation {
-    /**
-     * The status of the WebSocket creation attempt.
-     *
-     * @return The {@link ExtensionWebSocketCreationStatus} creation status
-     */
-    ExtensionWebSocketCreationStatus status();
+  /**
+   * The status of the WebSocket creation attempt.
+   *
+   * @return The {@link ExtensionWebSocketCreationStatus} creation status
+   */
+  ExtensionWebSocketCreationStatus status();
 
-    /**
-     * The created WebSocket.
-     *
-     * @return the created {@link ExtensionWebSocket}
-     */
-    Optional<ExtensionWebSocket> webSocket();
+  /**
+   * The created WebSocket.
+   *
+   * @return the created {@link ExtensionWebSocket}
+   */
+  Optional<ExtensionWebSocket> webSocket();
 
-    /**
-     * The HTTP response from the WebSocket creation attempt.
-     *
-     * @return the {@link HttpResponse}
-     */
-    Optional<HttpResponse> upgradeResponse();
+  /**
+   * The HTTP response from the WebSocket creation attempt.
+   *
+   * @return the {@link HttpResponse}
+   */
+  Optional<HttpResponse> upgradeResponse();
 }
