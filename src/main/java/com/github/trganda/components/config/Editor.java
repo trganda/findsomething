@@ -74,9 +74,9 @@ public class Editor extends JDialog {
   public Editor(Frame pFrame, Rule pRule) {
     this(pFrame);
     this.rule = pRule;
-    this.nameField.setText(pRule.getName());
-    this.regexField.setText(pRule.getRegex());
-    this.sensitive.setSelected(pRule.isSensitive());
+    this.nameField.setText(rule.getName());
+    this.regexField.setText(rule.getRegex());
+    this.sensitive.setSelected(rule.isSensitive());
   }
 
   public class EditroButtonsPane extends JPanel {
@@ -114,6 +114,15 @@ public class Editor extends JDialog {
     private void setupButtonEventHandler() {
       cancel.addActionListener(
           e -> {
+            Editor.this.setVisible(false);
+          });
+
+      save.addActionListener(
+          e -> {
+            Rule rule = new Rule();
+            rule.setName(nameField.getText());
+            rule.setRegex(regexField.getText());
+            rule.setSensitive(sensitive.isSelected());
             Editor.this.setVisible(false);
           });
     }

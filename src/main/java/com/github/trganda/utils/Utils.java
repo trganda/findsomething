@@ -63,4 +63,8 @@ public class Utils {
   public static Font getBurpDisplayFont() {
     return FindSomething.API.userInterface().currentDisplayFont();
   }
+
+  public static Font getBurpEditorFont() {
+    return FindSomething.API.userInterface().currentEditorFont();
+  }
 }

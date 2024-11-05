@@ -18,10 +18,8 @@ public class FindSomething implements BurpExtension {
     FindSomething.API = api;
 
     // loading the default configuration file to ${home}/.config
-    Config.loadConfig();
-
-    // loading the default rules file to ${home}/.config
-    Config.loadRules();
+    Config config = Config.loadConfig();
+    Config.getInstance().registerConfigListener(config);
 
     ExecutorService pool = Executors.newCachedThreadPool();
     InfoHttpResponseHandler handler = new InfoHttpResponseHandler(pool);

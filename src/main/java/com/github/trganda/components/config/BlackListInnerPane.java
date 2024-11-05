@@ -4,16 +4,20 @@ import static com.github.trganda.config.Config.*;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class BlackListInnerPane extends JPanel {
+public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
 
   private final String placeHolder = "Enter an new item";
   private BlackListButtonsPane blackListButtonsPane;
@@ -75,8 +79,13 @@ public class BlackListInnerPane extends JPanel {
           if (val.isEmpty() || val.equals(placeHolder)) {
             return;
           }
-          // show in table
-          blackListTableModel.addRow(new Object[] {val});
+          // ignore if already exist same value
+          if (blackListTableModel.getDataVector().stream()
+                  .filter(row -> row.get(0).equals(val))
+                  .count()
+              > 0) {
+            return;
+          }
           // sync to configuration
           String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
           if (selectedItem != null) {
@@ -115,7 +124,9 @@ public class BlackListInnerPane extends JPanel {
 
   private void setupInputTextField() {
     inputTextField = new JTextField(placeHolder);
-    inputTextField.setFont(new Font("Arial", Font.ITALIC, 12));
+    inputTextField.setFont(
+        new Font(
+            Utils.getBurpEditorFont().getName(), Font.ITALIC, Utils.getBurpEditorFont().getSize()));
     inputTextField.setForeground(Color.GRAY);
     inputTextField.setPreferredSize(
         new Dimension(200, addBlackListButton.getPreferredSize().height));
@@ -126,7 +137,11 @@ public class BlackListInnerPane extends JPanel {
           public void focusGained(FocusEvent e) {
             super.focusGained(e);
             if (inputTextField.getText().equals(placeHolder)) {
-              inputTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+              inputTextField.setFont(
+                  new Font(
+                      Utils.getBurpEditorFont().getName(),
+                      Font.PLAIN,
+                      Utils.getBurpEditorFont().getSize()));
               inputTextField.setForeground(Color.BLACK);
               inputTextField.setText("");
             }
@@ -136,9 +151,37 @@ public class BlackListInnerPane extends JPanel {
           public void focusLost(FocusEvent e) {
             super.focusLost(e);
             if (inputTextField.getText().isEmpty()) {
-              inputTextField.setFont(new Font("Arial", Font.ITALIC, 12));
+              inputTextField.setFont(
+                  new Font(
+                      Utils.getBurpEditorFont().getName(),
+                      Font.ITALIC,
+                      Utils.getBurpEditorFont().getSize()));
               inputTextField.setForeground(Color.GRAY);
               inputTextField.setText(placeHolder);
+            }
+          }
+        });
+
+    Color defaultColor = inputTextField.getForeground();
+    inputTextField.addKeyListener(
+        new KeyAdapter() {
+          @Override
+          public void keyReleased(KeyEvent e) {
+            String val = inputTextField.getText();
+            // highlight if already exists
+            if (blackListTableModel.getDataVector().stream()
+                    .filter(row -> row.get(0).equals(val))
+                    .count()
+                > 0) {
+              inputTextField.setForeground(Color.RED);
+              inputTextField.setFont(
+                  new Font(
+                      Utils.getBurpEditorFont().getName(),
+                      Font.ITALIC,
+                      Utils.getBurpEditorFont().getSize()));
+            } else {
+              inputTextField.setForeground(defaultColor);
+              inputTextField.setFont(Utils.getBurpEditorFont());
             }
           }
         });
@@ -232,5 +275,45 @@ public class BlackListInnerPane extends JPanel {
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
       }
     }
+  }
+
+  @Override
+  public void onConfigChange(Config config) {
+    SwingWorker<List<Object[]>, Void> worker =
+        new SwingWorker<List<Object[]>, Void>() {
+          @Override
+          protected List<Object[]> doInBackground() {
+            List<Object[]> list = new ArrayList<>();
+            // sync to configuration
+            String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
+            switch (selectedItem) {
+              case BLACKLIST_SUFFIX:
+                list.add(config.getSuffixes().toArray());
+                break;
+              case BLACKLIST_HOST:
+                list.add(config.getHosts().toArray());
+                break;
+              case BLACKLIST_STATUS:
+                list.add(config.getStatus().toArray());
+                break;
+            }
+
+            return list;
+          }
+
+          @Override
+          protected void done() {
+            try {
+              List<Object[]> result = get();
+              blackListTableModel.setRowCount(0);
+              for (Object[] row : result) {
+                blackListTableModel.addRow(row);
+              }
+            } catch (InterruptedException | ExecutionException e) {
+              FindSomething.API.logging().logToError(new RuntimeException(e));
+            }
+          }
+        };
+    worker.execute();
   }
 }

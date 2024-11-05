@@ -15,6 +15,9 @@ public class Rules {
   }
 
   public List<Rule> getRulesWithGroup(String group) {
+    if (rules.stream().filter(rule -> rule.getGroup().equals(group)).findAny().isEmpty()) {
+      return List.of();
+    }
     return rules.stream()
         .filter(rule -> rule.getGroup().equals(group))
         .findFirst()

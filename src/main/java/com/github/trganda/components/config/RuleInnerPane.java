@@ -4,7 +4,8 @@ import static com.github.trganda.config.Config.*;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
-import com.github.trganda.config.Rules;
+import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.Rules.Rule;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -14,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class RuleInnerPane extends JPanel {
+public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
   private RuleButtonsPane ruleButtonsPane;
   private JComboBox<String> selector;
@@ -124,7 +125,7 @@ public class RuleInnerPane extends JPanel {
           if (selectedItem == null) {
             return;
           }
-          List<Rules.Rule> rules = Config.getInstance().getRules().getRulesWithGroup(selectedItem);
+          List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(selectedItem);
           countLabel.setText(String.valueOf(rules.size()));
           this.loadRulesWithGroup(rules);
         });
@@ -133,18 +134,18 @@ public class RuleInnerPane extends JPanel {
     countLabel = new JLabel();
 
     // loading the default rules of group fingerprint
-    List<Rules.Rule> rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
+    List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
     countLabel.setText(String.valueOf(rules.size()));
     this.loadRulesWithGroup(rules);
   }
 
-  private void loadRulesWithGroup(List<Rules.Rule> rules) {
+  private void loadRulesWithGroup(List<Rule> rules) {
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
           @Override
           protected List<Object[]> doInBackground() {
             List<Object[]> list = new ArrayList<>();
-            for (Rules.Rule rule : rules) {
+            for (Rule rule : rules) {
               list.add(
                   new Object[] {
                     rule.isEnabled(), rule.getName(), rule.getRegex(), rule.isSensitive()
@@ -194,24 +195,32 @@ public class RuleInnerPane extends JPanel {
       this.setupButtonEventHandler();
     }
 
-    @SuppressWarnings("unchecked")
     private void setupButtonEventHandler() {
       Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
       add.addActionListener(
           e -> {
             new Editor(pFrame).setVisible(true);
-            ;
           });
 
-      // edit.addActionListener(e -> {
-      //     int[] idxes = table.getSelectedRows();
-      //     if (idxes.length < 1 || idxes.length > 1) {
-      //         edit.setEnabled(false);
-      //     } else {
-      //         Vector<Object> modelData = model.getDataVector().get(idxes[0]);
-      //         edit.setEnabled(true);
-      //     }
-      // });
+      edit.addActionListener(
+          e -> {
+            int idx = table.getSelectedRow();
+            if (idx == -1) {
+              return;
+            }
+            List<Rule> rules =
+                Config.getInstance()
+                    .getRules()
+                    .getRulesWithGroup(selector.getSelectedItem().toString());
+            String name = model.getValueAt(idx, 1).toString();
+            rules.stream()
+                .filter(r -> r.getName().equals(name))
+                .findFirst()
+                .ifPresent(
+                    r -> {
+                      new Editor(pFrame, r).setVisible(true);
+                    });
+          });
     }
 
     private void setAlign(JButton... buttons) {
@@ -220,5 +229,11 @@ public class RuleInnerPane extends JPanel {
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
       }
     }
+  }
+
+  @Override
+  public void onConfigChange(Config config) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onConfigChange'");
   }
 }

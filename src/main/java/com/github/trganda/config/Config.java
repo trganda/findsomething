@@ -1,6 +1,7 @@
 package com.github.trganda.config;
 
 import com.github.trganda.FindSomething;
+import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
 import java.io.*;
@@ -13,7 +14,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class Config {
+public class Config implements ConfigChangeListener {
 
   public static final String BLACKLIST_SUFFIX = "Suffix";
 
@@ -30,24 +31,48 @@ public class Config {
   public static final String GROUP_VULNERABILITY = "Vulnerability";
 
   private static final String configLocation =
-      String.format("%s/.config/fd_config.json", System.getProperty("user.home"));
+      String.format("%s/.config/fd/fd_config.json", System.getProperty("user.home"));
 
   private static final String rulesLocation =
-      String.format("%s/.config/fd_rules.json", System.getProperty("user.home"));
+      String.format("%s/.config/fd/fd_rules.json", System.getProperty("user.home"));
 
   private List<String> suffixes = new ArrayList<>();
   private List<String> hosts = new ArrayList<>();
   private List<String> status = new ArrayList<>();
-
   private Rules rules;
+
+  private List<ConfigChangeListener> listeners = new ArrayList<>();
+
   private static Config config;
 
   public static Config getInstance() {
     if (config == null) {
-      loadConfig();
-      loadRules();
+      config = loadConfig();
     }
     return config;
+  }
+
+  public static void addSuffix(String suffix) {
+    Config.getInstance().suffixes.add(suffix);
+    notifyListeners();
+  }
+
+  public static void addHost(String host) {
+    Config.getInstance().hosts.add(host);
+    notifyListeners();
+  }
+
+  public static void addStatus(String statusCode) {
+    Config.getInstance().status.add(statusCode);
+    notifyListeners();
+  }
+
+  public static void addRule(String group, Rule rule) {
+    Config.getInstance().getRules().getRules().stream()
+        .filter(g -> g.getGroup().equals(group))
+        .findFirst()
+        .ifPresent(g -> g.getRule().add(rule));
+    notifyListeners();
   }
 
   public static Yaml getYaml() {
@@ -84,21 +109,6 @@ public class Config {
     this.status = status;
   }
 
-  public static void addSuffix(String suffix) {
-    Config.getInstance().suffixes.add(suffix);
-    saveConfig();
-  }
-
-  public static void addHost(String host) {
-    Config.getInstance().hosts.add(host);
-    saveConfig();
-  }
-
-  public static void addStatus(String statusCode) {
-    Config.getInstance().status.add(statusCode);
-    saveConfig();
-  }
-
   public Rules getRules() {
     return rules;
   }
@@ -107,28 +117,23 @@ public class Config {
     this.rules = rules;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <T> List<T> castToList(Object obj) {
-    return (List<T>) obj;
-  }
+  public static Config loadConfig() {
+    Config config = null;
+    try (InputStreamReader reader =
+        new InputStreamReader(
+            Files.newInputStream(Paths.get(configLocation)), StandardCharsets.UTF_8)) {
+      config = getYaml().loadAs(reader, Config.class);
+    } catch (IOException e) {
+      FindSomething.API
+          .logging()
+          .logToError("load configuration file failed, using default config");
 
-  public static void loadConfig() {
-    File configFile = new File(configLocation);
-    InputStream is;
-    try {
-      if (!configFile.exists()) {
-        // using the default configuration if no local configuration file.
-        is = Config.class.getClassLoader().getResourceAsStream("config.yml");
-      } else {
-        is = Files.newInputStream(Paths.get(configLocation));
-      }
-      if (is != null) {
-        Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
-        config = getYaml().loadAs(reader, Config.class);
-      }
-    } catch (Exception e) {
-      // FindSomething.API.logging().logToError(e);
+      InputStream is = Config.class.getClassLoader().getResourceAsStream("config.yml");
+      Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+      config = getYaml().loadAs(reader, Config.class);
     }
+
+    return config;
   }
 
   public static void loadRules() {
@@ -141,23 +146,21 @@ public class Config {
       } else {
         is = Files.newInputStream(Paths.get(rulesLocation));
       }
-      if (is != null) {
-        Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
-        Rules rules = getYaml().loadAs(reader, Rules.class);
-        Config.getInstance().setRules(rules);
-        // loading rules to cache
-        rules
-            .getRules()
-            .forEach(
-                g -> {
-                  g.getRule()
-                      .forEach(
-                          r -> {
-                            String key = Utils.calHash(g.getGroup(), r.getName());
-                            CachePool.putRule(key, r);
-                          });
-                });
-      }
+      Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+      Rules rules = getYaml().loadAs(reader, Rules.class);
+      Config.getInstance().setRules(rules);
+      // loading rules to cache
+      rules
+          .getRules()
+          .forEach(
+              g -> {
+                g.getRule()
+                    .forEach(
+                        r -> {
+                          String key = Utils.calHash(g.getGroup(), r.getName());
+                          CachePool.putRule(key, r);
+                        });
+              });
     } catch (IOException e) {
       FindSomething.API.logging().logToError(e);
     }
@@ -168,15 +171,19 @@ public class Config {
       return;
     }
 
+    saveConfig(config);
+  }
+
+  private static void saveConfig(Config config) {
     try {
       Writer ws =
           new OutputStreamWriter(
               Files.newOutputStream(Paths.get(configLocation)), StandardCharsets.UTF_8);
       getYaml().dump(config, ws);
       ws.close();
-      // FindSomething.API.logging().logToOutput("Saved config to " + configLocation);
+      FindSomething.API.logging().logToOutput("Saved config to " + configLocation);
     } catch (Exception e) {
-      // FindSomething.API.logging().logToError(e);
+      FindSomething.API.logging().logToError("Save configuration file failed, ", e);
     }
   }
 
@@ -189,7 +196,27 @@ public class Config {
       ws.close();
       FindSomething.API.logging().logToOutput("Saved rules to " + rulesLocation);
     } catch (Exception e) {
-      FindSomething.API.logging().logToError(e);
+      FindSomething.API.logging().logToError("Save configuration file failed, ", e);
     }
+  }
+
+  /**
+   * Notifies all registered config listeners that the config has changed.
+   *
+   * <p>This is called after the config has been saved.
+   */
+  private static void notifyListeners() {
+    for (ConfigChangeListener listener : config.listeners) {
+      listener.onConfigChange(config);
+    }
+  }
+
+  public void registerConfigListener(ConfigChangeListener listener) {
+    config.listeners.add(listener);
+  }
+
+  @Override
+  public void onConfigChange(Config config) {
+    saveConfig(config);
   }
 }
