@@ -91,16 +91,17 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
           if (selectedItem != null) {
             switch (selectedItem) {
               case BLACKLIST_SUFFIX:
-                Config.addSuffix(val);
+                Config.getInstance().addSuffix(val);
                 break;
               case BLACKLIST_HOST:
-                Config.addHost(val);
+                Config.getInstance().addHost(val);
                 break;
               case BLACKLIST_STATUS:
-                Config.addStatus(val);
+                Config.getInstance().addStatus(val);
                 break;
             }
           }
+          inputTextField.setText("");
         });
   }
 
@@ -279,22 +280,22 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
 
   @Override
   public void onConfigChange(Config config) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<List<Object[]>, Void>() {
+    SwingWorker<List<String[]>, Void> worker =
+        new SwingWorker<List<String[]>, Void>() {
           @Override
-          protected List<Object[]> doInBackground() {
-            List<Object[]> list = new ArrayList<>();
+          protected List<String[]> doInBackground() {
+            List<String[]> list = new ArrayList<>();
             // sync to configuration
             String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
             switch (selectedItem) {
               case BLACKLIST_SUFFIX:
-                list.add(config.getSuffixes().toArray());
+                config.getSuffixes().forEach(s -> list.add(new String[] {s}));
                 break;
               case BLACKLIST_HOST:
-                list.add(config.getHosts().toArray());
+                config.getHosts().forEach(s -> list.add(new String[] {s}));
                 break;
               case BLACKLIST_STATUS:
-                list.add(config.getStatus().toArray());
+                config.getStatus().forEach(s -> list.add(new String[] {s}));
                 break;
             }
 
@@ -304,11 +305,12 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
           @Override
           protected void done() {
             try {
-              List<Object[]> result = get();
+              List<String[]> result = get();
               blackListTableModel.setRowCount(0);
-              for (Object[] row : result) {
+              for (String[] row : result) {
                 blackListTableModel.addRow(row);
               }
+              blackListTableModel.fireTableDataChanged();
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }

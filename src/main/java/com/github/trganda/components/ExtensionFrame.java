@@ -1,18 +1,18 @@
 package com.github.trganda.components;
 
-import com.github.trganda.components.config.Config;
+import com.github.trganda.components.config.ConfigPane;
 import java.awt.*;
 import javax.swing.*;
 
 public class ExtensionFrame extends JPanel {
   private final Dashboard dashboard;
-  private final Config config;
+  private final ConfigPane config;
 
   public ExtensionFrame() {
     this.setLayout(new BorderLayout());
 
     dashboard = new Dashboard();
-    config = new Config();
+    config = new ConfigPane();
 
     // main panel
     JTabbedPane mainTabs = new JTabbedPane();

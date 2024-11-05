@@ -3,13 +3,13 @@ package com.github.trganda.components.config;
 import java.awt.*;
 import javax.swing.*;
 
-public class Config extends JPanel {
+public class ConfigPane extends JPanel {
 
   private RulePane rulePane;
 
   private BlackListPane blackListPane;
 
-  public Config() {
+  public ConfigPane() {
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     this.setLayout(gridBagLayout);

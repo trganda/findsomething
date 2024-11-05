@@ -47,28 +47,29 @@ public class Config implements ConfigChangeListener {
 
   public static Config getInstance() {
     if (config == null) {
+      FindSomething.API.logging().logToOutput("loading configuration file...");
       config = loadConfig();
     }
     return config;
   }
 
-  public static void addSuffix(String suffix) {
-    Config.getInstance().suffixes.add(suffix);
+  public void addSuffix(String suffix) {
+    config.suffixes.add(suffix);
     notifyListeners();
   }
 
-  public static void addHost(String host) {
-    Config.getInstance().hosts.add(host);
+  public void addHost(String host) {
+    config.hosts.add(host);
     notifyListeners();
   }
 
-  public static void addStatus(String statusCode) {
-    Config.getInstance().status.add(statusCode);
+  public void addStatus(String statusCode) {
+    config.status.add(statusCode);
     notifyListeners();
   }
 
-  public static void addRule(String group, Rule rule) {
-    Config.getInstance().getRules().getRules().stream()
+  public void addRule(String group, Rule rule) {
+    config.getRules().getRules().stream()
         .filter(g -> g.getGroup().equals(group))
         .findFirst()
         .ifPresent(g -> g.getRule().add(rule));
@@ -205,7 +206,7 @@ public class Config implements ConfigChangeListener {
    *
    * <p>This is called after the config has been saved.
    */
-  private static void notifyListeners() {
+  private void notifyListeners() {
     for (ConfigChangeListener listener : config.listeners) {
       listener.onConfigChange(config);
     }
