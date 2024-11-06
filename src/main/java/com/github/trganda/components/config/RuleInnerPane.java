@@ -5,7 +5,10 @@ import static com.github.trganda.config.Config.*;
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.Operatation;
 import com.github.trganda.config.Rules.Rule;
+import com.github.trganda.model.cache.CachePool;
+import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -221,6 +224,30 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
                       new Editor(pFrame, r).setVisible(true);
                     });
           });
+
+      remove.addActionListener(
+          e -> {
+            String selectedItem = selector.getSelectedItem().toString();
+            int[] idxes = table.getSelectedRows();
+            for (int idx : idxes) {
+              String ruleName = model.getValueAt(idx, 1).toString();
+              Rule rule = CachePool.getRule(Utils.calHash(selectedItem, ruleName));
+              if (rule != null) {
+                Config.getInstance().syncRules(selectedItem, rule, Operatation.DEL);
+              } else {
+                FindSomething.API
+                    .logging()
+                    .logToError(
+                        String.format("cannot found rule: %s in group: ", ruleName, selectedItem));
+              }
+            }
+          });
+
+      clear.addActionListener(
+          e -> {
+            String selectedItem = selector.getSelectedItem().toString();
+            Config.getInstance().syncRules(selectedItem, null, Operatation.CLR);
+          });
     }
 
     private void setAlign(JButton... buttons) {
@@ -233,7 +260,34 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
   @Override
   public void onConfigChange(Config config) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onConfigChange'");
+    SwingWorker<List<Object[]>, Void> worker =
+        new SwingWorker<>() {
+          @Override
+          protected List<Object[]> doInBackground() {
+            List<Object[]> list = new ArrayList<>();
+            String selectedItem = selector.getSelectedItem().toString();
+            for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
+              list.add(
+                  new Object[] {
+                    rule.isEnabled(), rule.getName(), rule.getRegex(), rule.isSensitive()
+                  });
+            }
+            return list;
+          }
+
+          @Override
+          protected void done() {
+            try {
+              List<Object[]> result = get();
+              model.setRowCount(0);
+              for (Object[] row : result) {
+                model.addRow(row);
+              }
+            } catch (InterruptedException | ExecutionException e) {
+              FindSomething.API.logging().logToError(new RuntimeException(e));
+            }
+          }
+        };
+    worker.execute();
   }
 }

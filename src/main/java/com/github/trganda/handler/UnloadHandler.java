@@ -16,9 +16,9 @@ public class UnloadHandler implements ExtensionUnloadingHandler {
   @Override
   public void extensionUnloaded() {
     // saving configuration
-    Config.saveConfig();
+    Config.getInstance().saveConfig();
     // saving rules
-    Config.saveRules();
+    Config.getInstance().saveRules();
     // shutdown the thread pool
     shutdown();
   }

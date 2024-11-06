@@ -1,9 +1,8 @@
 package com.github.trganda.components.config;
 
+import com.github.trganda.config.Config;
 import java.awt.*;
 import javax.swing.*;
-
-import com.github.trganda.config.Config;
 
 public class BlackListPane extends JPanel {
 
@@ -35,7 +34,7 @@ public class BlackListPane extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     this.add(blackListInnerPane, gbc);
-    
+
     Config.getInstance().registerConfigListener(blackListInnerPane);
   }
 }

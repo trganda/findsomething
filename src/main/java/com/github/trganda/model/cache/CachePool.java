@@ -51,4 +51,8 @@ public class CachePool {
   public static void putRule(String key, Rule rule) {
     ruleCache.put(key, rule);
   }
+
+  public static Rule getRule(String key) {
+    return ruleCache.getIfPresent(key);
+  }
 }

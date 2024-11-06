@@ -39,7 +39,7 @@ public class Config implements ConfigChangeListener {
   private List<String> suffixes = new ArrayList<>();
   private List<String> hosts = new ArrayList<>();
   private List<String> status = new ArrayList<>();
-  private Rules rules;
+  private transient Rules rules;
 
   private List<ConfigChangeListener> listeners = new ArrayList<>();
 
@@ -49,30 +49,77 @@ public class Config implements ConfigChangeListener {
     if (config == null) {
       FindSomething.API.logging().logToOutput("loading configuration file...");
       config = loadConfig();
+      config.rules = loadRules();
     }
     return config;
   }
 
-  public void addSuffix(String suffix) {
-    config.suffixes.add(suffix);
+  public void syncSuffixes(String suffix, Operatation type) {
+    switch (type) {
+      case ADD:
+        config.suffixes.add(suffix);
+        break;
+      case DEL:
+        config.suffixes.remove(suffix);
+        break;
+      case CLR:
+        config.suffixes.clear();
+        break;
+    }
     notifyListeners();
   }
 
-  public void addHost(String host) {
-    config.hosts.add(host);
+  public void syncHosts(String suffix, Operatation type) {
+    switch (type) {
+      case ADD:
+        config.hosts.add(suffix);
+        break;
+      case DEL:
+        config.hosts.remove(suffix);
+        break;
+      case CLR:
+        config.hosts.clear();
+        break;
+    }
     notifyListeners();
   }
 
-  public void addStatus(String statusCode) {
-    config.status.add(statusCode);
+  public void syncStatus(String suffix, Operatation type) {
+    switch (type) {
+      case ADD:
+        config.status.add(suffix);
+        break;
+      case DEL:
+        config.status.remove(suffix);
+        break;
+      case CLR:
+        config.status.clear();
+        break;
+    }
     notifyListeners();
   }
 
-  public void addRule(String group, Rule rule) {
-    config.getRules().getRules().stream()
-        .filter(g -> g.getGroup().equals(group))
-        .findFirst()
-        .ifPresent(g -> g.getRule().add(rule));
+  public void syncRules(String group, Rule rule, Operatation type) {
+    switch (type) {
+      case ADD:
+        config.rules.getGroups().stream()
+            .filter(g -> g.getGroup().equals(group))
+            .findFirst()
+            .ifPresent(g -> g.getRule().add(rule));
+        break;
+      case DEL:
+        config.rules.getGroups().stream()
+            .filter(g -> g.getGroup().equals(group))
+            .findFirst()
+            .ifPresent(g -> g.getRule().remove(rule));
+        break;
+      case CLR:
+        config.rules.getGroups().stream()
+            .filter(g -> g.getGroup().equals(group))
+            .findFirst()
+            .ifPresent(g -> g.getRule().clear());
+        break;
+    }
     notifyListeners();
   }
 
@@ -137,37 +184,38 @@ public class Config implements ConfigChangeListener {
     return config;
   }
 
-  public static void loadRules() {
-    File configFile = new File(rulesLocation);
-    InputStream is;
-    try {
-      if (!configFile.exists()) {
-        // using the default configuration if no local configuration file.
-        is = Config.class.getClassLoader().getResourceAsStream("rules.yml");
-      } else {
-        is = Files.newInputStream(Paths.get(rulesLocation));
-      }
-      Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
-      Rules rules = getYaml().loadAs(reader, Rules.class);
-      Config.getInstance().setRules(rules);
-      // loading rules to cache
-      rules
-          .getRules()
-          .forEach(
-              g -> {
-                g.getRule()
-                    .forEach(
-                        r -> {
-                          String key = Utils.calHash(g.getGroup(), r.getName());
-                          CachePool.putRule(key, r);
-                        });
-              });
+  public static Rules loadRules() {
+    Rules rules = null;
+    try (InputStreamReader reader =
+        new InputStreamReader(
+            Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
+      rules = getYaml().loadAs(reader, Rules.class);
     } catch (IOException e) {
-      FindSomething.API.logging().logToError(e);
+      FindSomething.API.logging().logToError("load rules file failed, using default config");
+
+      InputStream is = Config.class.getClassLoader().getResourceAsStream("rules.yml");
+      Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+      rules = getYaml().loadAs(reader, Rules.class);
     }
+
+    // saving rules to cache for future use, the key was a hash that generate from group name and
+    // rule name.
+    rules
+        .getGroups()
+        .forEach(
+            g -> {
+              g.getRule()
+                  .forEach(
+                      r -> {
+                        String key = Utils.calHash(g.getGroup(), r.getName());
+                        CachePool.putRule(key, r);
+                      });
+            });
+
+    return rules;
   }
 
-  public static void saveConfig() {
+  public void saveConfig() {
     if (config == null) {
       return;
     }
@@ -175,29 +223,41 @@ public class Config implements ConfigChangeListener {
     saveConfig(config);
   }
 
-  private static void saveConfig(Config config) {
+  private void saveConfig(Config config) {
+    // create config directory if not exists
+    Paths.get(configLocation).toFile().getParentFile().mkdirs();
     try {
       Writer ws =
           new OutputStreamWriter(
               Files.newOutputStream(Paths.get(configLocation)), StandardCharsets.UTF_8);
       getYaml().dump(config, ws);
       ws.close();
-      FindSomething.API.logging().logToOutput("Saved config to " + configLocation);
+      FindSomething.API.logging().logToOutput("Saved configuration to " + configLocation);
     } catch (Exception e) {
-      FindSomething.API.logging().logToError("Save configuration file failed, ", e);
+      FindSomething.API.logging().logToError("Saving configuration file failed, ", e);
     }
   }
 
-  public static void saveRules() {
+  public void saveRules() {
+    if (config == null) {
+      return;
+    }
+
+    saveRules(config.rules);
+  }
+
+  private void saveRules(Rules rules) {
+    // create config directory if not exists
+    Paths.get(configLocation).toFile().getParentFile().mkdirs();
     try {
       Writer ws =
           new OutputStreamWriter(
               Files.newOutputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8);
-      getYaml().dump(config.rules, ws);
+      getYaml().dump(rules, ws);
       ws.close();
       FindSomething.API.logging().logToOutput("Saved rules to " + rulesLocation);
     } catch (Exception e) {
-      FindSomething.API.logging().logToError("Save configuration file failed, ", e);
+      FindSomething.API.logging().logToError("Saving rules file failed, ", e);
     }
   }
 
@@ -219,5 +279,6 @@ public class Config implements ConfigChangeListener {
   @Override
   public void onConfigChange(Config config) {
     saveConfig(config);
+    saveRules(config.rules);
   }
 }

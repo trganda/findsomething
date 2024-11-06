@@ -1,11 +1,13 @@
 package com.github.trganda.components.config;
 
+import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.utils.Utils;
 import java.awt.*;
 import javax.swing.*;
 
-public class Editor extends JDialog {
+public class Editor extends JDialog implements ConfigChangeListener {
 
   private JTextField nameField;
   private JTextField regexField;
@@ -126,5 +128,11 @@ public class Editor extends JDialog {
             Editor.this.setVisible(false);
           });
     }
+  }
+
+  @Override
+  public void onConfigChange(Config config) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onConfigChange'");
   }
 }

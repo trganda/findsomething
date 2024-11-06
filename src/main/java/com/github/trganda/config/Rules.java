@@ -3,22 +3,22 @@ package com.github.trganda.config;
 import java.util.List;
 
 public class Rules {
-  private List<Group> rules;
+  private List<Group> groups;
 
   // Getters and Setters
-  public List<Group> getRules() {
-    return rules;
+  public List<Group> getGroups() {
+    return groups;
   }
 
-  public void setRules(List<Group> rules) {
-    this.rules = rules;
+  public void setGroups(List<Group> rules) {
+    this.groups = rules;
   }
 
   public List<Rule> getRulesWithGroup(String group) {
-    if (rules.stream().filter(rule -> rule.getGroup().equals(group)).findAny().isEmpty()) {
+    if (groups.stream().filter(rule -> rule.getGroup().equals(group)).findAny().isEmpty()) {
       return List.of();
     }
-    return rules.stream()
+    return groups.stream()
         .filter(rule -> rule.getGroup().equals(group))
         .findFirst()
         .orElse(new Group())

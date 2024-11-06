@@ -1,4 +1,4 @@
-rules:
+groups:
   - group: Fingerprint
     rule:
       - enabled: true

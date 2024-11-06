@@ -5,6 +5,7 @@ import static com.github.trganda.config.Config.*;
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.Operatation;
 import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -87,20 +88,7 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
             return;
           }
           // sync to configuration
-          String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
-          if (selectedItem != null) {
-            switch (selectedItem) {
-              case BLACKLIST_SUFFIX:
-                Config.getInstance().addSuffix(val);
-                break;
-              case BLACKLIST_HOST:
-                Config.getInstance().addHost(val);
-                break;
-              case BLACKLIST_STATUS:
-                Config.getInstance().addStatus(val);
-                break;
-            }
-          }
+          syncToConfig(val, Operatation.ADD);
           inputTextField.setText("");
         });
   }
@@ -183,6 +171,10 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
             } else {
               inputTextField.setForeground(defaultColor);
               inputTextField.setFont(Utils.getBurpEditorFont());
+              if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                syncToConfig(val, Operatation.ADD);
+                inputTextField.setText("");
+              }
             }
           }
         });
@@ -234,11 +226,11 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
           e -> {
             int[] idxes = blackListTable.getSelectedRows();
             for (int idx : idxes) {
-              blackListTableModel.removeRow(idx);
+              syncToConfig(blackListTableModel.getValueAt(idx, 0).toString(), Operatation.DEL);
             }
           });
 
-      clear.addActionListener(e -> blackListTableModel.setRowCount(0));
+      clear.addActionListener(e -> syncToConfig("", Operatation.CLR));
     }
 
     public void loadBlackListWithType(List<String> data) {
@@ -274,6 +266,23 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
       for (var button : buttons) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
+      }
+    }
+  }
+
+  private void syncToConfig(String val, Operatation type) {
+    String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
+    if (selectedItem != null) {
+      switch (selectedItem) {
+        case BLACKLIST_SUFFIX:
+          Config.getInstance().syncSuffixes(val, type);
+          break;
+        case BLACKLIST_HOST:
+          Config.getInstance().syncHosts(val, type);
+          break;
+        case BLACKLIST_STATUS:
+          Config.getInstance().syncStatus(val, type);
+          break;
       }
     }
   }

@@ -3,6 +3,8 @@ package com.github.trganda.components.config;
 import java.awt.*;
 import javax.swing.*;
 
+import com.github.trganda.config.Config;
+
 public class RulePane extends JPanel {
 
   private JLabel label;
@@ -36,5 +38,7 @@ public class RulePane extends JPanel {
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(ruleInnerPane, gbc);
+
+    Config.getInstance().registerConfigListener(ruleInnerPane);
   }
 }
