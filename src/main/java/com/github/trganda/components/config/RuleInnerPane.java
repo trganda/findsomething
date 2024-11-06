@@ -202,7 +202,8 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
       Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
       add.addActionListener(
           e -> {
-            new Editor(pFrame).setVisible(true);
+            String group = selector.getSelectedItem().toString();
+            new Editor(pFrame, group).setVisible(true);
           });
 
       edit.addActionListener(
@@ -216,12 +217,13 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
                     .getRules()
                     .getRulesWithGroup(selector.getSelectedItem().toString());
             String name = model.getValueAt(idx, 1).toString();
+            String group = selector.getSelectedItem().toString();
             rules.stream()
                 .filter(r -> r.getName().equals(name))
                 .findFirst()
                 .ifPresent(
                     r -> {
-                      new Editor(pFrame, r).setVisible(true);
+                      new Editor(pFrame, group, r).setVisible(true);
                     });
           });
 
@@ -283,6 +285,8 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
               for (Object[] row : result) {
                 model.addRow(row);
               }
+              model.fireTableDataChanged();
+              countLabel.setText(String.valueOf(result.size()));
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }

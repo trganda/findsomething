@@ -1,9 +1,8 @@
 package com.github.trganda.components.config;
 
+import com.github.trganda.config.Config;
 import java.awt.*;
 import javax.swing.*;
-
-import com.github.trganda.config.Config;
 
 public class RulePane extends JPanel {
 

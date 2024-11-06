@@ -65,6 +65,8 @@ public class Config implements ConfigChangeListener {
       case CLR:
         config.suffixes.clear();
         break;
+      default:
+        break;
     }
     notifyListeners();
   }
@@ -79,6 +81,8 @@ public class Config implements ConfigChangeListener {
         break;
       case CLR:
         config.hosts.clear();
+        break;
+      default:
         break;
     }
     notifyListeners();
@@ -95,6 +99,8 @@ public class Config implements ConfigChangeListener {
       case CLR:
         config.status.clear();
         break;
+      default:
+        break;
     }
     notifyListeners();
   }
@@ -102,6 +108,7 @@ public class Config implements ConfigChangeListener {
   public void syncRules(String group, Rule rule, Operatation type) {
     switch (type) {
       case ADD:
+      case EDT:
         config.rules.getGroups().stream()
             .filter(g -> g.getGroup().equals(group))
             .findFirst()

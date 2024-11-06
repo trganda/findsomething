@@ -1,23 +1,26 @@
 package com.github.trganda.components.config;
 
 import com.github.trganda.config.Config;
-import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.Operatation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.utils.Utils;
 import java.awt.*;
 import javax.swing.*;
 
-public class Editor extends JDialog implements ConfigChangeListener {
+public class Editor extends JDialog {
 
   private JTextField nameField;
   private JTextField regexField;
   private JCheckBox sensitive;
 
+  private String group;
+  private Operatation op;
+
   private Rule rule;
 
   public Editor() {}
 
-  public Editor(Frame pFrame) {
+  private Editor(Frame pFrame) {
     super(pFrame);
     this.setLocationRelativeTo(pFrame);
     this.setLayout(new GridBagLayout());
@@ -73,8 +76,15 @@ public class Editor extends JDialog implements ConfigChangeListener {
     this.add(new EditroButtonsPane(), gbc);
   }
 
-  public Editor(Frame pFrame, Rule pRule) {
+  public Editor(Frame pFrame, String group) {
     this(pFrame);
+    this.group = group;
+    this.op = Operatation.ADD;
+  }
+
+  public Editor(Frame pFrame, String group, Rule pRule) {
+    this(pFrame, group);
+    this.op = Operatation.EDT;
     this.rule = pRule;
     this.nameField.setText(rule.getName());
     this.regexField.setText(rule.getRegex());
@@ -121,18 +131,17 @@ public class Editor extends JDialog implements ConfigChangeListener {
 
       save.addActionListener(
           e -> {
-            Rule rule = new Rule();
-            rule.setName(nameField.getText());
-            rule.setRegex(regexField.getText());
-            rule.setSensitive(sensitive.isSelected());
+            Rule r =
+                new Rule(true, nameField.getText(), regexField.getText(), sensitive.isSelected());
+            if (op == Operatation.ADD) {
+              Config.getInstance().syncRules(group, r, op);
+            } else if (op == Operatation.EDT) {
+              // remove the old rule first
+              Config.getInstance().syncRules(group, rule, Operatation.DEL);
+              Config.getInstance().syncRules(group, r, op);
+            }
             Editor.this.setVisible(false);
           });
     }
-  }
-
-  @Override
-  public void onConfigChange(Config config) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onConfigChange'");
   }
 }
