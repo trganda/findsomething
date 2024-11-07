@@ -51,14 +51,16 @@ public class Rules {
     private boolean enabled;
     private String name;
     private String regex;
+    private Scope scope;
     private boolean sensitive;
 
     public Rule() {}
 
-    public Rule(boolean enabled, String name, String regex, boolean sensitive) {
+    public Rule(boolean enabled, String name, String regex, Scope scope, boolean sensitive) {
       this.enabled = enabled;
       this.name = name;
       this.regex = regex;
+      this.scope = scope;
       this.sensitive = sensitive;
     }
 
@@ -84,6 +86,14 @@ public class Rules {
 
     public void setRegex(String regex) {
       this.regex = regex;
+    }
+
+    public Scope getScope() {
+      return scope;
+    }
+
+    public void setScope(Scope scope) {
+      this.scope = scope;
     }
 
     public boolean isSensitive() {

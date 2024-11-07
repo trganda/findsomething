@@ -4,7 +4,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.model.RequestDataModel;
+import com.github.trganda.model.RequestDetailModel;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -17,17 +17,17 @@ public class CachePool {
           .maximumSize(MAX_SIZE)
           .expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS)
           .build();
-  private static final Cache<String, List<RequestDataModel>> reqInfoCache =
+  private static final Cache<String, List<RequestDetailModel>> reqInfoCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, Rule> ruleCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
 
-  public static void putRequestDataModel(String key, List<RequestDataModel> requestDataModels) {
+  public static void putRequestDataModel(String key, List<RequestDetailModel> requestDataModels) {
     reqInfoCache.put(key, requestDataModels);
   }
 
-  public static void addRequestDataModel(String key, RequestDataModel requestDataModel) {
-    List<RequestDataModel> vals = reqInfoCache.getIfPresent(key);
+  public static void addRequestDataModel(String key, RequestDetailModel requestDataModel) {
+    List<RequestDetailModel> vals = reqInfoCache.getIfPresent(key);
     if (vals == null) {
       putRequestDataModel(key, List.of(requestDataModel));
     } else {
@@ -36,7 +36,7 @@ public class CachePool {
     }
   }
 
-  public static List<RequestDataModel> getRequestDataModelList(String key) {
+  public static List<RequestDetailModel> getRequestDataModelList(String key) {
     return reqInfoCache.getIfPresent(key);
   }
 

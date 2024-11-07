@@ -1,6 +1,7 @@
 package com.github.trganda.components;
 
 import com.github.trganda.components.config.ConfigPane;
+import com.github.trganda.components.dashboard.Dashboard;
 import java.awt.*;
 import javax.swing.*;
 
@@ -21,9 +22,5 @@ public class ExtensionFrame extends JPanel {
     mainTabs.addTab("Config", scrollPane);
 
     this.add(mainTabs);
-  }
-
-  public InformationPane getFilterSplitPane() {
-    return dashboard.getFilterSplitPane();
   }
 }

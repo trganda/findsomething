@@ -1,6 +1,6 @@
 package com.github.trganda.model;
 
-public class RequestDataModel {
+public class RequestDetailModel {
 
   private final int messageId;
   private final String path;
@@ -8,7 +8,7 @@ public class RequestDataModel {
   private final int status;
   private final String time;
 
-  public RequestDataModel(int messageId, String path, String host, int status, String time) {
+  public RequestDetailModel(int messageId, String path, String host, int status, String time) {
     this.messageId = messageId;
     this.path = path;
     this.host = host;

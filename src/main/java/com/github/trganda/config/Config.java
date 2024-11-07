@@ -112,7 +112,12 @@ public class Config implements ConfigChangeListener {
         config.rules.getGroups().stream()
             .filter(g -> g.getGroup().equals(group))
             .findFirst()
-            .ifPresent(g -> g.getRule().add(rule));
+            .ifPresent(
+                g -> {
+                  g.getRule().add(rule);
+                  // saving rule to cache either
+                  CachePool.putRule(Utils.calHash(group, rule.getName()), rule);
+                });
         break;
       case DEL:
         config.rules.getGroups().stream()

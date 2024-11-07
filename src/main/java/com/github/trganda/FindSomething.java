@@ -13,8 +13,19 @@ public class FindSomething implements BurpExtension {
 
   public static MontoyaApi API;
 
+  private InfoHttpResponseHandler handler;
+
+  private ExtensionFrame extensionFrame;
+
+  private static FindSomething fd;
+
+  public static FindSomething getInstance() {
+    return fd;
+  }
+
   @Override
   public void initialize(MontoyaApi api) {
+    fd = this;
     FindSomething.API = api;
 
     // loading the default configuration file to ${home}/.config
@@ -22,9 +33,8 @@ public class FindSomething implements BurpExtension {
     Config.getInstance().registerConfigListener(config);
 
     ExecutorService pool = Executors.newCachedThreadPool();
-    InfoHttpResponseHandler handler = new InfoHttpResponseHandler(pool);
-    ExtensionFrame extensionFrame = new ExtensionFrame();
-    handler.registerDataChangeListener(extensionFrame.getFilterSplitPane());
+    handler = new InfoHttpResponseHandler(pool);
+    extensionFrame = new ExtensionFrame();
 
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);
@@ -32,5 +42,9 @@ public class FindSomething implements BurpExtension {
 
     // shutdown thread pool while unloading
     api.extension().registerUnloadingHandler(new UnloadHandler(pool));
+  }
+
+  public InfoHttpResponseHandler getHandler() {
+    return handler;
   }
 }

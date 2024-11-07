@@ -80,7 +80,7 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
   private JComponent setupTable() {
     model =
-        new DefaultTableModel(new Object[] {"Enabled", "Name", "Regex", "Sensitive"}, 0) {
+        new DefaultTableModel(new Object[] {"Enabled", "Name", "Regex", "Scope", "Sensitive"}, 0) {
           @Override
           public Class<?> getColumnClass(int column) {
             // set column to using combobox
@@ -111,8 +111,9 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
     int width = table.getWidth();
     table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
     table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.2));
-    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.6));
+    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.5));
     table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.1));
+    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
   }
 
   private void setupComponents() {
@@ -151,7 +152,11 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
             for (Rule rule : rules) {
               list.add(
                   new Object[] {
-                    rule.isEnabled(), rule.getName(), rule.getRegex(), rule.isSensitive()
+                    rule.isEnabled(),
+                    rule.getName(),
+                    rule.getRegex(),
+                    rule.getScope(),
+                    rule.isSensitive()
                   });
             }
             return list;
@@ -240,7 +245,8 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
                 FindSomething.API
                     .logging()
                     .logToError(
-                        String.format("cannot found rule: %s in group: ", ruleName, selectedItem));
+                        String.format(
+                            "cannot find rule: '%s' in group: '%s'", ruleName, selectedItem));
               }
             }
           });
@@ -271,7 +277,11 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
             for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
               list.add(
                   new Object[] {
-                    rule.isEnabled(), rule.getName(), rule.getRegex(), rule.isSensitive()
+                    rule.isEnabled(),
+                    rule.getName(),
+                    rule.getRegex(),
+                    rule.getScope(),
+                    rule.isSensitive()
                   });
             }
             return list;

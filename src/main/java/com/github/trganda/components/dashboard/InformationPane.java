@@ -1,4 +1,4 @@
-package com.github.trganda.components;
+package com.github.trganda.components.dashboard;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.handler.DataChangeListener;
@@ -87,9 +87,5 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
   public JTable getInfoTable() {
     return infoTable;
-  }
-
-  public DefaultTableModel getInfoTableModel() {
-    return infoTableModel;
   }
 }

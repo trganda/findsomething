@@ -1,8 +1,8 @@
-package com.github.trganda.components;
+package com.github.trganda.components.dashboard;
 
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.trganda.FindSomething;
-import com.github.trganda.model.RequestDataModel;
+import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
 import java.awt.event.MouseAdapter;
@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.table.DefaultTableModel;
 
 public class Dashboard extends JSplitPane {
   private final InformationPane informationPane;
@@ -26,9 +25,8 @@ public class Dashboard extends JSplitPane {
     this.setLeftComponent(informationPane);
     this.setRightComponent(requestSplitFrame);
     this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    BasicSplitPaneUI ui = (BasicSplitPaneUI) this.getUI();
-    BasicSplitPaneDivider divider = ui.getDivider();
-    divider.setBorder(null);
+
+    FindSomething.getInstance().getHandler().registerDataChangeListener(informationPane);
 
     // setup event
     setupTable();
@@ -45,19 +43,20 @@ public class Dashboard extends JSplitPane {
             new MouseAdapter() {
               @Override
               public void mouseClicked(MouseEvent e) {
-                int row = informationPane.getInfoTable().rowAtPoint(e.getPoint());
+                JTable table = informationPane.getInfoTable();
+                int row = table.rowAtPoint(e.getPoint());
                 if (row >= 0) {
                   String info =
-                      (String) informationPane.getInfoTable().getModel().getValueAt(row, 1);
+                      (String) table.getModel().getValueAt(row, 1);
                   String hashKey = Utils.calHash(info);
-                  List<RequestDataModel> reqInfos = CachePool.getRequestDataModelList(hashKey);
+                  List<RequestDetailModel> reqInfos = CachePool.getRequestDataModelList(hashKey);
 
                   SwingWorker<List<Object[]>, Void> worker =
                       new SwingWorker<>() {
                         @Override
                         protected List<Object[]> doInBackground() {
                           List<Object[]> infos = new ArrayList<>();
-                          for (RequestDataModel reqInfo : reqInfos) {
+                          for (RequestDetailModel reqInfo : reqInfos) {
                             infos.add(reqInfo.getRequestData());
                           }
                           return infos;
@@ -65,17 +64,15 @@ public class Dashboard extends JSplitPane {
 
                         @Override
                         protected void done() {
-                          requestSplitFrame
-                              .getRequestDetailsTableModel()
-                              .getDataVector()
-                              .removeAllElements();
+                          DefaultTableModel tableModel = requestSplitFrame.getInformationDetailsPane().getTableModel();
+                          tableModel.setRowCount(0);
                           // update when work done
                           try {
                             List<Object[]> rows = get();
                             for (Object[] row : rows) {
-                              requestSplitFrame.getRequestDetailsTableModel().addRow(row);
+                              tableModel.addRow(row);
                             }
-                            requestSplitFrame.getRequestDetailsTableModel().fireTableDataChanged();
+                            tableModel.fireTableDataChanged();
                           } catch (InterruptedException | ExecutionException e) {
                             FindSomething.API.logging().logToError(new RuntimeException(e));
                           }
@@ -83,22 +80,22 @@ public class Dashboard extends JSplitPane {
                       };
                   worker.execute();
                 }
-                super.mouseClicked(e);
               }
             });
 
-    requestSplitFrame
-        .getRequestDetailsTable()
+    requestSplitFrame.getInformationDetailsPane().getTable()
         .addMouseListener(
             new MouseAdapter() {
               @Override
               public void mouseClicked(MouseEvent e) {
-                int row = requestSplitFrame.getRequestDetailsTable().rowAtPoint(e.getPoint());
+                JTable table = requestSplitFrame.getInformationDetailsPane().getTable();
+                DefaultTableModel tableModel = requestSplitFrame.getInformationDetailsPane().getTableModel();
+                int row = table.rowAtPoint(e.getPoint());
                 if (row >= 0) {
                   String path =
-                      (String) requestSplitFrame.getRequestDetailsTable().getValueAt(row, 1);
+                      (String) tableModel.getValueAt(row, 1);
                   String host =
-                      (String) requestSplitFrame.getRequestDetailsTable().getValueAt(row, 2);
+                      (String) tableModel.getValueAt(row, 2);
                   String hash = Utils.calHash(path, host);
                   InterceptedResponse resp = CachePool.getInterceptedResponse(hash);
 
