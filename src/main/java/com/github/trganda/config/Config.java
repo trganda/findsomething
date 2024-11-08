@@ -208,9 +208,7 @@ public class Config implements ConfigChangeListener {
               Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
         rules = getYaml().loadAs(reader, Rules.class);
       } catch (IOException e) {
-        FindSomething.API
-            .logging()
-            .logToError("load rules file failed, using default config");
+        FindSomething.API.logging().logToError("load rules file failed, using default config");
         rules = loadRules(true);
       }
     }
@@ -228,7 +226,7 @@ public class Config implements ConfigChangeListener {
                         CachePool.getInstance().putRule(key, r);
                       });
             });
-    
+
     return rules;
   }
 

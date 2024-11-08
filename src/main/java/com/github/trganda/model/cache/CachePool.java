@@ -4,8 +4,8 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.trganda.config.Rules.Rule;
+import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,20 +19,18 @@ public class CachePool {
           .maximumSize(MAX_SIZE)
           .expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS)
           .build();
+  private Cache<String, List<InfoDataModel>> infoCache;
   private static final Cache<String, List<RequestDetailModel>> reqInfoCache =
-      Caffeine.newBuilder()
-          .maximumSize(MAX_SIZE)
-          .build();
+      Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, Rule> ruleCache =
-      Caffeine.newBuilder()
-          .maximumSize(MAX_SIZE)
-          .build();
+      Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
 
   private static CachePool instance;
 
   public static CachePool getInstance() {
     if (instance == null) {
       instance = new CachePool();
+      instance.infoCache = Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
     }
     return instance;
   }
@@ -40,7 +38,6 @@ public class CachePool {
   public void putRequestDataModel(String key, List<RequestDetailModel> requestDataModels) {
     reqInfoCache.put(key, requestDataModels);
   }
-
 
   public void addRequestDataModel(String key, RequestDetailModel requestDataModel) {
     List<RequestDetailModel> vals = reqInfoCache.getIfPresent(key);
@@ -72,5 +69,20 @@ public class CachePool {
 
   public Rule getRule(String key) {
     return ruleCache.getIfPresent(key);
+  }
+
+  public void addInfoDataModel(String key, InfoDataModel infoDataModel) {
+    List<InfoDataModel> vals = infoCache.getIfPresent(key);
+    if (vals == null) {
+      infoCache.put(key, List.of(infoDataModel));
+    } else {
+      List<InfoDataModel> copyVals = new ArrayList<>(vals);
+      copyVals.add(infoDataModel);
+      infoCache.put(key, copyVals);
+    }
+  }
+
+  public List<InfoDataModel> getInfoData(String key) {
+    return infoCache.getIfPresent(key);
   }
 }

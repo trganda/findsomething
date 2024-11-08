@@ -13,7 +13,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
-
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,15 +73,18 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                         r -> {
                           if (r.isEnabled()) {
                             String[] results = this.match(interceptedResponse, r);
-                            List<InfoDataModel> data = new CopyOnWriteArrayList<>();
+                            List<InfoDataModel> data = new ArrayList<>();
                             DateTimeFormatter formatter =
-                                  DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
+                                DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
                             FindSomething.API.logging().logToOutput("count: " + results.length);
                             for (String result : results) {
                               // remove first and last char if equals to '"'
                               // result = removeFirstAndLastChar(result, '"');
                               InfoDataModel infoDataModel = new InfoDataModel(result);
                               data.add(infoDataModel);
+
+                              // CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
+
                               // set request info
                               String hash = Utils.calHash(result);
                               RequestDetailModel requestDataModel =
@@ -96,9 +97,9 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
                               // set request and response for future use
-                              String reqHash =
-                                  Utils.calHash(req.path(), req.httpService().host());
-                              CachePool.getInstance().putInterceptedResponse(reqHash, interceptedResponse);
+                              String reqHash = Utils.calHash(req.path(), req.httpService().host());
+                              CachePool.getInstance()
+                                  .putInterceptedResponse(reqHash, interceptedResponse);
                             }
 
                             for (DataChangeListener listener : listeners) {
@@ -188,9 +189,12 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
   }
 
   private String removeFirstAndLastChar(String str, char c) {
-    if (str != null && str.length() > 0 && str.charAt(0) == c && str.charAt(str.length() - 1) == c) {
-        return str.substring(1, str.length() - 1);
+    if (str != null
+        && str.length() > 0
+        && str.charAt(0) == c
+        && str.charAt(str.length() - 1) == c) {
+      return str.substring(1, str.length() - 1);
     }
     return str;
-}
+  }
 }

@@ -46,7 +46,6 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.anchor = GridBagConstraints.LINE_START;
     gbc.insets = new Insets(5, 0, 0, 0);
     this.add(new JLabel("Rule count:"), gbc);
 

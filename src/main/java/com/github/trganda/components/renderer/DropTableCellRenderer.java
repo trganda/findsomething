@@ -27,4 +27,8 @@ public class DropTableCellRenderer implements TableCellRenderer {
           .getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
   }
+
+  public JComboBox<String> getComboBox() {
+    return comboBox;
+  }
 }

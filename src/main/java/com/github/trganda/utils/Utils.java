@@ -1,6 +1,5 @@
 package com.github.trganda.utils;
 
-import burp.api.montoya.http.message.requests.HttpRequest;
 import com.github.trganda.FindSomething;
 import java.awt.Font;
 import java.security.MessageDigest;

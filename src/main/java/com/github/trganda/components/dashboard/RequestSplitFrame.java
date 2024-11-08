@@ -80,11 +80,11 @@ public class RequestSplitFrame extends JSplitPane {
 
     private void resizePane() {
       int width = table.getWidth();
-      table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
+      table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.05));
       table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.4));
       table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.3));
       table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.1));
-      table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
+      table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.15));
     }
 
     public JTable getTable() {
