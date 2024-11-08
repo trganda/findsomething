@@ -13,12 +13,14 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,10 +29,11 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private final Long id = 0L;
   private final ExecutorService pool;
-  private final List<DataChangeListener> listeners = new ArrayList<>();
+  private final List<DataChangeListener> listeners;
 
   public InfoHttpResponseHandler(ExecutorService pool) {
     this.pool = pool;
+    this.listeners = new CopyOnWriteArrayList<>();
   }
 
   @Override
@@ -42,9 +45,9 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     HttpRequest req = interceptedResponse.request();
-    FindSomething.API.logging().logToOutput(req.url());
     pool.submit(
         () -> {
+          FindSomething.API.logging().logToOutput("processing, " + req.url());
           process(interceptedResponse);
         });
 
@@ -100,35 +103,45 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                 g.getRule().stream()
                     .forEach(
                         r -> {
-                          if (!r.isEnabled()) {
-                            return;
-                          }
-                          String[] results = this.match(interceptedResponse, r);
-                          List<InfoDataModel> data = new ArrayList<>();
-                          for (String result : results) {
-                            InfoDataModel infoDataModel = new InfoDataModel(result);
-                            data.add(infoDataModel);
+                          if (r.isEnabled()) {
+                            String[] results = this.match(interceptedResponse, r);
+                            FindSomething.API
+                                .logging()
+                                .logToOutput(
+                                    String.format(
+                                        "rule: %s, count: %s", r.getName(), results.length));
+                            List<InfoDataModel> data = new CopyOnWriteArrayList<>();
+                            for (String result : results) {
+                              InfoDataModel infoDataModel = new InfoDataModel(result);
+                              data.add(infoDataModel);
 
-                            DateTimeFormatter formatter =
-                                DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
-                            // set request info
-                            String hash = Utils.calHash(result);
-                            RequestDetailModel requestDataModel =
-                                new RequestDetailModel(
-                                    interceptedResponse.messageId(),
-                                    req.path(),
-                                    req.httpService().host(),
-                                    interceptedResponse.statusCode(),
-                                    ZonedDateTime.now().format(formatter));
-                            CachePool.addRequestDataModel(hash, requestDataModel);
+                              DateTimeFormatter formatter =
+                                  DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
+                              // set request info
+                              String hash = Utils.calHash(result);
+                              RequestDetailModel requestDataModel =
+                                  new RequestDetailModel(
+                                      interceptedResponse.messageId(),
+                                      req.path(),
+                                      req.httpService().host(),
+                                      interceptedResponse.statusCode(),
+                                      ZonedDateTime.now().format(formatter));
+                              // TODO: fix the bug that may crash the thread.
+                              CachePool.addRequestDataModel(hash, requestDataModel);
 
-                            // set request and response for future use
-                            String reqHash = Utils.calHash(req.path(), req.httpService().host());
-                            CachePool.putInterceptedResponse(reqHash, interceptedResponse);
-                          }
+                              // set request and response for future use
+                              String reqHash =
+                                  Utils.calHash(req.path(), req.httpService().host());
+                              CachePool.putInterceptedResponse(reqHash, interceptedResponse);
+                            }
 
-                          for (DataChangeListener listener : listeners) {
-                            listener.onDataChanged(data);
+                            FindSomething.API
+                                .logging()
+                                .logToOutput(
+                                    "call onDataChanged: " + data.size() + " " + listeners.size());
+                            for (DataChangeListener listener : listeners) {
+                              listener.onDataChanged(data);
+                            }
                           }
                         }));
   }
@@ -178,10 +191,11 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private String[] match(InterceptedResponse interceptedResponse, Rule rule) {
     Scope scope = rule.getScope();
-    String body = interceptedResponse.body().toString();
+    String body = interceptedResponse.bodyToString();
 
     List<String> matchList = new ArrayList<>();
-    Pattern pattern = Pattern.compile(rule.getRegex());
+    Pattern pattern =
+        Pattern.compile(rule.getRegex(), rule.isSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
     switch (scope) {
       case RESPONSE_BODY:
         matchList.addAll(Arrays.asList(match(body, pattern)));
@@ -191,7 +205,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
             .headers()
             .forEach(
                 h -> {
-                  matchList.addAll(Arrays.asList(match(h.value(), pattern)));
+                  matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
                 });
         break;
       default:

@@ -203,7 +203,7 @@ public class Config implements ConfigChangeListener {
             Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
       rules = getYaml().loadAs(reader, Rules.class);
     } catch (IOException e) {
-      FindSomething.API.logging().logToError("load rules file failed, using default config");
+      // FindSomething.API.logging().logToError("load rules file failed, using default config");
 
       InputStream is = Config.class.getClassLoader().getResourceAsStream("rules.yml");
       Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);

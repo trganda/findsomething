@@ -46,8 +46,7 @@ public class Dashboard extends JSplitPane {
                 JTable table = informationPane.getInfoTable();
                 int row = table.rowAtPoint(e.getPoint());
                 if (row >= 0) {
-                  String info =
-                      (String) table.getModel().getValueAt(row, 1);
+                  String info = (String) table.getModel().getValueAt(row, 1);
                   String hashKey = Utils.calHash(info);
                   List<RequestDetailModel> reqInfos = CachePool.getRequestDataModelList(hashKey);
 
@@ -64,7 +63,8 @@ public class Dashboard extends JSplitPane {
 
                         @Override
                         protected void done() {
-                          DefaultTableModel tableModel = requestSplitFrame.getInformationDetailsPane().getTableModel();
+                          DefaultTableModel tableModel =
+                              requestSplitFrame.getInformationDetailsPane().getTableModel();
                           tableModel.setRowCount(0);
                           // update when work done
                           try {
@@ -83,19 +83,20 @@ public class Dashboard extends JSplitPane {
               }
             });
 
-    requestSplitFrame.getInformationDetailsPane().getTable()
+    requestSplitFrame
+        .getInformationDetailsPane()
+        .getTable()
         .addMouseListener(
             new MouseAdapter() {
               @Override
               public void mouseClicked(MouseEvent e) {
                 JTable table = requestSplitFrame.getInformationDetailsPane().getTable();
-                DefaultTableModel tableModel = requestSplitFrame.getInformationDetailsPane().getTableModel();
+                DefaultTableModel tableModel =
+                    requestSplitFrame.getInformationDetailsPane().getTableModel();
                 int row = table.rowAtPoint(e.getPoint());
                 if (row >= 0) {
-                  String path =
-                      (String) tableModel.getValueAt(row, 1);
-                  String host =
-                      (String) tableModel.getValueAt(row, 2);
+                  String path = (String) tableModel.getValueAt(row, 1);
+                  String host = (String) tableModel.getValueAt(row, 2);
                   String hash = Utils.calHash(path, host);
                   InterceptedResponse resp = CachePool.getInterceptedResponse(hash);
 

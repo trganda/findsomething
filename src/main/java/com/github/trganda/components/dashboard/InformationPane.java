@@ -57,6 +57,7 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
   @Override
   public void onDataChanged(List<InfoDataModel> data) {
+    // FindSomething.API.logging().logToOutput("onDataChanged: " + data.size());
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
           @Override

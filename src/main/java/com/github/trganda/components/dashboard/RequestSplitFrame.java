@@ -31,11 +31,11 @@ public class RequestSplitFrame extends JSplitPane {
   }
 
   public RequestPane getRequestPane() {
-      return requestPane;
+    return requestPane;
   }
 
   public InformationDetailsPane getInformationDetailsPane() {
-      return informationDetailsPane;
+    return informationDetailsPane;
   }
 
   public class RequestPane extends JTabbedPane {
