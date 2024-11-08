@@ -48,7 +48,7 @@ public class Dashboard extends JSplitPane {
                 if (row >= 0) {
                   String info = (String) table.getModel().getValueAt(row, 1);
                   String hashKey = Utils.calHash(info);
-                  List<RequestDetailModel> reqInfos = CachePool.getRequestDataModelList(hashKey);
+                  List<RequestDetailModel> reqInfos = CachePool.getInstance().getRequestDataModelList(hashKey);
 
                   SwingWorker<List<Object[]>, Void> worker =
                       new SwingWorker<>() {
@@ -98,7 +98,7 @@ public class Dashboard extends JSplitPane {
                   String path = (String) tableModel.getValueAt(row, 1);
                   String host = (String) tableModel.getValueAt(row, 2);
                   String hash = Utils.calHash(path, host);
-                  InterceptedResponse resp = CachePool.getInterceptedResponse(hash);
+                  InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
 
                   requestSplitFrame.getRequestEditor().setRequest(resp.request());
                   requestSplitFrame.getResponseEditor().setResponse(resp);

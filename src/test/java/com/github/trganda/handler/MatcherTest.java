@@ -2,22 +2,36 @@ package com.github.trganda.handler;
 
 import com.github.trganda.config.Config;
 import com.github.trganda.config.Rules;
+import com.github.trganda.model.RequestDetailModel;
+import com.github.trganda.model.cache.CachePool;
+import com.github.trganda.utils.Utils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class MatcherTest {
 
-  @Test
-  public void test() {
-    Rules rules = Config.loadRules();
 
+  private static Rules rules;
+
+  @BeforeAll
+  public static void loadTestRules() {
+    rules = Config.loadRules(true);
+  }
+
+  @Test
+  public void testURLRule() {
     InputStream is = MatcherTest.class.getClassLoader().getResourceAsStream("nav.js");
     try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
       StringBuilder sb = new StringBuilder();

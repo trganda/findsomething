@@ -3,9 +3,10 @@ package com.github.trganda.model.cache;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.trganda.FindSomething;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.RequestDetailModel;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,38 +28,49 @@ public class CachePool {
           .maximumSize(MAX_SIZE)
           .build();
 
-  public static void putRequestDataModel(String key, List<RequestDetailModel> requestDataModels) {
+  private static CachePool instance;
+
+  public static CachePool getInstance() {
+    if (instance == null) {
+      instance = new CachePool();
+    }
+    return instance;
+  }
+
+  public void putRequestDataModel(String key, List<RequestDetailModel> requestDataModels) {
     reqInfoCache.put(key, requestDataModels);
   }
 
-  public static void addRequestDataModel(String key, RequestDetailModel requestDataModel) {
+
+  public void addRequestDataModel(String key, RequestDetailModel requestDataModel) {
     List<RequestDetailModel> vals = reqInfoCache.getIfPresent(key);
     if (vals == null || vals.isEmpty()) {
       putRequestDataModel(key, List.of(requestDataModel));
     } else {
-      FindSomething.API.logging().logToOutput(key + " - " + vals.size());
-      vals.add(requestDataModel);
-      reqInfoCache.put(key, vals);
+      // must copy the list to avoid the thread crash
+      List<RequestDetailModel> copyVals = new ArrayList<>(vals);
+      copyVals.add(requestDataModel);
+      reqInfoCache.put(key, copyVals);
     }
   }
 
-  public static List<RequestDetailModel> getRequestDataModelList(String key) {
+  public List<RequestDetailModel> getRequestDataModelList(String key) {
     return reqInfoCache.getIfPresent(key);
   }
 
-  public static void putInterceptedResponse(String key, InterceptedResponse interceptedResponse) {
+  public void putInterceptedResponse(String key, InterceptedResponse interceptedResponse) {
     httpMessageCache.put(key, interceptedResponse);
   }
 
-  public static InterceptedResponse getInterceptedResponse(String key) {
+  public InterceptedResponse getInterceptedResponse(String key) {
     return httpMessageCache.getIfPresent(key);
   }
 
-  public static void putRule(String key, Rule rule) {
+  public void putRule(String key, Rule rule) {
     ruleCache.put(key, rule);
   }
 
-  public static Rule getRule(String key) {
+  public Rule getRule(String key) {
     return ruleCache.getIfPresent(key);
   }
 }

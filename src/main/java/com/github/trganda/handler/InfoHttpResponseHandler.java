@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,37 +65,6 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     this.listeners.add(listener);
   }
 
-  // private void process(InterceptedResponse interceptedResponse) {
-  //   HttpRequest req = interceptedResponse.request();
-  //   String body = interceptedResponse.body().toString();
-  //   String[] results = match(body, null);
-
-  //   List<InfoDataModel> data = new ArrayList<>();
-  //   for (String result : results) {
-  //     InfoDataModel infoDataModel = new InfoDataModel(result);
-  //     data.add(infoDataModel);
-
-  //     // set request info
-  //     String hash = Utils.calHash(result);
-  //     RequestDataModel requestDataModel =
-  //         new RequestDataModel(
-  //             interceptedResponse.messageId(),
-  //             req.path(),
-  //             req.httpService().host(),
-  //             interceptedResponse.statusCode(),
-  //             "1");
-  //     CachePool.addRequestDataModel(hash, requestDataModel);
-
-  //     // set request and response for future use
-  //     String reqHash = Utils.calHash(req.path(), req.httpService().host());
-  //     CachePool.putInterceptedResponse(reqHash, interceptedResponse);
-  //   }
-
-  //   for (DataChangeListener listener : listeners) {
-  //     listener.onDataChanged(data);
-  //   }
-  // }
-
   private void process(InterceptedResponse interceptedResponse) {
     HttpRequest req = interceptedResponse.request();
     Config.getInstance().getRules().getGroups().stream()
@@ -105,18 +75,15 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                         r -> {
                           if (r.isEnabled()) {
                             String[] results = this.match(interceptedResponse, r);
-                            FindSomething.API
-                                .logging()
-                                .logToOutput(
-                                    String.format(
-                                        "rule: %s, count: %s", r.getName(), results.length));
                             List<InfoDataModel> data = new CopyOnWriteArrayList<>();
+                            DateTimeFormatter formatter =
+                                  DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
+                            FindSomething.API.logging().logToOutput("count: " + results.length);
                             for (String result : results) {
+                              // remove first and last char if equals to '"'
+                              // result = removeFirstAndLastChar(result, '"');
                               InfoDataModel infoDataModel = new InfoDataModel(result);
                               data.add(infoDataModel);
-
-                              DateTimeFormatter formatter =
-                                  DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
                               // set request info
                               String hash = Utils.calHash(result);
                               RequestDetailModel requestDataModel =
@@ -126,19 +93,14 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                                       req.httpService().host(),
                                       interceptedResponse.statusCode(),
                                       ZonedDateTime.now().format(formatter));
-                              // TODO: fix the bug that may crash the thread.
-                              CachePool.addRequestDataModel(hash, requestDataModel);
+                              CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
                               // set request and response for future use
                               String reqHash =
                                   Utils.calHash(req.path(), req.httpService().host());
-                              CachePool.putInterceptedResponse(reqHash, interceptedResponse);
+                              CachePool.getInstance().putInterceptedResponse(reqHash, interceptedResponse);
                             }
 
-                            FindSomething.API
-                                .logging()
-                                .logToOutput(
-                                    "call onDataChanged: " + data.size() + " " + listeners.size());
                             for (DataChangeListener listener : listeners) {
                               listener.onDataChanged(data);
                             }
@@ -224,4 +186,11 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     return set.toArray(new String[0]);
   }
+
+  private String removeFirstAndLastChar(String str, char c) {
+    if (str != null && str.length() > 0 && str.charAt(0) == c && str.charAt(str.length() - 1) == c) {
+        return str.substring(1, str.length() - 1);
+    }
+    return str;
+}
 }

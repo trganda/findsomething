@@ -238,7 +238,7 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
             int[] idxes = table.getSelectedRows();
             for (int idx : idxes) {
               String ruleName = model.getValueAt(idx, 1).toString();
-              Rule rule = CachePool.getRule(Utils.calHash(selectedItem, ruleName));
+              Rule rule = CachePool.getInstance().getRule(Utils.calHash(selectedItem, ruleName));
               if (rule != null) {
                 Config.getInstance().syncRules(selectedItem, rule, Operatation.DEL);
               } else {

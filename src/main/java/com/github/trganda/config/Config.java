@@ -49,7 +49,7 @@ public class Config implements ConfigChangeListener {
     if (config == null) {
       FindSomething.API.logging().logToOutput("loading configuration file...");
       config = loadConfig();
-      config.rules = loadRules();
+      config.rules = loadRules(false);
     }
     return config;
   }
@@ -116,7 +116,7 @@ public class Config implements ConfigChangeListener {
                 g -> {
                   g.getRule().add(rule);
                   // saving rule to cache either
-                  CachePool.putRule(Utils.calHash(group, rule.getName()), rule);
+                  CachePool.getInstance().putRule(Utils.calHash(group, rule.getName()), rule);
                 });
         break;
       case DEL:
@@ -196,18 +196,23 @@ public class Config implements ConfigChangeListener {
     return config;
   }
 
-  public static Rules loadRules() {
+  public static Rules loadRules(boolean defaultRules) {
     Rules rules = null;
-    try (InputStreamReader reader =
-        new InputStreamReader(
-            Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
-      rules = getYaml().loadAs(reader, Rules.class);
-    } catch (IOException e) {
-      // FindSomething.API.logging().logToError("load rules file failed, using default config");
-
+    if (defaultRules) {
       InputStream is = Config.class.getClassLoader().getResourceAsStream("rules.yml");
       Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
       rules = getYaml().loadAs(reader, Rules.class);
+    } else {
+      try (InputStreamReader reader =
+          new InputStreamReader(
+              Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
+        rules = getYaml().loadAs(reader, Rules.class);
+      } catch (IOException e) {
+        FindSomething.API
+            .logging()
+            .logToError("load rules file failed, using default config");
+        rules = loadRules(true);
+      }
     }
 
     // saving rules to cache for future use, the key was a hash that generate from group name and
@@ -220,10 +225,10 @@ public class Config implements ConfigChangeListener {
                   .forEach(
                       r -> {
                         String key = Utils.calHash(g.getGroup(), r.getName());
-                        CachePool.putRule(key, r);
+                        CachePool.getInstance().putRule(key, r);
                       });
             });
-
+    
     return rules;
   }
 
