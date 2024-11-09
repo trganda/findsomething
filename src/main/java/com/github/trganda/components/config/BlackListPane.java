@@ -3,10 +3,15 @@ package com.github.trganda.components.config;
 import java.awt.*;
 import javax.swing.*;
 
+import lombok.Getter;
+
+@Getter
 public class BlackListPane extends JPanel {
 
+  private BlackListInnerPane blackListInnerPane;
+
   public BlackListPane() {
-    BlackListInnerPane blackListInnerPane = new BlackListInnerPane();
+    blackListInnerPane = new BlackListInnerPane();
     JLabel label = new JLabel("Filter setting");
     label.setFont(new Font("Arial", Font.BOLD, 16));
     JLabel description =

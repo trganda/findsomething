@@ -6,6 +6,9 @@ import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.Operatation;
 import com.github.trganda.utils.Utils;
+
+import lombok.Getter;
+
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -15,10 +18,11 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+@Getter
 public class BlackListInnerPane extends JPanel {
 
   private final String placeHolder = "Enter an new item";
-  private BlackListButtonsPane blackListButtonsPane;
+  private BlackListInnerButtonsPane blackListButtonsPane;
   private JTable blackListTable;
   private DefaultTableModel blackListTableModel;
   private JButton addBlackListButton;
@@ -66,7 +70,7 @@ public class BlackListInnerPane extends JPanel {
     addBlackListButton = new JButton("Add");
     blackListTableModel = new DefaultTableModel(new Object[] {""}, 0);
     blackListTable = new JTable(blackListTableModel);
-    blackListButtonsPane = new BlackListButtonsPane();
+    blackListButtonsPane = new BlackListInnerButtonsPane();
 
     wrap = this.setupTable();
 
@@ -104,7 +108,7 @@ public class BlackListInnerPane extends JPanel {
     splitPane.setRightComponent(new JPanel());
 
     // show suffixes blacklist default
-    blackListButtonsPane.loadBlackListWithType(Config.getInstance().getSuffixes());
+    // blackListButtonsPane.loadBlackListWithType(Config.getInstance().getSuffixes());
     return splitPane;
   }
 
@@ -177,112 +181,23 @@ public class BlackListInnerPane extends JPanel {
     //     });
   }
 
-  private class BlackListButtonsPane extends JPanel {
-    private final JComboBox<String> type;
-    private final JButton remove;
-    private final JButton clear;
 
-    public BlackListButtonsPane() {
-      type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS});
-      remove = new JButton("Remove");
-      clear = new JButton("Clear");
-
-      setAlign(remove, clear);
-      this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-      this.add(type);
-      this.add(Box.createVerticalStrut(5));
-      this.add(remove);
-      this.add(Box.createVerticalStrut(5));
-      this.add(clear);
-      // setupButtonEventHandler();
-    }
-
-    // private void setupButtonEventHandler() {
-    //   type.addActionListener(
-    //       e -> {
-    //         String selectedItem = (String) type.getSelectedItem();
-    //         FindSomething.API.logging().logToOutput("selected item: " + selectedItem);
-    //         if (selectedItem == null) {
-    //           return;
-    //         }
-    //         switch (selectedItem) {
-    //           case BLACKLIST_SUFFIX:
-    //             loadBlackListWithType(Config.getInstance().getSuffixes());
-    //             break;
-    //           case BLACKLIST_HOST:
-    //             loadBlackListWithType(Config.getInstance().getHosts());
-    //             break;
-    //           case BLACKLIST_STATUS:
-    //             loadBlackListWithType(Config.getInstance().getStatus());
-    //             break;
-    //         }
-    //       });
-
-    //   remove.addActionListener(
-    //       e -> {
-    //         int[] idxes = blackListTable.getSelectedRows();
-    //         for (int idx : idxes) {
-    //           syncToConfig(blackListTableModel.getValueAt(idx, 0).toString(), Operatation.DEL);
-    //         }
-    //       });
-
-    //   clear.addActionListener(e -> syncToConfig("", Operatation.CLR));
-    // }
-
-    public void loadBlackListWithType(List<String> data) {
-      SwingWorker<List<String[]>, Void> worker =
-          new SwingWorker<>() {
-            @Override
-            protected List<String[]> doInBackground() {
-              ArrayList<String[]> list = new ArrayList<>();
-              for (String s : data) {
-                list.add(new String[] {s});
-              }
-              return list;
-            }
-
-            @Override
-            protected void done() {
-              // update when work done
-              try {
-                blackListTableModel.setRowCount(0);
-                List<String[]> rows = get();
-                for (String[] row : rows) {
-                  blackListTableModel.addRow(row);
-                }
-              } catch (InterruptedException | ExecutionException e) {
-                FindSomething.API.logging().logToError(new RuntimeException(e));
-              }
-            }
-          };
-      worker.execute();
-    }
-
-    private void setAlign(JButton... buttons) {
-      for (var button : buttons) {
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
-      }
-    }
-  }
-
-  private void syncToConfig(String val, Operatation type) {
-    String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
-    if (selectedItem != null) {
-      switch (selectedItem) {
-        case BLACKLIST_SUFFIX:
-          Config.getInstance().syncSuffixes(val, type);
-          break;
-        case BLACKLIST_HOST:
-          Config.getInstance().syncHosts(val, type);
-          break;
-        case BLACKLIST_STATUS:
-          Config.getInstance().syncStatus(val, type);
-          break;
-      }
-    }
-  }
+  // private void syncToConfig(String val, Operatation type) {
+  //   String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
+  //   if (selectedItem != null) {
+  //     switch (selectedItem) {
+  //       case BLACKLIST_SUFFIX:
+  //         Config.getInstance().syncSuffixes(val, type);
+  //         break;
+  //       case BLACKLIST_HOST:
+  //         Config.getInstance().syncHosts(val, type);
+  //         break;
+  //       case BLACKLIST_STATUS:
+  //         Config.getInstance().syncStatus(val, type);
+  //         break;
+  //     }
+  //   }
+  // }
 
   // @Override
   // public void onConfigChange(Config config) {

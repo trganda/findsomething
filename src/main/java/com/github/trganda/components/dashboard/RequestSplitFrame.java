@@ -2,11 +2,13 @@ package com.github.trganda.components.dashboard;
 
 import javax.swing.*;
 
+import lombok.Getter;
+
+@Getter
 public class RequestSplitFrame extends JSplitPane {
 
-  private final RequestPane requestPane;
-
   private final InformationDetailsPane informationDetailsPane;
+  private final RequestPane requestPane;
 
   public RequestSplitFrame() {
     requestPane = new RequestPane();

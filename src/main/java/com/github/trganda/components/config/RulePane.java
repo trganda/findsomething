@@ -3,6 +3,9 @@ package com.github.trganda.components.config;
 import java.awt.*;
 import javax.swing.*;
 
+import lombok.Getter;
+
+@Getter
 public class RulePane extends JPanel {
 
   private JLabel label;

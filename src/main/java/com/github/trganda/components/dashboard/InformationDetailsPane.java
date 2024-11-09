@@ -6,11 +6,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import lombok.Getter;
+
+@Getter
 public class InformationDetailsPane extends JScrollPane {
 
-  private final JTable table;
-
-  private final DefaultTableModel tableModel;
+  private JTable table;
+  private DefaultTableModel tableModel;
 
   public InformationDetailsPane() {
     table = new JTable();

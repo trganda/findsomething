@@ -3,10 +3,12 @@ package com.github.trganda.components.config;
 import java.awt.*;
 import javax.swing.*;
 
+import lombok.Getter;
+
+@Getter
 public class ConfigPane extends JPanel {
 
   private RulePane rulePane;
-
   private BlackListPane blackListPane;
 
   public ConfigPane() {

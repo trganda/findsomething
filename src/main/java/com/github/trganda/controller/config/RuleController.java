@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 
-public class RuleInnerController {
+public class RuleController {
 
   private RuleInnerPane innerPane;
   private List<Rule> rules;
   private Mediator mediator;
 
-  public RuleInnerController(RuleInnerPane innerPane) {
+  public RuleController(RuleInnerPane innerPane) {
     this.innerPane = innerPane;
     this.rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
 
@@ -28,7 +28,7 @@ public class RuleInnerController {
     this.loadDefaultRules();
   }
 
-  public RuleInnerController(RuleInnerPane innerPane, Mediator mediator) {
+  public RuleController(RuleInnerPane innerPane, Mediator mediator) {
     this(innerPane);
     this.mediator = mediator;
   }

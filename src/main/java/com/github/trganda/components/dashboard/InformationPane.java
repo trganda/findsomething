@@ -8,6 +8,9 @@ import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.utils.Utils;
+
+import lombok.Getter;
+
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -18,6 +21,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+@Getter
 public class InformationPane extends JPanel implements DataChangeListener {
   private final String placeHolder = "Search";
   private JTable infoTable;

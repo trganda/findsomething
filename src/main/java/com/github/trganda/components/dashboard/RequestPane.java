@@ -2,9 +2,12 @@ package com.github.trganda.components.dashboard;
 
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
+import lombok.Getter;
+
 import com.github.trganda.FindSomething;
 import javax.swing.JTabbedPane;
 
+@Getter
 public class RequestPane extends JTabbedPane {
 
   private final HttpRequestEditor requestEditor;

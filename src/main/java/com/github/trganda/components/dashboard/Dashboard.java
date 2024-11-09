@@ -23,7 +23,6 @@ public class Dashboard extends JPanel {
 
     this.setLayout(new GridBagLayout());
     this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
     GridBagConstraints gbc = new GridBagConstraints();
 
     gbc.gridx = 0;
