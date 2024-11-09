@@ -15,9 +15,10 @@ public class ExtensionFrame extends JPanel {
     dashboard = new Dashboard();
     config = new ConfigPane();
 
-    // main panel
+    // dashboard
     JTabbedPane mainTabs = new JTabbedPane();
     mainTabs.addTab("Dashboard", dashboard);
+    // configuration
     JScrollPane scrollPane = new JScrollPane(config);
     mainTabs.addTab("Config", scrollPane);
 

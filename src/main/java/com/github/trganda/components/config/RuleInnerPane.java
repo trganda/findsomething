@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
 
 @Getter
-public class RuleInnerPane extends JPanel implements ConfigChangeListener {
+public class RuleInnerPane extends JPanel {
 
   private RuleButtonsPane ruleButtonsPane;
   private JComboBox<String> selector;
@@ -268,42 +268,42 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
     // }
   }
 
-  @Override
-  public void onConfigChange(Config config) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
-          @Override
-          protected List<Object[]> doInBackground() {
-            List<Object[]> list = new ArrayList<>();
-            String selectedItem = selector.getSelectedItem().toString();
-            for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
-              list.add(
-                  new Object[] {
-                    rule.isEnabled(),
-                    rule.getName(),
-                    rule.getRegex(),
-                    rule.getScope(),
-                    rule.isSensitive()
-                  });
-            }
-            return list;
-          }
+  // @Override
+  // public void onConfigChange(Config config) {
+  //   SwingWorker<List<Object[]>, Void> worker =
+  //       new SwingWorker<>() {
+  //         @Override
+  //         protected List<Object[]> doInBackground() {
+  //           List<Object[]> list = new ArrayList<>();
+  //           String selectedItem = selector.getSelectedItem().toString();
+  //           for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
+  //             list.add(
+  //                 new Object[] {
+  //                   rule.isEnabled(),
+  //                   rule.getName(),
+  //                   rule.getRegex(),
+  //                   rule.getScope(),
+  //                   rule.isSensitive()
+  //                 });
+  //           }
+  //           return list;
+  //         }
 
-          @Override
-          protected void done() {
-            try {
-              List<Object[]> result = get();
-              model.setRowCount(0);
-              for (Object[] row : result) {
-                model.addRow(row);
-              }
-              model.fireTableDataChanged();
-              countLabel.setText(String.valueOf(result.size()));
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-    worker.execute();
-  }
+  //         @Override
+  //         protected void done() {
+  //           try {
+  //             List<Object[]> result = get();
+  //             model.setRowCount(0);
+  //             for (Object[] row : result) {
+  //               model.addRow(row);
+  //             }
+  //             model.fireTableDataChanged();
+  //             countLabel.setText(String.valueOf(result.size()));
+  //           } catch (InterruptedException | ExecutionException e) {
+  //             FindSomething.API.logging().logToError(new RuntimeException(e));
+  //           }
+  //         }
+  //       };
+  //   worker.execute();
+  // }
 }

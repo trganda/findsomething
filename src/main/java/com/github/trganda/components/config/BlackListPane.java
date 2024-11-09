@@ -35,6 +35,6 @@ public class BlackListPane extends JPanel {
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     this.add(blackListInnerPane, gbc);
 
-    Config.getInstance().registerConfigListener(blackListInnerPane);
+    // Config.getInstance().registerConfigListener(blackListInnerPane);
   }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
+public class BlackListInnerPane extends JPanel {
 
   private final String placeHolder = "Enter an new item";
   private BlackListButtonsPane blackListButtonsPane;
@@ -287,44 +287,44 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
     }
   }
 
-  @Override
-  public void onConfigChange(Config config) {
-    SwingWorker<List<String[]>, Void> worker =
-        new SwingWorker<List<String[]>, Void>() {
-          @Override
-          protected List<String[]> doInBackground() {
-            List<String[]> list = new ArrayList<>();
-            // sync to configuration
-            String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
-            switch (selectedItem) {
-              case BLACKLIST_SUFFIX:
-                config.getSuffixes().forEach(s -> list.add(new String[] {s}));
-                break;
-              case BLACKLIST_HOST:
-                config.getHosts().forEach(s -> list.add(new String[] {s}));
-                break;
-              case BLACKLIST_STATUS:
-                config.getStatus().forEach(s -> list.add(new String[] {s}));
-                break;
-            }
+  // @Override
+  // public void onConfigChange(Config config) {
+  //   SwingWorker<List<String[]>, Void> worker =
+  //       new SwingWorker<List<String[]>, Void>() {
+  //         @Override
+  //         protected List<String[]> doInBackground() {
+  //           List<String[]> list = new ArrayList<>();
+  //           // sync to configuration
+  //           String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
+  //           switch (selectedItem) {
+  //             case BLACKLIST_SUFFIX:
+  //               config.getSuffixes().forEach(s -> list.add(new String[] {s}));
+  //               break;
+  //             case BLACKLIST_HOST:
+  //               config.getHosts().forEach(s -> list.add(new String[] {s}));
+  //               break;
+  //             case BLACKLIST_STATUS:
+  //               config.getStatus().forEach(s -> list.add(new String[] {s}));
+  //               break;
+  //           }
 
-            return list;
-          }
+  //           return list;
+  //         }
 
-          @Override
-          protected void done() {
-            try {
-              List<String[]> result = get();
-              blackListTableModel.setRowCount(0);
-              for (String[] row : result) {
-                blackListTableModel.addRow(row);
-              }
-              blackListTableModel.fireTableDataChanged();
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-    worker.execute();
-  }
+  //         @Override
+  //         protected void done() {
+  //           try {
+  //             List<String[]> result = get();
+  //             blackListTableModel.setRowCount(0);
+  //             for (String[] row : result) {
+  //               blackListTableModel.addRow(row);
+  //             }
+  //             blackListTableModel.fireTableDataChanged();
+  //           } catch (InterruptedException | ExecutionException e) {
+  //             FindSomething.API.logging().logToError(new RuntimeException(e));
+  //           }
+  //         }
+  //       };
+  //   worker.execute();
+  // }
 }

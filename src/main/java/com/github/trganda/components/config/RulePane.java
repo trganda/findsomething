@@ -38,6 +38,6 @@ public class RulePane extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(ruleInnerPane, gbc);
 
-    Config.getInstance().registerConfigListener(ruleInnerPane);
+    // Config.getInstance().registerConfigListener(ruleInnerPane);
   }
 }

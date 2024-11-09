@@ -35,7 +35,10 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
   public InformationPane() {
     this.setupComponents();
+    this.setupLayout();
+  }
 
+  private void setupLayout() {
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     this.setLayout(layout);
@@ -190,38 +193,38 @@ public class InformationPane extends JPanel implements DataChangeListener {
     return infoTableScrollPane;
   }
 
-  private void loadInfoWithGroup(List<InfoDataModel> data) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
+  // private void loadInfoWithGroup(List<InfoDataModel> data) {
+  //   SwingWorker<List<Object[]>, Void> worker =
+  //       new SwingWorker<>() {
 
-          @Override
-          protected List<Object[]> doInBackground() throws Exception {
-            List<Object[]> infos = new ArrayList<>();
-            for (InfoDataModel row : data) {
-              infos.add(row.getInfoData());
-            }
-            return infos;
-          }
+  //         @Override
+  //         protected List<Object[]> doInBackground() throws Exception {
+  //           List<Object[]> infos = new ArrayList<>();
+  //           for (InfoDataModel row : data) {
+  //             infos.add(row.getInfoData());
+  //           }
+  //           return infos;
+  //         }
 
-          @Override
-          protected void done() {
-            // update when work done
-            try {
-              infoTableModel.setRowCount(0);
-              List<Object[]> rows = get();
-              for (Object[] row : rows) {
-                infoTableModel.addRow(row);
-              }
-              infoTableModel.fireTableDataChanged();
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-          ;
-        };
+  //         @Override
+  //         protected void done() {
+  //           // update when work done
+  //           try {
+  //             infoTableModel.setRowCount(0);
+  //             List<Object[]> rows = get();
+  //             for (Object[] row : rows) {
+  //               infoTableModel.addRow(row);
+  //             }
+  //             infoTableModel.fireTableDataChanged();
+  //           } catch (InterruptedException | ExecutionException e) {
+  //             FindSomething.API.logging().logToError(new RuntimeException(e));
+  //           }
+  //         }
+  //         ;
+  //       };
 
-    worker.execute();
-  }
+  //   worker.execute();
+  // }
 
   private void resizePane() {
     int infoTableWidth = infoTable.getWidth();
@@ -231,15 +234,15 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
   @Override
   public void onDataChanged(List<InfoDataModel> data) {
-    String group = selector.getSelectedItem().toString();
-    List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
+    // String group = selector.getSelectedItem().toString();
+    // List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
 
-    if (d != null) {
-      this.loadInfoWithGroup(d);
-    }
+    // if (d != null) {
+    //   this.loadInfoWithGroup(d);
+    // }
   }
 
-  public JTable getInfoTable() {
-    return infoTable;
-  }
+  // public JTable getInfoTable() {
+  //   return infoTable;
+  // }
 }

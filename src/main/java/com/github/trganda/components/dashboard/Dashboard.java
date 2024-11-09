@@ -1,6 +1,8 @@
 package com.github.trganda.components.dashboard;
 
 import burp.api.montoya.proxy.http.InterceptedResponse;
+import lombok.Getter;
+
 import com.github.trganda.FindSomething;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.model.cache.CachePool;
@@ -16,19 +18,18 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+@Getter
 public class Dashboard extends JPanel {
-  private final InformationPane informationPane;
-  private final RequestSplitFrame requestSplitFrame;
-
+  private InformationPane informationPane;
+  private RequestSplitFrame requestSplitFrame;
   private JSplitPane dashSplitPane;
-
   private StatusPane statusPane;
 
   public Dashboard() {
     informationPane = new InformationPane();
     requestSplitFrame = new RequestSplitFrame();
     statusPane = new StatusPane();
-
+    
     dashSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     dashSplitPane.setLeftComponent(informationPane);
     dashSplitPane.setRightComponent(requestSplitFrame);
@@ -53,8 +54,7 @@ public class Dashboard extends JPanel {
     gbc.anchor = GridBagConstraints.LINE_END;
     this.add(statusPane, gbc);
 
-    FindSomething.getInstance().getHandler().registerDataChangeListener(informationPane);
-
+    // FindSomething.getInstance().getHandler().registerDataChangeListener(informationPane);
     // setup event
     // setupTable();
   }
@@ -130,38 +130,4 @@ public class Dashboard extends JPanel {
   //             }
   //           });
   // }
-
-  public class StatusPane extends JPanel {
-
-    private JLabel countLabel;
-
-    private JLabel groupLabel;
-
-    public StatusPane() {
-      countLabel = new JLabel("0");
-      groupLabel = new JLabel("0");
-
-      this.setLayout(new GridBagLayout());
-      GridBagConstraints gbc = new GridBagConstraints();
-
-      gbc.gridx = 0;
-      gbc.gridy = 0;
-      gbc.insets = new Insets(0, 0, 0, 5);
-      gbc.anchor = GridBagConstraints.LINE_END;
-      this.add(new JLabel("Count:"), gbc);
-
-      gbc.gridx = 1;
-      gbc.gridy = 0;
-      this.add(countLabel, gbc);
-
-      gbc.gridx = 2;
-      gbc.gridy = 0;
-      this.add(new JLabel("Group:"), gbc);
-
-      gbc.gridx = 3;
-      gbc.gridy = 0;
-      gbc.insets = new Insets(0, 0, 0, 0);
-      this.add(groupLabel, gbc);
-    }
-  }
 }
