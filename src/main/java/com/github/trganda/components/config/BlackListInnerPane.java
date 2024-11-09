@@ -1,7 +1,5 @@
 package com.github.trganda.components.config;
 
-import static com.github.trganda.config.Config.*;
-
 import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
