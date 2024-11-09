@@ -1,12 +1,6 @@
 package com.github.trganda.components.dashboard;
 
-import burp.api.montoya.ui.editor.HttpRequestEditor;
-import burp.api.montoya.ui.editor.HttpResponseEditor;
-import com.github.trganda.FindSomething;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class RequestSplitFrame extends JSplitPane {
 
@@ -37,8 +31,5 @@ public class RequestSplitFrame extends JSplitPane {
   // public InformationDetailsPane getInformationDetailsPane() {
   //   return informationDetailsPane;
   // }
-
-
-
 
 }

@@ -2,16 +2,12 @@ package com.github.trganda.components.config;
 
 import static com.github.trganda.config.Config.*;
 
-import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
-import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.Rules.Rule;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import lombok.Getter;

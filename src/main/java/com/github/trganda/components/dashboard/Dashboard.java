@@ -1,22 +1,9 @@
 package com.github.trganda.components.dashboard;
 
-import burp.api.montoya.proxy.http.InterceptedResponse;
-import lombok.Getter;
-
-import com.github.trganda.FindSomething;
-import com.github.trganda.model.RequestDetailModel;
-import com.github.trganda.model.cache.CachePool;
-import com.github.trganda.utils.Utils;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import lombok.Getter;
 
 @Getter
 public class Dashboard extends JPanel {
@@ -29,7 +16,7 @@ public class Dashboard extends JPanel {
     informationPane = new InformationPane();
     requestSplitFrame = new RequestSplitFrame();
     statusPane = new StatusPane();
-    
+
     dashSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     dashSplitPane.setLeftComponent(informationPane);
     dashSplitPane.setRightComponent(requestSplitFrame);
@@ -122,7 +109,8 @@ public class Dashboard extends JPanel {
   //                 String path = (String) tableModel.getValueAt(row, 1);
   //                 String host = (String) tableModel.getValueAt(row, 2);
   //                 String hash = Utils.calHash(path, host);
-  //                 InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
+  //                 InterceptedResponse resp =
+  // CachePool.getInstance().getInterceptedResponse(hash);
 
   //                 requestSplitFrame.getRequestEditor().setRequest(resp.request());
   //                 requestSplitFrame.getResponseEditor().setResponse(resp);
