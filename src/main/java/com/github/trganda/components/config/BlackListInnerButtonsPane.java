@@ -6,15 +6,11 @@ import static com.github.trganda.config.Config.BLACKLIST_SUFFIX;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 
 public class BlackListInnerButtonsPane extends JPanel {
   private final JComboBox<String> type;
@@ -105,4 +101,3 @@ public class BlackListInnerButtonsPane extends JPanel {
     }
   }
 }
-

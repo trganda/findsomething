@@ -8,9 +8,6 @@ import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.utils.Utils;
-
-import lombok.Getter;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -20,6 +17,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import lombok.Getter;
 
 @Getter
 public class InformationPane extends JPanel implements DataChangeListener {

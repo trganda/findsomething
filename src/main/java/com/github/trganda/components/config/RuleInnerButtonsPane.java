@@ -2,12 +2,10 @@ package com.github.trganda.components.config;
 
 import java.awt.Component;
 import java.awt.Dimension;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import lombok.Getter;
 
 @Getter

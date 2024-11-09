@@ -1,16 +1,13 @@
 package com.github.trganda.components.config;
 
+import com.github.trganda.utils.Utils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import com.github.trganda.utils.Utils;
-
 import lombok.Getter;
 
 @Getter
@@ -27,9 +24,7 @@ public class EditroButtonsPane extends JPanel {
     save.setBorderPainted(false);
     save.setFont(
         new Font(
-            Utils.getBurpDisplayFont().getName(),
-            Font.BOLD,
-            Utils.getBurpDisplayFont().getSize()));
+            Utils.getBurpDisplayFont().getName(), Font.BOLD, Utils.getBurpDisplayFont().getSize()));
 
     this.setAlign(cancel, save);
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

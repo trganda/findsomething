@@ -1,7 +1,6 @@
 package com.github.trganda.components.dashboard;
 
 import javax.swing.*;
-
 import lombok.Getter;
 
 @Getter

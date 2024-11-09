@@ -5,7 +5,6 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import lombok.Getter;
 
 @Getter

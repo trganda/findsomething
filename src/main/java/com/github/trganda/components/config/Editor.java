@@ -1,10 +1,8 @@
 package com.github.trganda.components.config;
 
-import com.github.trganda.config.Config;
 import com.github.trganda.config.Operatation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
-import com.github.trganda.utils.Utils;
 import java.awt.*;
 import javax.swing.*;
 import lombok.Getter;
@@ -111,5 +109,4 @@ public class Editor extends JDialog {
     gbc.anchor = GridBagConstraints.LINE_END;
     this.add(editroButtonsPane, gbc);
   }
-
 }

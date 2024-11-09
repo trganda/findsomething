@@ -2,7 +2,6 @@ package com.github.trganda.components.config;
 
 import java.awt.*;
 import javax.swing.*;
-
 import lombok.Getter;
 
 @Getter
