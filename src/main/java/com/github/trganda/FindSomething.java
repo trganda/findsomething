@@ -32,7 +32,7 @@ public class FindSomething implements BurpExtension {
     Config config = Config.getInstance();
     Config.getInstance().registerConfigListener(config);
 
-    ExecutorService pool = Executors.newCachedThreadPool();
+    ExecutorService pool = Executors.newSingleThreadExecutor();
     handler = new InfoHttpResponseHandler(pool);
     extensionFrame = new ExtensionFrame();
 
