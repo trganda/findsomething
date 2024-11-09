@@ -175,8 +175,6 @@ public class RuleInnerPane extends JPanel {
   //   worker.execute();
   // }
 
-
-
   // @Override
   // public void onConfigChange(Config config) {
   //   SwingWorker<List<Object[]>, Void> worker =

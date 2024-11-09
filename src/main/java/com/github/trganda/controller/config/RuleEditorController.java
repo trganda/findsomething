@@ -5,18 +5,26 @@ import com.github.trganda.config.Config;
 import com.github.trganda.config.Operatation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
+import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
 
-public class EditorController {
+public class RuleEditorController {
 
   private Editor editor;
   private RuleModel rule;
+  private Mediator mediator;
 
-  public EditorController(Editor editor, RuleModel rule) {
+  public RuleEditorController(Editor editor, RuleModel rule) {
     this.editor = editor;
     this.rule = rule;
 
     this.setupEvent();
+  }
+
+  public RuleEditorController(Editor editor, RuleModel rule, Mediator mediator) {
+    this(editor, rule);
+    this.mediator = mediator;
+    this.mediator.registerRuleEditorController(this);
   }
 
   private void setupEvent() {
@@ -57,6 +65,7 @@ public class EditorController {
     this.editor.getRegexField().setText(rule.getRule().getRegex());
     this.editor.getScope().setSelectedItem(rule.getRule().getScope());
     this.editor.getSensitive().setSelected(rule.getRule().isSensitive());
+    this.editor.setOp(Operatation.EDT);
     this.editor.setVisible(true);
   }
 }

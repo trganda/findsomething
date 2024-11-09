@@ -106,7 +106,9 @@ public class BlackListInnerPane extends JPanel {
     inputTextField = new JTextField(placeHolder);
     inputTextField.setFont(
         new Font(
-            Utils.getBurpEditorFont().getName(), Font.ITALIC, Utils.getBurpEditorFont().getSize()));
+            Utils.getBurpDisplayFont().getName(),
+            Font.PLAIN,
+            Utils.getBurpDisplayFont().getSize()));
     inputTextField.setForeground(Color.GRAY);
     inputTextField.setPreferredSize(
         new Dimension(200, addBlackListButton.getPreferredSize().height));
@@ -119,9 +121,9 @@ public class BlackListInnerPane extends JPanel {
             if (inputTextField.getText().equals(placeHolder)) {
               inputTextField.setFont(
                   new Font(
-                      Utils.getBurpEditorFont().getName(),
+                      Utils.getBurpDisplayFont().getName(),
                       Font.PLAIN,
-                      Utils.getBurpEditorFont().getSize()));
+                      Utils.getBurpDisplayFont().getSize()));
               inputTextField.setForeground(Color.BLACK);
               inputTextField.setText("");
             }
@@ -133,9 +135,9 @@ public class BlackListInnerPane extends JPanel {
             if (inputTextField.getText().isEmpty()) {
               inputTextField.setFont(
                   new Font(
-                      Utils.getBurpEditorFont().getName(),
+                      Utils.getBurpDisplayFont().getName(),
                       Font.ITALIC,
-                      Utils.getBurpEditorFont().getSize()));
+                      Utils.getBurpDisplayFont().getSize()));
               inputTextField.setForeground(Color.GRAY);
               inputTextField.setText(placeHolder);
             }
@@ -156,12 +158,12 @@ public class BlackListInnerPane extends JPanel {
     //           inputTextField.setForeground(Color.RED);
     //           inputTextField.setFont(
     //               new Font(
-    //                   Utils.getBurpEditorFont().getName(),
+    //                   Utils.getBurpDisplayFont().getName(),
     //                   Font.ITALIC,
-    //                   Utils.getBurpEditorFont().getSize()));
+    //                   Utils.getBurpDisplayFont().getSize()));
     //         } else {
     //           inputTextField.setForeground(defaultColor);
-    //           inputTextField.setFont(Utils.getBurpEditorFont());
+    //           inputTextField.setFont(Utils.getBurpDisplayFont());
     //           if (e.getKeyCode() == KeyEvent.VK_ENTER) {
     //             syncToConfig(val, Operatation.ADD);
     //             inputTextField.setText("");

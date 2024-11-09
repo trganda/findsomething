@@ -4,7 +4,9 @@ import com.github.trganda.components.config.ConfigPane;
 import com.github.trganda.components.dashboard.Dashboard;
 import java.awt.*;
 import javax.swing.*;
+import lombok.Getter;
 
+@Getter
 public class ExtensionFrame extends JPanel {
   private final Dashboard dashboard;
   private final ConfigPane config;

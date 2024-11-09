@@ -6,8 +6,10 @@ import com.github.trganda.config.Scope;
 import java.awt.*;
 import javax.swing.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Editor extends JDialog {
 
   private Frame pFrame;
@@ -24,7 +26,7 @@ public class Editor extends JDialog {
 
   public Editor() {}
 
-  private Editor(Frame pFrame) {
+  public Editor(Frame pFrame) {
     super(pFrame);
     this.pFrame = pFrame;
 

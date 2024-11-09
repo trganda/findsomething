@@ -3,9 +3,15 @@ package com.github.trganda;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import com.github.trganda.components.ExtensionFrame;
+import com.github.trganda.components.config.Editor;
 import com.github.trganda.config.Config;
+import com.github.trganda.controller.Mediator;
+import com.github.trganda.controller.config.RuleController;
+import com.github.trganda.controller.config.RuleEditorController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
+import com.github.trganda.model.RuleModel;
+import java.awt.Frame;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,8 +31,8 @@ public class FindSomething implements BurpExtension {
 
   @Override
   public void initialize(MontoyaApi api) {
-    fd = this;
     FindSomething.API = api;
+    fd = this;
 
     // loading the default configuration file to ${home}/.config
     Config config = Config.getInstance();
@@ -35,6 +41,16 @@ public class FindSomething implements BurpExtension {
     ExecutorService pool = Executors.newSingleThreadExecutor();
     handler = new InfoHttpResponseHandler(pool);
     extensionFrame = new ExtensionFrame();
+
+    extensionFrame.getConfig().getRulePane();
+
+    Mediator mediator = new Mediator(null);
+
+    new RuleController(extensionFrame.getConfig().getRulePane().getRuleInnerPane(), mediator);
+
+    Frame pFrame = api.userInterface().swingUtils().suiteFrame();
+    Editor editor = new Editor(pFrame);
+    new RuleEditorController(editor, new RuleModel(), mediator);
 
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);
