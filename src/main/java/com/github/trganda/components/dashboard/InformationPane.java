@@ -1,18 +1,15 @@
 package com.github.trganda.components.dashboard;
 
-import com.github.trganda.FindSomething;
-import com.github.trganda.config.Config;
-import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.handler.DataChangeListener;
-import com.github.trganda.model.InfoDataModel;
-import com.github.trganda.model.cache.CachePool;
-import com.github.trganda.utils.Utils;
-
 import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
 import static com.github.trganda.config.Config.GROUP_INFORMATION;
 import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
+import com.github.trganda.FindSomething;
+import com.github.trganda.handler.DataChangeListener;
+import com.github.trganda.model.InfoDataModel;
+import com.github.trganda.model.cache.CachePool;
+import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -81,82 +78,89 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
   private void setupComponents() {
     wrap = setupTable();
-    selector = new JComboBox<>(
-      new String[] {
-        GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
-      });
-    
-    selector.addActionListener(
-      e -> {
-        String group = selector.getSelectedItem().toString();
-        if (group == null) {
-          return;
-        }
+    selector =
+        new JComboBox<>(
+            new String[] {
+              GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
+            });
 
-        List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-        if (data != null) {
-          this.loadInfoWithGroup(data);  
-        }
-      });
+    // selector.addActionListener(
+    //     e -> {
+    //       String group = selector.getSelectedItem().toString();
+    //       if (group == null) {
+    //         return;
+    //       }
+
+    //       List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+    //       if (data != null) {
+    //         this.loadInfoWithGroup(data);
+    //       }
+    //     });
     filterField = new JTextField(placeHolder);
     filterField.setFont(
         new Font(
-            Utils.getBurpDisplayFont().getName(), Font.PLAIN, Utils.getBurpDisplayFont().getSize()));
+            Utils.getBurpDisplayFont().getName(),
+            Font.PLAIN,
+            Utils.getBurpDisplayFont().getSize()));
     filterField.setForeground(Color.GRAY);
-    filterField.getDocument().addDocumentListener(
-      new DocumentListener() {
-          public void changedUpdate(DocumentEvent e) {
-              newFilter();
-          }
-          public void insertUpdate(DocumentEvent e) {
-              newFilter();
-          }
-          public void removeUpdate(DocumentEvent e) {
-              newFilter();
-          }
-      });
-    filterField.addFocusListener(
-      new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-          super.focusGained(e);
-          if (filterField.getText().equals(placeHolder)) {
-            filterField.setFont(
-                new Font(
-                    Utils.getBurpDisplayFont().getName(),
-                    Font.PLAIN,
-                    Utils.getBurpDisplayFont().getSize()));
-                    filterField.setForeground(Color.BLACK);
-                    filterField.setText("");
-          }
-        }
+    // filterField
+    //     .getDocument()
+    //     .addDocumentListener(
+    //         new DocumentListener() {
+    //           public void changedUpdate(DocumentEvent e) {
+    //             newFilter();
+    //           }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-          super.focusLost(e);
-          if (filterField.getText().isEmpty()) {
-            filterField.setFont(
-                new Font(
-                    Utils.getBurpDisplayFont().getName(),
-                    Font.ITALIC,
-                    Utils.getBurpDisplayFont().getSize()));
-                    filterField.setForeground(Color.GRAY);
-                    filterField.setText(placeHolder);
+    //           public void insertUpdate(DocumentEvent e) {
+    //             newFilter();
+    //           }
+
+    //           public void removeUpdate(DocumentEvent e) {
+    //             newFilter();
+    //           }
+    //         });
+    filterField.addFocusListener(
+        new FocusAdapter() {
+          @Override
+          public void focusGained(FocusEvent e) {
+            super.focusGained(e);
+            if (filterField.getText().equals(placeHolder)) {
+              filterField.setFont(
+                  new Font(
+                      Utils.getBurpDisplayFont().getName(),
+                      Font.PLAIN,
+                      Utils.getBurpDisplayFont().getSize()));
+              filterField.setForeground(Color.BLACK);
+              filterField.setText("");
+            }
           }
-        }
-      });
+
+          @Override
+          public void focusLost(FocusEvent e) {
+            super.focusLost(e);
+            if (filterField.getText().isEmpty()) {
+              filterField.setFont(
+                  new Font(
+                      Utils.getBurpDisplayFont().getName(),
+                      Font.ITALIC,
+                      Utils.getBurpDisplayFont().getSize()));
+              filterField.setForeground(Color.GRAY);
+              filterField.setText(placeHolder);
+            }
+          }
+        });
   }
 
-  private void newFilter() {
-    RowFilter<DefaultTableModel, Object> rf = null;
-    //If current expression doesn't parse, don't update.
-    try {
-        rf = RowFilter.regexFilter(filterField.getText(), 1);
-    } catch (java.util.regex.PatternSyntaxException e) {
-        return;
-    }
-    sorter.setRowFilter(rf);
-}
+  // private void newFilter() {
+  //   RowFilter<DefaultTableModel, Object> rf = null;
+  //   // If current expression doesn't parse, don't update.
+  //   try {
+  //     rf = RowFilter.regexFilter(filterField.getText(), 1);
+  //   } catch (java.util.regex.PatternSyntaxException e) {
+  //     return;
+  //   }
+  //   sorter.setRowFilter(rf);
+  // }
 
   private JComponent setupTable() {
     infoTable = new JTable();
@@ -175,46 +179,47 @@ public class InformationPane extends JPanel implements DataChangeListener {
 
     JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
     infoTableScrollPane.addComponentListener(
-      new ComponentAdapter() {
-        @Override
-        public void componentResized(ComponentEvent e) {
-          super.componentResized(e);
-          resizePane();
-        }
-      });
-    
+        new ComponentAdapter() {
+          @Override
+          public void componentResized(ComponentEvent e) {
+            super.componentResized(e);
+            resizePane();
+          }
+        });
+
     return infoTableScrollPane;
   }
 
   private void loadInfoWithGroup(List<InfoDataModel> data) {
-    SwingWorker<List<Object[]>, Void> worker = 
-      new SwingWorker<>() {
-      
-        @Override
-        protected List<Object[]> doInBackground() throws Exception {
+    SwingWorker<List<Object[]>, Void> worker =
+        new SwingWorker<>() {
+
+          @Override
+          protected List<Object[]> doInBackground() throws Exception {
             List<Object[]> infos = new ArrayList<>();
             for (InfoDataModel row : data) {
               infos.add(row.getInfoData());
             }
             return infos;
-        }
-
-        @Override
-        protected void done() {
-          // update when work done
-          try {
-            infoTableModel.setRowCount(0);
-            List<Object[]> rows = get();
-            for (Object[] row : rows) {
-              infoTableModel.addRow(row);
-            }
-            infoTableModel.fireTableDataChanged();
-          } catch (InterruptedException | ExecutionException e) {
-            FindSomething.API.logging().logToError(new RuntimeException(e));
           }
+
+          @Override
+          protected void done() {
+            // update when work done
+            try {
+              infoTableModel.setRowCount(0);
+              List<Object[]> rows = get();
+              for (Object[] row : rows) {
+                infoTableModel.addRow(row);
+              }
+              infoTableModel.fireTableDataChanged();
+            } catch (InterruptedException | ExecutionException e) {
+              FindSomething.API.logging().logToError(new RuntimeException(e));
+            }
+          }
+          ;
         };
-      };
-    
+
     worker.execute();
   }
 
@@ -228,9 +233,9 @@ public class InformationPane extends JPanel implements DataChangeListener {
   public void onDataChanged(List<InfoDataModel> data) {
     String group = selector.getSelectedItem().toString();
     List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
-    
+
     if (d != null) {
-      this.loadInfoWithGroup(d);  
+      this.loadInfoWithGroup(d);
     }
   }
 

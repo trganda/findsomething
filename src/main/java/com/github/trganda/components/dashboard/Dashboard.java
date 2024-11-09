@@ -56,80 +56,80 @@ public class Dashboard extends JPanel {
     FindSomething.getInstance().getHandler().registerDataChangeListener(informationPane);
 
     // setup event
-    setupTable();
+    // setupTable();
   }
 
-  private void setupTable() {
-    informationPane
-        .getInfoTable()
-        .addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                JTable table = informationPane.getInfoTable();
-                int row = table.rowAtPoint(e.getPoint());
-                if (row >= 0) {
-                  String info = (String) table.getModel().getValueAt(row, 1);
-                  String hashKey = Utils.calHash(info);
-                  List<RequestDetailModel> reqInfos =
-                      CachePool.getInstance().getRequestDataModelList(hashKey);
+  // private void setupTable() {
+  //   informationPane
+  //       .getInfoTable()
+  //       .addMouseListener(
+  //           new MouseAdapter() {
+  //             @Override
+  //             public void mouseClicked(MouseEvent e) {
+  //               JTable table = informationPane.getInfoTable();
+  //               int row = table.rowAtPoint(e.getPoint());
+  //               if (row >= 0) {
+  //                 String info = (String) table.getModel().getValueAt(row, 1);
+  //                 String hashKey = Utils.calHash(info);
+  //                 List<RequestDetailModel> reqInfos =
+  //                     CachePool.getInstance().getRequestDataModelList(hashKey);
 
-                  SwingWorker<List<Object[]>, Void> worker =
-                      new SwingWorker<>() {
-                        @Override
-                        protected List<Object[]> doInBackground() {
-                          List<Object[]> infos = new ArrayList<>();
-                          for (RequestDetailModel reqInfo : reqInfos) {
-                            infos.add(reqInfo.getRequestData());
-                          }
-                          return infos;
-                        }
+  //                 SwingWorker<List<Object[]>, Void> worker =
+  //                     new SwingWorker<>() {
+  //                       @Override
+  //                       protected List<Object[]> doInBackground() {
+  //                         List<Object[]> infos = new ArrayList<>();
+  //                         for (RequestDetailModel reqInfo : reqInfos) {
+  //                           infos.add(reqInfo.getRequestData());
+  //                         }
+  //                         return infos;
+  //                       }
 
-                        @Override
-                        protected void done() {
-                          DefaultTableModel tableModel =
-                              requestSplitFrame.getInformationDetailsPane().getTableModel();
-                          tableModel.setRowCount(0);
-                          // update when work done
-                          try {
-                            List<Object[]> rows = get();
-                            for (Object[] row : rows) {
-                              tableModel.addRow(row);
-                            }
-                            tableModel.fireTableDataChanged();
-                          } catch (InterruptedException | ExecutionException e) {
-                            FindSomething.API.logging().logToError(new RuntimeException(e));
-                          }
-                        }
-                      };
-                  worker.execute();
-                }
-              }
-            });
+  //                       @Override
+  //                       protected void done() {
+  //                         DefaultTableModel tableModel =
+  //                             requestSplitFrame.getInformationDetailsPane().getTableModel();
+  //                         tableModel.setRowCount(0);
+  //                         // update when work done
+  //                         try {
+  //                           List<Object[]> rows = get();
+  //                           for (Object[] row : rows) {
+  //                             tableModel.addRow(row);
+  //                           }
+  //                           tableModel.fireTableDataChanged();
+  //                         } catch (InterruptedException | ExecutionException e) {
+  //                           FindSomething.API.logging().logToError(new RuntimeException(e));
+  //                         }
+  //                       }
+  //                     };
+  //                 worker.execute();
+  //               }
+  //             }
+  //           });
 
-    requestSplitFrame
-        .getInformationDetailsPane()
-        .getTable()
-        .addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                JTable table = requestSplitFrame.getInformationDetailsPane().getTable();
-                DefaultTableModel tableModel =
-                    requestSplitFrame.getInformationDetailsPane().getTableModel();
-                int row = table.rowAtPoint(e.getPoint());
-                if (row >= 0) {
-                  String path = (String) tableModel.getValueAt(row, 1);
-                  String host = (String) tableModel.getValueAt(row, 2);
-                  String hash = Utils.calHash(path, host);
-                  InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
+  //   requestSplitFrame
+  //       .getInformationDetailsPane()
+  //       .getTable()
+  //       .addMouseListener(
+  //           new MouseAdapter() {
+  //             @Override
+  //             public void mouseClicked(MouseEvent e) {
+  //               JTable table = requestSplitFrame.getInformationDetailsPane().getTable();
+  //               DefaultTableModel tableModel =
+  //                   requestSplitFrame.getInformationDetailsPane().getTableModel();
+  //               int row = table.rowAtPoint(e.getPoint());
+  //               if (row >= 0) {
+  //                 String path = (String) tableModel.getValueAt(row, 1);
+  //                 String host = (String) tableModel.getValueAt(row, 2);
+  //                 String hash = Utils.calHash(path, host);
+  //                 InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
 
-                  requestSplitFrame.getRequestEditor().setRequest(resp.request());
-                  requestSplitFrame.getResponseEditor().setResponse(resp);
-                }
-              }
-            });
-  }
+  //                 requestSplitFrame.getRequestEditor().setRequest(resp.request());
+  //                 requestSplitFrame.getResponseEditor().setResponse(resp);
+  //               }
+  //             }
+  //           });
+  // }
 
   public class StatusPane extends JPanel {
 

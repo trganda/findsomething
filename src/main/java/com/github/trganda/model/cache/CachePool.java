@@ -19,7 +19,7 @@ public class CachePool {
           .maximumSize(MAX_SIZE)
           .expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS)
           .build();
-  private static final Cache<String, List<InfoDataModel>> infoCache = 
+  private static final Cache<String, List<InfoDataModel>> infoCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<RequestDetailModel>> reqInfoCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();

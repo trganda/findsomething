@@ -74,23 +74,23 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
     wrap = this.setupTable();
 
     this.setupInputTextField();
-    addBlackListButton.addActionListener(
-        e -> {
-          String val = inputTextField.getText();
-          if (val.isEmpty() || val.equals(placeHolder)) {
-            return;
-          }
-          // ignore if already exist same value
-          if (blackListTableModel.getDataVector().stream()
-                  .filter(row -> row.get(0).equals(val))
-                  .count()
-              > 0) {
-            return;
-          }
-          // sync to configuration
-          syncToConfig(val, Operatation.ADD);
-          inputTextField.setText("");
-        });
+    // addBlackListButton.addActionListener(
+    //     e -> {
+    //       String val = inputTextField.getText();
+    //       if (val.isEmpty() || val.equals(placeHolder)) {
+    //         return;
+    //       }
+    //       // ignore if already exist same value
+    //       if (blackListTableModel.getDataVector().stream()
+    //               .filter(row -> row.get(0).equals(val))
+    //               .count()
+    //           > 0) {
+    //         return;
+    //       }
+    //       // sync to configuration
+    //       syncToConfig(val, Operatation.ADD);
+    //       inputTextField.setText("");
+    //     });
   }
 
   private JComponent setupTable() {
@@ -151,33 +151,33 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
           }
         });
 
-    Color defaultColor = inputTextField.getForeground();
-    inputTextField.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyReleased(KeyEvent e) {
-            String val = inputTextField.getText();
-            // highlight if already exists
-            if (blackListTableModel.getDataVector().stream()
-                    .filter(row -> row.get(0).equals(val))
-                    .count()
-                > 0) {
-              inputTextField.setForeground(Color.RED);
-              inputTextField.setFont(
-                  new Font(
-                      Utils.getBurpEditorFont().getName(),
-                      Font.ITALIC,
-                      Utils.getBurpEditorFont().getSize()));
-            } else {
-              inputTextField.setForeground(defaultColor);
-              inputTextField.setFont(Utils.getBurpEditorFont());
-              if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                syncToConfig(val, Operatation.ADD);
-                inputTextField.setText("");
-              }
-            }
-          }
-        });
+    // Color defaultColor = inputTextField.getForeground();
+    // inputTextField.addKeyListener(
+    //     new KeyAdapter() {
+    //       @Override
+    //       public void keyReleased(KeyEvent e) {
+    //         String val = inputTextField.getText();
+    //         // highlight if already exists
+    //         if (blackListTableModel.getDataVector().stream()
+    //                 .filter(row -> row.get(0).equals(val))
+    //                 .count()
+    //             > 0) {
+    //           inputTextField.setForeground(Color.RED);
+    //           inputTextField.setFont(
+    //               new Font(
+    //                   Utils.getBurpEditorFont().getName(),
+    //                   Font.ITALIC,
+    //                   Utils.getBurpEditorFont().getSize()));
+    //         } else {
+    //           inputTextField.setForeground(defaultColor);
+    //           inputTextField.setFont(Utils.getBurpEditorFont());
+    //           if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+    //             syncToConfig(val, Operatation.ADD);
+    //             inputTextField.setText("");
+    //           }
+    //         }
+    //       }
+    //     });
   }
 
   private class BlackListButtonsPane extends JPanel {
@@ -198,40 +198,40 @@ public class BlackListInnerPane extends JPanel implements ConfigChangeListener {
       this.add(remove);
       this.add(Box.createVerticalStrut(5));
       this.add(clear);
-      setupButtonEventHandler();
+      // setupButtonEventHandler();
     }
 
-    private void setupButtonEventHandler() {
-      type.addActionListener(
-          e -> {
-            String selectedItem = (String) type.getSelectedItem();
-            FindSomething.API.logging().logToOutput("selected item: " + selectedItem);
-            if (selectedItem == null) {
-              return;
-            }
-            switch (selectedItem) {
-              case BLACKLIST_SUFFIX:
-                loadBlackListWithType(Config.getInstance().getSuffixes());
-                break;
-              case BLACKLIST_HOST:
-                loadBlackListWithType(Config.getInstance().getHosts());
-                break;
-              case BLACKLIST_STATUS:
-                loadBlackListWithType(Config.getInstance().getStatus());
-                break;
-            }
-          });
+    // private void setupButtonEventHandler() {
+    //   type.addActionListener(
+    //       e -> {
+    //         String selectedItem = (String) type.getSelectedItem();
+    //         FindSomething.API.logging().logToOutput("selected item: " + selectedItem);
+    //         if (selectedItem == null) {
+    //           return;
+    //         }
+    //         switch (selectedItem) {
+    //           case BLACKLIST_SUFFIX:
+    //             loadBlackListWithType(Config.getInstance().getSuffixes());
+    //             break;
+    //           case BLACKLIST_HOST:
+    //             loadBlackListWithType(Config.getInstance().getHosts());
+    //             break;
+    //           case BLACKLIST_STATUS:
+    //             loadBlackListWithType(Config.getInstance().getStatus());
+    //             break;
+    //         }
+    //       });
 
-      remove.addActionListener(
-          e -> {
-            int[] idxes = blackListTable.getSelectedRows();
-            for (int idx : idxes) {
-              syncToConfig(blackListTableModel.getValueAt(idx, 0).toString(), Operatation.DEL);
-            }
-          });
+    //   remove.addActionListener(
+    //       e -> {
+    //         int[] idxes = blackListTable.getSelectedRows();
+    //         for (int idx : idxes) {
+    //           syncToConfig(blackListTableModel.getValueAt(idx, 0).toString(), Operatation.DEL);
+    //         }
+    //       });
 
-      clear.addActionListener(e -> syncToConfig("", Operatation.CLR));
-    }
+    //   clear.addActionListener(e -> syncToConfig("", Operatation.CLR));
+    // }
 
     public void loadBlackListWithType(List<String> data) {
       SwingWorker<List<String[]>, Void> worker =

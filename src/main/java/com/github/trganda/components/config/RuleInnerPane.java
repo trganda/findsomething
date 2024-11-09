@@ -5,10 +5,7 @@ import static com.github.trganda.config.Config.*;
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
-import com.github.trganda.config.Operatation;
 import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.model.cache.CachePool;
-import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -17,7 +14,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import lombok.Getter;
 
+@Getter
 public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
   private RuleButtonsPane ruleButtonsPane;
@@ -29,7 +28,10 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
 
   public RuleInnerPane() {
     this.setupComponents();
+    this.setupLayout();
+  }
 
+  private void setupLayout() {
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     this.setLayout(layout);
@@ -122,16 +124,16 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
             new String[] {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
-    selector.addActionListener(
-        e -> {
-          String selectedItem = (String) selector.getSelectedItem();
-          if (selectedItem == null) {
-            return;
-          }
-          List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(selectedItem);
-          countLabel.setText(String.valueOf(rules.size()));
-          this.loadRulesWithGroup(rules);
-        });
+    // selector.addActionListener(
+    //     e -> {
+    //       String selectedItem = (String) selector.getSelectedItem();
+    //       if (selectedItem == null) {
+    //         return;
+    //       }
+    //       List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(selectedItem);
+    //       countLabel.setText(String.valueOf(rules.size()));
+    //       this.loadRulesWithGroup(rules);
+    //     });
 
     wrap = this.setupTable();
     countLabel = new JLabel();
@@ -139,45 +141,46 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
     // loading the default rules of group fingerprint
     List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
     countLabel.setText(String.valueOf(rules.size()));
-    this.loadRulesWithGroup(rules);
+    // this.loadRulesWithGroup(rules);
   }
 
-  private void loadRulesWithGroup(List<Rule> rules) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
-          @Override
-          protected List<Object[]> doInBackground() {
-            List<Object[]> list = new ArrayList<>();
-            for (Rule rule : rules) {
-              list.add(
-                  new Object[] {
-                    rule.isEnabled(),
-                    rule.getName(),
-                    rule.getRegex(),
-                    rule.getScope(),
-                    rule.isSensitive()
-                  });
-            }
-            return list;
-          }
+  // private void loadRulesWithGroup(List<Rule> rules) {
+  //   SwingWorker<List<Object[]>, Void> worker =
+  //       new SwingWorker<>() {
+  //         @Override
+  //         protected List<Object[]> doInBackground() {
+  //           List<Object[]> list = new ArrayList<>();
+  //           for (Rule rule : rules) {
+  //             list.add(
+  //                 new Object[] {
+  //                   rule.isEnabled(),
+  //                   rule.getName(),
+  //                   rule.getRegex(),
+  //                   rule.getScope(),
+  //                   rule.isSensitive()
+  //                 });
+  //           }
+  //           return list;
+  //         }
 
-          @Override
-          protected void done() {
-            try {
-              List<Object[]> result = get();
-              model.setRowCount(0);
-              for (Object[] row : result) {
-                model.addRow(row);
-              }
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-    worker.execute();
-  }
+  //         @Override
+  //         protected void done() {
+  //           try {
+  //             List<Object[]> result = get();
+  //             model.setRowCount(0);
+  //             for (Object[] row : result) {
+  //               model.addRow(row);
+  //             }
+  //           } catch (InterruptedException | ExecutionException e) {
+  //             FindSomething.API.logging().logToError(new RuntimeException(e));
+  //           }
+  //         }
+  //       };
+  //   worker.execute();
+  // }
 
-  private class RuleButtonsPane extends JPanel {
+  @Getter
+  public class RuleButtonsPane extends JPanel {
     private JButton add;
     private JButton edit;
     private JButton remove;
@@ -199,62 +202,7 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
       this.add(Box.createVerticalStrut(5));
       this.add(clear);
 
-      this.setupButtonEventHandler();
-    }
-
-    private void setupButtonEventHandler() {
-      Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
-      add.addActionListener(
-          e -> {
-            String group = selector.getSelectedItem().toString();
-            new Editor(pFrame, group).setVisible(true);
-          });
-
-      edit.addActionListener(
-          e -> {
-            int idx = table.getSelectedRow();
-            if (idx == -1) {
-              return;
-            }
-            List<Rule> rules =
-                Config.getInstance()
-                    .getRules()
-                    .getRulesWithGroup(selector.getSelectedItem().toString());
-            String name = model.getValueAt(idx, 1).toString();
-            String group = selector.getSelectedItem().toString();
-            rules.stream()
-                .filter(r -> r.getName().equals(name))
-                .findFirst()
-                .ifPresent(
-                    r -> {
-                      new Editor(pFrame, group, r).setVisible(true);
-                    });
-          });
-
-      remove.addActionListener(
-          e -> {
-            String selectedItem = selector.getSelectedItem().toString();
-            int[] idxes = table.getSelectedRows();
-            for (int idx : idxes) {
-              String ruleName = model.getValueAt(idx, 1).toString();
-              Rule rule = CachePool.getInstance().getRule(Utils.calHash(selectedItem, ruleName));
-              if (rule != null) {
-                Config.getInstance().syncRules(selectedItem, rule, Operatation.DEL);
-              } else {
-                FindSomething.API
-                    .logging()
-                    .logToError(
-                        String.format(
-                            "cannot find rule: '%s' in group: '%s'", ruleName, selectedItem));
-              }
-            }
-          });
-
-      clear.addActionListener(
-          e -> {
-            String selectedItem = selector.getSelectedItem().toString();
-            Config.getInstance().syncRules(selectedItem, null, Operatation.CLR);
-          });
+      // this.setupButtonEventHandler();
     }
 
     private void setAlign(JButton... buttons) {
@@ -263,6 +211,61 @@ public class RuleInnerPane extends JPanel implements ConfigChangeListener {
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getPreferredSize().height));
       }
     }
+
+    // private void setupButtonEventHandler() {
+    //   Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
+    //   add.addActionListener(
+    //       e -> {
+    //         String group = selector.getSelectedItem().toString();
+    //         new Editor(pFrame, group).setVisible(true);
+    //       });
+
+    //   edit.addActionListener(
+    //       e -> {
+    //         int idx = table.getSelectedRow();
+    //         if (idx == -1) {
+    //           return;
+    //         }
+    //         List<Rule> rules =
+    //             Config.getInstance()
+    //                 .getRules()
+    //                 .getRulesWithGroup(selector.getSelectedItem().toString());
+    //         String name = model.getValueAt(idx, 1).toString();
+    //         String group = selector.getSelectedItem().toString();
+    //         rules.stream()
+    //             .filter(r -> r.getName().equals(name))
+    //             .findFirst()
+    //             .ifPresent(
+    //                 r -> {
+    //                   new Editor(pFrame, group, r).setVisible(true);
+    //                 });
+    //       });
+
+    //   remove.addActionListener(
+    //       e -> {
+    //         String selectedItem = selector.getSelectedItem().toString();
+    //         int[] idxes = table.getSelectedRows();
+    //         for (int idx : idxes) {
+    //           String ruleName = model.getValueAt(idx, 1).toString();
+    //           Rule rule = CachePool.getInstance().getRule(Utils.calHash(selectedItem, ruleName));
+    //           if (rule != null) {
+    //             Config.getInstance().syncRules(selectedItem, rule, Operatation.DEL);
+    //           } else {
+    //             FindSomething.API
+    //                 .logging()
+    //                 .logToError(
+    //                     String.format(
+    //                         "cannot find rule: '%s' in group: '%s'", ruleName, selectedItem));
+    //           }
+    //         }
+    //       });
+
+    //   clear.addActionListener(
+    //       e -> {
+    //         String selectedItem = selector.getSelectedItem().toString();
+    //         Config.getInstance().syncRules(selectedItem, null, Operatation.CLR);
+    //       });
+    // }
   }
 
   @Override
