@@ -14,7 +14,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class DashboardController implements DataChangeListener {
@@ -57,6 +61,24 @@ public class DashboardController implements DataChangeListener {
             updateDetailsView(reqInfos);
           }
         });
+
+    JTextField filterField = dashboard.getInformationPane().getFilterField();
+    filterField
+        .getDocument()
+        .addDocumentListener(
+            new DocumentListener() {
+              public void changedUpdate(DocumentEvent e) {
+                updateFilter();
+              }
+
+              public void insertUpdate(DocumentEvent e) {
+                updateFilter();
+              }
+
+              public void removeUpdate(DocumentEvent e) {
+                updateFilter();
+              }
+            });
 
     JTable infoDetailTable =
         dashboard.getRequestSplitFrame().getInformationDetailsPane().getTable();
@@ -123,6 +145,19 @@ public class DashboardController implements DataChangeListener {
         };
 
     worker.execute();
+  }
+
+  private void updateFilter() {
+    RowFilter<DefaultTableModel, Object> rf = null;
+    JTextField filterField = dashboard.getInformationPane().getFilterField();
+    // if current expression doesn't parse, don't update.
+    try {
+      // filter the second cloumn
+      rf = RowFilter.regexFilter(filterField.getText(), 1);
+    } catch (java.util.regex.PatternSyntaxException e) {
+      return;
+    }
+    dashboard.getInformationPane().getSorter().setRowFilter(rf);
   }
 
   private void updateDetailsView(List<RequestDetailModel> data) {
