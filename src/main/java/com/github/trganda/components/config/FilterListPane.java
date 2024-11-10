@@ -5,12 +5,12 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class BlackListPane extends JPanel {
+public class FilterListPane extends JPanel {
 
-  private BlackListInnerPane blackListInnerPane;
+  private FilterListInnerPane blackListInnerPane;
 
-  public BlackListPane() {
-    blackListInnerPane = new BlackListInnerPane();
+  public FilterListPane() {
+    blackListInnerPane = new FilterListInnerPane();
     JLabel label = new JLabel("Filter setting");
     label.setFont(new Font("Arial", Font.BOLD, 16));
     JLabel description =

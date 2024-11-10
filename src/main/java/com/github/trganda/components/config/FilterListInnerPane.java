@@ -9,17 +9,17 @@ import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
 
 @Getter
-public class BlackListInnerPane extends JPanel {
+public class FilterListInnerPane extends JPanel {
 
   private final String placeHolder = "Enter an new item";
-  private BlackListInnerButtonsPane blackListButtonsPane;
+  private FilterListInnerButtonsPane blackListButtonsPane;
   private JTable blackListTable;
   private DefaultTableModel blackListTableModel;
   private JButton addBlackListButton;
   private JTextField inputTextField;
   private JComponent wrap;
 
-  public BlackListInnerPane() {
+  public FilterListInnerPane() {
     // initialize each component
     this.setupComponents();
 
@@ -60,7 +60,7 @@ public class BlackListInnerPane extends JPanel {
     addBlackListButton = new JButton("Add");
     blackListTableModel = new DefaultTableModel(new Object[] {""}, 0);
     blackListTable = new JTable(blackListTableModel);
-    blackListButtonsPane = new BlackListInnerButtonsPane();
+    blackListButtonsPane = new FilterListInnerButtonsPane();
 
     wrap = this.setupTable();
 
