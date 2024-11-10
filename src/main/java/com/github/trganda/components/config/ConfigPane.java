@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ConfigPane extends JPanel {
 
   private RulePane rulePane;
-  private BlackListPane blackListPane;
+  private FilterListPane blackListPane;
 
   public ConfigPane() {
     GridBagLayout gridBagLayout = new GridBagLayout();
@@ -17,7 +17,7 @@ public class ConfigPane extends JPanel {
     this.setBorder(BorderFactory.createEmptyBorder(20, 20, 50, 20));
 
     rulePane = new RulePane();
-    blackListPane = new BlackListPane();
+    blackListPane = new FilterListPane();
 
     gbc.gridx = 0;
     gbc.gridy = 0;

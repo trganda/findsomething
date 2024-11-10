@@ -20,7 +20,7 @@ import javax.swing.table.TableRowSorter;
 import lombok.Getter;
 
 @Getter
-public class InformationPane extends JPanel implements DataChangeListener {
+public class InformationPane extends JPanel {
   private final String placeHolder = "Search";
   private JTable infoTable;
   private DefaultTableModel infoTableModel;
@@ -189,56 +189,9 @@ public class InformationPane extends JPanel implements DataChangeListener {
     return infoTableScrollPane;
   }
 
-  // private void loadInfoWithGroup(List<InfoDataModel> data) {
-  //   SwingWorker<List<Object[]>, Void> worker =
-  //       new SwingWorker<>() {
-
-  //         @Override
-  //         protected List<Object[]> doInBackground() throws Exception {
-  //           List<Object[]> infos = new ArrayList<>();
-  //           for (InfoDataModel row : data) {
-  //             infos.add(row.getInfoData());
-  //           }
-  //           return infos;
-  //         }
-
-  //         @Override
-  //         protected void done() {
-  //           // update when work done
-  //           try {
-  //             infoTableModel.setRowCount(0);
-  //             List<Object[]> rows = get();
-  //             for (Object[] row : rows) {
-  //               infoTableModel.addRow(row);
-  //             }
-  //             infoTableModel.fireTableDataChanged();
-  //           } catch (InterruptedException | ExecutionException e) {
-  //             FindSomething.API.logging().logToError(new RuntimeException(e));
-  //           }
-  //         }
-  //         ;
-  //       };
-
-  //   worker.execute();
-  // }
-
   private void resizePane() {
     int infoTableWidth = infoTable.getWidth();
     infoTable.getColumnModel().getColumn(0).setPreferredWidth((int) (infoTableWidth * 0.1));
     infoTable.getColumnModel().getColumn(1).setPreferredWidth((int) (infoTableWidth * 0.9));
   }
-
-  @Override
-  public void onDataChanged(List<InfoDataModel> data) {
-    // String group = selector.getSelectedItem().toString();
-    // List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
-
-    // if (d != null) {
-    //   this.loadInfoWithGroup(d);
-    // }
-  }
-
-  // public JTable getInfoTable() {
-  //   return infoTable;
-  // }
 }

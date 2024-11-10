@@ -9,6 +9,7 @@ import com.github.trganda.controller.Mediator;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
+import com.github.trganda.controller.dashboard.DashboardController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
@@ -54,15 +55,15 @@ public class FindSomething implements BurpExtension {
     new RuleEditorController(editor, new RuleModel(), mediator);
     new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
+    DashboardController dashboardController =
+        new DashboardController(extensionFrame.getDashboard());
+    handler.registerDataChangeListener(dashboardController);
+
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);
     api.userInterface().registerSuiteTab("FindSomething", extensionFrame);
 
     // shutdown thread pool while unloading
     api.extension().registerUnloadingHandler(new UnloadHandler(pool));
-  }
-
-  public InfoHttpResponseHandler getHandler() {
-    return handler;
   }
 }

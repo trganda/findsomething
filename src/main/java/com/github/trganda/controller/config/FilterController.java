@@ -5,7 +5,7 @@ import static com.github.trganda.config.Config.BLACKLIST_STATUS;
 import static com.github.trganda.config.Config.BLACKLIST_SUFFIX;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.config.BlackListInnerPane;
+import com.github.trganda.components.config.FilterListInnerPane;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.Operatation;
@@ -22,13 +22,13 @@ import javax.swing.JComboBox;
 import javax.swing.SwingWorker;
 
 public class FilterController implements ConfigChangeListener {
-  private BlackListInnerPane innerPane;
+  private FilterListInnerPane innerPane;
 
   public FilterController() {
     Config.getInstance().registerConfigListener(this);
   }
 
-  public FilterController(BlackListInnerPane innerPane) {
+  public FilterController(FilterListInnerPane innerPane) {
     this();
     this.innerPane = innerPane;
     this.setupEventListener();

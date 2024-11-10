@@ -42,12 +42,4 @@ public class InformationDetailsPane extends JScrollPane {
     table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.1));
     table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.15));
   }
-
-  public JTable getTable() {
-    return table;
-  }
-
-  public DefaultTableModel getTableModel() {
-    return tableModel;
-  }
 }

@@ -16,21 +16,4 @@ public class RequestSplitFrame extends JSplitPane {
     this.setTopComponent(informationDetailsPane);
     this.setBottomComponent(requestPane);
   }
-
-  // public HttpRequestEditor getRequestEditor() {
-  //   return requestPane.requestEditor;
-  // }
-
-  // public HttpResponseEditor getResponseEditor() {
-  //   return requestPane.responseEditor;
-  // }
-
-  // public RequestPane getRequestPane() {
-  //   return requestPane;
-  // }
-
-  // public InformationDetailsPane getInformationDetailsPane() {
-  //   return informationDetailsPane;
-  // }
-
 }

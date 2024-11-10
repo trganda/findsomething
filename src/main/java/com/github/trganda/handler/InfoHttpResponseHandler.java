@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
-  private final Long id = 0L;
+  private Long id = 0L;
   private final ExecutorService pool;
   private final List<DataChangeListener> listeners;
 
@@ -80,7 +80,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             for (String result : results) {
                               // remove first and last char if equals to '"'
                               // result = removeFirstAndLastChar(result, '"');
-                              InfoDataModel infoDataModel = new InfoDataModel(result);
+                              InfoDataModel infoDataModel = new InfoDataModel(id, result);
+                              id = id + 1;
                               data.add(infoDataModel);
 
                               CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
