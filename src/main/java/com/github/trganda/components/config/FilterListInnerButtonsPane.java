@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 import lombok.Getter;
 
 @Getter
-public class BlackListInnerButtonsPane extends JPanel {
+public class FilterListInnerButtonsPane extends JPanel {
   private final JComboBox<String> type;
   private final JButton remove;
   private final JButton clear;
 
-  public BlackListInnerButtonsPane() {
+  public FilterListInnerButtonsPane() {
     type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS});
     remove = new JButton("Remove");
     clear = new JButton("Clear");
