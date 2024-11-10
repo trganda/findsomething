@@ -65,23 +65,6 @@ public class BlackListInnerPane extends JPanel {
     wrap = this.setupTable();
 
     this.setupInputTextField();
-    // addBlackListButton.addActionListener(
-    //     e -> {
-    //       String val = inputTextField.getText();
-    //       if (val.isEmpty() || val.equals(placeHolder)) {
-    //         return;
-    //       }
-    //       // ignore if already exist same value
-    //       if (blackListTableModel.getDataVector().stream()
-    //               .filter(row -> row.get(0).equals(val))
-    //               .count()
-    //           > 0) {
-    //         return;
-    //       }
-    //       // sync to configuration
-    //       syncToConfig(val, Operatation.ADD);
-    //       inputTextField.setText("");
-    //     });
   }
 
   private JComponent setupTable() {
@@ -97,8 +80,6 @@ public class BlackListInnerPane extends JPanel {
     // add a empty component
     splitPane.setRightComponent(new JPanel());
 
-    // show suffixes blacklist default
-    // blackListButtonsPane.loadBlackListWithType(Config.getInstance().getSuffixes());
     return splitPane;
   }
 
@@ -143,91 +124,5 @@ public class BlackListInnerPane extends JPanel {
             }
           }
         });
-
-    // Color defaultColor = inputTextField.getForeground();
-    // inputTextField.addKeyListener(
-    //     new KeyAdapter() {
-    //       @Override
-    //       public void keyReleased(KeyEvent e) {
-    //         String val = inputTextField.getText();
-    //         // highlight if already exists
-    //         if (blackListTableModel.getDataVector().stream()
-    //                 .filter(row -> row.get(0).equals(val))
-    //                 .count()
-    //             > 0) {
-    //           inputTextField.setForeground(Color.RED);
-    //           inputTextField.setFont(
-    //               new Font(
-    //                   Utils.getBurpDisplayFont().getName(),
-    //                   Font.ITALIC,
-    //                   Utils.getBurpDisplayFont().getSize()));
-    //         } else {
-    //           inputTextField.setForeground(defaultColor);
-    //           inputTextField.setFont(Utils.getBurpDisplayFont());
-    //           if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    //             syncToConfig(val, Operatation.ADD);
-    //             inputTextField.setText("");
-    //           }
-    //         }
-    //       }
-    //     });
   }
-
-  // private void syncToConfig(String val, Operatation type) {
-  //   String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
-  //   if (selectedItem != null) {
-  //     switch (selectedItem) {
-  //       case BLACKLIST_SUFFIX:
-  //         Config.getInstance().syncSuffixes(val, type);
-  //         break;
-  //       case BLACKLIST_HOST:
-  //         Config.getInstance().syncHosts(val, type);
-  //         break;
-  //       case BLACKLIST_STATUS:
-  //         Config.getInstance().syncStatus(val, type);
-  //         break;
-  //     }
-  //   }
-  // }
-
-  // @Override
-  // public void onConfigChange(Config config) {
-  //   SwingWorker<List<String[]>, Void> worker =
-  //       new SwingWorker<List<String[]>, Void>() {
-  //         @Override
-  //         protected List<String[]> doInBackground() {
-  //           List<String[]> list = new ArrayList<>();
-  //           // sync to configuration
-  //           String selectedItem = (String) blackListButtonsPane.type.getSelectedItem();
-  //           switch (selectedItem) {
-  //             case BLACKLIST_SUFFIX:
-  //               config.getSuffixes().forEach(s -> list.add(new String[] {s}));
-  //               break;
-  //             case BLACKLIST_HOST:
-  //               config.getHosts().forEach(s -> list.add(new String[] {s}));
-  //               break;
-  //             case BLACKLIST_STATUS:
-  //               config.getStatus().forEach(s -> list.add(new String[] {s}));
-  //               break;
-  //           }
-
-  //           return list;
-  //         }
-
-  //         @Override
-  //         protected void done() {
-  //           try {
-  //             List<String[]> result = get();
-  //             blackListTableModel.setRowCount(0);
-  //             for (String[] row : result) {
-  //               blackListTableModel.addRow(row);
-  //             }
-  //             blackListTableModel.fireTableDataChanged();
-  //           } catch (InterruptedException | ExecutionException e) {
-  //             FindSomething.API.logging().logToError(new RuntimeException(e));
-  //           }
-  //         }
-  //       };
-  //   worker.execute();
-  // }
 }

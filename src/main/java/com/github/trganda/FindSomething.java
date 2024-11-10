@@ -6,6 +6,7 @@ import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.config.Editor;
 import com.github.trganda.config.Config;
 import com.github.trganda.controller.Mediator;
+import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
@@ -51,6 +52,7 @@ public class FindSomething implements BurpExtension {
     Frame pFrame = api.userInterface().swingUtils().suiteFrame();
     Editor editor = new Editor(pFrame);
     new RuleEditorController(editor, new RuleModel(), mediator);
+    new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);

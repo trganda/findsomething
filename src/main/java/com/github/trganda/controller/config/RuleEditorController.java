@@ -18,7 +18,7 @@ public class RuleEditorController {
     this.editor = editor;
     this.rule = rule;
 
-    this.setupEvent();
+    this.setupEventListener();
   }
 
   public RuleEditorController(Editor editor, RuleModel rule, Mediator mediator) {
@@ -27,7 +27,7 @@ public class RuleEditorController {
     this.mediator.registerRuleEditorController(this);
   }
 
-  private void setupEvent() {
+  private void setupEventListener() {
     this.editor
         .getEditroButtonsPane()
         .getCancel()
@@ -59,7 +59,7 @@ public class RuleEditorController {
             });
   }
 
-  public void updateRule(RuleModel rule) {
+  public void updateView(RuleModel rule) {
     this.rule = rule;
     this.editor.getNameField().setText(rule.getRule().getName());
     this.editor.getRegexField().setText(rule.getRule().getRegex());

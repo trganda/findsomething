@@ -16,7 +16,7 @@ public class Mediator {
 
   public void updateEditor(RuleModel ruleModel) {
     this.ruleModel = ruleModel;
-    this.editorController.updateRule(ruleModel);
+    this.editorController.updateView(ruleModel);
   }
 
   public void registerRuleEditorController(RuleEditorController editorController) {

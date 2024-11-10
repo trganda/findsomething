@@ -31,8 +31,6 @@ public class EditroButtonsPane extends JPanel {
     this.add(cancel);
     this.add(Box.createHorizontalStrut(5));
     this.add(save);
-
-    // this.setupButtonEventHandler();
   }
 
   private void setAlign(JButton... buttons) {
@@ -40,30 +38,4 @@ public class EditroButtonsPane extends JPanel {
       button.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
   }
-
-  // private void setupButtonEventHandler() {
-  //   cancel.addActionListener(
-  //       e -> {
-  //         Editor.this.setVisible(false);
-  //       });
-
-  //   save.addActionListener(
-  //       e -> {
-  //         Rule r =
-  //             new Rule(
-  //                 true,
-  //                 nameField.getText(),
-  //                 regexField.getText(),
-  //                 (Scope) scope.getSelectedItem(),
-  //                 sensitive.isSelected());
-  //         if (op == Operatation.ADD) {
-  //           Config.getInstance().syncRules(group, r, op);
-  //         } else if (op == Operatation.EDT) {
-  //           // remove the old rule first
-  //           Config.getInstance().syncRules(group, rule, Operatation.DEL);
-  //           Config.getInstance().syncRules(group, r, op);
-  //         }
-  //         Editor.this.setVisible(false);
-  //       });
-  // }
 }

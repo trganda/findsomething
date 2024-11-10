@@ -2,12 +2,9 @@ package com.github.trganda.components.config;
 
 import static com.github.trganda.config.Config.*;
 
-import com.github.trganda.config.Config;
-import com.github.trganda.config.Rules.Rule;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
@@ -120,97 +117,8 @@ public class RuleInnerPane extends JPanel {
             new String[] {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
-    // selector.addActionListener(
-    //     e -> {
-    //       String selectedItem = (String) selector.getSelectedItem();
-    //       if (selectedItem == null) {
-    //         return;
-    //       }
-    //       List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(selectedItem);
-    //       countLabel.setText(String.valueOf(rules.size()));
-    //       this.loadRulesWithGroup(rules);
-    //     });
 
     wrap = this.setupTable();
-    countLabel = new JLabel();
-
-    // loading the default rules of group fingerprint
-    List<Rule> rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
-    countLabel.setText(String.valueOf(rules.size()));
-    // this.loadRulesWithGroup(rules);
+    countLabel = new JLabel("0");
   }
-
-  // private void loadRulesWithGroup(List<Rule> rules) {
-  //   SwingWorker<List<Object[]>, Void> worker =
-  //       new SwingWorker<>() {
-  //         @Override
-  //         protected List<Object[]> doInBackground() {
-  //           List<Object[]> list = new ArrayList<>();
-  //           for (Rule rule : rules) {
-  //             list.add(
-  //                 new Object[] {
-  //                   rule.isEnabled(),
-  //                   rule.getName(),
-  //                   rule.getRegex(),
-  //                   rule.getScope(),
-  //                   rule.isSensitive()
-  //                 });
-  //           }
-  //           return list;
-  //         }
-
-  //         @Override
-  //         protected void done() {
-  //           try {
-  //             List<Object[]> result = get();
-  //             model.setRowCount(0);
-  //             for (Object[] row : result) {
-  //               model.addRow(row);
-  //             }
-  //           } catch (InterruptedException | ExecutionException e) {
-  //             FindSomething.API.logging().logToError(new RuntimeException(e));
-  //           }
-  //         }
-  //       };
-  //   worker.execute();
-  // }
-
-  // @Override
-  // public void onConfigChange(Config config) {
-  //   SwingWorker<List<Object[]>, Void> worker =
-  //       new SwingWorker<>() {
-  //         @Override
-  //         protected List<Object[]> doInBackground() {
-  //           List<Object[]> list = new ArrayList<>();
-  //           String selectedItem = selector.getSelectedItem().toString();
-  //           for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
-  //             list.add(
-  //                 new Object[] {
-  //                   rule.isEnabled(),
-  //                   rule.getName(),
-  //                   rule.getRegex(),
-  //                   rule.getScope(),
-  //                   rule.isSensitive()
-  //                 });
-  //           }
-  //           return list;
-  //         }
-
-  //         @Override
-  //         protected void done() {
-  //           try {
-  //             List<Object[]> result = get();
-  //             model.setRowCount(0);
-  //             for (Object[] row : result) {
-  //               model.addRow(row);
-  //             }
-  //             model.fireTableDataChanged();
-  //             countLabel.setText(String.valueOf(result.size()));
-  //           } catch (InterruptedException | ExecutionException e) {
-  //             FindSomething.API.logging().logToError(new RuntimeException(e));
-  //           }
-  //         }
-  //       };
-  //   worker.execute();
-  // }
 }

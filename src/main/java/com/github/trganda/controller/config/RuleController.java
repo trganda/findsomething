@@ -1,7 +1,5 @@
 package com.github.trganda.controller.config;
 
-import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
-
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.RuleInnerPane;
 import com.github.trganda.config.Config;
@@ -28,9 +26,8 @@ public class RuleController implements ConfigChangeListener {
   public RuleController(RuleInnerPane innerPane) {
     this();
     this.innerPane = innerPane;
-    this.rules = Config.getInstance().getRules().getRulesWithGroup(GROUP_FINGERPRINT);
 
-    this.setupEvent();
+    this.setupEventListener();
     this.loadDefaultRules();
   }
 
@@ -40,18 +37,13 @@ public class RuleController implements ConfigChangeListener {
     this.mediator.registerRuleController(this);
   }
 
-  private void setupEvent() {
+  private void setupEventListener() {
     // selector event
     this.innerPane
         .getSelector()
         .addActionListener(
             e -> {
-              rules =
-                  Config.getInstance()
-                      .getRules()
-                      .getRulesWithGroup(this.innerPane.getSelector().getSelectedItem().toString());
-              this.loadRulesWithGroup(rules);
-              this.innerPane.getCountLabel().setText(String.valueOf(rules.size()));
+              this.onConfigChange(Config.getInstance());
             });
 
     // button event
@@ -65,7 +57,6 @@ public class RuleController implements ConfigChangeListener {
               ruleModel.setGroup(group);
               ruleModel.setRule(new Rule());
               this.mediator.updateEditor(ruleModel);
-              updateRule();
             });
 
     this.innerPane
@@ -93,7 +84,6 @@ public class RuleController implements ConfigChangeListener {
                         ruleModel.setRule(r);
                         this.mediator.updateEditor(ruleModel);
                       });
-              updateRule();
             });
 
     this.innerPane
@@ -117,7 +107,6 @@ public class RuleController implements ConfigChangeListener {
                   .ifPresent(
                       r -> {
                         Config.getInstance().syncRules(group, r, Operatation.DEL);
-                        updateRule();
                       });
             });
 
@@ -128,53 +117,11 @@ public class RuleController implements ConfigChangeListener {
             e -> {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
               Config.getInstance().syncRules(group, null, Operatation.CLR);
-              updateRule();
             });
   }
 
   private void loadDefaultRules() {
-    this.loadRulesWithGroup(rules);
-    this.innerPane.getCountLabel().setText(String.valueOf(rules.size()));
-  }
-
-  private void loadRulesWithGroup(List<Rule> rules) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
-          @Override
-          protected List<Object[]> doInBackground() {
-            List<Object[]> list = new ArrayList<>();
-            for (Rule rule : rules) {
-              list.add(
-                  new Object[] {
-                    rule.isEnabled(),
-                    rule.getName(),
-                    rule.getRegex(),
-                    rule.getScope(),
-                    rule.isSensitive()
-                  });
-            }
-            return list;
-          }
-
-          @Override
-          protected void done() {
-            try {
-              List<Object[]> result = get();
-              innerPane.getModel().setRowCount(0);
-              for (Object[] row : result) {
-                innerPane.getModel().addRow(row);
-              }
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-    worker.execute();
-  }
-
-  private void updateRule() {
-    String group = this.innerPane.getSelector().getSelectedItem().toString();
-    this.rules = Config.getInstance().getRules().getRulesWithGroup(group);
+    this.onConfigChange(Config.getInstance());
   }
 
   @Override
