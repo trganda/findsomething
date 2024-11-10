@@ -14,8 +14,7 @@ public class FilterListPane extends JPanel {
     JLabel label = new JLabel("Filter setting");
     label.setFont(new Font("Arial", Font.BOLD, 16));
     JLabel description =
-        new JLabel(
-            "You can set different type black list to ignore while grep for" + " information.");
+        new JLabel("You can set different type black list to ignore while grep for information.");
 
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
