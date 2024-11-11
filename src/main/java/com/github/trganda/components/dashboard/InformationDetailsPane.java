@@ -1,10 +1,12 @@
 package com.github.trganda.components.dashboard;
 
+import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
@@ -23,6 +25,8 @@ public class InformationDetailsPane extends JScrollPane {
           }
         };
     table.setModel(tableModel);
+    TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+    table.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
     this.setViewportView(table);
     this.addComponentListener(
         new ComponentAdapter() {

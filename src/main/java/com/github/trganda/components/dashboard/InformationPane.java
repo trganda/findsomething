@@ -5,6 +5,7 @@ import static com.github.trganda.config.Config.GROUP_INFORMATION;
 import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
+import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -13,6 +14,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import lombok.Getter;
 
@@ -126,6 +128,8 @@ public class InformationPane extends JPanel {
           }
         };
     infoTable.setModel(infoTableModel);
+    TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
+    infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
 
     // sorter and filter
     sorter = new TableRowSorter<DefaultTableModel>(infoTableModel);

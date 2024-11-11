@@ -137,6 +137,10 @@ public class DashboardController implements DataChangeListener {
                 infoTableModel.addRow(row);
               }
               infoTableModel.fireTableDataChanged();
+              String group =
+                  dashboard.getInformationPane().getSelector().getSelectedItem().toString();
+              dashboard.getStatusPane().getCountLabel().setText(String.valueOf(rows.size()));
+              dashboard.getStatusPane().getGroupLabel().setText(group);
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }
@@ -197,7 +201,6 @@ public class DashboardController implements DataChangeListener {
     String group = dashboard.getInformationPane().getSelector().getSelectedItem().toString();
     List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
     if (d != null) {
-      FindSomething.API.logging().logToOutput(data.size() + " data changed");
       this.updateInfoView(d);
     }
   }

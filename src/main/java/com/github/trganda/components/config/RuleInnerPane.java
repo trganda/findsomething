@@ -2,11 +2,13 @@ package com.github.trganda.components.config;
 
 import static com.github.trganda.config.Config.*;
 
+import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
@@ -87,6 +89,9 @@ public class RuleInnerPane extends JPanel {
           }
         };
     table = new JTable(model);
+    TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+    table.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
+
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setPreferredSize(new Dimension(table.getPreferredSize().width, 160));
     scrollPane.addComponentListener(
