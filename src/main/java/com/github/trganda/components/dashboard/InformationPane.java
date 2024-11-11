@@ -5,13 +5,11 @@ import static com.github.trganda.config.Config.GROUP_INFORMATION;
 import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
+import com.github.trganda.components.UIRender;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
-import com.github.trganda.utils.Utils;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -20,16 +18,17 @@ import lombok.Getter;
 
 @Getter
 public class InformationPane extends JPanel {
-  private final String placeHolder = "Search";
+  private final String filterPlaceHolder = "Search";
   private JTable infoTable;
   private DefaultTableModel infoTableModel;
   private TableRowSorter<DefaultTableModel> sorter;
   private JComponent wrap;
   private JComboBox<String> selector;
+  private JTextField hostField;
   private JTextField filterField;
 
   public InformationPane() {
-    this.setMinimumSize(new Dimension(460, this.getPreferredSize().height));
+    this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
 
     this.setupComponents();
     this.setupLayout();
@@ -43,18 +42,29 @@ public class InformationPane extends JPanel {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.insets = new Insets(0, 0, 5, 10);
-    JLabel label = new JLabel("Group:");
-    this.add(label, gbc);
+    gbc.insets = new Insets(0, 0, 5, 5);
+    this.add(new JLabel("Host:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(selector, gbc);
+    this.add(hostField, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
+    gbc.anchor = GridBagConstraints.LINE_START;
+    gbc.insets = new Insets(0, 0, 5, 5);
+    this.add(new JLabel("Group:"), gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 1;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 0, 5, 0);
+    this.add(selector, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;
@@ -63,7 +73,7 @@ public class InformationPane extends JPanel {
     this.add(wrap, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 2;
+    gbc.gridy = 3;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -79,43 +89,11 @@ public class InformationPane extends JPanel {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
-    filterField = new JTextField(placeHolder);
-    filterField.setFont(
-        new Font(
-            Utils.getBurpDisplayFont().getName(),
-            Font.PLAIN,
-            Utils.getBurpDisplayFont().getSize()));
-    filterField.setForeground(Color.GRAY);
-    filterField.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-            if (filterField.getText().equals(placeHolder)) {
-              filterField.setFont(
-                  new Font(
-                      Utils.getBurpDisplayFont().getName(),
-                      Font.PLAIN,
-                      Utils.getBurpDisplayFont().getSize()));
-              filterField.setForeground(Color.BLACK);
-              filterField.setText("");
-            }
-          }
+    hostField = new JTextField("Please input the domain to filter");
+    hostField = UIRender.renderTextField(hostField, "Please input the domain to filter");
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            super.focusLost(e);
-            if (filterField.getText().isEmpty()) {
-              filterField.setFont(
-                  new Font(
-                      Utils.getBurpDisplayFont().getName(),
-                      Font.ITALIC,
-                      Utils.getBurpDisplayFont().getSize()));
-              filterField.setForeground(Color.GRAY);
-              filterField.setText(placeHolder);
-            }
-          }
-        });
+    filterField = new JTextField(filterPlaceHolder);
+    filterField = UIRender.renderTextField(filterField, filterPlaceHolder);
   }
 
   private JComponent setupTable() {

@@ -1,9 +1,7 @@
 package com.github.trganda.components.config;
 
-import com.github.trganda.utils.Utils;
+import com.github.trganda.components.UIRender;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import lombok.Getter;
@@ -64,7 +62,10 @@ public class FilterListInnerPane extends JPanel {
 
     wrap = this.setupTable();
 
-    this.setupInputTextField();
+    inputTextField = new JTextField(placeHolder);
+    inputTextField = UIRender.renderTextField(inputTextField, placeHolder);
+    inputTextField.setPreferredSize(
+        new Dimension(200, addBlackListButton.getPreferredSize().height));
   }
 
   private JComponent setupTable() {
@@ -81,48 +82,5 @@ public class FilterListInnerPane extends JPanel {
     splitPane.setRightComponent(new JPanel());
 
     return splitPane;
-  }
-
-  private void setupInputTextField() {
-    inputTextField = new JTextField(placeHolder);
-    inputTextField.setFont(
-        new Font(
-            Utils.getBurpDisplayFont().getName(),
-            Font.PLAIN,
-            Utils.getBurpDisplayFont().getSize()));
-    inputTextField.setForeground(Color.GRAY);
-    inputTextField.setPreferredSize(
-        new Dimension(200, addBlackListButton.getPreferredSize().height));
-
-    inputTextField.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-            if (inputTextField.getText().equals(placeHolder)) {
-              inputTextField.setFont(
-                  new Font(
-                      Utils.getBurpDisplayFont().getName(),
-                      Font.PLAIN,
-                      Utils.getBurpDisplayFont().getSize()));
-              inputTextField.setForeground(Color.BLACK);
-              inputTextField.setText("");
-            }
-          }
-
-          @Override
-          public void focusLost(FocusEvent e) {
-            super.focusLost(e);
-            if (inputTextField.getText().isEmpty()) {
-              inputTextField.setFont(
-                  new Font(
-                      Utils.getBurpDisplayFont().getName(),
-                      Font.ITALIC,
-                      Utils.getBurpDisplayFont().getSize()));
-              inputTextField.setForeground(Color.GRAY);
-              inputTextField.setText(placeHolder);
-            }
-          }
-        });
   }
 }
