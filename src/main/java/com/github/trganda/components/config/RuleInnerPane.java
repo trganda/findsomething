@@ -32,7 +32,7 @@ public class RuleInnerPane extends JPanel {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
-    this.add(new JLabel("Rule type:"), gbc);
+    this.add(new JLabel("Rule group:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 0;

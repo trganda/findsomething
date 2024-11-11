@@ -1,6 +1,6 @@
 package com.github.trganda.components.config;
 
-import com.github.trganda.config.Operatation;
+import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class Editor extends JDialog {
   private EditroButtonsPane editroButtonsPane;
 
   private String group;
-  private Operatation op;
+  private Operation op;
 
   private Rule rule;
 
@@ -44,12 +44,12 @@ public class Editor extends JDialog {
   public Editor(Frame pFrame, String group) {
     this(pFrame);
     this.group = group;
-    this.op = Operatation.ADD;
+    this.op = Operation.ADD;
   }
 
   public Editor(Frame pFrame, String group, Rule pRule) {
     this(pFrame, group);
-    this.op = Operatation.EDT;
+    this.op = Operation.EDT;
     this.rule = pRule;
     this.nameField.setText(rule.getName());
     this.regexField.setText(rule.getRegex());

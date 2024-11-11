@@ -4,14 +4,17 @@ import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.RuleInnerPane;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
-import com.github.trganda.config.Operatation;
+import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
+import javax.swing.table.TableModel;
 
 public class RuleController implements ConfigChangeListener {
 
@@ -44,6 +47,39 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               this.onConfigChange(Config.getInstance());
+            });
+
+    // table event
+    JTable ruleTable = this.innerPane.getTable();
+    TableModel ruleTableModel = ruleTable.getModel();
+    this.innerPane
+        .getTable()
+        .addMouseListener(
+            new MouseAdapter() {
+              @Override
+              public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = ruleTable.rowAtPoint(e.getPoint());
+                int column = ruleTable.columnAtPoint(e.getPoint());
+                if (row == -1 || column == -1) {
+                  return;
+                }
+
+                if (ruleTable.getColumnClass(column) == Boolean.class) {
+                  Boolean value = (Boolean) ruleTable.getValueAt(row, column);
+                  String name = ruleTableModel.getValueAt(row, 1).toString();
+                  String group = innerPane.getSelector().getSelectedItem().toString();
+
+                  rules = Config.getInstance().getRules().getRulesWithGroup(group);
+                  rules.stream()
+                      .filter(r -> r.getName().equals(name))
+                      .findFirst()
+                      .ifPresent(
+                          r -> {
+                            r.setEnabled(value);
+                            Config.getInstance().syncRules(group, r, Operation.EDT);
+                          });
+                }
+              }
             });
 
     // button event
@@ -106,7 +142,7 @@ public class RuleController implements ConfigChangeListener {
                   .findFirst()
                   .ifPresent(
                       r -> {
-                        Config.getInstance().syncRules(group, r, Operatation.DEL);
+                        Config.getInstance().syncRules(group, r, Operation.DEL);
                       });
             });
 
@@ -116,7 +152,7 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              Config.getInstance().syncRules(group, null, Operatation.CLR);
+              Config.getInstance().syncRules(group, null, Operation.CLR);
             });
   }
 

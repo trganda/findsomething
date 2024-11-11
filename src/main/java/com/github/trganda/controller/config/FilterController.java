@@ -8,7 +8,7 @@ import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.FilterListInnerPane;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
-import com.github.trganda.config.Operatation;
+import com.github.trganda.config.Operation;
 import com.github.trganda.utils.Utils;
 import java.awt.Color;
 import java.awt.Font;
@@ -52,7 +52,7 @@ public class FilterController implements ConfigChangeListener {
                 return;
               }
               // sync to configuration
-              syncToConfig(val, Operatation.ADD);
+              syncToConfig(val, Operation.ADD);
               innerPane.getInputTextField().setText("");
             });
 
@@ -81,7 +81,7 @@ public class FilterController implements ConfigChangeListener {
                   innerPane.getInputTextField().setForeground(defaultColor);
                   innerPane.getInputTextField().setFont(Utils.getBurpDisplayFont());
                   if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    syncToConfig(val, Operatation.ADD);
+                    syncToConfig(val, Operation.ADD);
                     innerPane.getInputTextField().setText("");
                   }
                 }
@@ -100,15 +100,15 @@ public class FilterController implements ConfigChangeListener {
           int[] idxes = innerPane.getBlackListTable().getSelectedRows();
           for (int idx : idxes) {
             syncToConfig(
-                innerPane.getBlackListTableModel().getValueAt(idx, 0).toString(), Operatation.DEL);
+                innerPane.getBlackListTableModel().getValueAt(idx, 0).toString(), Operation.DEL);
           }
         });
 
     JButton clear = innerPane.getBlackListButtonsPane().getClear();
-    clear.addActionListener(e -> syncToConfig("", Operatation.CLR));
+    clear.addActionListener(e -> syncToConfig("", Operation.CLR));
   }
 
-  private void syncToConfig(String val, Operatation type) {
+  private void syncToConfig(String val, Operation type) {
     String selectedItem =
         innerPane.getBlackListButtonsPane().getType().getSelectedItem().toString();
     if (selectedItem != null) {

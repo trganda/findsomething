@@ -54,7 +54,7 @@ public class Config implements ConfigChangeListener {
     return config;
   }
 
-  public void syncSuffixes(String suffix, Operatation type) {
+  public void syncSuffixes(String suffix, Operation type) {
     switch (type) {
       case ADD:
         config.suffixes.add(suffix);
@@ -71,7 +71,7 @@ public class Config implements ConfigChangeListener {
     notifyListeners();
   }
 
-  public void syncHosts(String suffix, Operatation type) {
+  public void syncHosts(String suffix, Operation type) {
     switch (type) {
       case ADD:
         config.hosts.add(suffix);
@@ -88,7 +88,7 @@ public class Config implements ConfigChangeListener {
     notifyListeners();
   }
 
-  public void syncStatus(String suffix, Operatation type) {
+  public void syncStatus(String suffix, Operation type) {
     switch (type) {
       case ADD:
         config.status.add(suffix);
@@ -105,18 +105,34 @@ public class Config implements ConfigChangeListener {
     notifyListeners();
   }
 
-  public void syncRules(String group, Rule rule, Operatation type) {
+  public void syncRules(String group, Rule rule, Operation type) {
     switch (type) {
       case ADD:
-      case EDT:
         config.rules.getGroups().stream()
             .filter(g -> g.getGroup().equals(group))
             .findFirst()
             .ifPresent(
                 g -> {
                   g.getRule().add(rule);
-                  // saving rule to cache either
+                  // sync rule to cache
                   CachePool.getInstance().putRule(Utils.calHash(group, rule.getName()), rule);
+                });
+        break;
+      case EDT:
+        config.rules.getGroups().stream()
+            .filter(g -> g.getGroup().equals(group))
+            .findFirst()
+            .ifPresent(
+                g -> {
+                  g.getRule().stream()
+                      .filter(r -> r.getName().equals(rule.getName()))
+                      .findFirst()
+                      .ifPresent(
+                          r -> {
+                            r.setEnabled(rule.isEnabled());
+                            // sync rule to cache
+                            CachePool.getInstance().putRule(Utils.calHash(group, r.getName()), r);
+                          });
                 });
         break;
       case DEL:

@@ -27,6 +27,8 @@ public class InformationPane extends JPanel {
   private JTextField filterField;
 
   public InformationPane() {
+    this.setMinimumSize(new Dimension(460, this.getPreferredSize().height));
+
     this.setupComponents();
     this.setupLayout();
   }
@@ -40,7 +42,7 @@ public class InformationPane extends JPanel {
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.insets = new Insets(0, 0, 5, 10);
-    JLabel label = new JLabel("Type:");
+    JLabel label = new JLabel("Group:");
     this.add(label, gbc);
 
     gbc.gridx = 1;
@@ -51,25 +53,20 @@ public class InformationPane extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.insets = new Insets(0, 0, 5, 10);
-    JLabel filterLabel = new JLabel("Filter:");
-    this.add(filterLabel, gbc);
-
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(filterField, gbc);
-
-    gbc.gridx = 0;
-    gbc.gridy = 2;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;
     gbc.gridwidth = 2;
-    gbc.insets = new Insets(0, 0, 0, 0);
+    gbc.insets = new Insets(0, 0, 5, 0);
     this.add(wrap, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    gbc.weightx = 0.0;
+    gbc.weighty = 0.0;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    this.add(filterField, gbc);
   }
 
   private void setupComponents() {
@@ -80,18 +77,6 @@ public class InformationPane extends JPanel {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
-    // selector.addActionListener(
-    //     e -> {
-    //       String group = selector.getSelectedItem().toString();
-    //       if (group == null) {
-    //         return;
-    //       }
-
-    //       List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-    //       if (data != null) {
-    //         this.loadInfoWithGroup(data);
-    //       }
-    //     });
     filterField = new JTextField(placeHolder);
     filterField.setFont(
         new Font(
@@ -99,22 +84,6 @@ public class InformationPane extends JPanel {
             Font.PLAIN,
             Utils.getBurpDisplayFont().getSize()));
     filterField.setForeground(Color.GRAY);
-    // filterField
-    //     .getDocument()
-    //     .addDocumentListener(
-    //         new DocumentListener() {
-    //           public void changedUpdate(DocumentEvent e) {
-    //             newFilter();
-    //           }
-
-    //           public void insertUpdate(DocumentEvent e) {
-    //             newFilter();
-    //           }
-
-    //           public void removeUpdate(DocumentEvent e) {
-    //             newFilter();
-    //           }
-    //         });
     filterField.addFocusListener(
         new FocusAdapter() {
           @Override
@@ -146,17 +115,6 @@ public class InformationPane extends JPanel {
           }
         });
   }
-
-  // private void newFilter() {
-  //   RowFilter<DefaultTableModel, Object> rf = null;
-  //   // If current expression doesn't parse, don't update.
-  //   try {
-  //     rf = RowFilter.regexFilter(filterField.getText(), 1);
-  //   } catch (java.util.regex.PatternSyntaxException e) {
-  //     return;
-  //   }
-  //   sorter.setRowFilter(rf);
-  // }
 
   private JComponent setupTable() {
     infoTable = new JTable();
