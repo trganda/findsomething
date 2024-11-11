@@ -6,6 +6,7 @@ import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
 import com.github.trganda.FindSomething;
+import com.github.trganda.cleaner.Cleaner;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
@@ -29,9 +30,12 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
   private Long id = 0L;
   private final ExecutorService pool;
   private final List<DataChangeListener> listeners;
+  private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
+  private Cleaner cleaner;
 
   public InfoHttpResponseHandler(ExecutorService pool) {
     this.pool = pool;
+    this.cleaner = new Cleaner();
     this.listeners = new CopyOnWriteArrayList<>();
   }
 
@@ -72,14 +76,12 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                     .forEach(
                         r -> {
                           if (r.isEnabled()) {
-                            String[] results = this.match(interceptedResponse, r);
+                            // TODO: post-processing deduplicate items, simliar items, empty items.
+                            cleaner.setData(Arrays.asList(this.match(interceptedResponse, r)));
+                            String[] results = cleaner.clean();
                             List<InfoDataModel> data = new ArrayList<>();
-                            DateTimeFormatter formatter =
-                                DateTimeFormatter.ofPattern("HH:mm:ss d MMM yyyy");
                             FindSomething.API.logging().logToOutput("count: " + results.length);
                             for (String result : results) {
-                              // remove first and last char if equals to '"'
-                              // result = removeFirstAndLastChar(result, '"');
                               InfoDataModel infoDataModel = new InfoDataModel(id, result);
                               id = id + 1;
                               data.add(infoDataModel);
@@ -187,15 +189,5 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     return set.toArray(new String[0]);
-  }
-
-  private String removeFirstAndLastChar(String str, char c) {
-    if (str != null
-        && str.length() > 0
-        && str.charAt(0) == c
-        && str.charAt(str.length() - 1) == c) {
-      return str.substring(1, str.length() - 1);
-    }
-    return str;
   }
 }
