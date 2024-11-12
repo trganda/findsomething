@@ -1,6 +1,7 @@
 package com.github.trganda.components.dashboard;
 
 import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
+import static com.github.trganda.config.Config.GROUP_GENERAL;
 import static com.github.trganda.config.Config.GROUP_INFORMATION;
 import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
@@ -86,7 +87,7 @@ public class InformationPane extends JPanel {
     selector =
         new JComboBox<>(
             new String[] {
-              GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
+              GROUP_GENERAL, GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
     hostField = new JTextField("Please input the domain to filter");

@@ -6,6 +6,14 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
+
+import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
+import static com.github.trganda.config.Config.GROUP_GENERAL;
+import static com.github.trganda.config.Config.GROUP_INFORMATION;
+import static com.github.trganda.config.Config.GROUP_SENSITIVE;
+import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
+
+import java.lang.ProcessHandle.Info;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -83,6 +91,29 @@ public class CachePool {
   }
 
   public List<InfoDataModel> getInfoData(String key) {
-    return infoCache.getIfPresent(key);
+    List<InfoDataModel> vals = null;
+    if (key == GROUP_GENERAL) {
+      vals = getAllInfoData(GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
+    } else {
+      vals = infoCache.getIfPresent(key);
+    }
+
+    if (vals == null) {
+      vals = new ArrayList<>();
+    }
+    
+    return vals;
+  }
+
+  private List<InfoDataModel> getAllInfoData(String... key) {
+    List<InfoDataModel> vals = new ArrayList<>();
+    for (String k : key) {
+      List<InfoDataModel> temp = infoCache.getIfPresent(k);
+      if (temp != null) {
+        vals.addAll(temp);
+      }
+    }
+
+    return vals;
   }
 }

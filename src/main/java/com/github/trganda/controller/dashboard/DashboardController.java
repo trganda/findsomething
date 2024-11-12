@@ -39,9 +39,7 @@ public class DashboardController implements DataChangeListener {
           }
 
           List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-          if (data != null) {
-            this.updateInfoView(data);
-          }
+          this.updateInfoView(data);
         });
 
     JTable infoTable = dashboard.getInformationPane().getInfoTable();

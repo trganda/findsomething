@@ -22,6 +22,8 @@ public class Config implements ConfigChangeListener {
 
   public static final String BLACKLIST_STATUS = "Status";
 
+  public static final String GROUP_GENERAL = "General";
+
   public static final String GROUP_FINGERPRINT = "Fingerprint";
 
   public static final String GROUP_SENSITIVE = "Sensitive";
