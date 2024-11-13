@@ -1,5 +1,8 @@
 package com.github.trganda.model;
 
+import lombok.Data;
+
+@Data
 public class InfoDataModel {
   private final Long id;
 

@@ -8,6 +8,8 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class DashboardController implements DataChangeListener {
@@ -61,22 +61,14 @@ public class DashboardController implements DataChangeListener {
         });
 
     JTextField filterField = dashboard.getInformationPane().getFilterField();
-    filterField
-        .getDocument()
-        .addDocumentListener(
-            new DocumentListener() {
-              public void changedUpdate(DocumentEvent e) {
-                updateFilter();
-              }
-
-              public void insertUpdate(DocumentEvent e) {
-                updateFilter();
-              }
-
-              public void removeUpdate(DocumentEvent e) {
-                updateFilter();
-              }
-            });
+    filterField.addKeyListener(
+        new KeyAdapter() {
+          @Override
+          public void keyReleased(KeyEvent e) {
+            String val = filterField.getText();
+            updateFilter(val);
+          }
+        });
 
     JTable infoDetailTable =
         dashboard.getRequestSplitFrame().getInformationDetailsPane().getTable();
@@ -149,13 +141,12 @@ public class DashboardController implements DataChangeListener {
     worker.execute();
   }
 
-  private void updateFilter() {
+  private void updateFilter(String filter) {
     RowFilter<DefaultTableModel, Object> rf = null;
-    JTextField filterField = dashboard.getInformationPane().getFilterField();
     // if current expression doesn't parse, don't update.
     try {
       // filter the second cloumn
-      rf = RowFilter.regexFilter(filterField.getText(), 1);
+      rf = RowFilter.regexFilter(filter, 1);
     } catch (java.util.regex.PatternSyntaxException e) {
       return;
     }
@@ -195,7 +186,7 @@ public class DashboardController implements DataChangeListener {
   }
 
   @Override
-  public void onDataChanged(List<InfoDataModel> data) {
+  public void onDataChanged() {
     String group = dashboard.getInformationPane().getSelector().getSelectedItem().toString();
     List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
     if (d != null) {

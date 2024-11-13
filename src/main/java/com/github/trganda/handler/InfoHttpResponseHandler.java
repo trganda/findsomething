@@ -99,14 +99,14 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                                       ZonedDateTime.now().format(formatter));
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
-                              // set request and response for future use
+                              // set request and response
                               String reqHash = Utils.calHash(req.path(), req.httpService().host());
                               CachePool.getInstance()
                                   .putInterceptedResponse(reqHash, interceptedResponse);
                             }
 
                             for (DataChangeListener listener : listeners) {
-                              listener.onDataChanged(data);
+                              listener.onDataChanged();
                             }
                           }
                         }));

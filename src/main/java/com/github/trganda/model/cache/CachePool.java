@@ -1,19 +1,17 @@
 package com.github.trganda.model.cache;
 
-import burp.api.montoya.proxy.http.InterceptedResponse;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.model.InfoDataModel;
-import com.github.trganda.model.RequestDetailModel;
-
 import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
 import static com.github.trganda.config.Config.GROUP_GENERAL;
 import static com.github.trganda.config.Config.GROUP_INFORMATION;
 import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
-import java.lang.ProcessHandle.Info;
+import burp.api.montoya.proxy.http.InterceptedResponse;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.trganda.config.Rules.Rule;
+import com.github.trganda.model.InfoDataModel;
+import com.github.trganda.model.RequestDetailModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -79,21 +77,26 @@ public class CachePool {
     return ruleCache.getIfPresent(key);
   }
 
-  public void addInfoDataModel(String key, InfoDataModel infoDataModel) {
-    List<InfoDataModel> vals = infoCache.getIfPresent(key);
+  public void addInfoDataModel(String group, InfoDataModel infoDataModel) {
+    List<InfoDataModel> vals = infoCache.getIfPresent(group);
     if (vals == null) {
-      infoCache.put(key, List.of(infoDataModel));
+      infoCache.put(group, List.of(infoDataModel));
     } else {
       List<InfoDataModel> copyVals = new ArrayList<>(vals);
-      copyVals.add(infoDataModel);
-      infoCache.put(key, copyVals);
+      // de-duplicate
+      if (!copyVals.stream().anyMatch(v -> v.getResults().equals(infoDataModel.getResults()))) {
+        copyVals.add(infoDataModel);
+        infoCache.put(group, copyVals);
+      }
     }
   }
 
   public List<InfoDataModel> getInfoData(String key) {
     List<InfoDataModel> vals = null;
     if (key == GROUP_GENERAL) {
-      vals = getAllInfoData(GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
+      vals =
+          getAllInfoData(
+              GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
     } else {
       vals = infoCache.getIfPresent(key);
     }
@@ -101,7 +104,7 @@ public class CachePool {
     if (vals == null) {
       vals = new ArrayList<>();
     }
-    
+
     return vals;
   }
 

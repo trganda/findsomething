@@ -25,7 +25,7 @@ public class Cleaner {
     String ret = new String(str.strip());
 
     List<Character> d = Arrays.asList(dirty);
-    
+
     for (int i = 0; i < str.length(); i++) {
       if (d.contains(str.charAt(i))) {
         ret = str.substring(i + 1);

@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -43,14 +42,14 @@ public class Dashboard extends JPanel {
         });
 
     this.setLayout(new GridBagLayout());
-    this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    this.setBorder(BorderFactory.createEmptyBorder(5, 20, 10, 20));
     GridBagConstraints gbc = new GridBagConstraints();
 
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.CENTER;
-    gbc.insets = new Insets(0, 0, 10, 0);
+    gbc.insets = new Insets(0, 0, 5, 0);
     this.add(hostFilterPane, gbc);
 
     gbc.gridx = 0;

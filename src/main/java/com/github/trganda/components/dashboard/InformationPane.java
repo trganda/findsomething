@@ -74,7 +74,11 @@ public class InformationPane extends JPanel {
     selector =
         new JComboBox<>(
             new String[] {
-              GROUP_GENERAL, GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
+              GROUP_GENERAL,
+              GROUP_FINGERPRINT,
+              GROUP_SENSITIVE,
+              GROUP_VULNERABILITY,
+              GROUP_INFORMATION
             });
 
     filterField = new JTextField(filterPlaceHolder);
