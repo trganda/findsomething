@@ -88,7 +88,7 @@ public class InformationPane extends JPanel {
   private JComponent setupTable() {
     infoTable = new JTable();
     infoTableModel =
-        new DefaultTableModel(new Object[] {"#", "Info"}, 0) {
+        new DefaultTableModel(new Object[] {"Info"}, 0) {
           @Override
           public boolean isCellEditable(int row, int column) {
             return false;
@@ -103,14 +103,14 @@ public class InformationPane extends JPanel {
     infoTable.setRowSorter(sorter);
 
     JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
-    infoTableScrollPane.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentResized(ComponentEvent e) {
-            super.componentResized(e);
-            resizePane();
-          }
-        });
+    // infoTableScrollPane.addComponentListener(
+    //     new ComponentAdapter() {
+    //       @Override
+    //       public void componentResized(ComponentEvent e) {
+    //         super.componentResized(e);
+    //         resizePane();
+    //       }
+    //     });
 
     return infoTableScrollPane;
   }

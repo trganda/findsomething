@@ -14,7 +14,7 @@ public class InfoDataModel {
   }
 
   public Object[] getInfoData() {
-    Object[] data = new Object[] {id, results};
+    Object[] data = new Object[] {results};
     return data;
   }
 }

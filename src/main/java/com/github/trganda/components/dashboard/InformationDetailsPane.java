@@ -1,8 +1,11 @@
 package com.github.trganda.components.dashboard;
 
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
+
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
@@ -47,6 +50,7 @@ public class InformationDetailsPane extends JPanel {
             resizePane();
           }
         });
+    scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width, 200));
 
     selectorPane = new SelectorPane();
   }
@@ -58,19 +62,18 @@ public class InformationDetailsPane extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.weightx = 0.8;
-    gbc.weighty = 1.0;
+    gbc.insets = new Insets(0, 0, 5, 0);
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.anchor = GridBagConstraints.CENTER;
+    this.add(selectorPane, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    gbc.weightx = 1;
+    gbc.weighty = 1;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     this.add(scrollPane, gbc);
-
-    // gbc.gridx = 1;
-    // gbc.gridy = 0;
-    // gbc.weightx = 0.2;
-    // gbc.weighty = 0.0;
-    // gbc.insets = new Insets(0, 5, 0, 0);
-    // gbc.fill = GridBagConstraints.HORIZONTAL;
-    // this.add(selectorPane, gbc);
   }
 
   private void resizePane() {
