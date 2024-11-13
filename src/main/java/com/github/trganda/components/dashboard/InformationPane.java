@@ -25,7 +25,6 @@ public class InformationPane extends JPanel {
   private TableRowSorter<DefaultTableModel> sorter;
   private JComponent wrap;
   private JComboBox<String> selector;
-  private JTextField hostField;
   private JTextField filterField;
 
   public InformationPane() {
@@ -44,28 +43,16 @@ public class InformationPane extends JPanel {
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Host:"), gbc);
+    this.add(new JLabel("Group:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(hostField, gbc);
-
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Group:"), gbc);
-
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(0, 0, 5, 0);
     this.add(selector, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 2;
+    gbc.gridy = 1;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;
@@ -74,7 +61,7 @@ public class InformationPane extends JPanel {
     this.add(wrap, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 3;
+    gbc.gridy = 2;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -89,9 +76,6 @@ public class InformationPane extends JPanel {
             new String[] {
               GROUP_GENERAL, GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
-
-    hostField = new JTextField("Please input the domain to filter");
-    hostField = UIRender.renderTextField(hostField, "Please input the domain to filter");
 
     filterField = new JTextField(filterPlaceHolder);
     filterField = UIRender.renderTextField(filterField, filterPlaceHolder);
