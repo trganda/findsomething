@@ -6,21 +6,19 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-
 import lombok.Getter;
 
 @Getter
-public class SelectorPane extends JPanel {
+public class RequestFilterPane extends JPanel {
   private JTextField hosTextField;
   private JTextField statusTextField;
 
-  public SelectorPane() {
+  public RequestFilterPane() {
     this.setupComponents();
     this.setupLayout();
-    this.setBorder(new TitledBorder("Filter"));
+    this.setBorder(new TitledBorder("Filter of request"));
   }
 
   private void setupComponents() {
@@ -38,9 +36,8 @@ public class SelectorPane extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.weightx = 0.0;
-    gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
+    gbc.anchor = GridBagConstraints.LINE_START;
     gbc.insets = new Insets(0, 0, 5, 5);
     this.add(new JLabel("Host:"), gbc);
 
@@ -50,16 +47,16 @@ public class SelectorPane extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(hosTextField, gbc);
 
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Status:"), gbc);
+    // gbc.gridx = 0;
+    // gbc.gridy = 1;
+    // gbc.fill = GridBagConstraints.NONE;
+    // gbc.insets = new Insets(0, 0, 5, 5);
+    // this.add(new JLabel("Status:"), gbc);
 
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    gbc.insets = new Insets(0, 0, 5, 0);
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    this.add(statusTextField, gbc);
+    // gbc.gridx = 1;
+    // gbc.gridy = 1;
+    // gbc.insets = new Insets(0, 0, 5, 0);
+    // gbc.fill = GridBagConstraints.HORIZONTAL;
+    // this.add(statusTextField, gbc);
   }
 }

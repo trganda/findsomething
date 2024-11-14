@@ -52,8 +52,10 @@ public class CachePool {
     } else {
       // must copy the list to avoid the thread crash
       List<RequestDetailModel> copyVals = new ArrayList<>(vals);
-      copyVals.add(requestDataModel);
-      reqInfoCache.put(key, copyVals);
+      if (!copyVals.stream().anyMatch(v -> v.getMessageId() == requestDataModel.getMessageId())) {
+        copyVals.add(requestDataModel);
+        reqInfoCache.put(key, copyVals);
+      }
     }
   }
 

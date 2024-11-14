@@ -93,6 +93,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               RequestDetailModel requestDataModel =
                                   new RequestDetailModel(
                                       interceptedResponse.messageId(),
+                                      req.method(),
                                       req.path(),
                                       req.httpService().host(),
                                       interceptedResponse.statusCode(),

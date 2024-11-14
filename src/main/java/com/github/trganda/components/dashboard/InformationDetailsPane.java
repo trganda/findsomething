@@ -1,7 +1,6 @@
 package com.github.trganda.components.dashboard;
 
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,7 +20,7 @@ public class InformationDetailsPane extends JPanel {
   private JTable table;
   private DefaultTableModel tableModel;
   private JScrollPane scrollPane;
-  private SelectorPane selectorPane;
+  private FilterPane filterPane;
 
   public InformationDetailsPane() {
     this.setupComponents();
@@ -31,7 +30,7 @@ public class InformationDetailsPane extends JPanel {
   private void setupComponents() {
     table = new JTable();
     tableModel =
-        new DefaultTableModel(new Object[] {"#", "Path", "Host", "Status", "Time"}, 0) {
+        new DefaultTableModel(new Object[] {"#", "Method", "Path", "Host", "Status", "Time"}, 0) {
           @Override
           public boolean isCellEditable(int row, int column) {
             return false;
@@ -52,7 +51,7 @@ public class InformationDetailsPane extends JPanel {
         });
     scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width, 200));
 
-    selectorPane = new SelectorPane();
+    filterPane = new FilterPane();
   }
 
   private void setupLayout() {
@@ -63,9 +62,8 @@ public class InformationDetailsPane extends JPanel {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 0);
-    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.anchor = GridBagConstraints.CENTER;
-    this.add(selectorPane, gbc);
+    this.add(filterPane, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
@@ -79,9 +77,10 @@ public class InformationDetailsPane extends JPanel {
   private void resizePane() {
     int width = table.getWidth();
     table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.05));
-    table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.4));
-    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.3));
-    table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.1));
-    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.15));
+    table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.08));
+    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.37));
+    table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.3));
+    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
+    table.getColumnModel().getColumn(5).setPreferredWidth((int) (width * 0.1));
   }
 }

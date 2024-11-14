@@ -2,6 +2,7 @@ package com.github.trganda.controller.dashboard;
 
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.trganda.FindSomething;
+import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.dashboard.Dashboard;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
@@ -14,9 +15,9 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +31,14 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void setupEventListener() {
-    JComboBox<String> selector = dashboard.getInformationPane().getSelector();
+    // JComboBox<String> selector = dashboard.getInformationPane().getSelector();
+    JComboBox<String> selector =
+        dashboard
+            .getRequestSplitFrame()
+            .getInformationDetailsPane()
+            .getFilterPane()
+            .getInformationFilter()
+            .getSelector();
     selector.addActionListener(
         e -> {
           String group = selector.getSelectedItem().toString();
@@ -52,7 +60,7 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String info = infoTable.getModel().getValueAt(row, 1).toString();
+            String info = infoTable.getModel().getValueAt(row, 0).toString();
             String hashKey = Utils.calHash(info);
             List<RequestDetailModel> reqInfos =
                 CachePool.getInstance().getRequestDataModelList(hashKey);
@@ -60,14 +68,34 @@ public class DashboardController implements DataChangeListener {
           }
         });
 
-    JTextField filterField = dashboard.getInformationPane().getFilterField();
+    // JTextField filterField = dashboard.getInformationPane().getFilterField();
+    PlaceHolderTextField filterField =
+        dashboard
+            .getRequestSplitFrame()
+            .getInformationDetailsPane()
+            .getFilterPane()
+            .getInformationFilter()
+            .getFilterField();
+    JCheckBox sensitiveCheckBox =
+        dashboard
+            .getRequestSplitFrame()
+            .getInformationDetailsPane()
+            .getFilterPane()
+            .getInformationFilter()
+            .getSensitive();
     filterField.addKeyListener(
         new KeyAdapter() {
           @Override
           public void keyReleased(KeyEvent e) {
             String val = filterField.getText();
-            updateFilter(val);
+            updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
           }
+        });
+
+    sensitiveCheckBox.addActionListener(
+        e -> {
+          String val = filterField.getText();
+          updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
         });
 
     JTable infoDetailTable =
@@ -83,8 +111,8 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String path = (String) infoDetailTableModel.getValueAt(row, 1);
-            String host = (String) infoDetailTableModel.getValueAt(row, 2);
+            String path = (String) infoDetailTableModel.getValueAt(row, 2);
+            String host = (String) infoDetailTableModel.getValueAt(row, 3);
             String hash = Utils.calHash(path, host);
             InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
             if (resp != null) {
@@ -141,14 +169,19 @@ public class DashboardController implements DataChangeListener {
     worker.execute();
   }
 
-  private void updateFilter(String filter) {
+  private void updateFilter(String filter, boolean sensitive, boolean isPlaceholderActive) {
     RowFilter<DefaultTableModel, Object> rf = null;
-    // if current expression doesn't parse, don't update.
-    try {
-      // filter the second cloumn
-      rf = RowFilter.regexFilter(filter, 1);
-    } catch (java.util.regex.PatternSyntaxException e) {
-      return;
+    if (!isPlaceholderActive) {
+      // if current expression doesn't parse, don't update.
+      try {
+        // filter the first cloumn
+        if (!sensitive) {
+          filter = "(?i)" + filter;
+        }
+        rf = RowFilter.regexFilter(filter, 0);
+      } catch (java.util.regex.PatternSyntaxException e) {
+        return;
+      }
     }
     dashboard.getInformationPane().getSorter().setRowFilter(rf);
   }

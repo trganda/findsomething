@@ -15,10 +15,8 @@ public class Dashboard extends JPanel {
   private RequestSplitFrame requestSplitFrame;
   private JSplitPane dashSplitPane;
   private StatusPane statusPane;
-  private HostFilterPane hostFilterPane;
 
   public Dashboard() {
-    hostFilterPane = new HostFilterPane();
     informationPane = new InformationPane();
     requestSplitFrame = new RequestSplitFrame();
     statusPane = new StatusPane();

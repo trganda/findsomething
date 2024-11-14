@@ -1,6 +1,6 @@
 package com.github.trganda.components.config;
 
-import com.github.trganda.components.UIRender;
+import com.github.trganda.components.common.PlaceHolderTextField;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -62,8 +62,7 @@ public class FilterListInnerPane extends JPanel {
 
     wrap = this.setupTable();
 
-    inputTextField = new JTextField(placeHolder);
-    inputTextField = UIRender.renderTextField(inputTextField, placeHolder);
+    inputTextField = new PlaceHolderTextField(placeHolder);
     inputTextField.setPreferredSize(
         new Dimension(200, addBlackListButton.getPreferredSize().height));
   }

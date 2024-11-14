@@ -3,14 +3,7 @@ package com.github.trganda.components.dashboard;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import com.github.trganda.FindSomething;
-
-import java.awt.Graphics;
-
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-
 import lombok.Getter;
 
 @Getter
