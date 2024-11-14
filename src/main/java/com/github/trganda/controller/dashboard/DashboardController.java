@@ -4,6 +4,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.dashboard.Dashboard;
+import com.github.trganda.components.dashboard.FilterPane;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
@@ -24,19 +25,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class DashboardController implements DataChangeListener {
   private Dashboard dashboard;
+  private FilterPane filterPane;
 
   public DashboardController(Dashboard dashboard) {
     this.dashboard = dashboard;
+    this.filterPane = dashboard.getRequestSplitFrame().getInformationDetailsPane().getFilterPane();
     this.setupEventListener();
   }
 
   private void setupEventListener() {
     // JComboBox<String> selector = dashboard.getInformationPane().getSelector();
     JComboBox<String> selector =
-        dashboard
-            .getRequestSplitFrame()
-            .getInformationDetailsPane()
-            .getFilterPane()
+        this.filterPane
             .getInformationFilter()
             .getSelector();
     selector.addActionListener(
@@ -70,17 +70,11 @@ public class DashboardController implements DataChangeListener {
 
     // JTextField filterField = dashboard.getInformationPane().getFilterField();
     PlaceHolderTextField filterField =
-        dashboard
-            .getRequestSplitFrame()
-            .getInformationDetailsPane()
-            .getFilterPane()
+        this.filterPane
             .getInformationFilter()
             .getFilterField();
     JCheckBox sensitiveCheckBox =
-        dashboard
-            .getRequestSplitFrame()
-            .getInformationDetailsPane()
-            .getFilterPane()
+        this.filterPane
             .getInformationFilter()
             .getSensitive();
     filterField.addKeyListener(
@@ -220,9 +214,9 @@ public class DashboardController implements DataChangeListener {
 
   @Override
   public void onDataChanged() {
-    String group = dashboard.getInformationPane().getSelector().getSelectedItem().toString();
+    String group = this.filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
     List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
-    if (d != null) {
+    if (d != null && d.size() > 0) {
       this.updateInfoView(d);
     }
   }

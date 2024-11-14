@@ -11,14 +11,14 @@ import javax.swing.border.TitledBorder;
 import lombok.Getter;
 
 @Getter
-public class RequestFilterPane extends JPanel {
+public class HostFilterPane extends JPanel {
   private JTextField hosTextField;
   private JTextField statusTextField;
 
-  public RequestFilterPane() {
+  public HostFilterPane() {
     this.setupComponents();
     this.setupLayout();
-    this.setBorder(new TitledBorder("Filter of request"));
+    this.setBorder(new TitledBorder("Filter by host"));
   }
 
   private void setupComponents() {
@@ -38,12 +38,12 @@ public class RequestFilterPane extends JPanel {
     gbc.gridy = 0;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.insets = new Insets(0, 0, 5, 5);
+    gbc.insets = new Insets(0, 2, 5, 5);
     this.add(new JLabel("Host:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 0;
-    gbc.insets = new Insets(0, 0, 5, 0);
+    gbc.insets = new Insets(0, 0, 5, 2);
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(hosTextField, gbc);
 

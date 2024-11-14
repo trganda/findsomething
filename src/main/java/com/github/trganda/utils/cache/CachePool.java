@@ -9,6 +9,7 @@ import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.trganda.FindSomething;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
