@@ -7,6 +7,8 @@ import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
+import com.github.trganda.utils.cache.CachePool;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,20 +43,12 @@ public class InformationPane extends JPanel {
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;
     this.add(wrap, gbc);
-
   }
 
   private void setupComponents() {
     wrap = setupTable();
     selector =
-        new JComboBox<>(
-            new String[] {
-              GROUP_GENERAL,
-              GROUP_FINGERPRINT,
-              GROUP_SENSITIVE,
-              GROUP_VULNERABILITY,
-              GROUP_INFORMATION
-            });
+        new JComboBox<>();
   }
 
   private JComponent setupTable() {

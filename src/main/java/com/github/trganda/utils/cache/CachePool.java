@@ -31,7 +31,8 @@ public class CachePool {
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, Rule> ruleCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
-  private static final Cache<String, List<String>> hostCache = Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
+  private static final Cache<String, List<String>> hostCache =
+      Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
 
   private static CachePool instance;
 
@@ -142,5 +143,9 @@ public class CachePool {
       vals = new ArrayList<>();
     }
     return vals;
+  }
+
+  static {
+    CachePool.getInstance().addHost("*");
   }
 }

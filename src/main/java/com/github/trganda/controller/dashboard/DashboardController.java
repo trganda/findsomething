@@ -9,7 +9,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;

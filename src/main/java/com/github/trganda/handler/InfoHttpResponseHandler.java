@@ -14,17 +14,18 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
@@ -49,8 +50,13 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     HttpRequest req = interceptedResponse.request();
-    // collection host info
-    CachePool.getInstance().addHost(req.httpService().host());
+    
+    pool.submit(()->{
+      // collection host info
+      CachePool.getInstance().addHost(req.httpService().host());
+      aggregator();
+    });
+
     pool.submit(
         () -> {
           FindSomething.API.logging().logToOutput("processing, " + req.url());
@@ -192,5 +198,24 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     return set.toArray(new String[0]);
+  }
+
+  private void aggregator() {
+    Map<String, List<String>> aggregatedDomains =
+        CachePool.getInstance().getHosts().stream()
+            .collect(Collectors.groupingBy(this::getRootDomain));
+
+    aggregatedDomains.forEach(
+        (rootDomain, domainList) -> {
+          CachePool.getInstance().addHost("*." + rootDomain);
+    });
+  }
+
+  // Method to extract the root domain from a full domain name
+  private String getRootDomain(String domain) {
+    String[] parts = domain.split("\\.");
+    int length = parts.length;
+    // Return the last two parts as the root domain (e.g., "example.com")
+    return length >= 2 ? parts[length - 2] + "." + parts[length - 1] : domain;
   }
 }

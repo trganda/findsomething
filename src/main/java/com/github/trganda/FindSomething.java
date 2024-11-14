@@ -43,7 +43,6 @@ public class FindSomething implements BurpExtension {
     ExecutorService pool = Executors.newSingleThreadExecutor();
     handler = new InfoHttpResponseHandler(pool);
     extensionFrame = new ExtensionFrame();
-
     extensionFrame.getConfig().getRulePane();
 
     Mediator mediator = new Mediator(null);
