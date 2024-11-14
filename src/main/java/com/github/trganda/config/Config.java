@@ -2,8 +2,9 @@ package com.github.trganda.config;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
+import com.github.trganda.utils.cache.CachePool;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

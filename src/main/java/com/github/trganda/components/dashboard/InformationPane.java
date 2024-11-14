@@ -23,8 +23,6 @@ public class InformationPane extends JPanel {
   private JComponent wrap;
   private JComboBox<String> selector;
 
-  // private JTextField filterField;
-
   public InformationPane() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
 
@@ -37,34 +35,13 @@ public class InformationPane extends JPanel {
     GridBagConstraints gbc = new GridBagConstraints();
     this.setLayout(layout);
 
-    // gbc.gridx = 0;
-    // gbc.gridy = 0;
-    // gbc.anchor = GridBagConstraints.LINE_START;
-    // gbc.insets = new Insets(0, 0, 5, 5);
-    // this.add(new JLabel("Group:"), gbc);
-
-    // gbc.gridx = 1;
-    // gbc.gridy = 0;
-    // gbc.fill = GridBagConstraints.HORIZONTAL;
-    // gbc.insets = new Insets(0, 0, 5, 0);
-    // this.add(selector, gbc);
-
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;
-    // gbc.gridwidth = 2;
-    // gbc.insets = new Insets(0, 0, 0, 0);
     this.add(wrap, gbc);
 
-    // gbc.gridx = 0;
-    // gbc.gridy = 2;
-    // gbc.weightx = 0.0;
-    // gbc.weighty = 0.0;
-    // gbc.fill = GridBagConstraints.HORIZONTAL;
-    // gbc.insets = new Insets(0, 0, 0, 0);
-    // this.add(filterField, gbc);
   }
 
   private void setupComponents() {
@@ -78,9 +55,6 @@ public class InformationPane extends JPanel {
               GROUP_VULNERABILITY,
               GROUP_INFORMATION
             });
-
-    // filterField = new JTextField(filterPlaceHolder);
-    // filterField = UIRender.renderTextField(filterField, filterPlaceHolder);
   }
 
   private JComponent setupTable() {

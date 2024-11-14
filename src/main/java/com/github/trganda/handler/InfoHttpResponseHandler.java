@@ -12,8 +12,9 @@ import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
-import com.github.trganda.model.cache.CachePool;
 import com.github.trganda.utils.Utils;
+import com.github.trganda.utils.cache.CachePool;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     HttpRequest req = interceptedResponse.request();
+    // collection host info
+    CachePool.getInstance().addHost(req.httpService().host());
     pool.submit(
         () -> {
           FindSomething.API.logging().logToOutput("processing, " + req.url());
@@ -76,7 +79,6 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                     .forEach(
                         r -> {
                           if (r.isEnabled()) {
-                            // TODO: post-processing deduplicate items, simliar items, empty items.
                             cleaner.setData(Arrays.asList(this.match(interceptedResponse, r)));
                             String[] results = cleaner.clean();
                             List<InfoDataModel> data = new ArrayList<>();

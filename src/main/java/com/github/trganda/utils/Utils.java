@@ -7,10 +7,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utils {
 
-  public static String REQ = "REQ";
-
-  public static String RESP = "RESP";
-
   public static String calHash(String... vals) {
 
     StringBuilder sb = new StringBuilder();

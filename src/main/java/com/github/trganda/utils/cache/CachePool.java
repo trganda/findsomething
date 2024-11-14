@@ -1,4 +1,4 @@
-package com.github.trganda.model.cache;
+package com.github.trganda.utils.cache;
 
 import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
 import static com.github.trganda.config.Config.GROUP_GENERAL;
@@ -31,6 +31,7 @@ public class CachePool {
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, Rule> ruleCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
+  private static final Cache<String, List<String>> hostCache = Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
 
   private static CachePool instance;
 
@@ -119,6 +120,27 @@ public class CachePool {
       }
     }
 
+    return vals;
+  }
+
+  public void addHost(String host) {
+    List<String> vals = hostCache.getIfPresent(host);
+    if (vals == null) {
+      hostCache.put("Host", List.of(host));
+    } else {
+      List<String> copyVals = new ArrayList<>(vals);
+      if (!copyVals.contains(host)) {
+        copyVals.add(host);
+        hostCache.put("Host", copyVals);
+      }
+    }
+  }
+
+  public List<String> getHosts() {
+    List<String> vals = hostCache.getIfPresent("Host");
+    if (vals == null) {
+      vals = new ArrayList<>();
+    }
     return vals;
   }
 }

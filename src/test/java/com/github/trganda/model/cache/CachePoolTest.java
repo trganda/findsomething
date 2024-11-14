@@ -1,6 +1,8 @@
 package com.github.trganda.model.cache;
 
 import com.github.trganda.model.InfoDataModel;
+import com.github.trganda.utils.cache.CachePool;
+
 import org.junit.jupiter.api.Test;
 
 public class CachePoolTest {
