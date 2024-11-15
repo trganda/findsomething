@@ -33,7 +33,7 @@ public class StatusPane extends JPanel {
 
     gbc.gridx = 2;
     gbc.gridy = 0;
-    this.add(new JLabel("in Group:"), gbc);
+    this.add(new JLabel("Group:"), gbc);
 
     gbc.gridx = 3;
     gbc.gridy = 0;

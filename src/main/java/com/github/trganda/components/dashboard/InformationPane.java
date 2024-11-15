@@ -15,7 +15,8 @@ public class InformationPane extends JPanel {
   private DefaultTableModel infoTableModel;
   private TableRowSorter<DefaultTableModel> sorter;
   private JComponent wrap;
-  private JComboBox<String> selector;
+
+  // private JComboBox<String> selector;
 
   public InformationPane() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
@@ -39,7 +40,7 @@ public class InformationPane extends JPanel {
 
   private void setupComponents() {
     wrap = setupTable();
-    selector = new JComboBox<>();
+    // selector = new JComboBox<>();
   }
 
   private JComponent setupTable() {

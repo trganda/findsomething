@@ -18,6 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -38,20 +40,25 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void setupEventListener() {
-    // group selector
+    // Group selector
     JComboBox<String> selector = this.filterPane.getInformationFilter().getSelector();
     selector.addActionListener(
         e -> {
-          String group = selector.getSelectedItem().toString();
-          if (group == null) {
-            return;
+          if (selector.getSelectedIndex() >= 0) {
+            String group = selector.getSelectedItem().toString();
+
+            List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+            this.updateInfoView(data);
           }
-
-          List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-          this.updateInfoView(data);
         });
+    
+    // Status bar
+    String g = selector.getSelectedItem().toString();
+    if (g != null) {
+      dashboard.getStatusPane().getGroupLabel().setText(g);
+    }
 
-    // info table
+    // Info table
     JTable infoTable = dashboard.getInformationPane().getInfoTable();
     infoTable.addMouseListener(
         new MouseAdapter() {
@@ -94,6 +101,23 @@ public class DashboardController implements DataChangeListener {
         this.filterPane.getHostFilter().getHostComboBoxModel();
     JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
     hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
+    hostComboBox.addActionListener(e -> {
+      if (hostComboBox.getSelectedIndex() > -1 && selector.getSelectedIndex() > -1) {
+        String selectedHost = hostComboBox.getSelectedItem().toString();
+        String group = selector.getSelectedItem().toString();
+
+        List<InfoDataModel> data = CachePool.getInstance().getInfoData(group).stream().filter(d -> Utils.isDomainMatch(selectedHost, d.getHost())).collect(Collectors.toList());
+        this.updateInfoView(data);
+      } else {
+        // Default view with filter
+        if (selector.getSelectedIndex() >= 0) {
+          String group = selector.getSelectedItem().toString();
+
+          List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+          this.updateInfoView(data);
+        }
+      }
+    });
 
     // info details
     JTable infoDetailTable =
@@ -153,10 +177,7 @@ public class DashboardController implements DataChangeListener {
                 infoTableModel.addRow(row);
               }
               infoTableModel.fireTableDataChanged();
-              String group =
-                  dashboard.getInformationPane().getSelector().getSelectedItem().toString();
-              dashboard.getStatusPane().getCountLabel().setText(String.valueOf(rows.size()));
-              dashboard.getStatusPane().getGroupLabel().setText(group);
+              updateStatus();
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }
@@ -182,6 +203,7 @@ public class DashboardController implements DataChangeListener {
       }
     }
     dashboard.getInformationPane().getSorter().setRowFilter(rf);
+    updateStatus();
   }
 
   private void updateDetailsView(List<RequestDetailModel> data) {
@@ -214,6 +236,15 @@ public class DashboardController implements DataChangeListener {
           }
         };
     worker.execute();
+  }
+
+  private void updateStatus() {
+    String group =
+      filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+
+    int size = dashboard.getInformationPane().getInfoTable().getRowCount();
+    dashboard.getStatusPane().getCountLabel().setText(String.valueOf(size));
+    dashboard.getStatusPane().getGroupLabel().setText(group);
   }
 
   @Override

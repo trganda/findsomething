@@ -1,7 +1,6 @@
 package com.github.trganda.utils;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.utils.cache.CachePool;
 import java.awt.Font;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,6 +42,27 @@ public class Utils {
 
   public static Font getBurpEditorFont() {
     return FindSomething.API.userInterface().currentEditorFont();
+  }
+
+  public static boolean isDomainMatch(String pattern, String domain) {
+    // If the pattern and domain are exactly the same, they match
+    if (pattern.equals(domain) || pattern == "*") {
+      return true;
+    }
+
+    // Check if the pattern starts with a wildcard (*.)
+    if (pattern.startsWith("*.")) {
+      // Remove the "*." from the pattern to get the base domain (example.com)
+      String baseDomain = pattern.substring(2);
+
+      // Check if the domain ends with the base domain and has a dot before it
+      // This ensures sub.example.com matches *.example.com but example.com does not match
+      // *.example.com
+      return domain.endsWith("." + baseDomain);
+    }
+
+    // If no conditions matched, return false
+    return false;
   }
 
   public static List<String> aggregator(List<String> domains) {

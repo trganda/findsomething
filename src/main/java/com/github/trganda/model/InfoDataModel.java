@@ -8,9 +8,12 @@ public class InfoDataModel {
 
   private final String results;
 
-  public InfoDataModel(Long id, String results) {
+  private final String host;
+
+  public InfoDataModel(Long id, String results, String host) {
     this.id = id;
     this.results = results;
+    this.host = host;
   }
 
   public Object[] getInfoData() {
