@@ -1,14 +1,11 @@
 package com.github.trganda.components.common;
 
+import com.github.trganda.utils.cache.CachePool;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
-
-import com.github.trganda.FindSomething;
-import com.github.trganda.utils.cache.CachePool;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,10 +18,10 @@ public class SuggestionKeyListener extends KeyAdapter {
   private DefaultComboBoxModel<String> model;
   private List<String> suggestions;
 
-  // identicity whether the combox was popup
+  // Identify whether the combox was popup
   private boolean popup = false;
 
-  // trace the position of selected item
+  // Tracing the position of selected item
   private int selectedIdx = -1;
 
   public SuggestionKeyListener(

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -51,7 +50,7 @@ public class DashboardController implements DataChangeListener {
             this.updateInfoView(data);
           }
         });
-    
+
     // Status bar
     String g = selector.getSelectedItem().toString();
     if (g != null) {
@@ -101,23 +100,27 @@ public class DashboardController implements DataChangeListener {
         this.filterPane.getHostFilter().getHostComboBoxModel();
     JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
     hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
-    hostComboBox.addActionListener(e -> {
-      if (hostComboBox.getSelectedIndex() > -1 && selector.getSelectedIndex() > -1) {
-        String selectedHost = hostComboBox.getSelectedItem().toString();
-        String group = selector.getSelectedItem().toString();
+    hostComboBox.addActionListener(
+        e -> {
+          if (hostComboBox.getSelectedIndex() > -1 && selector.getSelectedIndex() > -1) {
+            String selectedHost = hostComboBox.getSelectedItem().toString();
+            String group = selector.getSelectedItem().toString();
 
-        List<InfoDataModel> data = CachePool.getInstance().getInfoData(group).stream().filter(d -> Utils.isDomainMatch(selectedHost, d.getHost())).collect(Collectors.toList());
-        this.updateInfoView(data);
-      } else {
-        // Default view with filter
-        if (selector.getSelectedIndex() >= 0) {
-          String group = selector.getSelectedItem().toString();
+            List<InfoDataModel> data =
+                CachePool.getInstance().getInfoData(group).stream()
+                    .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+                    .collect(Collectors.toList());
+            this.updateInfoView(data);
+          } else {
+            // Default view with filter
+            if (selector.getSelectedIndex() >= 0) {
+              String group = selector.getSelectedItem().toString();
 
-          List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-          this.updateInfoView(data);
-        }
-      }
-    });
+              List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+              this.updateInfoView(data);
+            }
+          }
+        });
 
     // info details
     JTable infoDetailTable =
@@ -239,8 +242,7 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void updateStatus() {
-    String group =
-      filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+    String group = filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
 
     int size = dashboard.getInformationPane().getInfoTable().getRowCount();
     dashboard.getStatusPane().getCountLabel().setText(String.valueOf(size));
