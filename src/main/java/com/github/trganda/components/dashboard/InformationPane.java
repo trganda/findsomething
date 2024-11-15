@@ -1,14 +1,6 @@
 package com.github.trganda.components.dashboard;
 
-import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
-import static com.github.trganda.config.Config.GROUP_GENERAL;
-import static com.github.trganda.config.Config.GROUP_INFORMATION;
-import static com.github.trganda.config.Config.GROUP_SENSITIVE;
-import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
-
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
-import com.github.trganda.utils.cache.CachePool;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -47,8 +39,7 @@ public class InformationPane extends JPanel {
 
   private void setupComponents() {
     wrap = setupTable();
-    selector =
-        new JComboBox<>();
+    selector = new JComboBox<>();
   }
 
   private JComponent setupTable() {

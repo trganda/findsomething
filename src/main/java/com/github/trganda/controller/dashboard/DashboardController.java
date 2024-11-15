@@ -3,6 +3,8 @@ package com.github.trganda.controller.dashboard;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.PlaceHolderTextField;
+import com.github.trganda.components.common.SuggestionCombox;
+import com.github.trganda.components.common.SuggestionKeyListener;
 import com.github.trganda.components.dashboard.Dashboard;
 import com.github.trganda.components.dashboard.FilterPane;
 import com.github.trganda.handler.DataChangeListener;
@@ -16,9 +18,11 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
@@ -34,11 +38,8 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void setupEventListener() {
-    // JComboBox<String> selector = dashboard.getInformationPane().getSelector();
-    JComboBox<String> selector =
-        this.filterPane
-            .getInformationFilter()
-            .getSelector();
+    // group selector
+    JComboBox<String> selector = this.filterPane.getInformationFilter().getSelector();
     selector.addActionListener(
         e -> {
           String group = selector.getSelectedItem().toString();
@@ -50,6 +51,7 @@ public class DashboardController implements DataChangeListener {
           this.updateInfoView(data);
         });
 
+    // info table
     JTable infoTable = dashboard.getInformationPane().getInfoTable();
     infoTable.addMouseListener(
         new MouseAdapter() {
@@ -68,15 +70,9 @@ public class DashboardController implements DataChangeListener {
           }
         });
 
-    // JTextField filterField = dashboard.getInformationPane().getFilterField();
-    PlaceHolderTextField filterField =
-        this.filterPane
-            .getInformationFilter()
-            .getFilterField();
-    JCheckBox sensitiveCheckBox =
-        this.filterPane
-            .getInformationFilter()
-            .getSensitive();
+    // search filter of info panel
+    PlaceHolderTextField filterField = this.filterPane.getInformationFilter().getFilterField();
+    JCheckBox sensitiveCheckBox = this.filterPane.getInformationFilter().getSensitive();
     filterField.addKeyListener(
         new KeyAdapter() {
           @Override
@@ -92,6 +88,14 @@ public class DashboardController implements DataChangeListener {
           updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
         });
 
+    // search filter of host
+    SuggestionCombox<String> hostComboBox = this.filterPane.getHostFilter().getHostComboBox();
+    DefaultComboBoxModel<String> hostComboBoxModel =
+        this.filterPane.getHostFilter().getHostComboBoxModel();
+    JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
+    hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
+
+    // info details
     JTable infoDetailTable =
         dashboard.getRequestSplitFrame().getInformationDetailsPane().getTable();
     DefaultTableModel infoDetailTableModel =
@@ -214,7 +218,8 @@ public class DashboardController implements DataChangeListener {
 
   @Override
   public void onDataChanged() {
-    String group = this.filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+    String group =
+        this.filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
     List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
     if (d != null && d.size() > 0) {
       this.updateInfoView(d);

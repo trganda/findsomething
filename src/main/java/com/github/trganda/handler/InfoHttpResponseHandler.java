@@ -5,7 +5,6 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
-import com.github.trganda.FindSomething;
 import com.github.trganda.cleaner.Cleaner;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.Rules.Rule;
@@ -20,12 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
@@ -50,16 +47,19 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     HttpRequest req = interceptedResponse.request();
-    
-    pool.submit(()->{
-      // collection host info
-      CachePool.getInstance().addHost(req.httpService().host());
-      aggregator();
-    });
 
     pool.submit(
         () -> {
-          FindSomething.API.logging().logToOutput("processing, " + req.url());
+          // collection host info
+          CachePool.getInstance().addHost(req.httpService().host());
+          List<String> domains = CachePool.getInstance().getHosts();
+          List<String> suggestions = Utils.aggregator(domains);
+          suggestions.stream().forEach(CachePool.getInstance()::addHost);
+        });
+
+    pool.submit(
+        () -> {
+          // FindSomething.API.logging().logToOutput("processing, " + req.url());
           process(interceptedResponse);
         });
 
@@ -88,7 +88,10 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             cleaner.setData(Arrays.asList(this.match(interceptedResponse, r)));
                             String[] results = cleaner.clean();
                             List<InfoDataModel> data = new ArrayList<>();
-                            FindSomething.API.logging().logToOutput("rule:" + r.getName() + " count: " + results.length);
+                            // FindSomething.API
+                            //     .logging()
+                            //     .logToOutput("rule:" + r.getName() + " count: " +
+                            // results.length);
                             for (String result : results) {
                               InfoDataModel infoDataModel = new InfoDataModel(id, result);
                               id = id + 1;
@@ -107,7 +110,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                                       interceptedResponse.statusCode(),
                                       ZonedDateTime.now().format(formatter));
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
-                              
+
                               // FindSomething.API.logging().logToOutput("debug");
                               // set request and response
                               String reqHash = Utils.calHash(req.path(), req.httpService().host());
@@ -199,24 +202,5 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     }
 
     return set.toArray(new String[0]);
-  }
-
-  private void aggregator() {
-    Map<String, List<String>> aggregatedDomains =
-        CachePool.getInstance().getHosts().stream()
-            .collect(Collectors.groupingBy(this::getRootDomain));
-
-    aggregatedDomains.forEach(
-        (rootDomain, domainList) -> {
-          CachePool.getInstance().addHost("*." + rootDomain);
-    });
-  }
-
-  // Method to extract the root domain from a full domain name
-  private String getRootDomain(String domain) {
-    String[] parts = domain.split("\\.");
-    int length = parts.length;
-    // Return the last two parts as the root domain (e.g., "example.com")
-    return length >= 2 ? parts[length - 2] + "." + parts[length - 1] : domain;
   }
 }

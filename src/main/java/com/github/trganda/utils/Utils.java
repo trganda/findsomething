@@ -1,9 +1,14 @@
 package com.github.trganda.utils;
 
 import com.github.trganda.FindSomething;
+import com.github.trganda.utils.cache.CachePool;
 import java.awt.Font;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -38,5 +43,28 @@ public class Utils {
 
   public static Font getBurpEditorFont() {
     return FindSomething.API.userInterface().currentEditorFont();
+  }
+
+  public static List<String> aggregator(List<String> domains) {
+    List<String> hosts = new ArrayList<>();
+    Map<String, List<String>> aggregatedDomains =
+        domains.stream().collect(Collectors.groupingBy(Utils::getRootDomain));
+
+    aggregatedDomains.forEach(
+        (rootDomain, domainList) -> {
+          if (!rootDomain.startsWith("*")) {
+            hosts.add("*." + rootDomain);
+          }
+        });
+
+    return hosts;
+  }
+
+  // Method to extract the root domain from a full domain name
+  public static String getRootDomain(String domain) {
+    String[] parts = domain.split("\\.");
+    int length = parts.length;
+    // Return the last two parts as the root domain (e.g., "example.com")
+    return length >= 2 ? parts[length - 2] + "." + parts[length - 1] : domain;
   }
 }

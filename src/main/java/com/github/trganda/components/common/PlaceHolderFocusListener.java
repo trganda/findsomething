@@ -18,7 +18,14 @@ public class PlaceHolderFocusListener extends FocusAdapter {
   public PlaceHolderFocusListener(JTextField textField, String placeHolder) {
     this.textField = textField;
     this.placeHolder = placeHolder;
-    this.isPlaceholderActive = false;
+    this.isPlaceholderActive = true;
+    textField.setFont(
+        new Font(
+            Utils.getBurpDisplayFont().getName(),
+            Font.PLAIN,
+            Utils.getBurpDisplayFont().getSize()));
+    textField.setForeground(Color.GRAY);
+    textField.setText(placeHolder);
   }
 
   @Override

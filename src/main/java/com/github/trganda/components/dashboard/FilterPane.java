@@ -3,7 +3,6 @@ package com.github.trganda.components.dashboard;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JPanel;
 import lombok.Getter;
 
@@ -38,6 +37,5 @@ public class FilterPane extends JPanel {
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 0, 0);
     this.add(informationFilter, gbc);
-
   }
 }
