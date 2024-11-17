@@ -5,44 +5,31 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableRowSorter;
 import lombok.Getter;
 
 @Getter
-public class InformationPane extends JPanel {
+public class InformationPane extends JTabbedPane {
   private final String filterPlaceHolder = "Search";
-  private JTable infoTable;
-  private DefaultTableModel infoTableModel;
-  private TableRowSorter<DefaultTableModel> sorter;
-  private JComponent wrap;
+
+  // private JTable infoTable;
+  // private DefaultTableModel infoTableModel;
+  // private TableRowSorter<DefaultTableModel> sorter;
+  // private JComponent wrap;
 
   public InformationPane() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
-
     this.setupComponents();
-    this.setupLayout();
-  }
-
-  private void setupLayout() {
-    GridBagLayout layout = new GridBagLayout();
-    GridBagConstraints gbc = new GridBagConstraints();
-    this.setLayout(layout);
-
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.fill = GridBagConstraints.BOTH;
-    gbc.weightx = 1.0;
-    gbc.weighty = 1.0;
-    this.add(wrap, gbc);
   }
 
   private void setupComponents() {
-    wrap = setupTable();
+    // Add tab with 'All' default
+    JComponent wrap = createTableView();
+    this.addTab("All", wrap);
   }
 
-  private JComponent setupTable() {
-    infoTable = new JTable();
-    infoTableModel =
+  private JComponent createTableView() {
+    JTable infoTable = new JTable();
+    DefaultTableModel infoTableModel =
         new DefaultTableModel(new Object[] {"Info"}, 0) {
           @Override
           public boolean isCellEditable(int row, int column) {
@@ -53,26 +40,43 @@ public class InformationPane extends JPanel {
     TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
     infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
 
-    // sorter and filter
-    sorter = new TableRowSorter<DefaultTableModel>(infoTableModel);
-    infoTable.setRowSorter(sorter);
+    // Sorter and filter
+    // TableRowSorter<DefaultTableModel> sorter = new
+    // TableRowSorter<DefaultTableModel>(infoTableModel);
+    // infoTable.setRowSorter(sorter);
 
     JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
-    // infoTableScrollPane.addComponentListener(
-    //     new ComponentAdapter() {
-    //       @Override
-    //       public void componentResized(ComponentEvent e) {
-    //         super.componentResized(e);
-    //         resizePane();
-    //       }
-    //     });
-
     return infoTableScrollPane;
   }
 
-  private void resizePane() {
-    int infoTableWidth = infoTable.getWidth();
-    infoTable.getColumnModel().getColumn(0).setPreferredWidth((int) (infoTableWidth * 0.1));
-    infoTable.getColumnModel().getColumn(1).setPreferredWidth((int) (infoTableWidth * 0.9));
+  public JComponent addTableView(String tabName) {
+    JComponent wrap = createTableView();
+    this.addTab(tabName, wrap);
+    return wrap;
+  }
+
+  public int getTabComponentIndexByName(String tabName) {
+    for (int i = 0; i < this.getTabCount(); i++) {
+      if (this.getTitleAt(i).equals(tabName)) {
+        return i;
+      }
+    }
+    return -1; // Tab not found
+  }
+
+  public JScrollPane getActiveTabView() throws RuntimeException {
+    if (this.getSelectedIndex() >= 0) {
+      return (JScrollPane) this.getSelectedComponent();
+    }
+    throw new RuntimeException("No active tab found.");
+  }
+
+  public void clearTab() {
+    int index = getTabComponentIndexByName("All");
+    if (index != -1) {
+      Component all = this.getComponentAt(index);
+      this.removeAll();
+      this.addTab("All", all);
+    }
   }
 }

@@ -94,7 +94,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             // results.length);
                             for (String result : results) {
                               InfoDataModel infoDataModel =
-                                  new InfoDataModel(id, result, req.httpService().host());
+                                  new InfoDataModel(
+                                      id, r.getName(), result, req.httpService().host());
                               id = id + 1;
                               data.add(infoDataModel);
 

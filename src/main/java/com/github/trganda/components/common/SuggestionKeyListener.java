@@ -1,5 +1,6 @@
 package com.github.trganda.components.common;
 
+import com.github.trganda.FindSomething;
 import com.github.trganda.utils.cache.CachePool;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -63,6 +64,8 @@ public class SuggestionKeyListener extends KeyAdapter {
         // Confirm selection and close popup, have to use the a self-hosted flag to check the status
         // of combox in KeyEvent.VK_ENTER, since the in the event the combox.getSelectedIndex()
         // always will return -1.
+
+        FindSomething.API.logging().logToOutput("selectedIdx: " + selectedIdx + "popup" + popup);
         if (popup && selectedIdx > -1) {
           editor.setText(model.getElementAt(selectedIdx));
           hostComboBox.setPopupVisible(false);
@@ -105,6 +108,7 @@ public class SuggestionKeyListener extends KeyAdapter {
     if (this.model.getSize() > 0) {
       hostComboBox.setPopupVisible(true);
       popup = true;
+      selectedIdx = hostComboBox.getSelectedIndex();
     } else {
       hostComboBox.setPopupVisible(false);
       popup = false;

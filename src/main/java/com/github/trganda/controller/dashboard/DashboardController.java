@@ -7,6 +7,7 @@ import com.github.trganda.components.common.SuggestionCombox;
 import com.github.trganda.components.common.SuggestionKeyListener;
 import com.github.trganda.components.dashboard.Dashboard;
 import com.github.trganda.components.dashboard.FilterPane;
+import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
@@ -17,66 +18,74 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class DashboardController implements DataChangeListener {
   private Dashboard dashboard;
   private FilterPane filterPane;
+  private InformationPane infoPane;
+
+  // private JTable infoTable;
+  // private DefaultTableModel infoTableModel;
+  // private TableRowSorter<DefaultTableModel> sorter;
 
   public DashboardController(Dashboard dashboard) {
     this.dashboard = dashboard;
     this.filterPane = dashboard.getRequestSplitFrame().getInformationDetailsPane().getFilterPane();
+    this.infoPane = dashboard.getInformationPane();
+    // JScrollPane scrollPane = (JScrollPane) dashboard.getInformationPane().getSelectedComponent();
+    // infoTable = (JTable) scrollPane.getViewport().getView();
+    // infoTableModel = (DefaultTableModel) infoTable.getModel();
+    // sorter = (TableRowSorter<DefaultTableModel>) infoTable.getRowSorter();
     this.setupEventListener();
   }
 
   private void setupEventListener() {
     // Group selector
-    JComboBox<String> selector = this.filterPane.getInformationFilter().getSelector();
-    selector.addActionListener(
+    JComboBox<String> groupSelector = this.filterPane.getInformationFilter().getSelector();
+    groupSelector.addActionListener(
         e -> {
-          if (selector.getSelectedIndex() >= 0) {
-            String group = selector.getSelectedItem().toString();
-
+          if (groupSelector.getSelectedIndex() >= 0) {
+            String group = groupSelector.getSelectedItem().toString();
             List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
             this.updateInfoView(data);
           }
         });
 
     // Status bar
-    String g = selector.getSelectedItem().toString();
+    String g = groupSelector.getSelectedItem().toString();
     if (g != null) {
       dashboard.getStatusPane().getGroupLabel().setText(g);
     }
 
-    // Info table
-    JTable infoTable = dashboard.getInformationPane().getInfoTable();
-    infoTable.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseClicked(java.awt.event.MouseEvent e) {
-            int row = infoTable.rowAtPoint(e.getPoint());
-            if (row == -1) {
-              return;
-            }
+    // Infomation tab
+    // this.infoPane.addChangeListener(new ChangeListener() {
+    //     @Override
+    //     public void stateChanged(ChangeEvent e) {
+    //       updateStatus();
+    //     }
+    // });
 
-            String info = infoTable.getModel().getValueAt(row, 0).toString();
-            String hashKey = Utils.calHash(info);
-            List<RequestDetailModel> reqInfos =
-                CachePool.getInstance().getRequestDataModelList(hashKey);
-            updateDetailsView(reqInfos);
-          }
-        });
+    // All tab
+    this.setupTabEventListener(infoPane.getActiveTabView());
 
-    // search filter of info panel
+    // Search filter of infomation panel
     PlaceHolderTextField filterField = this.filterPane.getInformationFilter().getFilterField();
     JCheckBox sensitiveCheckBox = this.filterPane.getInformationFilter().getSensitive();
     filterField.addKeyListener(
@@ -92,9 +101,14 @@ public class DashboardController implements DataChangeListener {
         e -> {
           String val = filterField.getText();
           updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
+          if (dashboard.getInformationPane().getSelectedIndex() >= 0) {
+            FindSomething.API
+                .logging()
+                .logToOutput(dashboard.getInformationPane().getSelectedComponent().toString());
+          }
         });
 
-    // search filter of host
+    // Search filter of host
     SuggestionCombox<String> hostComboBox = this.filterPane.getHostFilter().getHostComboBox();
     DefaultComboBoxModel<String> hostComboBoxModel =
         this.filterPane.getHostFilter().getHostComboBoxModel();
@@ -102,9 +116,9 @@ public class DashboardController implements DataChangeListener {
     hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
     hostComboBox.addActionListener(
         e -> {
-          if (hostComboBox.getSelectedIndex() > -1 && selector.getSelectedIndex() > -1) {
+          if (hostComboBox.getSelectedIndex() >=0 && groupSelector.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
-            String group = selector.getSelectedItem().toString();
+            String group = groupSelector.getSelectedItem().toString();
 
             List<InfoDataModel> data =
                 CachePool.getInstance().getInfoData(group).stream()
@@ -113,8 +127,8 @@ public class DashboardController implements DataChangeListener {
             this.updateInfoView(data);
           } else {
             // Default view with filter
-            if (selector.getSelectedIndex() >= 0) {
-              String group = selector.getSelectedItem().toString();
+            if (groupSelector.getSelectedIndex() >= 0) {
+              String group = groupSelector.getSelectedItem().toString();
 
               List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
               this.updateInfoView(data);
@@ -122,7 +136,7 @@ public class DashboardController implements DataChangeListener {
           }
         });
 
-    // info details
+    // Information details
     JTable infoDetailTable =
         dashboard.getRequestSplitFrame().getInformationDetailsPane().getTable();
     DefaultTableModel infoDetailTableModel =
@@ -156,8 +170,68 @@ public class DashboardController implements DataChangeListener {
         });
   }
 
+  private void setupTabEventListener(JScrollPane wraps) {
+    JTable table = (JTable) wraps.getViewport().getView();
+
+    // Information tab
+    table.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(java.awt.event.MouseEvent e) {
+            int row = table.rowAtPoint(e.getPoint());
+            if (row == -1) {
+              return;
+            }
+
+            String info = table.getModel().getValueAt(row, 0).toString();
+            String hashKey = Utils.calHash(info);
+            List<RequestDetailModel> reqInfos =
+                CachePool.getInstance().getRequestDataModelList(hashKey);
+            updateDetailsView(reqInfos);
+          }
+        });
+  }
+
   private void updateInfoView(List<InfoDataModel> data) {
-    DefaultTableModel infoTableModel = dashboard.getInformationPane().getInfoTableModel();
+    // Update 'All' tab view first
+    int index = infoPane.getTabComponentIndexByName("All");
+    try {
+      JScrollPane wrap = (JScrollPane) infoPane.getComponentAt(index);
+      this.updateInfoView(
+          (DefaultTableModel) ((JTable) wrap.getViewport().getView()).getModel(), data);
+    } catch (Exception ex) {
+      FindSomething.API.logging().logToError("index: " + index, ex);
+    }
+
+    infoPane.clearTab();
+
+    // Classified with rule name
+    Map<String, List<InfoDataModel>> classified =
+        data.stream().collect(Collectors.groupingBy(d -> d.getRuleName()));
+
+    // Update other tab view with rule name
+    classified.forEach(
+        (ruleName, vals) -> {
+          if (vals.size() > 0) {
+            JScrollPane wraps = null;
+            int idx = infoPane.getTabComponentIndexByName(ruleName);
+            if (idx == -1) {
+              // Add tab with the rule name
+              wraps = (JScrollPane) infoPane.addTableView(ruleName);
+              // Setup event listener for the new tab
+              this.setupTabEventListener(wraps);
+            } else {
+              wraps = (JScrollPane) infoPane.getComponentAt(index);
+            }
+
+            DefaultTableModel model =
+                (DefaultTableModel) ((JTable) wraps.getViewport().getView()).getModel();
+            this.updateInfoView(model, vals);
+          }
+        });
+  }
+
+  private void updateInfoView(DefaultTableModel model, List<InfoDataModel> data) {
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
 
@@ -174,12 +248,12 @@ public class DashboardController implements DataChangeListener {
           protected void done() {
             // update when work done
             try {
-              infoTableModel.setRowCount(0);
+              model.setRowCount(0);
               List<Object[]> rows = get();
               for (Object[] row : rows) {
-                infoTableModel.addRow(row);
+                model.addRow(row);
               }
-              infoTableModel.fireTableDataChanged();
+              model.fireTableDataChanged();
               updateStatus();
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
@@ -192,7 +266,7 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void updateFilter(String filter, boolean sensitive, boolean isPlaceholderActive) {
-    RowFilter<DefaultTableModel, Object> rf = null;
+    RowFilter<TableModel, Object> rf = null;
     if (!isPlaceholderActive) {
       // if current expression doesn't parse, don't update.
       try {
@@ -205,8 +279,15 @@ public class DashboardController implements DataChangeListener {
         return;
       }
     }
-    dashboard.getInformationPane().getSorter().setRowFilter(rf);
-    updateStatus();
+
+    for (int i = 0; i < this.infoPane.getTabCount(); i++) {
+      JScrollPane wrap = (JScrollPane) this.infoPane.getComponentAt(i);
+      JTable table = (JTable) wrap.getViewport().getView();
+      TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+      sorter.setRowFilter(rf);
+      table.setRowSorter(sorter);
+    }
+    // updateStatus();
   }
 
   private void updateDetailsView(List<RequestDetailModel> data) {
@@ -244,7 +325,10 @@ public class DashboardController implements DataChangeListener {
   private void updateStatus() {
     String group = filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
 
-    int size = dashboard.getInformationPane().getInfoTable().getRowCount();
+    JScrollPane wrap = infoPane.getActiveTabView();
+    JTable table = (JTable) wrap.getViewport().getView();
+
+    int size = table.getRowCount();
     dashboard.getStatusPane().getCountLabel().setText(String.valueOf(size));
     dashboard.getStatusPane().getGroupLabel().setText(group);
   }
@@ -253,9 +337,11 @@ public class DashboardController implements DataChangeListener {
   public void onDataChanged() {
     String group =
         this.filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
-    List<InfoDataModel> d = CachePool.getInstance().getInfoData(group);
-    if (d != null && d.size() > 0) {
-      this.updateInfoView(d);
+    List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+    if (data.size() == 0) {
+      return;
     }
+
+    updateInfoView(data);
   }
 }
