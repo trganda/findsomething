@@ -265,7 +265,7 @@ public class Config implements ConfigChangeListener {
               Files.newOutputStream(Paths.get(configLocation)), StandardCharsets.UTF_8);
       getYaml().dump(config, ws);
       ws.close();
-      FindSomething.API.logging().logToOutput("Saved configuration to " + configLocation);
+      // FindSomething.API.logging().logToOutput("Saved configuration to " + configLocation);
     } catch (Exception e) {
       FindSomething.API.logging().logToError("Saving configuration file failed, ", e);
     }
@@ -288,7 +288,7 @@ public class Config implements ConfigChangeListener {
               Files.newOutputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8);
       getYaml().dump(rules, ws);
       ws.close();
-      FindSomething.API.logging().logToOutput("Saved rules to " + rulesLocation);
+      // FindSomething.API.logging().logToOutput("Saved rules to " + rulesLocation);
     } catch (Exception e) {
       FindSomething.API.logging().logToError("Saving rules file failed, ", e);
     }

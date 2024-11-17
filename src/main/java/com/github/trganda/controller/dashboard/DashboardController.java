@@ -25,7 +25,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -75,12 +74,16 @@ public class DashboardController implements DataChangeListener {
     }
 
     // Infomation tab
-    // this.infoPane.addChangeListener(new ChangeListener() {
-    //     @Override
-    //     public void stateChanged(ChangeEvent e) {
-    //       updateStatus();
-    //     }
-    // });
+    infoPane.addChangeListener(
+        new ChangeListener() {
+          @Override
+          public void stateChanged(ChangeEvent e) {
+            String group =
+                filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+            List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+            updateActiveInfoView(data);
+          }
+        });
 
     // All tab
     this.setupTabEventListener(infoPane.getActiveTabView());
@@ -116,7 +119,7 @@ public class DashboardController implements DataChangeListener {
     hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
     hostComboBox.addActionListener(
         e -> {
-          if (hostComboBox.getSelectedIndex() >=0 && groupSelector.getSelectedIndex() >= 0) {
+          if (hostComboBox.getSelectedIndex() >= 0 && groupSelector.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
             String group = groupSelector.getSelectedItem().toString();
 
@@ -193,17 +196,8 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void updateInfoView(List<InfoDataModel> data) {
-    // Update 'All' tab view first
-    int index = infoPane.getTabComponentIndexByName("All");
-    try {
-      JScrollPane wrap = (JScrollPane) infoPane.getComponentAt(index);
-      this.updateInfoView(
-          (DefaultTableModel) ((JTable) wrap.getViewport().getView()).getModel(), data);
-    } catch (Exception ex) {
-      FindSomething.API.logging().logToError("index: " + index, ex);
-    }
-
-    infoPane.clearTab();
+    // Update active tab view
+    this.updateActiveInfoView(data);
 
     // Classified with rule name
     Map<String, List<InfoDataModel>> classified =
@@ -220,15 +214,27 @@ public class DashboardController implements DataChangeListener {
               wraps = (JScrollPane) infoPane.addTableView(ruleName);
               // Setup event listener for the new tab
               this.setupTabEventListener(wraps);
-            } else {
-              wraps = (JScrollPane) infoPane.getComponentAt(index);
             }
-
-            DefaultTableModel model =
-                (DefaultTableModel) ((JTable) wraps.getViewport().getView()).getModel();
-            this.updateInfoView(model, vals);
           }
         });
+  }
+
+  private void updateActiveInfoView(List<InfoDataModel> data) {
+    int selectedIndex = infoPane.getSelectedIndex();
+    if (selectedIndex != -1) {
+      String title = infoPane.getTitleAt(selectedIndex);
+      JScrollPane wrap = (JScrollPane) infoPane.getComponentAt(selectedIndex);
+      JTable table = (JTable) wrap.getViewport().getView();
+      DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+      if (title == "All") {
+        this.updateInfoView(model, data);
+      } else {
+        List<InfoDataModel> filteredData =
+            data.stream().filter(d -> d.getRuleName().equals(title)).collect(Collectors.toList());
+        updateInfoView(model, filteredData);
+      }
+    }
   }
 
   private void updateInfoView(DefaultTableModel model, List<InfoDataModel> data) {

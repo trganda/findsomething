@@ -18,6 +18,7 @@ public class InformationPane extends JTabbedPane {
 
   public InformationPane() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
+    this.setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
     this.setupComponents();
   }
 
