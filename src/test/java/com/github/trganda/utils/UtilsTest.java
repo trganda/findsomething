@@ -53,7 +53,7 @@ public class UtilsTest {
 
   @Test
   public void testCallHash() {
-    String ret =  Utils.calHash("1");
+    String ret = Utils.calHash("1");
     System.out.println(ret);
   }
 }

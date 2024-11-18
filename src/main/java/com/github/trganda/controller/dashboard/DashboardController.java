@@ -1,6 +1,8 @@
 package com.github.trganda.controller.dashboard;
 
 import burp.api.montoya.proxy.http.InterceptedResponse;
+import burp.api.montoya.ui.editor.HttpRequestEditor;
+import burp.api.montoya.ui.editor.HttpResponseEditor;
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.common.SuggestionCombox;
@@ -27,10 +29,13 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -40,12 +45,16 @@ public class DashboardController implements DataChangeListener {
   private FilterPane filterPane;
   private InformationPane infoPane;
   private JComboBox<String> groupSelector;
+  private HttpRequestEditor requestEditor;
+  private HttpResponseEditor responseEditor;
 
   public DashboardController(Dashboard dashboard) {
     this.dashboard = dashboard;
     this.filterPane = dashboard.getRequestSplitFrame().getInformationDetailsPane().getFilterPane();
     this.infoPane = dashboard.getInformationPane();
     this.groupSelector = this.filterPane.getInformationFilter().getSelector();
+    this.requestEditor = dashboard.getRequestSplitFrame().getRequestPane().getRequestEditor();
+    this.responseEditor = dashboard.getRequestSplitFrame().getRequestPane().getResponseEditor();
     this.setupEventListener();
   }
 
@@ -169,20 +178,28 @@ public class DashboardController implements DataChangeListener {
     JTable table = (JTable) wraps.getViewport().getView();
 
     // Information tab
-    table.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseClicked(java.awt.event.MouseEvent e) {
-            int row = table.rowAtPoint(e.getPoint());
-            if (row == -1) {
-              return;
-            }
+    ListSelectionModel selectionModel = table.getSelectionModel();
+    selectionModel.addListSelectionListener(
+        new ListSelectionListener() {
 
-            String info = table.getValueAt(row, 0).toString();
-            String hashKey = Utils.calHash(info);
-            List<RequestDetailModel> reqInfos =
-                CachePool.getInstance().getRequestDataModelList(hashKey);
-            updateDetailsView(reqInfos);
+          @Override
+          public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+              int selectedRow = table.getSelectedRow();
+              if (selectedRow == -1) {
+                return;
+              }
+              String info = table.getValueAt(selectedRow, 0).toString();
+              String hashKey = Utils.calHash(info);
+              List<RequestDetailModel> reqInfos =
+                  CachePool.getInstance().getRequestDataModelList(hashKey);
+              updateDetailsView(reqInfos);
+
+              // update filter of request/response filter
+              // TODO: set as rule scope, and active the search
+              requestEditor.setSearchExpression(info);
+              responseEditor.setSearchExpression(info);
+            }
           }
         });
   }
