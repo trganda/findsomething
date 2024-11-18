@@ -34,6 +34,8 @@ import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -115,13 +117,68 @@ public class DashboardController implements DataChangeListener {
 
     // Search filter of host
     SuggestionCombox<String> hostComboBox = this.filterPane.getHostFilter().getHostComboBox();
-    DefaultComboBoxModel<String> hostComboBoxModel =
-        this.filterPane.getHostFilter().getHostComboBoxModel();
-    JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
-    hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
+    // DefaultComboBoxModel<String> hostComboBoxModel =
+    //     this.filterPane.getHostFilter().getHostComboBoxModel();
+    // JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
+    // hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
+
+    JTextField hosTextField = this.filterPane.getHostFilter().getHostTextField();
+    hosTextField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        updateSuggestions();
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        updateSuggestions();
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        updateSuggestions();
+      }
+      
+      private void updateSuggestions() {
+        String input = hosTextField.getText();
+        List<String> hosts = CachePool.getInstance().getHosts();
+    
+        // Clear existing items and add new suggestions based on the input
+        hostComboBox.removeAllItems();
+        if (!input.isEmpty()) {
+          for (String suggestion : hosts) {
+            if (suggestion.contains(input.toLowerCase())) {
+              hostComboBox.addItem(suggestion);
+            }
+          }
+        }
+    
+        // Show the popup if there are suggestions
+        if (hostComboBox.getItemCount() > 0) {
+          hostComboBox.setPopupVisible(true);
+        } else {
+          hostComboBox.setPopupVisible(false);
+        }
+    
+        // Reset the editor text without setting a selected item
+        // hosTextField.setText(input);
+      }
+    });
+
+    // hosTextField.addKeyListener(new KeyAdapter() {
+    //   @Override
+    //   public void keyReleased(KeyEvent e) {
+    //     super.keyReleased(e);
+    //     int code = e.getKeyCode();
+    //     if (code == KeyEvent.VK_DOWN && hostComboBox.isPopupVisible()) {
+    //       hostComboBox.dispatchEvent(e);
+    //     }
+    //   }
+    // });
+
     hostComboBox.addActionListener(
         e -> {
-          if (hostComboBox.getSelectedIndex() >= 0 && groupSelector.getSelectedIndex() >= 0) {
+          if (hostComboBox.isPopupVisible() && hostComboBox.getSelectedIndex() >= 0 && groupSelector.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
             String group = groupSelector.getSelectedItem().toString();
 
@@ -129,6 +186,7 @@ public class DashboardController implements DataChangeListener {
                 CachePool.getInstance().getInfoData(group).stream()
                     .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
                     .collect(Collectors.toList());
+            // hosTextField.setText(selectedHost);
             this.updateInfoView(data);
           } else {
             // Default view with filter

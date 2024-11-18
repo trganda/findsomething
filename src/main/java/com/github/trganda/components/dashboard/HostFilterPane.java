@@ -8,12 +8,14 @@ import java.awt.Insets;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import lombok.Getter;
 
 @Getter
 public class HostFilterPane extends JPanel {
   private SuggestionCombox<String> hostComboBox;
+  private JTextField hostTextField;
   private DefaultComboBoxModel<String> hostComboBoxModel;
 
   public HostFilterPane() {
@@ -26,6 +28,8 @@ public class HostFilterPane extends JPanel {
     hostComboBoxModel = new DefaultComboBoxModel<>();
     hostComboBox = new SuggestionCombox<>(hostComboBoxModel);
     hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
+    hostTextField = new JTextField();
+    hostTextField.setPreferredSize(new Dimension(200, hostTextField.getPreferredSize().height));
   }
 
   private void setupLayout() {
@@ -44,6 +48,8 @@ public class HostFilterPane extends JPanel {
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 2);
     gbc.fill = GridBagConstraints.HORIZONTAL;
+
+    this.add(hostTextField, gbc);
     this.add(hostComboBox, gbc);
   }
 }
