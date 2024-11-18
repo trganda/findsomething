@@ -55,6 +55,7 @@ public class DashboardController implements DataChangeListener {
         e -> {
           if (groupSelector.getSelectedIndex() >= 0) {
             String group = groupSelector.getSelectedItem().toString();
+            // TODO: hide empty tab
             List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
             this.updateInfoView(data);
           }
