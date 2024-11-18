@@ -89,10 +89,6 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             cleaner.setData(Arrays.asList(this.match(interceptedResponse, r)));
                             String[] results = cleaner.clean();
                             List<InfoDataModel> data = new ArrayList<>();
-                            // FindSomething.API
-                            //     .logging()
-                            //     .logToOutput("rule:" + r.getName() + " count: " +
-                            // results.length);
                             for (String result : results) {
                               InfoDataModel infoDataModel =
                                   new InfoDataModel(
@@ -114,9 +110,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                                       ZonedDateTime.now().format(formatter));
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
-                              // FindSomething.API.logging().logToOutput("debug");
                               // set request and response
-                              String reqHash = Utils.calHash(req.path(), req.httpService().host());
+                              String reqHash = Utils.calHash(String.valueOf(interceptedResponse.messageId()), req.path(), req.httpService().host());
                               CachePool.getInstance()
                                   .putInterceptedResponse(reqHash, interceptedResponse);
                             }

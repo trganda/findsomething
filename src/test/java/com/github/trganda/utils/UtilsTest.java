@@ -50,4 +50,10 @@ public class UtilsTest {
       System.out.println(Utils.getRootDomain(domain));
     }
   }
+
+  @Test
+  public void testCallHash() {
+    String ret =  Utils.calHash("1");
+    System.out.println(ret);
+  }
 }

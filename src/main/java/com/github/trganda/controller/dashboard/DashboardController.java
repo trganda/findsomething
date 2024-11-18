@@ -135,8 +135,6 @@ public class DashboardController implements DataChangeListener {
     // Information details
     JTable infoDetailTable =
         dashboard.getRequestSplitFrame().getInformationDetailsPane().getTable();
-    DefaultTableModel infoDetailTableModel =
-        dashboard.getRequestSplitFrame().getInformationDetailsPane().getTableModel();
     infoDetailTable.addMouseListener(
         new MouseAdapter() {
           @Override
@@ -146,9 +144,10 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String path = (String) infoDetailTableModel.getValueAt(row, 2);
-            String host = (String) infoDetailTableModel.getValueAt(row, 3);
-            String hash = Utils.calHash(path, host);
+            String messageId = infoDetailTable.getValueAt(row, 0).toString();
+            String path = infoDetailTable.getValueAt(row, 2).toString();
+            String host = infoDetailTable.getValueAt(row, 3).toString();
+            String hash = Utils.calHash(messageId, path, host);
             InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
             if (resp != null) {
               dashboard
@@ -179,7 +178,7 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String info = table.getModel().getValueAt(row, 0).toString();
+            String info = table.getValueAt(row, 0).toString();
             String hashKey = Utils.calHash(info);
             List<RequestDetailModel> reqInfos =
                 CachePool.getInstance().getRequestDataModelList(hashKey);
