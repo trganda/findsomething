@@ -1,5 +1,6 @@
 package com.github.trganda.handler;
 
+import burp.api.montoya.http.message.params.HttpParameterType;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
@@ -172,14 +173,17 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private String[] match(InterceptedResponse interceptedResponse, Rule rule) {
     Scope scope = rule.getScope();
-    String body = interceptedResponse.bodyToString();
+    HttpRequest req = interceptedResponse.request();
+
+    String reqBody = req.bodyToString();
+    String rspBody = interceptedResponse.bodyToString();
 
     List<String> matchList = new ArrayList<>();
     Pattern pattern =
         Pattern.compile(rule.getRegex(), rule.isSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
     switch (scope) {
       case RESPONSE_BODY:
-        matchList.addAll(Arrays.asList(match(body, pattern)));
+        matchList.addAll(Arrays.asList(match(rspBody, pattern)));
         break;
       case RESPONSE_HEADER:
         interceptedResponse
@@ -188,6 +192,23 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                 h -> {
                   matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
                 });
+      case REQUEST_BODY:
+        matchList.addAll(Arrays.asList(match(reqBody, pattern)));
+        break;
+      case REQUEST_HEADER:
+        req.headers()
+            .forEach(
+                h -> {
+                  matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
+                });
+      case REQUEST_PATH:
+        matchList.addAll(Arrays.asList(match(req.pathWithoutQuery(), pattern)));
+        break;
+      case REQUEST_QUERY:
+        req.parameters().stream()
+            .filter(p -> p.type() != HttpParameterType.COOKIE)
+            .forEach(
+                p -> matchList.addAll(Arrays.asList(match(p.name() + "=" + p.value(), pattern))));
         break;
       default:
         break;

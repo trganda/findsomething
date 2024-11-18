@@ -98,7 +98,7 @@ groups:
   - enabled: true
     name: DoS Paramters
     regex: ((size=)|(page=)|(num=)|(limit=)|(start=)|(end=)|(count=))
-    scope: RESPONSE_BODY
+    scope: REQUEST_QUERY
     sensitive: false
 - group: Information
   rule:
