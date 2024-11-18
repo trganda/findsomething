@@ -153,10 +153,9 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String messageId = infoDetailTable.getValueAt(row, 0).toString();
             String path = infoDetailTable.getValueAt(row, 2).toString();
             String host = infoDetailTable.getValueAt(row, 3).toString();
-            String hash = Utils.calHash(messageId, path, host);
+            String hash = Utils.calHash(path, host);
             InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
             if (resp != null) {
               dashboard
