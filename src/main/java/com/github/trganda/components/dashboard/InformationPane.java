@@ -9,12 +9,8 @@ import lombok.Getter;
 
 @Getter
 public class InformationPane extends JTabbedPane {
+  public static final String ALL = "All";
   private final String filterPlaceHolder = "Search";
-
-  // private JTable infoTable;
-  // private DefaultTableModel infoTableModel;
-  // private TableRowSorter<DefaultTableModel> sorter;
-  // private JComponent wrap;
 
   public InformationPane() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
@@ -25,7 +21,7 @@ public class InformationPane extends JTabbedPane {
   private void setupComponents() {
     // Add tab with 'All' default
     JComponent wrap = createTableView();
-    this.addTab("All", wrap);
+    this.addTab(ALL, wrap);
   }
 
   private JComponent createTableView() {
@@ -41,16 +37,11 @@ public class InformationPane extends JTabbedPane {
     TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
     infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
 
-    // Sorter and filter
-    // TableRowSorter<DefaultTableModel> sorter = new
-    // TableRowSorter<DefaultTableModel>(infoTableModel);
-    // infoTable.setRowSorter(sorter);
-
     JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
     return infoTableScrollPane;
   }
 
-  public JComponent addTableView(String tabName) {
+  public JComponent addTableTab(String tabName) {
     JComponent wrap = createTableView();
     this.addTab(tabName, wrap);
     return wrap;
@@ -73,11 +64,11 @@ public class InformationPane extends JTabbedPane {
   }
 
   public void clearTab() {
-    int index = getTabComponentIndexByName("All");
+    int index = getTabComponentIndexByName(ALL);
     if (index != -1) {
       Component all = this.getComponentAt(index);
       this.removeAll();
-      this.addTab("All", all);
+      this.addTab(ALL, all);
     }
   }
 }

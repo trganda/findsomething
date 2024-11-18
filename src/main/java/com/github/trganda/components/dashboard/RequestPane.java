@@ -17,22 +17,5 @@ public class RequestPane extends JTabbedPane {
     responseEditor = FindSomething.API.userInterface().createHttpResponseEditor();
     this.addTab("Request", requestEditor.uiComponent());
     this.addTab("Response", responseEditor.uiComponent());
-    // this.setOrientation(HORIZONTAL_SPLIT);
-    // this.setLeftComponent(requestEditor.uiComponent());
-    // this.setRightComponent(responseEditor.uiComponent());
-    // this.setContinuousLayout(true);
-    //     this.setUI(
-    //     new BasicSplitPaneUI() {
-    //       @Override
-    //       public BasicSplitPaneDivider createDefaultDivider() {
-    //         return new BasicSplitPaneDivider(this) {
-    //           @Override
-    //           public void paint(Graphics g) {
-    //             // hidden the default divider
-    //             super.paint(g);
-    //           }
-    //         };
-    //       }
-    //     });
   }
 }

@@ -39,26 +39,19 @@ public class DashboardController implements DataChangeListener {
   private Dashboard dashboard;
   private FilterPane filterPane;
   private InformationPane infoPane;
-
-  // private JTable infoTable;
-  // private DefaultTableModel infoTableModel;
-  // private TableRowSorter<DefaultTableModel> sorter;
+  private JComboBox<String> groupSelector;
 
   public DashboardController(Dashboard dashboard) {
     this.dashboard = dashboard;
     this.filterPane = dashboard.getRequestSplitFrame().getInformationDetailsPane().getFilterPane();
     this.infoPane = dashboard.getInformationPane();
-    // JScrollPane scrollPane = (JScrollPane) dashboard.getInformationPane().getSelectedComponent();
-    // infoTable = (JTable) scrollPane.getViewport().getView();
-    // infoTableModel = (DefaultTableModel) infoTable.getModel();
-    // sorter = (TableRowSorter<DefaultTableModel>) infoTable.getRowSorter();
+    this.groupSelector = this.filterPane.getInformationFilter().getSelector();
     this.setupEventListener();
   }
 
   private void setupEventListener() {
     // Group selector
-    JComboBox<String> groupSelector = this.filterPane.getInformationFilter().getSelector();
-    groupSelector.addActionListener(
+    this.groupSelector.addActionListener(
         e -> {
           if (groupSelector.getSelectedIndex() >= 0) {
             String group = groupSelector.getSelectedItem().toString();
@@ -68,7 +61,7 @@ public class DashboardController implements DataChangeListener {
         });
 
     // Status bar
-    String g = groupSelector.getSelectedItem().toString();
+    String g = this.groupSelector.getSelectedItem().toString();
     if (g != null) {
       dashboard.getStatusPane().getGroupLabel().setText(g);
     }
@@ -78,14 +71,13 @@ public class DashboardController implements DataChangeListener {
         new ChangeListener() {
           @Override
           public void stateChanged(ChangeEvent e) {
-            String group =
-                filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+            String group = groupSelector.getSelectedItem().toString();
             List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
             updateActiveInfoView(data);
           }
         });
 
-    // All tab
+    // Setup click event listener for 'All' tab in information panel
     this.setupTabEventListener(infoPane.getActiveTabView());
 
     // Search filter of infomation panel
@@ -211,7 +203,7 @@ public class DashboardController implements DataChangeListener {
             int idx = infoPane.getTabComponentIndexByName(ruleName);
             if (idx == -1) {
               // Add tab with the rule name
-              wraps = (JScrollPane) infoPane.addTableView(ruleName);
+              wraps = (JScrollPane) infoPane.addTableTab(ruleName);
               // Setup event listener for the new tab
               this.setupTabEventListener(wraps);
             }
@@ -227,7 +219,7 @@ public class DashboardController implements DataChangeListener {
       JTable table = (JTable) wrap.getViewport().getView();
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-      if (title == "All") {
+      if (title == InformationPane.ALL) {
         this.updateInfoView(model, data);
       } else {
         List<InfoDataModel> filteredData =
@@ -286,6 +278,7 @@ public class DashboardController implements DataChangeListener {
       }
     }
 
+    // update all tabs
     for (int i = 0; i < this.infoPane.getTabCount(); i++) {
       JScrollPane wrap = (JScrollPane) this.infoPane.getComponentAt(i);
       JTable table = (JTable) wrap.getViewport().getView();
@@ -293,7 +286,7 @@ public class DashboardController implements DataChangeListener {
       sorter.setRowFilter(rf);
       table.setRowSorter(sorter);
     }
-    // updateStatus();
+    updateStatus();
   }
 
   private void updateDetailsView(List<RequestDetailModel> data) {
@@ -329,7 +322,7 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void updateStatus() {
-    String group = filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+    String group = groupSelector.getSelectedItem().toString();
 
     JScrollPane wrap = infoPane.getActiveTabView();
     JTable table = (JTable) wrap.getViewport().getView();
@@ -341,8 +334,7 @@ public class DashboardController implements DataChangeListener {
 
   @Override
   public void onDataChanged() {
-    String group =
-        this.filterPane.getInformationFilter().getSelector().getSelectedItem().toString();
+    String group = this.groupSelector.getSelectedItem().toString();
     List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
     if (data.size() == 0) {
       return;
