@@ -115,15 +115,18 @@ public class DashboardController implements DataChangeListener {
     JComboBox<String> hostComboBox = suggestionComboBox.getHostComboBox();
     JTextField hostTextField = suggestionComboBox.getHostTextField();
 
-    hostTextField.getDocument().addDocumentListener(new SuggestionDocumentListener(suggestionComboBox));
+    hostTextField
+        .getDocument()
+        .addDocumentListener(new SuggestionDocumentListener(suggestionComboBox));
     hostTextField.addKeyListener(new SuggestionKeyListener(suggestionComboBox));
-    hostComboBox.addActionListener(e -> {
-      if (!suggestionComboBox.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
-        String selectedHost = hostComboBox.getSelectedItem().toString();
-        hostTextField.setText(selectedHost);
-        hostComboBox.setPopupVisible(false);
-      }
-    });
+    hostComboBox.addActionListener(
+        e -> {
+          if (!suggestionComboBox.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
+            String selectedHost = hostComboBox.getSelectedItem().toString();
+            hostTextField.setText(selectedHost);
+            hostComboBox.setPopupVisible(false);
+          }
+        });
 
     // Information details
     JTable infoDetailTable =

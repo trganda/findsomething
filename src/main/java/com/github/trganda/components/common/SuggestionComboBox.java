@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import lombok.Getter;
 import lombok.Setter;
 

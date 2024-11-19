@@ -8,7 +8,9 @@ public enum Scope {
   // Path without query parameter
   REQUEST_PATH("request path"),
   // Query params in the request
-  REQUEST_QUERY("request query");
+  REQUEST_QUERY("request query"),
+  // Query params name in the request
+  REQUEST_QUERY_PARAMS("request query params name");
 
   private final String description;
 

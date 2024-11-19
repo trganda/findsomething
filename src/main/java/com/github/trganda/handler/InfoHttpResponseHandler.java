@@ -111,10 +111,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
                               // set request and response
-                              String reqHash =
-                                  Utils.calHash(
-                                      req.path(),
-                                      req.httpService().host());
+                              String reqHash = Utils.calHash(req.path(), req.httpService().host());
                               CachePool.getInstance()
                                   .putInterceptedResponse(reqHash, interceptedResponse);
                             }
@@ -190,6 +187,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                 h -> {
                   matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
                 });
+        break;
       case REQUEST_BODY:
         matchList.addAll(Arrays.asList(match(reqBody, pattern)));
         break;
@@ -199,6 +197,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                 h -> {
                   matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
                 });
+        break;
       case REQUEST_PATH:
         matchList.addAll(Arrays.asList(match(req.pathWithoutQuery(), pattern)));
         break;
@@ -207,6 +206,11 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
             .filter(p -> p.type() != HttpParameterType.COOKIE)
             .forEach(
                 p -> matchList.addAll(Arrays.asList(match(p.name() + "=" + p.value(), pattern))));
+        break;
+      case REQUEST_QUERY_PARAMS:
+        req.parameters().stream()
+            .filter(p -> p.type() != HttpParameterType.COOKIE)
+            .forEach(p -> matchList.addAll(Arrays.asList(match(p.name(), pattern))));
         break;
       default:
         break;

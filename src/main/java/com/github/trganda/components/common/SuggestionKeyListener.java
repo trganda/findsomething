@@ -15,7 +15,6 @@ public class SuggestionKeyListener extends KeyAdapter {
   private JComboBox<String> comboBox;
   private DefaultComboBoxModel<String> model;
 
-
   public SuggestionKeyListener(SuggestionComboBox suggestionComboBox) {
     this.suggestionComboBox = suggestionComboBox;
     this.comboBox = suggestionComboBox.getHostComboBox();
@@ -30,7 +29,7 @@ public class SuggestionKeyListener extends KeyAdapter {
     switch (keyCode) {
       case KeyEvent.VK_DOWN:
       case KeyEvent.VK_UP:
-        if(comboBox.isPopupVisible() && !e.isConsumed()) {
+        if (comboBox.isPopupVisible() && !e.isConsumed()) {
           comboBox.dispatchEvent(e);
           System.out.println(comboBox.getModel().getSize());
         }

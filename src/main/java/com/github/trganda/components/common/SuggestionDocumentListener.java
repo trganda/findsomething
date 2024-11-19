@@ -1,7 +1,6 @@
 package com.github.trganda.components.common;
 
 import com.github.trganda.utils.cache.CachePool;
-
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;

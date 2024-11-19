@@ -24,7 +24,7 @@ public class MatcherTest {
 
   @Test
   public void testURLRule() {
-    InputStream is = MatcherTest.class.getClassLoader().getResourceAsStream("nav.js");
+    InputStream is = MatcherTest.class.getClassLoader().getResourceAsStream("app.dae7b379.js");
     try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
       StringBuilder sb = new StringBuilder();
       int ch;
@@ -38,7 +38,7 @@ public class MatcherTest {
           .ifPresent(
               g -> {
                 g.getRule().stream()
-                    .filter(r -> r.getName().equals("All URL"))
+                    .filter(r -> r.getName().equals("Linkfinder"))
                     .findFirst()
                     .ifPresent(
                         r -> {

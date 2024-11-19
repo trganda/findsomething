@@ -1,13 +1,12 @@
 package com.github.trganda.components.dashboard;
 
+import com.github.trganda.components.common.SuggestionComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-
-import com.github.trganda.components.common.SuggestionComboBox;
 import lombok.Getter;
 
 @Getter
