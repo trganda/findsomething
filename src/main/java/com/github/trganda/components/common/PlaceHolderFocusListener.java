@@ -22,7 +22,7 @@ public class PlaceHolderFocusListener extends FocusAdapter {
     textField.setFont(
         new Font(
             Utils.getBurpDisplayFont().getName(),
-            Font.PLAIN,
+            Font.ITALIC,
             Utils.getBurpDisplayFont().getSize()));
     textField.setForeground(Color.GRAY);
     textField.setText(placeHolder);

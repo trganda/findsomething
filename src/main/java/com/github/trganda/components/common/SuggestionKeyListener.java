@@ -1,121 +1,53 @@
 package com.github.trganda.components.common;
 
-import com.github.trganda.FindSomething;
-import com.github.trganda.utils.cache.CachePool;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class SuggestionKeyListener extends KeyAdapter {
 
-  private JTextField editor;
-  private SuggestionCombox<String> hostComboBox;
+  private SuggestionComboBox suggestionComboBox;
+  private JTextField textField;
+  private JComboBox<String> comboBox;
   private DefaultComboBoxModel<String> model;
-  private List<String> suggestions;
 
-  // Identify whether the combox was popup
-  private boolean popup = false;
 
-  // Tracing the position of selected item
-  private int selectedIdx = -1;
-
-  public SuggestionKeyListener(
-      SuggestionCombox<String> comboBox, DefaultComboBoxModel<String> model) {
-    this.hostComboBox = comboBox;
-    this.model = model;
-    this.editor = (JTextField) comboBox.getEditor().getEditorComponent();
+  public SuggestionKeyListener(SuggestionComboBox suggestionComboBox) {
+    this.suggestionComboBox = suggestionComboBox;
+    this.comboBox = suggestionComboBox.getHostComboBox();
+    this.model = suggestionComboBox.getHostComboBoxModel();
+    this.textField = suggestionComboBox.getHostTextField();
   }
 
   @Override
-  public void keyReleased(KeyEvent e) {
-    if (e.isControlDown() || e.isAltDown() || e.isMetaDown() || e.isAltGraphDown()) {
-      return;
-    }
-
+  public void keyPressed(KeyEvent e) {
+    this.suggestionComboBox.setMatching(true);
     int keyCode = e.getKeyCode();
     switch (keyCode) {
-      case KeyEvent.VK_UP:
-        // Move selection up if possible
-        int prevIndex = hostComboBox.getSelectedIndex() - 1;
-        if (prevIndex >= 0) {
-          hostComboBox.setSelectedIndex(prevIndex);
-          selectedIdx = prevIndex;
-        }
-
-        break;
-
       case KeyEvent.VK_DOWN:
-        // Move selection down if possible
-        int nextIndex = hostComboBox.getSelectedIndex() + 1;
-        if (nextIndex < model.getSize()) {
-          hostComboBox.setSelectedIndex(nextIndex);
-          selectedIdx = nextIndex;
+      case KeyEvent.VK_UP:
+        if(comboBox.isPopupVisible() && !e.isConsumed()) {
+          comboBox.dispatchEvent(e);
+          System.out.println(comboBox.getModel().getSize());
         }
-
         break;
-
       case KeyEvent.VK_ENTER:
-        // Confirm selection and close popup, have to use the a self-hosted flag to check the status
-        // of combox in KeyEvent.VK_ENTER, since the in the event the combox.getSelectedIndex()
-        // always will return -1.
-
-        FindSomething.API.logging().logToOutput("selectedIdx: " + selectedIdx + "popup" + popup);
-        if (popup && selectedIdx > -1) {
-          editor.setText(model.getElementAt(selectedIdx));
-          hostComboBox.setPopupVisible(false);
-          popup = false;
-          selectedIdx = -1;
+        this.suggestionComboBox.setMatching(false);
+        if (!suggestionComboBox.isMatching() && comboBox.getSelectedIndex() >= 0) {
+          String selectedHost = comboBox.getSelectedItem().toString();
+          textField.setText(selectedHost);
+          comboBox.setPopupVisible(false);
         }
         break;
-
+      case KeyEvent.VK_ESCAPE:
+        comboBox.setPopupVisible(false);
       default:
-        // Check if key is a printable character
-        if (keyCode == KeyEvent.VK_DELETE
-            || keyCode == KeyEvent.VK_BACK_SPACE
-            || isPrintableCharacter(e.getKeyChar())) {
-          updateSuggestions();
-        }
         break;
     }
-  }
-
-  private boolean isPrintableCharacter(char c) {
-    // Printable characters fall in the range of visible ASCII or Unicode symbols
-    return !Character.isISOControl(c) && c != KeyEvent.CHAR_UNDEFINED;
-  }
-
-  private void updateSuggestions() {
-    String input = editor.getText();
-    this.suggestions = CachePool.getInstance().getHosts();
-
-    // Clear existing items and add new suggestions based on the input
-    this.model.removeAllElements();
-    if (!input.isEmpty()) {
-      for (String suggestion : suggestions) {
-        if (suggestion.contains(input.toLowerCase())) {
-          this.model.addElement(suggestion);
-        }
-      }
-    }
-
-    // Show the popup if there are suggestions
-    if (this.model.getSize() > 0) {
-      hostComboBox.setPopupVisible(true);
-      popup = true;
-      selectedIdx = hostComboBox.getSelectedIndex();
-    } else {
-      hostComboBox.setPopupVisible(false);
-      popup = false;
-      selectedIdx = -1;
-    }
-
-    // Reset the editor text without setting a selected item
-    this.editor.setText(input);
+    this.suggestionComboBox.setMatching(false);
   }
 }

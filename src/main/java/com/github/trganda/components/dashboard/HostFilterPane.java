@@ -1,22 +1,18 @@
 package com.github.trganda.components.dashboard;
 
-import com.github.trganda.components.common.SuggestionCombox;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import com.github.trganda.components.common.SuggestionComboBox;
 import lombok.Getter;
 
 @Getter
 public class HostFilterPane extends JPanel {
-  private SuggestionCombox<String> hostComboBox;
-  private JTextField hostTextField;
-  private DefaultComboBoxModel<String> hostComboBoxModel;
+  private SuggestionComboBox suggestion;
 
   public HostFilterPane() {
     this.setupComponents();
@@ -25,11 +21,7 @@ public class HostFilterPane extends JPanel {
   }
 
   private void setupComponents() {
-    hostComboBoxModel = new DefaultComboBoxModel<>();
-    hostComboBox = new SuggestionCombox<>(hostComboBoxModel);
-    hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
-    hostTextField = new JTextField();
-    hostTextField.setPreferredSize(new Dimension(200, hostTextField.getPreferredSize().height));
+    suggestion = new SuggestionComboBox();
   }
 
   private void setupLayout() {
@@ -48,8 +40,6 @@ public class HostFilterPane extends JPanel {
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 2);
     gbc.fill = GridBagConstraints.HORIZONTAL;
-
-    this.add(hostTextField, gbc);
-    this.add(hostComboBox, gbc);
+    this.add(suggestion, gbc);
   }
 }

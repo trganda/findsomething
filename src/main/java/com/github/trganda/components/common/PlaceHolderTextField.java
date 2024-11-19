@@ -7,7 +7,7 @@ import lombok.Getter;
 public class PlaceHolderTextField extends JTextField {
 
   private final String placeHolder;
-  private PlaceHolderFocusListener placeHolderFocusListener;
+  private final PlaceHolderFocusListener placeHolderFocusListener;
 
   public PlaceHolderTextField(String placeHolder) {
     this.placeHolder = placeHolder;

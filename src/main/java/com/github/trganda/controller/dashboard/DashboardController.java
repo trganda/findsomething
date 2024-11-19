@@ -4,9 +4,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.common.PlaceHolderTextField;
-import com.github.trganda.components.common.SuggestionCombox;
-import com.github.trganda.components.common.SuggestionKeyListener;
+import com.github.trganda.components.common.*;
 import com.github.trganda.components.dashboard.Dashboard;
 import com.github.trganda.components.dashboard.FilterPane;
 import com.github.trganda.components.dashboard.InformationPane;
@@ -23,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -34,8 +31,6 @@ import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -78,7 +73,7 @@ public class DashboardController implements DataChangeListener {
       dashboard.getStatusPane().getGroupLabel().setText(g);
     }
 
-    // Infomation tab
+    // Information tab
     infoPane.addChangeListener(
         new ChangeListener() {
           @Override
@@ -92,7 +87,7 @@ public class DashboardController implements DataChangeListener {
     // Setup click event listener for 'All' tab in information panel
     this.setupTabEventListener(infoPane.getActiveTabView());
 
-    // Search filter of infomation panel
+    // Search filter of information panel
     PlaceHolderTextField filterField = this.filterPane.getInformationFilter().getFilterField();
     JCheckBox sensitiveCheckBox = this.filterPane.getInformationFilter().getSensitive();
     filterField.addKeyListener(
@@ -116,88 +111,19 @@ public class DashboardController implements DataChangeListener {
         });
 
     // Search filter of host
-    SuggestionCombox<String> hostComboBox = this.filterPane.getHostFilter().getHostComboBox();
-    // DefaultComboBoxModel<String> hostComboBoxModel =
-    //     this.filterPane.getHostFilter().getHostComboBoxModel();
-    // JTextField hostComboBoxEditor = (JTextField) hostComboBox.getEditor().getEditorComponent();
-    // hostComboBoxEditor.addKeyListener(new SuggestionKeyListener(hostComboBox, hostComboBoxModel));
+    SuggestionComboBox suggestionComboBox = this.filterPane.getHostFilter().getSuggestion();
+    JComboBox<String> hostComboBox = suggestionComboBox.getHostComboBox();
+    JTextField hostTextField = suggestionComboBox.getHostTextField();
 
-    JTextField hosTextField = this.filterPane.getHostFilter().getHostTextField();
-    hosTextField.getDocument().addDocumentListener(new DocumentListener() {
-      @Override
-      public void insertUpdate(DocumentEvent e) {
-        updateSuggestions();
-      }
-
-      @Override
-      public void removeUpdate(DocumentEvent e) {
-        updateSuggestions();
-      }
-
-      @Override
-      public void changedUpdate(DocumentEvent e) {
-        updateSuggestions();
-      }
-      
-      private void updateSuggestions() {
-        String input = hosTextField.getText();
-        List<String> hosts = CachePool.getInstance().getHosts();
-    
-        // Clear existing items and add new suggestions based on the input
-        hostComboBox.removeAllItems();
-        if (!input.isEmpty()) {
-          for (String suggestion : hosts) {
-            if (suggestion.contains(input.toLowerCase())) {
-              hostComboBox.addItem(suggestion);
-            }
-          }
-        }
-    
-        // Show the popup if there are suggestions
-        if (hostComboBox.getItemCount() > 0) {
-          hostComboBox.setPopupVisible(true);
-        } else {
-          hostComboBox.setPopupVisible(false);
-        }
-    
-        // Reset the editor text without setting a selected item
-        // hosTextField.setText(input);
+    hostTextField.getDocument().addDocumentListener(new SuggestionDocumentListener(suggestionComboBox));
+    hostTextField.addKeyListener(new SuggestionKeyListener(suggestionComboBox));
+    hostComboBox.addActionListener(e -> {
+      if (!suggestionComboBox.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
+        String selectedHost = hostComboBox.getSelectedItem().toString();
+        hostTextField.setText(selectedHost);
+        hostComboBox.setPopupVisible(false);
       }
     });
-
-    // hosTextField.addKeyListener(new KeyAdapter() {
-    //   @Override
-    //   public void keyReleased(KeyEvent e) {
-    //     super.keyReleased(e);
-    //     int code = e.getKeyCode();
-    //     if (code == KeyEvent.VK_DOWN && hostComboBox.isPopupVisible()) {
-    //       hostComboBox.dispatchEvent(e);
-    //     }
-    //   }
-    // });
-
-    hostComboBox.addActionListener(
-        e -> {
-          if (hostComboBox.isPopupVisible() && hostComboBox.getSelectedIndex() >= 0 && groupSelector.getSelectedIndex() >= 0) {
-            String selectedHost = hostComboBox.getSelectedItem().toString();
-            String group = groupSelector.getSelectedItem().toString();
-
-            List<InfoDataModel> data =
-                CachePool.getInstance().getInfoData(group).stream()
-                    .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
-                    .collect(Collectors.toList());
-            // hosTextField.setText(selectedHost);
-            this.updateInfoView(data);
-          } else {
-            // Default view with filter
-            if (groupSelector.getSelectedIndex() >= 0) {
-              String group = groupSelector.getSelectedItem().toString();
-
-              List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-              this.updateInfoView(data);
-            }
-          }
-        });
 
     // Information details
     JTable infoDetailTable =
