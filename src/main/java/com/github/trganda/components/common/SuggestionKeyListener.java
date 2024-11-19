@@ -31,7 +31,6 @@ public class SuggestionKeyListener extends KeyAdapter {
       case KeyEvent.VK_UP:
         if (comboBox.isPopupVisible() && !e.isConsumed()) {
           comboBox.dispatchEvent(e);
-          System.out.println(comboBox.getModel().getSize());
         }
         break;
       case KeyEvent.VK_ENTER:
