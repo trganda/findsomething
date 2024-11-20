@@ -21,7 +21,7 @@ import lombok.Getter;
 @Getter
 public class InformationFilterPane extends JPanel {
   private final String filterPlaceHolder = "Search";
-  private JComboBox<String> selector;
+  // private JComboBox<String> selector;
   private PlaceHolderTextField filterField;
   private JCheckBox sensitive;
 
@@ -32,15 +32,15 @@ public class InformationFilterPane extends JPanel {
   }
 
   private void setupComponents() {
-    selector =
-        new JComboBox<>(
-            new String[] {
-              GROUP_GENERAL,
-              GROUP_FINGERPRINT,
-              GROUP_SENSITIVE,
-              GROUP_VULNERABILITY,
-              GROUP_INFORMATION
-            });
+    // selector =
+    //     new JComboBox<>(
+    //         new String[] {
+    //           GROUP_GENERAL,
+    //           GROUP_FINGERPRINT,
+    //           GROUP_SENSITIVE,
+    //           GROUP_VULNERABILITY,
+    //           GROUP_INFORMATION
+    //         });
     filterField = new PlaceHolderTextField(filterPlaceHolder);
     filterField.setPreferredSize(new Dimension(200, filterField.getPreferredSize().height));
     sensitive = new JCheckBox();
@@ -73,14 +73,14 @@ public class InformationFilterPane extends JPanel {
     gbc.insets = new Insets(0, 0, 5, 2);
     this.add(new JLabel("Case sensitive"), gbc);
 
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    gbc.insets = new Insets(0, 2, 5, 5);
-    this.add(new JLabel("Group:"), gbc);
+    // gbc.gridx = 0;
+    // gbc.gridy = 1;
+    // gbc.insets = new Insets(0, 2, 5, 5);
+    // this.add(new JLabel("Group:"), gbc);
 
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    gbc.insets = new Insets(0, 0, 5, 2);
-    this.add(selector, gbc);
+    // gbc.gridx = 1;
+    // gbc.gridy = 1;
+    // gbc.insets = new Insets(0, 0, 5, 2);
+    // this.add(selector, gbc);
   }
 }

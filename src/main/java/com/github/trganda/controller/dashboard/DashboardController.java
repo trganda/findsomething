@@ -49,7 +49,7 @@ public class DashboardController implements DataChangeListener {
     this.dashboard = dashboard;
     this.filterPane = dashboard.getRequestSplitFrame().getInformationDetailsPane().getFilterPane();
     this.infoPane = dashboard.getInformationPane();
-    this.groupSelector = this.filterPane.getInformationFilter().getSelector();
+    this.groupSelector = this.filterPane.getHostFilter().getSelector();
     this.requestEditor = dashboard.getRequestSplitFrame().getRequestPane().getRequestEditor();
     this.responseEditor = dashboard.getRequestSplitFrame().getRequestPane().getResponseEditor();
     this.setupEventListener();
