@@ -56,4 +56,25 @@ public class UtilsTest {
     String ret = Utils.calHash("1");
     System.out.println(ret);
   }
+
+  @Test
+  public void testIsDomainMatch() {
+    String[] domains =
+        new String[] {
+          "*.baidu.com",
+          "*.bdstatic.com",
+          "www.baidu.com",
+          "passport.baidu.com",
+          "bce.bdstatic.com",
+          "hm.baidu.com",
+          "fxgate.baidu.com",
+          "bce.baidu.com",
+          "console.bce.baidu.com",
+          "miao.baidu.com",
+          "cloud.baidu.com"
+        };
+    for (String domain : domains) {
+      System.out.println(Utils.isDomainMatch("*", domain));
+    }
+  }
 }

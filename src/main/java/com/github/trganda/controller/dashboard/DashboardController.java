@@ -151,9 +151,6 @@ public class DashboardController implements DataChangeListener {
     hostTextField.addKeyListener(new SuggestionKeyListener(suggestionComboBox));
     hostComboBox.addActionListener(
         e -> {
-          FindSomething.API
-              .logging()
-              .logToOutput("Host selected" + suggestionComboBox.isMatching());
           if (!suggestionComboBox.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
             hostTextField.setText(selectedHost);
@@ -166,7 +163,6 @@ public class DashboardController implements DataChangeListener {
                   CachePool.getInstance().getInfoData(group).stream()
                       .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
                       .collect(Collectors.toList());
-              FindSomething.API.logging().logToOutput(group + " - " + data.size());
               this.updateInfoView(data);
             }
           }

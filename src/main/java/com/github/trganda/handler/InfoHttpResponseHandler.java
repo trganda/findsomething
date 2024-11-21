@@ -47,17 +47,6 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
       return ProxyResponseReceivedAction.continueWith(interceptedResponse);
     }
 
-    HttpRequest req = interceptedResponse.request();
-
-    pool.submit(
-        () -> {
-          // collection host info
-          CachePool.getInstance().addHost(req.httpService().host());
-          List<String> domains = CachePool.getInstance().getHosts();
-          List<String> suggestions = Utils.aggregator(domains);
-          suggestions.stream().forEach(CachePool.getInstance()::addHost);
-        });
-
     pool.submit(
         () -> {
           // FindSomething.API.logging().logToOutput("processing, " + req.url());
@@ -88,6 +77,13 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                           if (r.isEnabled()) {
                             cleaner.setData(Arrays.asList(this.match(interceptedResponse, r)));
                             String[] results = cleaner.clean();
+                            if (results.length > 0) {
+                              CachePool.getInstance().addHost(req.httpService().host());
+                              List<String> domains = CachePool.getInstance().getHosts();
+                              List<String> suggestions = Utils.aggregator(domains);
+                              suggestions.stream().forEach(CachePool.getInstance()::addHost);
+                            }
+                            
                             List<InfoDataModel> data = new ArrayList<>();
                             for (String result : results) {
                               InfoDataModel infoDataModel =
