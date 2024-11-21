@@ -82,7 +82,6 @@ public class InformationDetailsPane extends JPanel {
 
   private void resizePane() {
     int width = scrollPane.getWidth();
-    FindSomething.API.logging().logToOutput("width: " + width);
     table.getColumnModel().getColumn(0).setPreferredWidth((int) (width*0.1));
     table.getColumnModel().getColumn(1).setPreferredWidth((int) (width*0.1));
     table.getColumnModel().getColumn(2).setPreferredWidth((int) (width*0.4));
