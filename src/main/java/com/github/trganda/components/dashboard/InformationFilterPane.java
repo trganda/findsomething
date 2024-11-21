@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import lombok.Getter;
@@ -14,29 +13,21 @@ import lombok.Getter;
 @Getter
 public class InformationFilterPane extends JPanel {
   private final String filterPlaceHolder = "Search";
-  // private JComboBox<String> selector;
   private PlaceHolderTextField filterField;
   private JCheckBox sensitive;
+  private JCheckBox negative;
 
   public InformationFilterPane() {
     this.setupComponents();
     this.setupLayout();
-    this.setBorder(new TitledBorder("Filter"));
+    this.setBorder(new TitledBorder("Filter by search term"));
   }
 
   private void setupComponents() {
-    // selector =
-    //     new JComboBox<>(
-    //         new String[] {
-    //           GROUP_GENERAL,
-    //           GROUP_FINGERPRINT,
-    //           GROUP_SENSITIVE,
-    //           GROUP_VULNERABILITY,
-    //           GROUP_INFORMATION
-    //         });
     filterField = new PlaceHolderTextField(filterPlaceHolder);
     filterField.setPreferredSize(new Dimension(200, filterField.getPreferredSize().height));
-    sensitive = new JCheckBox();
+    sensitive = new JCheckBox("Case sensitive");
+    negative = new JCheckBox("Negative search");
   }
 
   private void setupLayout() {
@@ -46,34 +37,21 @@ public class InformationFilterPane extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 0;
+    gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(0, 2, 5, 5);
-    this.add(new JLabel("Search:"), gbc);
-
-    gbc.gridx = 1;
-    gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 2);
     this.add(filterField, gbc);
 
-    gbc.gridx = 2;
-    gbc.gridy = 0;
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    gbc.gridwidth = 1;
     gbc.insets = new Insets(0, 2, 5, 5);
     this.add(sensitive, gbc);
 
-    gbc.gridx = 3;
-    gbc.gridy = 0;
-    gbc.insets = new Insets(0, 0, 5, 2);
-    this.add(new JLabel("Case sensitive"), gbc);
-
-    // gbc.gridx = 0;
-    // gbc.gridy = 1;
-    // gbc.insets = new Insets(0, 2, 5, 5);
-    // this.add(new JLabel("Group:"), gbc);
-
-    // gbc.gridx = 1;
-    // gbc.gridy = 1;
-    // gbc.insets = new Insets(0, 0, 5, 2);
-    // this.add(selector, gbc);
+    gbc.gridx = 1;
+    gbc.gridy = 1;
+    gbc.insets = new Insets(0, 2, 5, 2);
+    this.add(negative, gbc);
   }
 }

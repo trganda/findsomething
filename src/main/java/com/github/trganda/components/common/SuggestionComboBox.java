@@ -23,7 +23,7 @@ public class SuggestionComboBox extends JPanel {
     this.hostComboBoxModel = new DefaultComboBoxModel<>();
     this.hostComboBox = new JComboBox<String>(hostComboBoxModel);
     this.hostTextField = new PlaceHolderTextField(placeHolder);
-    matching = false;
+    this.matching = false;
 
     this.hostComboBox.setMaximumRowCount(6);
     this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));

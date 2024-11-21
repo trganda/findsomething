@@ -38,6 +38,8 @@ public class SuggestionKeyListener extends KeyAdapter {
         if (!suggestionComboBox.isMatching() && comboBox.getSelectedIndex() >= 0) {
           String selectedHost = comboBox.getSelectedItem().toString();
           textField.setText(selectedHost);
+          // Trigger the action listener manually
+          comboBox.setSelectedItem(selectedHost);
           comboBox.setPopupVisible(false);
         }
         break;

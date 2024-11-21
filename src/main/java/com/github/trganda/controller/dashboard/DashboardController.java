@@ -90,19 +90,49 @@ public class DashboardController implements DataChangeListener {
     // Search filter of information panel
     PlaceHolderTextField filterField = this.filterPane.getInformationFilter().getFilterField();
     JCheckBox sensitiveCheckBox = this.filterPane.getInformationFilter().getSensitive();
+    JCheckBox negative = this.filterPane.getInformationFilter().getNegative();
     filterField.addKeyListener(
         new KeyAdapter() {
           @Override
           public void keyReleased(KeyEvent e) {
             String val = filterField.getText();
-            updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
+            updateFilter(
+                val,
+                sensitiveCheckBox.isSelected(),
+                negative.isSelected(),
+                filterField.isPlaceholderActive());
           }
         });
 
     sensitiveCheckBox.addActionListener(
         e -> {
           String val = filterField.getText();
-          updateFilter(val, sensitiveCheckBox.isSelected(), filterField.isPlaceholderActive());
+          if (val == null || val.isEmpty()) {
+            return;
+          }
+          updateFilter(
+              val,
+              sensitiveCheckBox.isSelected(),
+              negative.isSelected(),
+              filterField.isPlaceholderActive());
+          if (dashboard.getInformationPane().getSelectedIndex() >= 0) {
+            FindSomething.API
+                .logging()
+                .logToOutput(dashboard.getInformationPane().getSelectedComponent().toString());
+          }
+        });
+
+    negative.addActionListener(
+        e -> {
+          String val = filterField.getText();
+          if (val == null || val.isEmpty()) {
+            return;
+          }
+          updateFilter(
+              val,
+              sensitiveCheckBox.isSelected(),
+              negative.isSelected(),
+              filterField.isPlaceholderActive());
           if (dashboard.getInformationPane().getSelectedIndex() >= 0) {
             FindSomething.API
                 .logging()
@@ -121,6 +151,9 @@ public class DashboardController implements DataChangeListener {
     hostTextField.addKeyListener(new SuggestionKeyListener(suggestionComboBox));
     hostComboBox.addActionListener(
         e -> {
+          FindSomething.API
+              .logging()
+              .logToOutput("Host selected" + suggestionComboBox.isMatching());
           if (!suggestionComboBox.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
             hostTextField.setText(selectedHost);
@@ -131,8 +164,9 @@ public class DashboardController implements DataChangeListener {
               String group = this.groupSelector.getSelectedItem().toString();
               List<InfoDataModel> data =
                   CachePool.getInstance().getInfoData(group).stream()
-                      .filter(d -> d.getHost().equals(selectedHost))
+                      .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
                       .collect(Collectors.toList());
+              FindSomething.API.logging().logToOutput(group + " - " + data.size());
               this.updateInfoView(data);
             }
           }
@@ -150,9 +184,9 @@ public class DashboardController implements DataChangeListener {
               return;
             }
 
-            String path = infoDetailTable.getValueAt(row, 2).toString();
-            String host = infoDetailTable.getValueAt(row, 3).toString();
-            String hash = Utils.calHash(path, host);
+            String messageId = infoDetailTable.getValueAt(row, 0).toString();
+            String url = infoDetailTable.getValueAt(row, 2).toString();
+            String hash = Utils.calHash(messageId, url);
             InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
             if (resp != null) {
               dashboard
@@ -276,16 +310,23 @@ public class DashboardController implements DataChangeListener {
     worker.execute();
   }
 
-  private void updateFilter(String filter, boolean sensitive, boolean isPlaceholderActive) {
+  private void updateFilter(
+      String filter, boolean sensitive, boolean negative, boolean isPlaceholderActive) {
     RowFilter<TableModel, Object> rf = null;
     if (!isPlaceholderActive) {
       // if current expression doesn't parse, don't update.
       try {
-        // filter the first cloumn
         if (!sensitive) {
           filter = "(?i)" + filter;
         }
-        rf = RowFilter.regexFilter(filter, 0);
+
+        if (negative) {
+          // filter the first cloumn
+          rf = RowFilter.notFilter(RowFilter.regexFilter(filter, 0));
+        } else {
+          rf = RowFilter.regexFilter(filter, 0);
+        }
+
       } catch (java.util.regex.PatternSyntaxException e) {
         return;
       }

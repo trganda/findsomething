@@ -100,18 +100,22 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
                               // set request info
                               String hash = Utils.calHash(result);
+                              String referer = req.headerValue("Referer");
                               RequestDetailModel requestDataModel =
                                   new RequestDetailModel(
                                       interceptedResponse.messageId(),
                                       req.method(),
-                                      req.path(),
-                                      req.httpService().host(),
+                                      req.url(),
+                                      referer,
                                       interceptedResponse.statusCode(),
                                       ZonedDateTime.now().format(formatter));
                               CachePool.getInstance().addRequestDataModel(hash, requestDataModel);
 
                               // set request and response
-                              String reqHash = Utils.calHash(req.path(), req.httpService().host());
+                              String reqHash =
+                                  Utils.calHash(
+                                      String.valueOf(requestDataModel.getMessageId()),
+                                      requestDataModel.getUrl());
                               CachePool.getInstance()
                                   .putInterceptedResponse(reqHash, interceptedResponse);
                             }
