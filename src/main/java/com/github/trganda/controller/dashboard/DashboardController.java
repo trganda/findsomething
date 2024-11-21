@@ -125,6 +125,16 @@ public class DashboardController implements DataChangeListener {
             String selectedHost = hostComboBox.getSelectedItem().toString();
             hostTextField.setText(selectedHost);
             hostComboBox.setPopupVisible(false);
+
+            // Update info view
+            if (this.groupSelector.getSelectedIndex() >= 0) {
+              String group = this.groupSelector.getSelectedItem().toString();
+              List<InfoDataModel> data =
+                  CachePool.getInstance().getInfoData(group).stream()
+                      .filter(d -> d.getHost().equals(selectedHost))
+                      .collect(Collectors.toList());
+              this.updateInfoView(data);
+            }
           }
         });
 

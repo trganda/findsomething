@@ -10,7 +10,6 @@ import com.github.trganda.components.common.SuggestionComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +19,7 @@ import lombok.Getter;
 @Getter
 public class HostFilterPane extends JPanel {
   private SuggestionComboBox suggestion;
-    private JComboBox<String> selector;
+  private JComboBox<String> selector;
 
   public HostFilterPane() {
     this.setupComponents();
@@ -31,14 +30,14 @@ public class HostFilterPane extends JPanel {
   private void setupComponents() {
     suggestion = new SuggestionComboBox();
     selector =
-    new JComboBox<>(
-        new String[] {
-          GROUP_GENERAL,
-          GROUP_FINGERPRINT,
-          GROUP_SENSITIVE,
-          GROUP_VULNERABILITY,
-          GROUP_INFORMATION
-        });
+        new JComboBox<>(
+            new String[] {
+              GROUP_GENERAL,
+              GROUP_FINGERPRINT,
+              GROUP_SENSITIVE,
+              GROUP_VULNERABILITY,
+              GROUP_INFORMATION
+            });
   }
 
   private void setupLayout() {

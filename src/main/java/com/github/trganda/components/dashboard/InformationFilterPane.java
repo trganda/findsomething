@@ -1,18 +1,11 @@
 package com.github.trganda.components.dashboard;
 
-import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
-import static com.github.trganda.config.Config.GROUP_GENERAL;
-import static com.github.trganda.config.Config.GROUP_INFORMATION;
-import static com.github.trganda.config.Config.GROUP_SENSITIVE;
-import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
-
 import com.github.trganda.components.common.PlaceHolderTextField;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
