@@ -58,6 +58,8 @@ public class FindSomething implements BurpExtension {
         new DashboardController(extensionFrame.getDashboard());
     handler.registerDataChangeListener(dashboardController);
 
+    api.userInterface().applyThemeToComponent(extensionFrame);
+
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);
     api.userInterface().registerSuiteTab("FindSomething", extensionFrame);

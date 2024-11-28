@@ -74,7 +74,7 @@ public class DashboardController implements DataChangeListener {
     }
 
     // Information tab
-    infoPane.addChangeListener(
+    infoPane.getTabbedPane().addChangeListener(
         new ChangeListener() {
           @Override
           public void stateChanged(ChangeEvent e) {
@@ -115,10 +115,10 @@ public class DashboardController implements DataChangeListener {
               sensitiveCheckBox.isSelected(),
               negative.isSelected(),
               filterField.isPlaceholderActive());
-          if (dashboard.getInformationPane().getSelectedIndex() >= 0) {
+          if (infoPane.getTabbedPane().getSelectedIndex() >= 0) {
             FindSomething.API
                 .logging()
-                .logToOutput(dashboard.getInformationPane().getSelectedComponent().toString());
+                .logToOutput(infoPane.getTabbedPane().getSelectedComponent().toString());
           }
         });
 
@@ -133,10 +133,10 @@ public class DashboardController implements DataChangeListener {
               sensitiveCheckBox.isSelected(),
               negative.isSelected(),
               filterField.isPlaceholderActive());
-          if (dashboard.getInformationPane().getSelectedIndex() >= 0) {
+          if (infoPane.getTabbedPane().getSelectedIndex() >= 0) {
             FindSomething.API
                 .logging()
-                .logToOutput(dashboard.getInformationPane().getSelectedComponent().toString());
+                .logToOutput(infoPane.getTabbedPane().getSelectedComponent().toString());
           }
         });
 
@@ -255,10 +255,10 @@ public class DashboardController implements DataChangeListener {
   }
 
   private void updateActiveInfoView(List<InfoDataModel> data) {
-    int selectedIndex = infoPane.getSelectedIndex();
+    int selectedIndex = infoPane.getTabbedPane().getSelectedIndex();
     if (selectedIndex != -1) {
-      String title = infoPane.getTitleAt(selectedIndex);
-      JScrollPane wrap = (JScrollPane) infoPane.getComponentAt(selectedIndex);
+      String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
+      JScrollPane wrap = (JScrollPane) infoPane.getTabbedPane().getComponentAt(selectedIndex);
       JTable table = (JTable) wrap.getViewport().getView();
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
@@ -329,8 +329,8 @@ public class DashboardController implements DataChangeListener {
     }
 
     // update all tabs
-    for (int i = 0; i < this.infoPane.getTabCount(); i++) {
-      JScrollPane wrap = (JScrollPane) this.infoPane.getComponentAt(i);
+    for (int i = 0; i < this.infoPane.getTabbedPane().getTabCount(); i++) {
+      JScrollPane wrap = (JScrollPane) this.infoPane.getTabbedPane().getComponentAt(i);
       JTable table = (JTable) wrap.getViewport().getView();
       TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
       sorter.setRowFilter(rf);
