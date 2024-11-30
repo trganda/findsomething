@@ -16,7 +16,25 @@
         <spotless.version>2.43.0</spotless.version>
     </properties>
 
+
+    <repositories>
+        <repository>
+            <id>aspose-repo</id> <!-- 仓库的唯一标识 -->
+            <url>https://releases.aspose.com/java/repo/</url> <!-- 仓库的 URL -->
+            <releases>
+                <enabled>true</enabled> <!-- 是否启用发布版本 -->
+            </releases>
+        </repository>
+    </repositories>
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-html</artifactId>
+            <version>24.11</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
@@ -49,6 +67,12 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.11.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-all</artifactId>
+            <version>1.18</version>
         </dependency>
 
         <dependency>

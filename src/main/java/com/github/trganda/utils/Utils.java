@@ -1,7 +1,20 @@
 package com.github.trganda.utils;
 
 import com.github.trganda.FindSomething;
-import java.awt.Font;
+import org.apache.batik.transcoder.SVGAbstractTranscoder;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.ImageTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -86,5 +99,32 @@ public class Utils {
     int length = parts.length;
     // Return the last two parts as the root domain (e.g., "example.com")
     return length >= 2 ? parts[length - 2] + "." + parts[length - 1] : domain;
+  }
+
+  public static BufferedImage convertSVGToPNG(String url) throws TranscoderException, IOException {
+    ByteArrayOutputStream resultByteStream = new ByteArrayOutputStream();
+
+    TranscoderInput transcoderInput = new TranscoderInput(url);
+    TranscoderOutput transcoderOutput = new TranscoderOutput(resultByteStream);
+
+    PNGTranscoder pngTranscoder = new PNGTranscoder();
+    pngTranscoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, 512f);
+    pngTranscoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, 512f);
+    pngTranscoder.transcode(transcoderInput, transcoderOutput);
+
+    resultByteStream.flush();
+
+    BufferedImage largeImage = ImageIO.read(new ByteArrayInputStream(resultByteStream.toByteArray()));
+
+    int fontSize = UIManager.getFont("Button.font").getSize();
+    BufferedImage smallImage = new BufferedImage(fontSize, fontSize, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D gSmall = smallImage.createGraphics();
+    gSmall.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    gSmall.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+    gSmall.drawImage(largeImage, 0, 0, 16, 16, null);
+    gSmall.dispose();
+
+
+    return largeImage;
   }
 }

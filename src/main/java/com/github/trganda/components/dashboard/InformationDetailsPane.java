@@ -67,8 +67,10 @@ public class InformationDetailsPane extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 0;
+    gbc.weightx = 1;
     gbc.insets = new Insets(0, 0, 5, 0);
     gbc.anchor = GridBagConstraints.CENTER;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(filterPane, gbc);
 
     gbc.gridx = 0;
