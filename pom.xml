@@ -16,23 +16,20 @@
         <spotless.version>2.43.0</spotless.version>
     </properties>
 
-
-    <repositories>
-        <repository>
-            <id>aspose-repo</id> <!-- 仓库的唯一标识 -->
-            <url>https://releases.aspose.com/java/repo/</url> <!-- 仓库的 URL -->
-            <releases>
-                <enabled>true</enabled> <!-- 是否启用发布版本 -->
-            </releases>
-        </repository>
-    </repositories>
-
     <dependencies>
-
+        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
         <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-html</artifactId>
-            <version>24.11</version>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.5.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf-extras -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-extras</artifactId>
+            <version>3.5.2</version>
         </dependency>
 
         <dependency>

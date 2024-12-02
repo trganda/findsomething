@@ -83,7 +83,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               List<String> suggestions = Utils.aggregator(domains);
                               suggestions.stream().forEach(CachePool.getInstance()::addHost);
                             }
-                            
+
                             List<InfoDataModel> data = new ArrayList<>();
                             for (String result : results) {
                               InfoDataModel infoDataModel =

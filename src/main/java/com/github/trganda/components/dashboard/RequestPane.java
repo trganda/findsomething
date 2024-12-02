@@ -3,12 +3,9 @@ package com.github.trganda.components.dashboard;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import com.github.trganda.FindSomething;
-
-import javax.swing.*;
-
-import lombok.Getter;
-
 import java.awt.*;
+import javax.swing.*;
+import lombok.Getter;
 
 @Getter
 public class RequestPane extends JPanel {

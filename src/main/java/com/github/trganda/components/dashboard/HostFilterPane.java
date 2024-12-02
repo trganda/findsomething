@@ -7,7 +7,6 @@ import static com.github.trganda.config.Config.GROUP_SENSITIVE;
 import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
 
 import com.github.trganda.components.common.SuggestionComboBox;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

@@ -1,15 +1,6 @@
 package com.github.trganda.utils;
 
 import com.github.trganda.FindSomething;
-import org.apache.batik.transcoder.SVGAbstractTranscoder;
-import org.apache.batik.transcoder.TranscoderException;
-import org.apache.batik.transcoder.TranscoderInput;
-import org.apache.batik.transcoder.TranscoderOutput;
-import org.apache.batik.transcoder.image.ImageTranscoder;
-import org.apache.batik.transcoder.image.PNGTranscoder;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,6 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import org.apache.batik.transcoder.SVGAbstractTranscoder;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 
 public class Utils {
 
@@ -114,16 +112,17 @@ public class Utils {
 
     resultByteStream.flush();
 
-    BufferedImage largeImage = ImageIO.read(new ByteArrayInputStream(resultByteStream.toByteArray()));
+    BufferedImage largeImage =
+        ImageIO.read(new ByteArrayInputStream(resultByteStream.toByteArray()));
 
     int fontSize = UIManager.getFont("Button.font").getSize();
     BufferedImage smallImage = new BufferedImage(fontSize, fontSize, BufferedImage.TYPE_INT_ARGB);
     Graphics2D gSmall = smallImage.createGraphics();
     gSmall.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    gSmall.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+    gSmall.setRenderingHint(
+        RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
     gSmall.drawImage(largeImage, 0, 0, 16, 16, null);
     gSmall.dispose();
-
 
     return largeImage;
   }

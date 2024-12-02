@@ -1,63 +1,47 @@
-import javax.swing.*;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.components.FlatCheckBoxMenuItem;
+import com.formdev.flatlaf.extras.components.FlatPopupMenu;
+
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
+import javax.swing.*;
 
 public class DynamicIconButton {
+    // main function
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Dynamic SVG Icon Button");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // 设置 FlatLaf 样式
+        FlatLightLaf.setup();
 
-            // 创建按钮
-            JButton button = new JButton("Dynamic Icon");
-            button.setPreferredSize(new Dimension(200, 100));
+        // 创建主窗口
+        JFrame frame = new JFrame("FlatCheckBoxMenuItem Custom Style Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLayout(null);
 
-            // 设置全局字体大小
-            setGlobalFontSize(16);
+        // 创建右键菜单
+        FlatPopupMenu popupMenu = new FlatPopupMenu();
 
-            // 加载默认图标
-            updateButtonIcon(button, 16);
+        // 创建带勾选框的菜单项
+        FlatCheckBoxMenuItem checkBoxItem1 = new FlatCheckBoxMenuItem();
+        checkBoxItem1.setSelected(true);
+        checkBoxItem1.putClientProperty("JComponent.roundRect", true); // 设置圆角
+//        checkBoxItem1.putClientProperty("JComponent.outline", "error"); // 设置错误样式的描边
 
-            // 监听按钮大小变化
-            button.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    float fontSize = button.getFont().getSize2D();
-                    updateButtonIcon(button, fontSize);
-                }
-            });
+        FlatCheckBoxMenuItem checkBoxItem2 = new FlatCheckBoxMenuItem();
+        checkBoxItem1.setSelected(true);
+        checkBoxItem2.putClientProperty("JComponent.roundRect", false); // 关闭圆角
 
-            frame.add(button);
-            frame.pack();
-            frame.setVisible(true);
-        });
-    }
+        // 添加菜单项
+        popupMenu.add(checkBoxItem1);
+        popupMenu.add(checkBoxItem2);
 
-    // 更新按钮图标
-    private static void updateButtonIcon(JButton button, float fontSize) {
-        try {
-            // 动态调整图标大小
-            float iconSize = fontSize * 2.0f; // 图标尺寸为字体大小的 2 倍
-            InputStream svgStream = DynamicIconButton.class.getResourceAsStream("filter.svg");
-            if (svgStream != null) {
-                BufferedImage iconImage = SVGUtils.renderSVG(svgStream, iconSize, iconSize);
-                button.setIcon(new ImageIcon(iconImage));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+        // 创建按钮并弹出菜单
+        JButton button = new JButton("弹出菜单");
+        button.setBounds(100, 70, 120, 30);
+        button.addActionListener(e -> popupMenu.show(button, 0, button.getHeight()));
+        frame.add(button);
 
-    // 设置全局字体大小
-    private static void setGlobalFontSize(int size) {
-        UIManager.getLookAndFeelDefaults().keys().asIterator().forEachRemaining(key -> {
-            Object value = UIManager.get(key);
-            if (value instanceof Font) {
-                UIManager.put(key, ((Font) value).deriveFont((float) size));
-            }
-        });
+        // 显示窗口
+        frame.setVisible(true);
     }
 }

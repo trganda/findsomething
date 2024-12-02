@@ -9,17 +9,12 @@ import com.github.trganda.controller.Mediator;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
-import com.github.trganda.controller.dashboard.DashboardController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
 import java.awt.Frame;
-import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
 
 public class FindSomething implements BurpExtension {
 

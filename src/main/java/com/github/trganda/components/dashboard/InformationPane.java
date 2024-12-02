@@ -1,13 +1,13 @@
 package com.github.trganda.components.dashboard;
 
+import static javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT;
+
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
-
-import static javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT;
 
 @Getter
 public class InformationPane extends JPanel {

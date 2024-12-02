@@ -1,16 +1,12 @@
 package com.github.trganda.components.dashboard;
 
-import com.github.trganda.FindSomething;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
-
-import java.awt.event.ComponentEvent;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
-
+import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -84,10 +80,10 @@ public class InformationDetailsPane extends JPanel {
 
   private void resizePane() {
     int width = scrollPane.getWidth();
-    table.getColumnModel().getColumn(0).setPreferredWidth((int) (width*0.1));
-    table.getColumnModel().getColumn(1).setPreferredWidth((int) (width*0.1));
-    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width*0.4));
-    table.getColumnModel().getColumn(3).setPreferredWidth((int) (width*0.3));
-    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width*0.1));
+    table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
+    table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.1));
+    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.4));
+    table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.3));
+    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
   }
 }

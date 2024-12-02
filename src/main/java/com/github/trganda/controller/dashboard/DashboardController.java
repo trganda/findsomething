@@ -74,15 +74,17 @@ public class DashboardController implements DataChangeListener {
     }
 
     // Information tab
-    infoPane.getTabbedPane().addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent e) {
-            String group = groupSelector.getSelectedItem().toString();
-            List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
-            updateActiveInfoView(data);
-          }
-        });
+    infoPane
+        .getTabbedPane()
+        .addChangeListener(
+            new ChangeListener() {
+              @Override
+              public void stateChanged(ChangeEvent e) {
+                String group = groupSelector.getSelectedItem().toString();
+                List<InfoDataModel> data = CachePool.getInstance().getInfoData(group);
+                updateActiveInfoView(data);
+              }
+            });
 
     // Setup click event listener for 'All' tab in information panel
     this.setupTabEventListener(infoPane.getActiveTabView());
