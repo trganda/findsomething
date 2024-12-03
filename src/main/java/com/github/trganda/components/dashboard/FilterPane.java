@@ -5,13 +5,12 @@ import static org.apache.batik.transcoder.XMLAbstractTranscoder.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.FilterButton;
+import com.github.trganda.components.common.OptionsButton;
+import com.github.trganda.components.common.OptionsMenu;
 import java.awt.*;
 import java.io.*;
 import java.util.Arrays;
 import javax.swing.*;
-
-import com.github.trganda.components.common.OptionsButton;
-import com.github.trganda.components.common.OptionsMenu;
 import lombok.Getter;
 import org.apache.batik.transcoder.*;
 
@@ -38,12 +37,13 @@ public class FilterPane extends javax.swing.JPanel {
         new FlatSVGIcon(
             "svg/options.svg", fontSize + 2, fontSize + 2, this.getClass().getClassLoader());
 
-    OptionsMenu optionsMenu = new OptionsMenu(Arrays.asList(new String[] {"#", "Method", "URL", "Referer", "Status"}));
-    FindSomething.API.userInterface().applyThemeToComponent(optionsMenu);
+    OptionsMenu optionsMenu =
+        new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
 
     optionsButton = new OptionsButton(aicon);
     optionsButton.addActionListener(e -> {
-      optionsMenu.show(optionsButton, optionsButton.getWidth() / 2, optionsButton.getHeight());
+      FindSomething.API.userInterface().applyThemeToComponent(optionsMenu);
+      optionsMenu.show(optionsButton, -optionsButton.getWidth(), -optionsButton.getHeight());
     });
   }
 

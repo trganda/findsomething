@@ -24,7 +24,7 @@ public class FilterButton extends JButton {
               if (model.isPressed()) {
                 model.setPressed(false);
               } else if (model.isRollover()) {
-                  model.setRollover(false);
+                model.setRollover(false);
               }
             });
   }
