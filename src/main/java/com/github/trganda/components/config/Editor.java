@@ -17,7 +17,7 @@ public class Editor extends JDialog {
   private JTextField regexField;
   private JComboBox<Scope> scope;
   private JCheckBox sensitive;
-  private EditroButtonsPane editroButtonsPane;
+  private EditorButtonsPane editorButtonsPane;
 
   private String group;
   private Operation op;
@@ -35,7 +35,7 @@ public class Editor extends JDialog {
     regexField = new JTextField();
     regexField.setPreferredSize(new Dimension(300, regexField.getPreferredSize().height));
     sensitive = new JCheckBox();
-    editroButtonsPane = new EditroButtonsPane();
+    editorButtonsPane = new EditorButtonsPane();
     scope = new JComboBox<>(Scope.values());
 
     setupLayout();
@@ -58,15 +58,14 @@ public class Editor extends JDialog {
   }
 
   private void setupLayout() {
-    this.setLocationRelativeTo(pFrame);
     this.setLayout(new GridBagLayout());
     this.setMinimumSize(new Dimension(400, 180));
-    this.setMaximumSize(new Dimension(400, 180));
     GridBagConstraints gbc = new GridBagConstraints();
 
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 5, 5);
     this.add(new JLabel("Name:"), gbc);
 
@@ -109,6 +108,7 @@ public class Editor extends JDialog {
     gbc.insets = new Insets(10, 0, 0, 0);
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_END;
-    this.add(editroButtonsPane, gbc);
+    gbc.fill = GridBagConstraints.NONE;
+    this.add(editorButtonsPane, gbc);
   }
 }

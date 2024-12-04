@@ -12,9 +12,6 @@ public class FilterButton extends JButton {
     super(text, icon);
     this.setHorizontalAlignment(SwingConstants.LEFT);
     this.setHorizontalTextPosition(SwingConstants.RIGHT);
-    Insets insets = this.getMargin();
-    insets.left = insets.left - 2;
-    this.setMargin(insets);
     this.setBackground(UIManager.getColor("Burp.tableFilterBarBackground"));
     this.setBorderPainted(false);
     this.getModel()

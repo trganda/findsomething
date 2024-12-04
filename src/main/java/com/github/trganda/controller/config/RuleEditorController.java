@@ -1,5 +1,6 @@
 package com.github.trganda.controller.config;
 
+import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.Editor;
 import com.github.trganda.config.Config;
 import com.github.trganda.config.Operation;
@@ -8,36 +9,41 @@ import com.github.trganda.config.Scope;
 import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
 
+import java.awt.*;
+
 public class RuleEditorController {
 
   private Editor editor;
   private RuleModel rule;
   private Mediator mediator;
 
-  public RuleEditorController(Editor editor, RuleModel rule) {
-    this.editor = editor;
+  public RuleEditorController(RuleModel rule) {
+    Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
+    this.editor = new Editor(pFrame);
+    this.editor.setLocationRelativeTo(pFrame);
     this.rule = rule;
 
     this.setupEventListener();
   }
 
-  public RuleEditorController(Editor editor, RuleModel rule, Mediator mediator) {
-    this(editor, rule);
+  public RuleEditorController(RuleModel rule, Mediator mediator) {
+    this(rule);
     this.mediator = mediator;
     this.mediator.registerRuleEditorController(this);
   }
 
   private void setupEventListener() {
     this.editor
-        .getEditroButtonsPane()
+        .getEditorButtonsPane()
         .getCancel()
         .addActionListener(
             e -> {
+              this.editor.pack();
               this.editor.setVisible(false);
             });
 
     this.editor
-        .getEditroButtonsPane()
+        .getEditorButtonsPane()
         .getSave()
         .addActionListener(
             e -> {
@@ -66,6 +72,7 @@ public class RuleEditorController {
     this.editor.getScope().setSelectedItem(rule.getRule().getScope());
     this.editor.getSensitive().setSelected(rule.getRule().isSensitive());
     this.editor.setOp(Operation.EDT);
+    this.editor.pack();
     this.editor.setVisible(true);
   }
 }

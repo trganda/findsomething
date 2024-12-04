@@ -1,9 +1,8 @@
 package com.github.trganda.components.dashboard;
 
+import com.github.trganda.components.common.InvisibleSplitPane;
 import java.awt.*;
 import javax.swing.*;
-
-import com.github.trganda.components.common.InvisibleSplitPane;
 import lombok.Getter;
 
 @Getter

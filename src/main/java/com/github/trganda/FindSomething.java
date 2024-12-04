@@ -4,19 +4,29 @@ import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.config.Editor;
+import com.github.trganda.components.dashboard.InformationDetailsPane;
+import com.github.trganda.components.dashboard.InformationPane;
+import com.github.trganda.components.dashboard.RequestPane;
 import com.github.trganda.config.Config;
 import com.github.trganda.controller.Mediator;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
+import com.github.trganda.controller.dashboard.InfoController;
+import com.github.trganda.controller.dashboard.InfoDetailController;
+import com.github.trganda.controller.dashboard.InfoFilterController;
+import com.github.trganda.controller.dashboard.OptionsButtonController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
+import lombok.Getter;
+
 import java.awt.Frame;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
 
+@Getter
 public class FindSomething implements BurpExtension {
 
   public static MontoyaApi API;
@@ -62,16 +72,25 @@ public class FindSomething implements BurpExtension {
 
     new RuleController(extensionFrame.getConfig().getRulePane().getRuleInnerPane(), mediator);
 
-    Frame pFrame = api.userInterface().swingUtils().suiteFrame();
-    Editor editor = new Editor(pFrame);
-    new RuleEditorController(editor, new RuleModel(), mediator);
+    new RuleEditorController(new RuleModel(), mediator);
     new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
-    // DashboardController dashboardController =
-    //     new DashboardController(extensionFrame.getDashboard());
-    // handler.registerDataChangeListener(dashboardController);
+    InformationDetailsPane informationDetailsPane =
+        extensionFrame.getDashboard().getRequestSplitFrame().getInformationDetailsPane();
+    JButton optionsButton = informationDetailsPane.getFilterPane().getOptionsButton();
+    new OptionsButtonController(optionsButton);
 
-    api.userInterface().applyThemeToComponent(extensionFrame);
+    RequestPane requestPane = extensionFrame.getDashboard().getRequestSplitFrame().getRequestPane();
+    InfoDetailController infoDetailController =
+        new InfoDetailController(informationDetailsPane, requestPane);
+    InformationPane informationPane = extensionFrame.getDashboard().getInformationPane();
+
+
+    InfoController infoController = new InfoController(informationPane, infoDetailController);
+    handler.registerDataChangeListener(infoController);
+
+    JButton filterButton = informationDetailsPane.getFilterPane().getFilterButton();
+    new InfoFilterController(filterButton, infoController);
 
     // register HTTP response handler
     api.proxy().registerResponseHandler(handler);

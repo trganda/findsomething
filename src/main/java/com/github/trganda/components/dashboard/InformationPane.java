@@ -12,7 +12,6 @@ import lombok.Getter;
 @Getter
 public class InformationPane extends JPanel {
   public static final String ALL = "All";
-  private final String filterPlaceHolder = "Search";
   private JTabbedPane tabbedPane;
 
   public InformationPane() {
@@ -31,7 +30,7 @@ public class InformationPane extends JPanel {
     this.add(tabbedPane, BorderLayout.CENTER);
   }
 
-  private JComponent createTableView() {
+  private JScrollPane createTableView() {
     JTable infoTable = new JTable();
     DefaultTableModel infoTableModel =
         new DefaultTableModel(new Object[] {"Info"}, 0) {
@@ -48,10 +47,10 @@ public class InformationPane extends JPanel {
     return infoTableScrollPane;
   }
 
-  public JComponent addTableTab(String tabName) {
-    JComponent wrap = createTableView();
+  public JTable addTableTab(String tabName) {
+    JScrollPane wrap = createTableView();
     tabbedPane.addTab(tabName, wrap);
-    return wrap;
+    return (JTable) wrap.getViewport().getView();
   }
 
   public int getTabComponentIndexByName(String tabName) {
@@ -63,9 +62,9 @@ public class InformationPane extends JPanel {
     return -1; // Tab not found
   }
 
-  public JScrollPane getActiveTabView() throws RuntimeException {
+  public JTable getActiveTabView() throws RuntimeException {
     if (tabbedPane.getSelectedIndex() >= 0) {
-      return (JScrollPane) tabbedPane.getSelectedComponent();
+      return (JTable) ((JScrollPane) tabbedPane.getSelectedComponent()).getViewport().getView();
     }
     throw new RuntimeException("No active tab found.");
   }

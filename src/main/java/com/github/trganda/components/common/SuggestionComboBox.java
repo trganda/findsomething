@@ -39,5 +39,24 @@ public class SuggestionComboBox extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(hostTextField, gbc);
     this.add(hostComboBox, gbc);
+
+    this.setupEvent();
+  }
+
+  public String getSelectedHost() {
+    return hostTextField.getText().isEmpty() ? "*" : hostTextField.getText();
+  }
+
+  private void setupEvent() {
+    hostTextField.getDocument().addDocumentListener(new SuggestionDocumentListener(this));
+    hostTextField.addKeyListener(new SuggestionKeyListener(this));
+    hostComboBox.addActionListener(
+        e -> {
+          if (!this.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
+            String selectedHost = hostComboBox.getSelectedItem().toString();
+            hostTextField.setText(selectedHost);
+            hostComboBox.setPopupVisible(false);
+          }
+        });
   }
 }
