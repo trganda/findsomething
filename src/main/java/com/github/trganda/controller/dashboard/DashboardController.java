@@ -6,7 +6,7 @@
 // import com.github.trganda.FindSomething;
 // import com.github.trganda.components.common.*;
 // import com.github.trganda.components.dashboard.Dashboard;
-// import com.github.trganda.components.dashboard.FilterPane;
+// import com.github.trganda.components.dashboard.filter.FilterPane;
 // import com.github.trganda.components.dashboard.InformationPane;
 // import com.github.trganda.handler.DataChangeListener;
 // import com.github.trganda.model.InfoDataModel;

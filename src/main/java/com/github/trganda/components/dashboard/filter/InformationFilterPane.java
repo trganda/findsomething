@@ -1,4 +1,4 @@
-package com.github.trganda.components.dashboard;
+package com.github.trganda.components.dashboard.filter;
 
 import com.github.trganda.components.common.PlaceHolderTextField;
 import java.awt.Dimension;

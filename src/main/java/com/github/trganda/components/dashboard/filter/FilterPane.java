@@ -1,4 +1,4 @@
-package com.github.trganda.components.dashboard;
+package com.github.trganda.components.dashboard.filter;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.github.trganda.components.common.FilterButton;
@@ -13,11 +13,8 @@ public class FilterPane extends JPanel {
   private JButton filterButton;
   private JButton optionsButton;
   private int fontSize = UIManager.getFont("Button.font").getSize();
-  private FlatSVGIcon filterIcon =
-      new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
-  ;
-  private FlatSVGIcon optionsIcon =
-      new FlatSVGIcon("svg/options.svg", fontSize, fontSize, this.getClass().getClassLoader());
+  private FlatSVGIcon filterIcon;
+  private FlatSVGIcon optionsIcon;
 
   public FilterPane() {
     this.setupComponents();
@@ -37,9 +34,9 @@ public class FilterPane extends JPanel {
     super.updateUI();
     fontSize = UIManager.getFont("Button.font").getSize();
     filterIcon =
-        new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
+        new FlatSVGIcon("svg/filter.svg",fontSize, fontSize, this.getClass().getClassLoader());
     optionsIcon =
-        new FlatSVGIcon("svg/options.svg", fontSize, fontSize, this.getClass().getClassLoader());
+            new FlatSVGIcon("svg/options.svg", (int) (fontSize*1.5), (int) (fontSize*1.5), this.getClass().getClassLoader());
 
     filterButton = new FilterButton("Filter", filterIcon);
     optionsButton = new OptionsButton(optionsIcon);

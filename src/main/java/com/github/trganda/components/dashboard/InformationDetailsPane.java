@@ -1,5 +1,6 @@
 package com.github.trganda.components.dashboard;
 
+import com.github.trganda.components.dashboard.filter.FilterPane;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

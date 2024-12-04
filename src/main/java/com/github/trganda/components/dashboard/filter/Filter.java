@@ -1,7 +1,8 @@
-package com.github.trganda.components.dashboard;
+package com.github.trganda.components.dashboard.filter;
 
 import java.awt.*;
 import javax.swing.*;
+
 import lombok.Getter;
 
 @Getter
@@ -13,7 +14,7 @@ public class Filter extends JDialog {
   private final JPanel innerPanel;
 
   public Filter(Frame pFrame) {
-    super(pFrame, "Filter", true);
+    super(pFrame, "Filter", false);
     this.hostFilter = new HostFilterPane();
     this.informationFilter = new InformationFilterPane();
     this.filterButtonPanel = new FilterButtonPanel();

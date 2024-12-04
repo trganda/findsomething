@@ -2,9 +2,8 @@ package com.github.trganda.controller.dashboard;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.PlaceHolderTextField;
-import com.github.trganda.components.common.SuggestionComboBox;
-import com.github.trganda.components.dashboard.Filter;
-import com.github.trganda.components.dashboard.FilterButtonPanel;
+import com.github.trganda.components.dashboard.filter.Filter;
+import com.github.trganda.components.dashboard.filter.FilterButtonPanel;
 import com.github.trganda.handler.FilterChangeListener;
 import com.github.trganda.model.FilterModel;
 import java.awt.*;
@@ -19,6 +18,7 @@ public class InfoFilterController {
   private final FilterButtonPanel filterButtonPanel;
   private List<FilterChangeListener> listeners = new ArrayList<>();
   private InfoController infoController;
+  private FilterModel currentFilter;
 
   public InfoFilterController(JButton filterButton, InfoController infoController) {
     this.filterButton = filterButton;
@@ -26,7 +26,7 @@ public class InfoFilterController {
 
     Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
     this.filter = new Filter(pFrame);
-    this.filter.setLocationRelativeTo(FindSomething.getInstance().getExtensionFrame());
+    this.filter.setLocationRelativeTo(pFrame);
     this.filterButtonPanel = this.filter.getFilterButtonPanel();
     this.setupEventListener();
   }
@@ -38,7 +38,7 @@ public class InfoFilterController {
   private void setupEventListener() {
     this.filterButton.addActionListener(
         e -> {
-          this.filter.setLocationRelativeTo(FindSomething.getInstance().getExtensionFrame());
+          currentFilter = FilterModel.getFilterModel();
           filter.pack();
           filter.setVisible(true);
         });
@@ -47,11 +47,15 @@ public class InfoFilterController {
         .getApply()
         .addActionListener(
             e -> {
+              updateFilter();
+              List<String> modifiedFields = currentFilter.getModifiedFields(FilterModel.getFilterModel());
+              if (modifiedFields.isEmpty()) {
+                return;
+              }
               FilterModel filterModel = FilterModel.getFilterModel();
               PlaceHolderTextField filterField = this.filter.getInformationFilter().getFilterField();
               infoController.updateFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
               infoController.updateActiveInfoView();
-              updateFilter();
             });
     this.filterButtonPanel
         .getApplyClose()

@@ -1,4 +1,4 @@
-package com.github.trganda.components.dashboard;
+package com.github.trganda.components.dashboard.filter;
 
 import javax.swing.*;
 import lombok.Getter;

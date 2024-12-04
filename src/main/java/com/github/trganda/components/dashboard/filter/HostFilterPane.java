@@ -1,4 +1,4 @@
-package com.github.trganda.components.dashboard;
+package com.github.trganda.components.dashboard.filter;
 
 import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
 import static com.github.trganda.config.Config.GROUP_GENERAL;
