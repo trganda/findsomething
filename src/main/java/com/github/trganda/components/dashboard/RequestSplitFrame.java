@@ -1,36 +1,26 @@
 package com.github.trganda.components.dashboard;
 
-import java.awt.Graphics;
+import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
+
+import com.github.trganda.components.common.InvisibleSplitPane;
 import lombok.Getter;
 
 @Getter
-public class RequestSplitFrame extends JSplitPane {
+public class RequestSplitFrame extends JPanel {
 
   private final InformationDetailsPane informationDetailsPane;
   private final RequestPane requestPane;
+  private InvisibleSplitPane dashSplitPane;
 
   public RequestSplitFrame() {
     requestPane = new RequestPane();
     informationDetailsPane = new InformationDetailsPane();
-    this.setOrientation(VERTICAL_SPLIT);
-    this.setTopComponent(informationDetailsPane);
-    this.setBottomComponent(requestPane);
-    this.setContinuousLayout(true);
-    this.setUI(
-        new BasicSplitPaneUI() {
-          @Override
-          public BasicSplitPaneDivider createDefaultDivider() {
-            return new BasicSplitPaneDivider(this) {
-              @Override
-              public void paint(Graphics g) {
-                // hidden the default divider
-                super.paint(g);
-              }
-            };
-          }
-        });
+
+    dashSplitPane = new InvisibleSplitPane(JSplitPane.VERTICAL_SPLIT);
+    dashSplitPane.setTopComponent(informationDetailsPane);
+    dashSplitPane.setBottomComponent(requestPane);
+    this.setLayout(new BorderLayout());
+    this.add(dashSplitPane);
   }
 }

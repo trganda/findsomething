@@ -12,11 +12,10 @@ import com.github.trganda.controller.config.RuleEditorController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
-
-import javax.swing.*;
 import java.awt.Frame;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.swing.*;
 
 public class FindSomething implements BurpExtension {
 

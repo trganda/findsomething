@@ -22,4 +22,11 @@ public class OptionsButton extends JButton {
               }
             });
   }
+
+  @Override
+  public void updateUI() {
+    super.updateUI();
+    this.setBorderPainted(false);
+    this.setBackground(UIManager.getColor("Panel.background"));
+  }
 }

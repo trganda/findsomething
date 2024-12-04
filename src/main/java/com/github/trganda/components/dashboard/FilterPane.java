@@ -28,23 +28,24 @@ public class FilterPane extends javax.swing.JPanel {
 
   private void setupComponents() {
     int fontSize = UIManager.getFont("Button.font").getSize();
-    FlatSVGIcon icon =
+    FlatSVGIcon filterIcon =
         new FlatSVGIcon(
             "svg/filter.svg", fontSize + 2, fontSize + 2, this.getClass().getClassLoader());
-    filterButton = new FilterButton("Filter", icon);
+    filterButton = new FilterButton("Filter", filterIcon);
 
-    FlatSVGIcon aicon =
+    FlatSVGIcon optionsIcon =
         new FlatSVGIcon(
             "svg/options.svg", fontSize + 2, fontSize + 2, this.getClass().getClassLoader());
 
     OptionsMenu optionsMenu =
         new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
 
-    optionsButton = new OptionsButton(aicon);
-    optionsButton.addActionListener(e -> {
-      FindSomething.API.userInterface().applyThemeToComponent(optionsMenu);
-      optionsMenu.show(optionsButton, -optionsButton.getWidth(), -optionsButton.getHeight());
-    });
+    optionsButton = new OptionsButton(optionsIcon);
+    optionsButton.addActionListener(
+        e -> {
+          FindSomething.API.userInterface().applyThemeToComponent(optionsMenu);
+          optionsMenu.show(optionsButton, 0, 0);
+        });
   }
 
   private void setupLayout() {

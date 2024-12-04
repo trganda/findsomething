@@ -28,4 +28,10 @@ public class FilterButton extends JButton {
               }
             });
   }
+
+  @Override
+  public void updateUI() {
+    super.updateUI();
+    this.setBackground(UIManager.getColor("Burp.tableFilterBarBackground"));
+  }
 }
