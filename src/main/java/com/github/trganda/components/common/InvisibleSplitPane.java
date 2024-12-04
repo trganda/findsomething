@@ -46,7 +46,7 @@ public class InvisibleSplitPane extends JSplitPane {
   public void updateUI() {
     SplitPaneUI ui = new InvisibleSplitPaneUI();
     setUI(ui);
-    revalidate();
+    this.setBackground(UIManager.getColor("Panel.background"));
   }
 
   /**
