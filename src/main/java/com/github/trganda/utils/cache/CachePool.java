@@ -88,7 +88,7 @@ public class CachePool {
     } else {
       List<InfoDataModel> copyVals = new ArrayList<>(vals);
       // de-duplicate
-      if (!copyVals.stream().anyMatch(v -> v.getResults().equals(infoDataModel.getResults()))) {
+      if (copyVals.stream().noneMatch(v -> v.getResult().equals(infoDataModel.getResult()))) {
         copyVals.add(infoDataModel);
         infoCache.put(group, copyVals);
       }

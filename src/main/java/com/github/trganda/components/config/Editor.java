@@ -15,6 +15,7 @@ public class Editor extends JDialog {
   private Frame pFrame;
   private JTextField nameField;
   private JTextField regexField;
+  private JTextField groupField;
   private JComboBox<Scope> scope;
   private JCheckBox sensitive;
   private EditorButtonsPane editorButtonsPane;

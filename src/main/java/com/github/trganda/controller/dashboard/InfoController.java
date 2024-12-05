@@ -1,7 +1,6 @@
 package com.github.trganda.controller.dashboard;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.handler.FilterChangeListener;
@@ -168,7 +167,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     updateActiveInfoView(data);
   }
 
-  public void updateFilter(
+  public void updateTableFilter(
       String filter, boolean sensitive, boolean negative, boolean isPlaceholderActive) {
     RowFilter<TableModel, Object> rf = null;
     if (!isPlaceholderActive) {

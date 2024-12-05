@@ -8,19 +8,19 @@ public class InfoDataModel {
 
   private String ruleName;
 
-  private final String results;
+  private final String result;
 
   private final String host;
 
-  public InfoDataModel(Long id, String ruleName, String results, String host) {
+  public InfoDataModel(Long id, String ruleName, String result, String host) {
     this.id = id;
     this.ruleName = ruleName;
-    this.results = results;
+    this.result = result;
     this.host = host;
   }
 
   public Object[] getInfoData() {
-    Object[] data = new Object[] {results};
+    Object[] data = new Object[] {result};
     return data;
   }
 }

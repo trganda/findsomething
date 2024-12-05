@@ -54,7 +54,7 @@ public class InfoFilterController {
               }
               FilterModel filterModel = FilterModel.getFilterModel();
               PlaceHolderTextField filterField = this.filter.getInformationFilter().getFilterField();
-              infoController.updateFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
+              infoController.updateTableFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
               infoController.updateActiveInfoView();
             });
     this.filterButtonPanel
@@ -63,7 +63,7 @@ public class InfoFilterController {
             e -> {
               FilterModel filterModel = FilterModel.getFilterModel();
               PlaceHolderTextField filterField = this.filter.getInformationFilter().getFilterField();
-              infoController.updateFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
+              infoController.updateTableFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
               infoController.updateActiveInfoView();
               updateFilter();
               this.filter.setVisible(false);
