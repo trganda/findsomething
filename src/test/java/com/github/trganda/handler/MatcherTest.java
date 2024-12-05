@@ -59,6 +59,22 @@ public class MatcherTest {
     }
   }
 
+  @Test
+  public void testGroupMatch() {
+    String regex = "\\W((?:(?:\\+|00)86)?(1(?:3[\\d]|4[5-79]|5[0-35-9]|6[5-7]|7[0-8]|8[\\d]|9[189]))\\d{8})\\W";
+    String text = " 19197284453 ";
+
+    Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(text);
+
+    matcher.find();
+    // 获取完整匹配的组 0（整个正则匹配的内容）
+    System.out.println("完整匹配: " + matcher.group(0));
+
+    // 获取组 1（手机号本体）
+    System.out.println("手机号: " + matcher.group(1));
+  }
+
   private String[] match(String text, Pattern pattern) {
     Matcher matcher = pattern.matcher(text);
     HashSet<String> set = new HashSet<>();
