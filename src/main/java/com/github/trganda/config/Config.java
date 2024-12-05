@@ -9,11 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import lombok.Data;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
+@Data
 public class Config implements ConfigChangeListener {
 
   public static final String BLACKLIST_SUFFIX = "Suffix";
@@ -116,11 +118,9 @@ public class Config implements ConfigChangeListener {
             .ifPresent(
                 g -> {
                   g.getRule().add(rule);
-                  // sync rule to cache
-                  CachePool.getInstance().putRule(Utils.calHash(group, rule.getName()), rule);
                 });
         break;
-      case EDT:
+      case ENB:
         config.rules.getGroups().stream()
             .filter(g -> g.getGroup().equals(group))
             .findFirst()
@@ -132,8 +132,6 @@ public class Config implements ConfigChangeListener {
                       .ifPresent(
                           r -> {
                             r.setEnabled(rule.isEnabled());
-                            // sync rule to cache
-                            CachePool.getInstance().putRule(Utils.calHash(group, r.getName()), r);
                           });
                 });
         break;
@@ -161,38 +159,6 @@ public class Config implements ConfigChangeListener {
     representer.addClassTag(Config.class, Tag.MAP);
     representer.addClassTag(Rules.class, Tag.MAP);
     return new Yaml(representer, dop);
-  }
-
-  public List<String> getSuffixes() {
-    return suffixes;
-  }
-
-  public void setSuffixes(List<String> suffixes) {
-    this.suffixes = suffixes;
-  }
-
-  public List<String> getHosts() {
-    return hosts;
-  }
-
-  public void setHosts(List<String> hosts) {
-    this.hosts = hosts;
-  }
-
-  public List<String> getStatus() {
-    return status;
-  }
-
-  public void setStatus(List<String> status) {
-    this.status = status;
-  }
-
-  public Rules getRules() {
-    return rules;
-  }
-
-  public void setRules(Rules rules) {
-    this.rules = rules;
   }
 
   public static Config loadConfig() {

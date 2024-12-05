@@ -6,7 +6,6 @@ import com.github.trganda.config.Config;
 import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
-import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
 import java.awt.*;
 
@@ -14,7 +13,6 @@ public class RuleEditorController {
 
   private Editor editor;
   private RuleModel rule;
-  private Mediator mediator;
 
   public RuleEditorController(RuleModel rule) {
     Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
@@ -23,12 +21,6 @@ public class RuleEditorController {
     this.rule = rule;
 
     this.setupEventListener();
-  }
-
-  public RuleEditorController(RuleModel rule, Mediator mediator) {
-    this(rule);
-    this.mediator = mediator;
-    this.mediator.registerRuleEditorController(this);
   }
 
   private void setupEventListener() {
@@ -64,12 +56,9 @@ public class RuleEditorController {
             });
   }
 
-  public void updateView(RuleModel rule) {
+  public void updateEditorAndView(RuleModel rule) {
     this.rule = rule;
-    this.editor.getNameField().setText(rule.getRule().getName());
-    this.editor.getRegexField().setText(rule.getRule().getRegex());
-    this.editor.getScope().setSelectedItem(rule.getRule().getScope());
-    this.editor.getSensitive().setSelected(rule.getRule().isSensitive());
+    this.editor.setRule(rule.getRule());
     this.editor.setOp(Operation.EDT);
     this.editor.pack();
     this.editor.setVisible(true);

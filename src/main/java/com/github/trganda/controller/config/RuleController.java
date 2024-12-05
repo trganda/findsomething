@@ -6,12 +6,13 @@ import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
-import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
@@ -20,24 +21,18 @@ public class RuleController implements ConfigChangeListener {
 
   private RuleInnerPane innerPane;
   private List<Rule> rules;
-  private Mediator mediator;
+  private RuleEditorController editorController;
 
   public RuleController() {
     Config.getInstance().registerConfigListener(this);
   }
 
-  public RuleController(RuleInnerPane innerPane) {
+  public RuleController(RuleInnerPane innerPane, RuleEditorController editorController) {
     this();
     this.innerPane = innerPane;
-
+    this.editorController = editorController;
     this.setupEventListener();
     this.loadDefaultRules();
-  }
-
-  public RuleController(RuleInnerPane innerPane, Mediator mediator) {
-    this(innerPane);
-    this.mediator = mediator;
-    this.mediator.registerRuleController(this);
   }
 
   private void setupEventListener() {
@@ -57,7 +52,7 @@ public class RuleController implements ConfigChangeListener {
         .addMouseListener(
             new MouseAdapter() {
               @Override
-              public void mouseClicked(java.awt.event.MouseEvent e) {
+              public void mouseClicked(MouseEvent e) {
                 int row = ruleTable.rowAtPoint(e.getPoint());
                 int column = ruleTable.columnAtPoint(e.getPoint());
                 if (row == -1 || column == -1) {
@@ -76,7 +71,7 @@ public class RuleController implements ConfigChangeListener {
                       .ifPresent(
                           r -> {
                             r.setEnabled(value);
-                            Config.getInstance().syncRules(group, r, Operation.EDT);
+                            Config.getInstance().syncRules(group, r, Operation.ENB);
                           });
                 }
               }
@@ -92,7 +87,7 @@ public class RuleController implements ConfigChangeListener {
               RuleModel ruleModel = new RuleModel();
               ruleModel.setGroup(group);
               ruleModel.setRule(new Rule());
-              this.mediator.updateEditor(ruleModel);
+              this.editorController.updateEditorAndView(ruleModel);
             });
 
     this.innerPane
@@ -100,26 +95,14 @@ public class RuleController implements ConfigChangeListener {
         .getEdit()
         .addActionListener(
             e -> {
-              int idx = this.innerPane.getTable().getSelectedRow();
-              if (idx == -1) {
-                return;
-              }
-              rules =
-                  Config.getInstance()
-                      .getRules()
-                      .getRulesWithGroup(this.innerPane.getSelector().getSelectedItem().toString());
-              String name = this.innerPane.getModel().getValueAt(idx, 1).toString();
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              rules.stream()
-                  .filter(r -> r.getName().equals(name))
-                  .findFirst()
-                  .ifPresent(
-                      r -> {
-                        RuleModel ruleModel = new RuleModel();
-                        ruleModel.setGroup(group);
-                        ruleModel.setRule(r);
-                        this.mediator.updateEditor(ruleModel);
-                      });
+              showEditor(
+                  r -> {
+                    RuleModel ruleModel = new RuleModel();
+                    ruleModel.setGroup(group);
+                    ruleModel.setRule(r);
+                    this.editorController.updateEditorAndView(ruleModel);
+                  });
             });
 
     this.innerPane
@@ -127,23 +110,11 @@ public class RuleController implements ConfigChangeListener {
         .getRemove()
         .addActionListener(
             e -> {
-              int idx = this.innerPane.getTable().getSelectedRow();
-              if (idx == -1) {
-                return;
-              }
-              rules =
-                  Config.getInstance()
-                      .getRules()
-                      .getRulesWithGroup(this.innerPane.getSelector().getSelectedItem().toString());
-              String name = this.innerPane.getModel().getValueAt(idx, 1).toString();
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              rules.stream()
-                  .filter(r -> r.getName().equals(name))
-                  .findFirst()
-                  .ifPresent(
-                      r -> {
-                        Config.getInstance().syncRules(group, r, Operation.DEL);
-                      });
+              showEditor(
+                  r -> {
+                    Config.getInstance().syncRules(group, r, Operation.DEL);
+                  });
             });
 
     this.innerPane
@@ -197,5 +168,18 @@ public class RuleController implements ConfigChangeListener {
           }
         };
     worker.execute();
+  }
+
+  private void showEditor(Consumer<Rule> consumer) {
+    int idx = this.innerPane.getTable().getSelectedRow();
+    if (idx == -1) {
+      return;
+    }
+
+    String group = this.innerPane.getSelector().getSelectedItem().toString();
+    rules = Config.getInstance().getRules().getRulesWithGroup(group);
+    String name = this.innerPane.getModel().getValueAt(idx, 1).toString();
+
+    rules.stream().filter(r -> r.getName().equals(name)).findFirst().ifPresent(consumer);
   }
 }

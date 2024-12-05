@@ -1,7 +1,9 @@
 package com.github.trganda.config;
 
 import java.util.List;
+import lombok.Data;
 
+@Data
 public class Rules {
   private List<Group> groups;
 
@@ -47,6 +49,7 @@ public class Rules {
     }
   }
 
+  @Data
   public static class Rule {
     private boolean enabled;
     private String name;
@@ -61,46 +64,6 @@ public class Rules {
       this.name = name;
       this.regex = regex;
       this.scope = scope;
-      this.sensitive = sensitive;
-    }
-
-    public boolean isEnabled() {
-      return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-      this.enabled = enabled;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public String getRegex() {
-      return regex;
-    }
-
-    public void setRegex(String regex) {
-      this.regex = regex;
-    }
-
-    public Scope getScope() {
-      return scope;
-    }
-
-    public void setScope(Scope scope) {
-      this.scope = scope;
-    }
-
-    public boolean isSensitive() {
-      return sensitive;
-    }
-
-    public void setSensitive(boolean sensitive) {
       this.sensitive = sensitive;
     }
   }

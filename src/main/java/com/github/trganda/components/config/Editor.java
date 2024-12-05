@@ -48,16 +48,6 @@ public class Editor extends JDialog {
     this.op = Operation.ADD;
   }
 
-  public Editor(Frame pFrame, String group, Rule pRule) {
-    this(pFrame, group);
-    this.op = Operation.EDT;
-    this.rule = pRule;
-    this.nameField.setText(rule.getName());
-    this.regexField.setText(rule.getRegex());
-    this.scope.setSelectedItem(rule.getScope());
-    this.sensitive.setSelected(rule.isSensitive());
-  }
-
   private void setupLayout() {
     this.setLayout(new GridBagLayout());
     this.setMinimumSize(new Dimension(400, 180));
@@ -111,5 +101,13 @@ public class Editor extends JDialog {
     gbc.anchor = GridBagConstraints.LINE_END;
     gbc.fill = GridBagConstraints.NONE;
     this.add(editorButtonsPane, gbc);
+  }
+
+  public void setRule(Rule rule) {
+    this.rule = rule;
+    nameField.setText(rule.getName());
+    regexField.setText(rule.getRegex());
+    sensitive.setSelected(rule.isSensitive());
+    scope.setSelectedItem(rule.getScope());
   }
 }
