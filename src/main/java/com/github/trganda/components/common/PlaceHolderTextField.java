@@ -18,4 +18,11 @@ public class PlaceHolderTextField extends JTextField {
   public boolean isPlaceholderActive() {
     return this.placeHolderFocusListener.isPlaceholderActive();
   }
+
+  public String getSelectedText() {
+    if (this.isPlaceholderActive()) {
+      return "";
+    }
+    return this.getText();
+  }
 }

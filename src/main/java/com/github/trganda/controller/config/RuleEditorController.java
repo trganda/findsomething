@@ -8,7 +8,6 @@ import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
 import com.github.trganda.controller.Mediator;
 import com.github.trganda.model.RuleModel;
-
 import java.awt.*;
 
 public class RuleEditorController {

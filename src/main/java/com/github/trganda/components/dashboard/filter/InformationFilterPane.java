@@ -1,19 +1,17 @@
 package com.github.trganda.components.dashboard.filter;
 
-import com.github.trganda.components.common.PlaceHolderTextField;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import lombok.Getter;
 
 @Getter
 public class InformationFilterPane extends JPanel {
   private final String filterPlaceHolder = "Search";
-  private PlaceHolderTextField filterField;
+  private JTextField filterField;
   private JCheckBox sensitive;
   private JCheckBox negative;
 
@@ -24,7 +22,7 @@ public class InformationFilterPane extends JPanel {
   }
 
   private void setupComponents() {
-    filterField = new PlaceHolderTextField(filterPlaceHolder);
+    filterField = new JTextField();
     filterField.setPreferredSize(new Dimension(200, filterField.getPreferredSize().height));
     sensitive = new JCheckBox("Case sensitive");
     negative = new JCheckBox("Negative search");

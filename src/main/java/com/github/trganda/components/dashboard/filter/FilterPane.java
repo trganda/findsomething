@@ -34,9 +34,13 @@ public class FilterPane extends JPanel {
     super.updateUI();
     fontSize = UIManager.getFont("Button.font").getSize();
     filterIcon =
-        new FlatSVGIcon("svg/filter.svg",fontSize, fontSize, this.getClass().getClassLoader());
+        new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
     optionsIcon =
-            new FlatSVGIcon("svg/options.svg", (int) (fontSize*1.5), (int) (fontSize*1.5), this.getClass().getClassLoader());
+        new FlatSVGIcon(
+            "svg/options.svg",
+            (int) (fontSize * 1.5),
+            (int) (fontSize * 1.5),
+            this.getClass().getClassLoader());
 
     filterButton = new FilterButton("Filter", filterIcon);
     optionsButton = new OptionsButton(optionsIcon);

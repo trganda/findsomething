@@ -3,9 +3,7 @@ package com.github.trganda.components.common;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,16 +12,18 @@ import lombok.Setter;
 public class SuggestionComboBox extends JPanel {
   private JComboBox<String> hostComboBox;
   private DefaultComboBoxModel<String> hostComboBoxModel;
-  private PlaceHolderTextField hostTextField;
+  private JTextField hostTextField;
   // Identify the user are typing for match a host (true) or not (false)
   private boolean matching;
+  private boolean matched;
   private static final String placeHolder = "Enter a host";
 
   public SuggestionComboBox() {
     this.hostComboBoxModel = new DefaultComboBoxModel<>();
-    this.hostComboBox = new JComboBox<String>(hostComboBoxModel);
-    this.hostTextField = new PlaceHolderTextField(placeHolder);
+    this.hostComboBox = new JComboBox<>(hostComboBoxModel);
+    this.hostTextField = new JTextField();
     this.matching = false;
+    this.matched = false;
 
     this.hostComboBox.setMaximumRowCount(6);
     this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
@@ -44,7 +44,10 @@ public class SuggestionComboBox extends JPanel {
   }
 
   public String getSelectedHost() {
-    return hostTextField.getText().isEmpty() ? "*" : hostTextField.getText();
+    if (!this.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
+      return hostComboBox.getSelectedItem().toString();
+    }
+    return "*";
   }
 
   private void setupEvent() {
@@ -54,8 +57,10 @@ public class SuggestionComboBox extends JPanel {
         e -> {
           if (!this.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
+            matched = true;
             hostTextField.setText(selectedHost);
             hostComboBox.setPopupVisible(false);
+            matched = false;
           }
         });
   }

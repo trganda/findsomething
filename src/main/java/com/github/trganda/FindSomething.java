@@ -3,7 +3,6 @@ package com.github.trganda;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import com.github.trganda.components.ExtensionFrame;
-import com.github.trganda.components.config.Editor;
 import com.github.trganda.components.dashboard.InformationDetailsPane;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.components.dashboard.RequestPane;
@@ -19,12 +18,10 @@ import com.github.trganda.controller.dashboard.OptionsButtonController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
-import lombok.Getter;
-
-import java.awt.Frame;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
+import lombok.Getter;
 
 @Getter
 public class FindSomething implements BurpExtension {
@@ -84,7 +81,6 @@ public class FindSomething implements BurpExtension {
     InfoDetailController infoDetailController =
         new InfoDetailController(informationDetailsPane, requestPane);
     InformationPane informationPane = extensionFrame.getDashboard().getInformationPane();
-
 
     InfoController infoController = new InfoController(informationPane, infoDetailController);
     handler.registerDataChangeListener(infoController);

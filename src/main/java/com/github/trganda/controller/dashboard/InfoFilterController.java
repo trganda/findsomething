@@ -1,11 +1,10 @@
 package com.github.trganda.controller.dashboard;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.common.PlaceHolderTextField;
-import com.github.trganda.components.dashboard.filter.Filter;
 import com.github.trganda.components.dashboard.filter.FilterButtonPanel;
+import com.github.trganda.components.dashboard.filter.FilterEditor;
 import com.github.trganda.handler.FilterChangeListener;
-import com.github.trganda.model.FilterModel;
+import com.github.trganda.model.Filter;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +13,23 @@ import javax.swing.*;
 public class InfoFilterController {
 
   private final JButton filterButton;
-  private final Filter filter;
+  private final FilterEditor filterEditor;
   private final FilterButtonPanel filterButtonPanel;
   private List<FilterChangeListener> listeners = new ArrayList<>();
   private InfoController infoController;
-  private FilterModel currentFilter;
+  private Filter prevFilter;
+
+  private JTextField filterField;
 
   public InfoFilterController(JButton filterButton, InfoController infoController) {
     this.filterButton = filterButton;
     this.infoController = infoController;
 
     Frame pFrame = FindSomething.API.userInterface().swingUtils().suiteFrame();
-    this.filter = new Filter(pFrame);
-    this.filter.setLocationRelativeTo(pFrame);
-    this.filterButtonPanel = this.filter.getFilterButtonPanel();
+    this.filterEditor = new FilterEditor(pFrame);
+    this.filterEditor.setLocationRelativeTo(pFrame);
+    this.filterButtonPanel = this.filterEditor.getFilterButtonPanel();
+    this.filterField = this.filterEditor.getInformationFilter().getFilterField();
     this.setupEventListener();
   }
 
@@ -38,35 +40,48 @@ public class InfoFilterController {
   private void setupEventListener() {
     this.filterButton.addActionListener(
         e -> {
-          currentFilter = FilterModel.getFilterModel();
-          filter.pack();
-          filter.setVisible(true);
+          prevFilter = Filter.getFilter();
+          filterEditor.pack();
+          filterEditor.setVisible(true);
+          filterEditor.setFilter(prevFilter);
         });
-    this.filterButtonPanel.getCancel().addActionListener(e -> this.filter.setVisible(false));
+    this.filterButtonPanel.getCancel().addActionListener(e -> this.filterEditor.setVisible(false));
     this.filterButtonPanel
         .getApply()
         .addActionListener(
             e -> {
-              updateFilter();
-              List<String> modifiedFields = currentFilter.getModifiedFields(FilterModel.getFilterModel());
+              Filter currentFilter = this.filterEditor.getFilter();
+              List<String> modifiedFields = prevFilter.getModifiedFields(currentFilter);
               if (modifiedFields.isEmpty()) {
                 return;
               }
-              FilterModel filterModel = FilterModel.getFilterModel();
-              PlaceHolderTextField filterField = this.filter.getInformationFilter().getFilterField();
-              infoController.updateTableFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
-              infoController.updateActiveInfoView();
+
+              Filter.getFilter().update(currentFilter);
+              modifiedFields.forEach(
+                  f -> {
+                    if (f.equals("1")) {
+                      infoController.updateActiveInfoView(currentFilter);
+                    } else if (f.equals("2")) {
+                      infoController.updateTableFilter(
+                          currentFilter.getSearchTerm(),
+                          currentFilter.isSensitive(),
+                          currentFilter.isNegative(),
+                          false);
+                    }
+                  });
             });
     this.filterButtonPanel
         .getApplyClose()
         .addActionListener(
             e -> {
-              FilterModel filterModel = FilterModel.getFilterModel();
-              PlaceHolderTextField filterField = this.filter.getInformationFilter().getFilterField();
-              infoController.updateTableFilter(filterModel.getSearchTerm(), filterModel.isSensitive(), filterModel.isNegative(), filterField.isPlaceholderActive());
-              infoController.updateActiveInfoView();
-              updateFilter();
-              this.filter.setVisible(false);
+              //              Filter filter = Filter.getFilter();
+              //              PlaceHolderTextField filterField =
+              // this.filter.getInformationFilter().getFilterField();
+              //              infoController.updateTableFilter(filter.getSearchTerm(),
+              // filter.isSensitive(), filter.isNegative(), filterField.isPlaceholderActive());
+              //              infoController.updateActiveInfoView();
+              //              updateFilter();
+              this.filterEditor.setVisible(false);
             });
   }
 
@@ -76,11 +91,11 @@ public class InfoFilterController {
     }
   }
 
-  private void updateFilter() {
-    FilterModel.getFilterModel().setHost(this.filter.getHost());
-    FilterModel.getFilterModel().setRuleType(this.filter.getRuleType());
-    FilterModel.getFilterModel().setSearchTerm(this.filter.getSearchTerm());
-    FilterModel.getFilterModel().setSensitive(this.filter.isSensitive());
-    FilterModel.getFilterModel().setNegative(this.filter.isNegative());
-  }
+  //  private void updateFilter() {
+  //    Filter.getFilter().setHost(this.filterEditor.getHost());
+  //    Filter.getFilter().setGroup(this.filterEditor.getRuleType());
+  //    Filter.getFilter().setSearchTerm(this.filterEditor.getSearchTerm());
+  //    Filter.getFilter().setSensitive(this.filterEditor.isSensitive());
+  //    Filter.getFilter().setNegative(this.filterEditor.isNegative());
+  //  }
 }

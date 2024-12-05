@@ -4,7 +4,7 @@ import com.github.trganda.FindSomething;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.handler.FilterChangeListener;
-import com.github.trganda.model.FilterModel;
+import com.github.trganda.model.Filter;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
@@ -36,7 +36,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         .getTabbedPane()
         .addChangeListener(
             e -> {
-              updateActiveInfoView();
+              updateActiveInfoView(Filter.getFilter());
             });
 
     // Setup click event listener for 'All' tab in information panel
@@ -139,8 +139,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   @Override
   public void onDataChanged() {
-    String ruleType = FilterModel.getFilterModel().getRuleType();
-    String selectedHost = FilterModel.getFilterModel().getHost();
+    String ruleType = Filter.getFilter().getGroup();
+    String selectedHost = Filter.getFilter().getHost();
     List<InfoDataModel> data =
         CachePool.getInstance().getInfoData(ruleType).stream()
             .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
@@ -154,16 +154,16 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   @Override
   public void onFilterChanged() {
-//    updateActiveInfoView();
+    //    updateActiveInfoView();
   }
 
-  public void updateActiveInfoView() {
-    String ruleType = FilterModel.getFilterModel().getRuleType();
-    String selectedHost = FilterModel.getFilterModel().getHost();
+  public void updateActiveInfoView(Filter filter) {
+    String ruleType = filter.getGroup();
+    String selectedHost = filter.getHost();
     List<InfoDataModel> data =
-            CachePool.getInstance().getInfoData(ruleType).stream()
-                    .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
-                    .collect(Collectors.toList());
+        CachePool.getInstance().getInfoData(ruleType).stream()
+            .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+            .collect(Collectors.toList());
     updateActiveInfoView(data);
   }
 
