@@ -86,7 +86,7 @@ public class RuleController implements ConfigChangeListener {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
               RuleModel ruleModel = new RuleModel();
               ruleModel.setGroup(group);
-              ruleModel.setRule(new Rule());
+              ruleModel.setRule(Rule.builder().build());
               this.editorController.updateEditorAndView(ruleModel);
             });
 
@@ -140,14 +140,7 @@ public class RuleController implements ConfigChangeListener {
             List<Object[]> list = new ArrayList<>();
             String selectedItem = innerPane.getSelector().getSelectedItem().toString();
             for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
-              list.add(
-                  new Object[] {
-                    rule.isEnabled(),
-                    rule.getName(),
-                    rule.getRegex(),
-                    rule.getScope(),
-                    rule.isSensitive()
-                  });
+              list.add(rule.toObjectArray());
             }
             return list;
           }

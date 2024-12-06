@@ -1,7 +1,8 @@
 package com.github.trganda.config;
 
 import java.util.List;
-import lombok.Data;
+
+import lombok.*;
 
 @Data
 public class Rules {
@@ -50,21 +51,19 @@ public class Rules {
   }
 
   @Data
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor(access = AccessLevel.PUBLIC)
   public static class Rule {
     private boolean enabled;
     private String name;
     private String regex;
+    private String captureGroup;
     private Scope scope;
     private boolean sensitive;
 
-    public Rule() {}
-
-    public Rule(boolean enabled, String name, String regex, Scope scope, boolean sensitive) {
-      this.enabled = enabled;
-      this.name = name;
-      this.regex = regex;
-      this.scope = scope;
-      this.sensitive = sensitive;
+    public Object[] toObjectArray() {
+      return new Object[] {enabled, name, regex, captureGroup, scope, sensitive};
     }
   }
 }

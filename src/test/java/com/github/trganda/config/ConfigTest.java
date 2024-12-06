@@ -15,13 +15,25 @@ public class ConfigTest {
     // using the default configuration if no local configuration file.
     InputStream is = Config.class.getClassLoader().getResourceAsStream("rules.yml");
     Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
-    getYaml().loadAs(reader, Rules.class);
+    Rules rules = getYaml().loadAs(reader, Rules.class);
+    if (rules == null) {
+      System.out.println("rules is null");
+    }
   }
 
   @Test
   public void testLoadConfig() {
     InputStream is = Config.class.getClassLoader().getResourceAsStream("config.yml");
     Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
-    getYaml().loadAs(reader, Config.class);
+    Config config = getYaml().loadAs(reader, Config.class);
+    if (config == null) {
+      System.out.println("config is null");
+    }
+  }
+
+  @Test
+  public void testSaveConfig() {
+    Config config = Config.getInstance();
+    System.out.println("config: " + Config.getYaml().dump(config));
   }
 }

@@ -38,13 +38,12 @@ public class RuleEditorController {
         .getSave()
         .addActionListener(
             e -> {
-              Rule r =
-                  new Rule(
-                      true,
-                      this.editor.getNameField().getText(),
-                      this.editor.getRegexField().getText(),
-                      (Scope) this.editor.getScope().getSelectedItem(),
-                      this.editor.getSensitive().isSelected());
+              Rule r = Rule.builder()
+                      .enabled(true)
+                      .name(this.editor.getNameField().getText())
+                      .regex(this.editor.getRegexField().getText())
+                      .captureGroup(this.editor.getGroupField().getText())
+                      .scope((Scope) this.editor.getScope().getSelectedItem()).sensitive(this.editor.getSensitive().isSelected()).build();
               if (this.editor.getOp() == Operation.ADD) {
                 Config.getInstance().syncRules(rule.getGroup(), r, Operation.ADD);
               } else if (this.editor.getOp() == Operation.EDT) {

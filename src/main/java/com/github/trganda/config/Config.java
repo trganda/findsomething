@@ -4,14 +4,20 @@ import com.github.trganda.FindSomething;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
+
+import java.beans.Transient;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+
 import lombok.Data;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -35,23 +41,22 @@ public class Config implements ConfigChangeListener {
   public static final String GROUP_VULNERABILITY = "Vulnerability";
 
   private static final String configLocation =
-      String.format("%s/.config/fd/fd_config.json", System.getProperty("user.home"));
+      String.format("%s/.config/fd/fd_config.yaml", System.getProperty("user.home"));
 
   private static final String rulesLocation =
-      String.format("%s/.config/fd/fd_rules.json", System.getProperty("user.home"));
+      String.format("%s/.config/fd/fd_rules.yaml", System.getProperty("user.home"));
 
   private List<String> suffixes = new ArrayList<>();
   private List<String> hosts = new ArrayList<>();
   private List<String> status = new ArrayList<>();
   private transient Rules rules;
-
-  private List<ConfigChangeListener> listeners = new ArrayList<>();
+  private transient List<ConfigChangeListener> listeners = new ArrayList<>();
 
   private static Config config;
 
   public static Config getInstance() {
     if (config == null) {
-      FindSomething.API.logging().logToOutput("loading configuration file...");
+//      FindSomething.API.logging().logToOutput("loading configuration file...");
       config = loadConfig();
       config.rules = loadRules(false);
     }
@@ -156,8 +161,15 @@ public class Config implements ConfigChangeListener {
     dop.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     dop.setExplicitStart(false);
     Representer representer = new Representer(dop);
+
+    TypeDescription typeDescription = new TypeDescription(Config.class);
+    // fields to exclude
+    typeDescription.setExcludes("rules", "listeners");
+    representer.addTypeDescription(typeDescription);
+
     representer.addClassTag(Config.class, Tag.MAP);
     representer.addClassTag(Rules.class, Tag.MAP);
+
     return new Yaml(representer, dop);
   }
 
@@ -168,9 +180,9 @@ public class Config implements ConfigChangeListener {
             Files.newInputStream(Paths.get(configLocation)), StandardCharsets.UTF_8)) {
       config = getYaml().loadAs(reader, Config.class);
     } catch (IOException e) {
-      FindSomething.API
-          .logging()
-          .logToError("load configuration file failed, using default config");
+//      FindSomething.API
+//          .logging()
+//          .logToError("load configuration file failed, using default config");
 
       InputStream is = Config.class.getClassLoader().getResourceAsStream("config.yml");
       Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
@@ -192,7 +204,7 @@ public class Config implements ConfigChangeListener {
               Files.newInputStream(Paths.get(rulesLocation)), StandardCharsets.UTF_8)) {
         rules = getYaml().loadAs(reader, Rules.class);
       } catch (IOException e) {
-        FindSomething.API.logging().logToError("load rules file failed, using default config");
+//        FindSomething.API.logging().logToError("load rules file failed, using default config");
         rules = loadRules(true);
       }
     }
@@ -233,7 +245,7 @@ public class Config implements ConfigChangeListener {
       ws.close();
       // FindSomething.API.logging().logToOutput("Saved configuration to " + configLocation);
     } catch (Exception e) {
-      FindSomething.API.logging().logToError("Saving configuration file failed, ", e);
+//      FindSomething.API.logging().logToError("Saving configuration file failed, ", e);
     }
   }
 

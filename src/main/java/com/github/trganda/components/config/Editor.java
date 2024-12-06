@@ -35,6 +35,8 @@ public class Editor extends JDialog {
     nameField.setPreferredSize(new Dimension(300, nameField.getPreferredSize().height));
     regexField = new JTextField();
     regexField.setPreferredSize(new Dimension(300, regexField.getPreferredSize().height));
+    groupField = new JTextField();
+    groupField.setPreferredSize(new Dimension(300, groupField.getPreferredSize().height));
     sensitive = new JCheckBox();
     editorButtonsPane = new EditorButtonsPane();
     scope = new JComboBox<>(Scope.values());
@@ -78,24 +80,34 @@ public class Editor extends JDialog {
     gbc.gridx = 0;
     gbc.gridy = 2;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Scope:"), gbc);
+    this.add(new JLabel("Capturing Group:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 2;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(scope, gbc);
+    this.add(groupField, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 3;
+    gbc.insets = new Insets(0, 0, 5, 5);
+    this.add(new JLabel("Scope:"), gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 3;
+    gbc.insets = new Insets(0, 0, 5, 0);
+    this.add(scope, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 4;
     gbc.insets = new Insets(0, 0, 0, 0);
     this.add(new JLabel("Sensitive:"), gbc);
 
     gbc.gridx = 1;
-    gbc.gridy = 3;
+    gbc.gridy = 4;
     this.add(sensitive, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 4;
+    gbc.gridy = 5;
     gbc.insets = new Insets(10, 0, 0, 0);
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_END;
@@ -107,6 +119,7 @@ public class Editor extends JDialog {
     this.rule = rule;
     nameField.setText(rule.getName());
     regexField.setText(rule.getRegex());
+    groupField.setText(rule.getCaptureGroup());
     sensitive.setSelected(rule.isSensitive());
     scope.setSelectedItem(rule.getScope());
   }

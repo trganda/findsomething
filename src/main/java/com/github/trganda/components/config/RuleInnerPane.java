@@ -76,7 +76,7 @@ public class RuleInnerPane extends JPanel {
 
   private JComponent setupTable() {
     model =
-        new DefaultTableModel(new Object[] {"Enabled", "Name", "Regex", "Scope", "Sensitive"}, 0) {
+        new DefaultTableModel(new Object[] {"Enabled", "Name", "Regex", "Capturing Group", "Scope", "Sensitive"}, 0) {
           @Override
           public Class<?> getColumnClass(int column) {
             // set column to using combobox
@@ -113,6 +113,7 @@ public class RuleInnerPane extends JPanel {
     table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.5));
     table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.1));
     table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
+    table.getColumnModel().getColumn(5).setPreferredWidth((int) (width * 0.1));
   }
 
   private void setupComponents() {
