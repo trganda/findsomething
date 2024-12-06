@@ -29,6 +29,17 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     this.setupEventListener();
   }
 
+  /**
+   * Set up event listeners for the information panel.
+   *
+   * <p>
+   * When the tab of the information panel is changed, the information view in the
+   * active tab is updated with the current filter.
+   *
+   * <p>
+   * The click event listener is set up for the 'All' tab. When a row is clicked, the
+   * request details view is updated with the corresponding request data.
+   */
   private void setupEventListener() {
     // Information tab
     infoPane
@@ -42,6 +53,15 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     this.setupTabEventListener(infoPane.getActiveTabView());
   }
 
+  /**
+   * Updates the active tab view with the given data.
+   * 
+   * <p>If the active tab is the 'All' tab, the data is filtered and updated directly.
+   * Otherwise, a SwingWorker is used to filter the data with the rule name and update
+   * the view when done.
+   * 
+   * @param data The data to update the view with.
+   */
   private void updateActiveInfoView(List<InfoDataModel> data) {
     int selectedIndex = infoPane.getTabbedPane().getSelectedIndex();
     if (selectedIndex != -1) {
@@ -76,6 +96,15 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     }
   }
 
+  /**
+   * Creates other tab view with rule name.
+   * 
+   * <p>
+   * The given data is classified with rule name and for each rule name, a new tab is
+   * created if the tab does not exist. The event listener is set up for the new tab.
+   * 
+   * @param data The data to classify and create tab for.
+   */
   private void updateTabView(List<InfoDataModel> data) {
     // Classified with rule name
     Map<String, List<InfoDataModel>> classified =
@@ -97,6 +126,16 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         });
   }
 
+  /**
+   * Updates the given table model.
+   * <p>
+   * This works by creating a SwingWorker that asynchronously converts the data into a list of
+   * {@code Object[]} arrays, and then sets the model rows to the produced list. If the worker
+   * encounters an exception, a runtime exception is logged.
+   *
+   * @param model the table model to update
+   * @param data the data to update the model with
+   */
   private void updateInfoView(DefaultTableModel model, List<InfoDataModel> data) {
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
@@ -122,6 +161,14 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     worker.execute();
   }
 
+  /**
+   * Sets up the given table to react to row selection changes.
+   * <p>
+   * When a row is selected in the table, this method is called. It uses the selected row to
+   * determine which request detail views to update.
+   *
+   * @param table the table to set up the row selection listener for
+   */
   private void setupTabEventListener(JTable table) {
     // Information tab
     ListSelectionModel selectionModel = table.getSelectionModel();
@@ -142,6 +189,9 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         });
   }
 
+  /**
+   * Triggered when data source changed, update the active info view to reflect the changes.
+   */
   @Override
   public void onDataChanged() {
     updateActiveInfoView(Filter.getFilter());
@@ -150,6 +200,11 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   @Override
   public void onFilterChanged() {}
 
+  /**
+   * Update the active info view with the given filter.
+   * <p>
+   * This method will also update other tab views with rule name if not exist.
+   */
   public void updateActiveInfoView(Filter filter) {
     SwingWorker<List<InfoDataModel>, Void> worker =
         new SwingWorker<>() {
@@ -179,6 +234,21 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     worker.execute();
   }
 
+  /**
+   * Updates the table filter.
+   * <p>
+   * The filter string is interpreted as a regular expression. If the filter string is empty,
+   * the filter is disabled. If the filter string is not empty but does not parse as a regular
+   * expression, the filter is not changed. If the filter string does parse as a regular
+   * expression, the filter is updated. If the negative flag is set, the filter is inverted.
+   * <p>
+   * The filter is applied to all tabs in the {@code infoPane} component.
+   *
+   * @param filter the filter string
+   * @param sensitive whether the filter is case-sensitive
+   * @param negative whether the filter is inverted
+   * @param isPlaceholderActive whether the filter is currently inactive
+   */
   public void updateTableFilter(
       String filter, boolean sensitive, boolean negative, boolean isPlaceholderActive) {
     RowFilter<TableModel, Object> rf = null;
