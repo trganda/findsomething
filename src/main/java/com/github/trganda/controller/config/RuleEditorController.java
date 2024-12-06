@@ -2,7 +2,7 @@ package com.github.trganda.controller.config;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.Editor;
-import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
@@ -38,18 +38,22 @@ public class RuleEditorController {
         .getSave()
         .addActionListener(
             e -> {
-              Rule r = Rule.builder()
+              Rule r =
+                  Rule.builder()
                       .enabled(true)
                       .name(this.editor.getNameField().getText())
                       .regex(this.editor.getRegexField().getText())
                       .captureGroup(this.editor.getGroupField().getText())
-                      .scope((Scope) this.editor.getScope().getSelectedItem()).sensitive(this.editor.getSensitive().isSelected()).build();
+                      .scope((Scope) this.editor.getScope().getSelectedItem())
+                      .sensitive(this.editor.getSensitive().isSelected())
+                      .build();
               if (this.editor.getOp() == Operation.ADD) {
-                Config.getInstance().syncRules(rule.getGroup(), r, Operation.ADD);
+                ConfigManager.getInstance().syncRules(rule.getGroup(), r, Operation.ADD);
               } else if (this.editor.getOp() == Operation.EDT) {
                 // remove the old rule first
-                Config.getInstance().syncRules(rule.getGroup(), rule.getRule(), Operation.DEL);
-                Config.getInstance().syncRules(rule.getGroup(), r, Operation.ADD);
+                ConfigManager.getInstance()
+                    .syncRules(rule.getGroup(), rule.getRule(), Operation.DEL);
+                ConfigManager.getInstance().syncRules(rule.getGroup(), r, Operation.ADD);
               }
               this.editor.setVisible(false);
             });

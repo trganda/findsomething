@@ -1,9 +1,5 @@
 package com.github.trganda.components.config;
 
-import static com.github.trganda.config.Config.BLACKLIST_HOST;
-import static com.github.trganda.config.Config.BLACKLIST_STATUS;
-import static com.github.trganda.config.Config.BLACKLIST_SUFFIX;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.Box;
@@ -18,6 +14,10 @@ public class FilterListInnerButtonsPane extends JPanel {
   private final JComboBox<String> type;
   private final JButton remove;
   private final JButton clear;
+
+  public static final String BLACKLIST_SUFFIX = "Suffix";
+  public static final String BLACKLIST_HOST = "Host";
+  public static final String BLACKLIST_STATUS = "Status";
 
   public FilterListInnerButtonsPane() {
     type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS});

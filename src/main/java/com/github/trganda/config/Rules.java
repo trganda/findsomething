@@ -1,7 +1,6 @@
 package com.github.trganda.config;
 
 import java.util.List;
-
 import lombok.*;
 
 @Data

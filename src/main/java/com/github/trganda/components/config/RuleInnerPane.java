@@ -1,6 +1,6 @@
 package com.github.trganda.components.config;
 
-import static com.github.trganda.config.Config.*;
+import static com.github.trganda.config.ConfigManager.*;
 
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
@@ -76,7 +76,8 @@ public class RuleInnerPane extends JPanel {
 
   private JComponent setupTable() {
     model =
-        new DefaultTableModel(new Object[] {"Enabled", "Name", "Regex", "Capturing Group", "Scope", "Sensitive"}, 0) {
+        new DefaultTableModel(
+            new Object[] {"Enabled", "Name", "Regex", "Capturing Group", "Scope", "Sensitive"}, 0) {
           @Override
           public Class<?> getColumnClass(int column) {
             // set column to using combobox

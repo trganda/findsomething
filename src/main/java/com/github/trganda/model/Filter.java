@@ -1,6 +1,6 @@
 package com.github.trganda.model;
 
-import static com.github.trganda.config.Config.GROUP_GENERAL;
+import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
 
 import java.util.ArrayList;
 import java.util.List;

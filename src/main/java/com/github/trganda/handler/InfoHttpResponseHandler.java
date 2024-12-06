@@ -7,7 +7,7 @@ import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
 import com.github.trganda.cleaner.Cleaner;
-import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.config.Scope;
 import com.github.trganda.model.InfoDataModel;
@@ -68,7 +68,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private void process(InterceptedResponse interceptedResponse) {
     HttpRequest req = interceptedResponse.request();
-    Config.getInstance().getRules().getGroups().stream()
+    ConfigManager.getInstance().getRules().getGroups().stream()
         .forEach(
             g ->
                 g.getRule().stream()
@@ -145,19 +145,19 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
   private boolean filter(InterceptedResponse interceptedResponse) {
     HttpRequest req = interceptedResponse.request();
     String path = req.pathWithoutQuery();
-    for (String suffix : Config.getInstance().getSuffixes()) {
+    for (String suffix : ConfigManager.getInstance().getConfig().getSuffixes()) {
       if (path.endsWith(suffix)) {
         return true;
       }
     }
 
-    for (String host : Config.getInstance().getHosts()) {
+    for (String host : ConfigManager.getInstance().getConfig().getHosts()) {
       if (req.httpService().host().equals(host)) {
         return true;
       }
     }
 
-    for (String status : Config.getInstance().getStatus()) {
+    for (String status : ConfigManager.getInstance().getConfig().getStatus()) {
       if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
         return true;
       }

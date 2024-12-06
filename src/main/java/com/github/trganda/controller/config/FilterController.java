@@ -1,13 +1,11 @@
 package com.github.trganda.controller.config;
 
-import static com.github.trganda.config.Config.BLACKLIST_HOST;
-import static com.github.trganda.config.Config.BLACKLIST_STATUS;
-import static com.github.trganda.config.Config.BLACKLIST_SUFFIX;
+import static com.github.trganda.components.config.FilterListInnerButtonsPane.*;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.FilterListInnerPane;
-import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Operation;
 import com.github.trganda.utils.Utils;
 import java.awt.Color;
@@ -25,7 +23,7 @@ public class FilterController implements ConfigChangeListener {
   private FilterListInnerPane innerPane;
 
   public FilterController() {
-    Config.getInstance().registerConfigListener(this);
+    ConfigManager.getInstance().registerConfigListener(this);
   }
 
   public FilterController(FilterListInnerPane innerPane) {
@@ -91,7 +89,7 @@ public class FilterController implements ConfigChangeListener {
     JComboBox<String> type = innerPane.getBlackListButtonsPane().getType();
     type.addActionListener(
         e -> {
-          this.onConfigChange(Config.getInstance());
+          this.onConfigChange(ConfigManager.getInstance());
         });
 
     JButton remove = innerPane.getBlackListButtonsPane().getRemove();
@@ -114,24 +112,24 @@ public class FilterController implements ConfigChangeListener {
     if (selectedItem != null) {
       switch (selectedItem) {
         case BLACKLIST_SUFFIX:
-          Config.getInstance().syncSuffixes(val, type);
+          ConfigManager.getInstance().syncSuffixes(val, type);
           break;
         case BLACKLIST_HOST:
-          Config.getInstance().syncHosts(val, type);
+          ConfigManager.getInstance().syncHosts(val, type);
           break;
         case BLACKLIST_STATUS:
-          Config.getInstance().syncStatus(val, type);
+          ConfigManager.getInstance().syncStatus(val, type);
           break;
       }
     }
   }
 
   private void loadDefaultData() {
-    this.onConfigChange(Config.getInstance());
+    this.onConfigChange(ConfigManager.getInstance());
   }
 
   @Override
-  public void onConfigChange(Config config) {
+  public void onConfigChange(ConfigManager configManager) {
     SwingWorker<List<String[]>, Void> worker =
         new SwingWorker<List<String[]>, Void>() {
           @Override
@@ -142,13 +140,13 @@ public class FilterController implements ConfigChangeListener {
                 innerPane.getBlackListButtonsPane().getType().getSelectedItem().toString();
             switch (selectedItem) {
               case BLACKLIST_SUFFIX:
-                config.getSuffixes().forEach(s -> list.add(new String[] {s}));
+                configManager.getConfig().getSuffixes().forEach(s -> list.add(new String[] {s}));
                 break;
               case BLACKLIST_HOST:
-                config.getHosts().forEach(s -> list.add(new String[] {s}));
+                configManager.getConfig().getHosts().forEach(s -> list.add(new String[] {s}));
                 break;
               case BLACKLIST_STATUS:
-                config.getStatus().forEach(s -> list.add(new String[] {s}));
+                configManager.getConfig().getStatus().forEach(s -> list.add(new String[] {s}));
                 break;
             }
 

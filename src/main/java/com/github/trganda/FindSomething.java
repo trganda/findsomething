@@ -6,7 +6,7 @@ import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.dashboard.InformationDetailsPane;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.components.dashboard.RequestPane;
-import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
@@ -56,8 +56,8 @@ public class FindSomething implements BurpExtension {
     // api.logging().logToOutput("Button hover: " + UIManager.get("Button.hoverBackground"));
 
     // loading the default configuration file to ${home}/.config
-    Config config = Config.getInstance();
-    Config.getInstance().registerConfigListener(config);
+    ConfigManager configManager = ConfigManager.getInstance();
+    ConfigManager.getInstance().registerConfigListener(configManager);
 
     ExecutorService pool = Executors.newSingleThreadExecutor();
     handler = new InfoHttpResponseHandler(pool);

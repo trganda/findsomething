@@ -1,6 +1,6 @@
 package com.github.trganda.handler;
 
-import com.github.trganda.config.Config;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Rules;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ public class MatcherTest {
 
   @BeforeAll
   public static void loadTestRules() {
-    rules = Config.loadRules(true);
+    rules = ConfigManager.getInstance().loadRules(true);
   }
 
   @Test
@@ -61,7 +61,8 @@ public class MatcherTest {
 
   @Test
   public void testGroupMatch() {
-    String regex = "\\W((?:(?:\\+|00)86)?(1(?:3[\\d]|4[5-79]|5[0-35-9]|6[5-7]|7[0-8]|8[\\d]|9[189]))\\d{8})\\W";
+    String regex =
+        "\\W((?:(?:\\+|00)86)?(1(?:3[\\d]|4[5-79]|5[0-35-9]|6[5-7]|7[0-8]|8[\\d]|9[189]))\\d{8})\\W";
     String text = " 19197284453 ";
 
     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);

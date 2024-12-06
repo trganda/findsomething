@@ -1,10 +1,10 @@
 package com.github.trganda.components.dashboard.filter;
 
-import static com.github.trganda.config.Config.GROUP_FINGERPRINT;
-import static com.github.trganda.config.Config.GROUP_GENERAL;
-import static com.github.trganda.config.Config.GROUP_INFORMATION;
-import static com.github.trganda.config.Config.GROUP_SENSITIVE;
-import static com.github.trganda.config.Config.GROUP_VULNERABILITY;
+import static com.github.trganda.config.ConfigManager.GROUP_FINGERPRINT;
+import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
+import static com.github.trganda.config.ConfigManager.GROUP_INFORMATION;
+import static com.github.trganda.config.ConfigManager.GROUP_SENSITIVE;
+import static com.github.trganda.config.ConfigManager.GROUP_VULNERABILITY;
 
 import com.github.trganda.components.common.SuggestionComboBox;
 import java.awt.GridBagConstraints;

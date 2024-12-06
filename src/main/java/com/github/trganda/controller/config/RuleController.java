@@ -2,8 +2,8 @@ package com.github.trganda.controller.config;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.config.RuleInnerPane;
-import com.github.trganda.config.Config;
 import com.github.trganda.config.ConfigChangeListener;
+import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Operation;
 import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.RuleModel;
@@ -24,7 +24,7 @@ public class RuleController implements ConfigChangeListener {
   private RuleEditorController editorController;
 
   public RuleController() {
-    Config.getInstance().registerConfigListener(this);
+    ConfigManager.getInstance().registerConfigListener(this);
   }
 
   public RuleController(RuleInnerPane innerPane, RuleEditorController editorController) {
@@ -41,7 +41,7 @@ public class RuleController implements ConfigChangeListener {
         .getSelector()
         .addActionListener(
             e -> {
-              this.onConfigChange(Config.getInstance());
+              this.onConfigChange(ConfigManager.getInstance());
             });
 
     // table event
@@ -64,14 +64,14 @@ public class RuleController implements ConfigChangeListener {
                   String name = ruleTableModel.getValueAt(row, 1).toString();
                   String group = innerPane.getSelector().getSelectedItem().toString();
 
-                  rules = Config.getInstance().getRules().getRulesWithGroup(group);
+                  rules = ConfigManager.getInstance().getRules().getRulesWithGroup(group);
                   rules.stream()
                       .filter(r -> r.getName().equals(name))
                       .findFirst()
                       .ifPresent(
                           r -> {
                             r.setEnabled(value);
-                            Config.getInstance().syncRules(group, r, Operation.ENB);
+                            ConfigManager.getInstance().syncRules(group, r, Operation.ENB);
                           });
                 }
               }
@@ -113,7 +113,7 @@ public class RuleController implements ConfigChangeListener {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
               showEditor(
                   r -> {
-                    Config.getInstance().syncRules(group, r, Operation.DEL);
+                    ConfigManager.getInstance().syncRules(group, r, Operation.DEL);
                   });
             });
 
@@ -123,23 +123,23 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              Config.getInstance().syncRules(group, null, Operation.CLR);
+              ConfigManager.getInstance().syncRules(group, null, Operation.CLR);
             });
   }
 
   private void loadDefaultRules() {
-    this.onConfigChange(Config.getInstance());
+    this.onConfigChange(ConfigManager.getInstance());
   }
 
   @Override
-  public void onConfigChange(Config config) {
+  public void onConfigChange(ConfigManager configManager) {
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
           @Override
           protected List<Object[]> doInBackground() {
             List<Object[]> list = new ArrayList<>();
             String selectedItem = innerPane.getSelector().getSelectedItem().toString();
-            for (Rule rule : config.getRules().getRulesWithGroup(selectedItem)) {
+            for (Rule rule : configManager.getRules().getRulesWithGroup(selectedItem)) {
               list.add(rule.toObjectArray());
             }
             return list;
@@ -170,7 +170,7 @@ public class RuleController implements ConfigChangeListener {
     }
 
     String group = this.innerPane.getSelector().getSelectedItem().toString();
-    rules = Config.getInstance().getRules().getRulesWithGroup(group);
+    rules = ConfigManager.getInstance().getRules().getRulesWithGroup(group);
     String name = this.innerPane.getModel().getValueAt(idx, 1).toString();
 
     rules.stream().filter(r -> r.getName().equals(name)).findFirst().ifPresent(consumer);
