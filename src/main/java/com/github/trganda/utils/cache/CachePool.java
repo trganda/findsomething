@@ -9,7 +9,6 @@ import static com.github.trganda.config.ConfigManager.GROUP_VULNERABILITY;
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.trganda.config.Rules.Rule;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import java.util.ArrayList;
@@ -29,10 +28,9 @@ public class CachePool {
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<RequestDetailModel>> reqInfoCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
-  private static final Cache<String, Rule> ruleCache =
-      Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<String>> hostCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
+  private static final Cache<String, Boolean> duplicateCache = Caffeine.newBuilder().expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS).build();
 
   private static CachePool instance;
 
@@ -41,6 +39,14 @@ public class CachePool {
       instance = new CachePool();
     }
     return instance;
+  }
+
+  public void addDuplicate(String key) {
+    duplicateCache.put(key, true);
+  }
+
+  public boolean isDuplicate(String key) {
+    return duplicateCache.getIfPresent(key) != null;
   }
 
   public void putRequestDataModel(String key, List<RequestDetailModel> requestDataModels) {
@@ -71,14 +77,6 @@ public class CachePool {
 
   public InterceptedResponse getInterceptedResponse(String key) {
     return httpMessageCache.getIfPresent(key);
-  }
-
-  public void putRule(String key, Rule rule) {
-    ruleCache.put(key, rule);
-  }
-
-  public Rule getRule(String key) {
-    return ruleCache.getIfPresent(key);
   }
 
   public void addInfoDataModel(String group, InfoDataModel infoDataModel) {

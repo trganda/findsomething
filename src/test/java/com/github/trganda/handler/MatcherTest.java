@@ -47,7 +47,7 @@ public class MatcherTest {
                           Pattern pattern =
                               Pattern.compile(
                                   r.getRegex(), r.isSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
-                          String[] results = match(sb.toString(), pattern);
+                          String[] results = match(sb.toString(), pattern, new int[]{1});
                           for (String result : results) {
                             System.out.println(result);
                           }
@@ -68,7 +68,7 @@ public class MatcherTest {
 
     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
-    String[] results = match(text, pattern, new int[]{1});
+    String[] results = match(text, pattern, new int[] {1});
     Arrays.stream(results).forEach(System.out::println);
   }
 
@@ -88,13 +88,17 @@ public class MatcherTest {
     HashSet<String> set = new HashSet<>();
 
     while (matcher.find()) {
-      Arrays.stream(groups).mapToObj(g -> {
-        try {
-          return matcher.group(g);
-        } catch (IndexOutOfBoundsException e) {
-          return "";
-        }
-      }).filter(String::isEmpty).forEach(set::add);
+      Arrays.stream(groups)
+          .mapToObj(
+              g -> {
+                try {
+                  return matcher.group(g);
+                } catch (IndexOutOfBoundsException e) {
+                  return "";
+                }
+              })
+          .filter(s -> !s.isEmpty())
+          .forEach(set::add);
     }
 
     return set.toArray(new String[0]);

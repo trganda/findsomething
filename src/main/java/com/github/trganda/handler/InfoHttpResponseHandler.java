@@ -6,6 +6,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
+import com.github.trganda.FindSomething;
 import com.github.trganda.cleaner.Cleaner;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Rules.Rule;
@@ -67,10 +68,20 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private void process(InterceptedResponse interceptedResponse) {
     HttpRequest req = interceptedResponse.request();
-    ConfigManager.getInstance().getRules().getGroups().stream()
+
+    String msgHash = Utils.calHash(interceptedResponse.toString());
+    // skip if already processed this message
+    // TODO: optimize this logic, some request/response may have the same body but different header, like 'Date'
+    if (CachePool.getInstance().isDuplicate(msgHash)) {
+      return;
+    }
+
+    ConfigManager.getInstance()
+        .getRules()
+        .getGroups()
         .forEach(
             g ->
-                g.getRule().stream()
+                g.getRule()
                     .forEach(
                         r -> {
                           if (r.isEnabled()) {
@@ -80,16 +91,14 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               CachePool.getInstance().addHost(req.httpService().host());
                               List<String> domains = CachePool.getInstance().getHosts();
                               List<String> suggestions = Utils.aggregator(domains);
-                              suggestions.stream().forEach(CachePool.getInstance()::addHost);
+                              suggestions.forEach(CachePool.getInstance()::addHost);
                             }
 
-                            List<InfoDataModel> data = new ArrayList<>();
                             for (String result : results) {
                               InfoDataModel infoDataModel =
                                   new InfoDataModel(
                                       id, r.getName(), result, req.httpService().host());
                               id = id + 1;
-                              data.add(infoDataModel);
 
                               CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
 
@@ -120,6 +129,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             }
                           }
                         }));
+
+    CachePool.getInstance().addDuplicate(msgHash);
   }
 
   /**
@@ -167,7 +178,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private String[] match(InterceptedResponse interceptedResponse, Rule rule) {
     Scope scope = rule.getScope();
-    int[] groups = Arrays.stream(rule.getCaptureGroup().split(",")).mapToInt(Integer::parseInt).toArray();
+    int[] groups =
+        Arrays.stream(rule.getCaptureGroup().split(",")).mapToInt(Integer::parseInt).toArray();
     HttpRequest req = interceptedResponse.request();
 
     String reqBody = req.bodyToString();
@@ -205,7 +217,9 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
         req.parameters().stream()
             .filter(p -> p.type() != HttpParameterType.COOKIE)
             .forEach(
-                p -> matchList.addAll(Arrays.asList(match(p.name() + "=" + p.value(), pattern, groups))));
+                p ->
+                    matchList.addAll(
+                        Arrays.asList(match(p.name() + "=" + p.value(), pattern, groups))));
         break;
       case REQUEST_QUERY_PARAMS:
         req.parameters().stream()
@@ -223,13 +237,17 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     HashSet<String> set = new HashSet<>();
 
     while (matcher.find()) {
-      Arrays.stream(groups).mapToObj(g -> {
-        try {
-          return matcher.group(g);
-        } catch (IndexOutOfBoundsException e) {
-          return "";
-        }
-      }).filter(String::isEmpty).forEach(set::add);
+      Arrays.stream(groups)
+              .mapToObj(
+                      g -> {
+                        try {
+                          return matcher.group(g);
+                        } catch (IndexOutOfBoundsException e) {
+                          return "";
+                        }
+                      })
+              .filter(s -> !s.isEmpty())
+              .forEach(set::add);
     }
 
     return set.toArray(new String[0]);

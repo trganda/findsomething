@@ -11,16 +11,10 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-  public static String calHash(String... vals) {
-
-    StringBuilder sb = new StringBuilder();
-    for (String val : vals) {
-      sb.append(val);
-    }
-
+  public static String calHash(byte[] bytes) {
     try {
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
-      byte[] hashBytes = digest.digest(sb.toString().getBytes());
+      byte[] hashBytes = digest.digest(bytes);
 
       StringBuilder hexString = new StringBuilder();
       for (byte b : hashBytes) {
@@ -34,6 +28,15 @@ public class Utils {
     } catch (NoSuchAlgorithmException e) {
       return "";
     }
+  }
+
+  public static String calHash(String... vals) {
+    StringBuilder sb = new StringBuilder();
+    for (String val : vals) {
+      sb.append(val);
+    }
+
+    return calHash(sb.toString().getBytes());
   }
 
   public static Font getBurpDisplayFont() {
