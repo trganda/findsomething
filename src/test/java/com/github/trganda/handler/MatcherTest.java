@@ -47,7 +47,7 @@ public class MatcherTest {
                           Pattern pattern =
                               Pattern.compile(
                                   r.getRegex(), r.isSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
-                          String[] results = match(sb.toString(), pattern, new int[]{1});
+                          String[] results = match(sb.toString(), pattern, new int[] {1});
                           for (String result : results) {
                             System.out.println(result);
                           }

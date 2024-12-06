@@ -6,7 +6,6 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
-import com.github.trganda.FindSomething;
 import com.github.trganda.cleaner.Cleaner;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Rules.Rule;
@@ -71,7 +70,8 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     String msgHash = Utils.calHash(interceptedResponse.toString());
     // skip if already processed this message
-    // TODO: optimize this logic, some request/response may have the same body but different header, like 'Date'
+    // TODO: optimize this logic, some request/response may have the same body but different header,
+    // like 'Date'
     if (CachePool.getInstance().isDuplicate(msgHash)) {
       return;
     }
@@ -96,9 +96,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
                             for (String result : results) {
                               InfoDataModel infoDataModel =
-                                  new InfoDataModel(
-                                      id, r.getName(), result, req.httpService().host());
-                              id = id + 1;
+                                  new InfoDataModel(r.getName(), result, req.httpService().host());
 
                               CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
 
@@ -238,16 +236,16 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     while (matcher.find()) {
       Arrays.stream(groups)
-              .mapToObj(
-                      g -> {
-                        try {
-                          return matcher.group(g);
-                        } catch (IndexOutOfBoundsException e) {
-                          return "";
-                        }
-                      })
-              .filter(s -> !s.isEmpty())
-              .forEach(set::add);
+          .mapToObj(
+              g -> {
+                try {
+                  return matcher.group(g);
+                } catch (IndexOutOfBoundsException e) {
+                  return "";
+                }
+              })
+          .filter(s -> !s.isEmpty())
+          .forEach(set::add);
     }
 
     return set.toArray(new String[0]);

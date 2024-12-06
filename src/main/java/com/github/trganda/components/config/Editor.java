@@ -19,17 +19,17 @@ public class Editor extends JDialog {
   private JComboBox<Scope> scope;
   private JCheckBox sensitive;
   private EditorButtonsPane editorButtonsPane;
+  private JPanel innerPanel;
 
   private String group;
   private Operation op;
 
   private Rule rule;
 
-  public Editor() {}
-
   public Editor(Frame pFrame) {
     super(pFrame);
     this.pFrame = pFrame;
+    this.innerPanel = new JPanel();
 
     nameField = new JTextField();
     nameField.setPreferredSize(new Dimension(300, nameField.getPreferredSize().height));
@@ -51,60 +51,63 @@ public class Editor extends JDialog {
   }
 
   private void setupLayout() {
-    this.setLayout(new GridBagLayout());
-    this.setMinimumSize(new Dimension(400, 180));
+    this.setLayout(new BorderLayout());
+    this.add(innerPanel);
+    this.innerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+
     GridBagConstraints gbc = new GridBagConstraints();
+    innerPanel.setLayout(new GridBagLayout());
 
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Name:"), gbc);
+    innerPanel.add(new JLabel("Name:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(nameField, gbc);
+    innerPanel.add(nameField, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Regex:"), gbc);
+    innerPanel.add(new JLabel("Regex:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 1;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(regexField, gbc);
+    innerPanel.add(regexField, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 2;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Capturing Group:"), gbc);
+    innerPanel.add(new JLabel("Capturing Group:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 2;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(groupField, gbc);
+    innerPanel.add(groupField, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 3;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(new JLabel("Scope:"), gbc);
+    innerPanel.add(new JLabel("Scope:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 3;
     gbc.insets = new Insets(0, 0, 5, 0);
-    this.add(scope, gbc);
+    innerPanel.add(scope, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 4;
     gbc.insets = new Insets(0, 0, 0, 0);
-    this.add(new JLabel("Sensitive:"), gbc);
+    innerPanel.add(new JLabel("Sensitive:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 4;
-    this.add(sensitive, gbc);
+    innerPanel.add(sensitive, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 5;
@@ -112,7 +115,7 @@ public class Editor extends JDialog {
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_END;
     gbc.fill = GridBagConstraints.NONE;
-    this.add(editorButtonsPane, gbc);
+    innerPanel.add(editorButtonsPane, gbc);
   }
 
   public void setRule(Rule rule) {

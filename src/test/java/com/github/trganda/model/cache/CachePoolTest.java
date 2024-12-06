@@ -10,7 +10,7 @@ public class CachePoolTest {
   public void testGetInfoData() {
 
     CachePool cachePool = CachePool.getInstance();
-    cachePool.addInfoDataModel("test", new InfoDataModel(0L, "rule", "test", "example.com"));
+    cachePool.addInfoDataModel("test", new InfoDataModel("rule", "test", "example.com"));
     System.out.println(cachePool.getInfoData("test"));
   }
 }

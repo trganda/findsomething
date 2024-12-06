@@ -30,7 +30,8 @@ public class CachePool {
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<String>> hostCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
-  private static final Cache<String, Boolean> duplicateCache = Caffeine.newBuilder().expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS).build();
+  private static final Cache<String, Boolean> duplicateCache =
+      Caffeine.newBuilder().expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS).build();
 
   private static CachePool instance;
 

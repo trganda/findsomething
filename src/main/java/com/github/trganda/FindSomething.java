@@ -17,9 +17,14 @@ import com.github.trganda.controller.dashboard.OptionsButtonController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
+
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
+
+import com.github.trganda.utils.VersionUtil;
 import lombok.Getter;
 
 @Getter
@@ -31,16 +36,11 @@ public class FindSomething implements BurpExtension {
 
   private ExtensionFrame extensionFrame;
 
-  private static FindSomething fd;
-
-  public static FindSomething getInstance() {
-    return fd;
-  }
-
   @Override
   public void initialize(MontoyaApi api) {
     FindSomething.API = api;
-    fd = this;
+
+    api.extension().setName(String.format("FindSomething (%s)", VersionUtil.getVersion()));
 
     // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
     // for (UIManager.LookAndFeelInfo look : looks) {

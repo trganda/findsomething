@@ -29,9 +29,8 @@ public class FilterEditor extends JDialog {
     this.add(innerPanel);
     this.innerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
-    GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
-    innerPanel.setLayout(layout);
+    innerPanel.setLayout(new GridBagLayout());
 
     gbc.gridx = 0;
     gbc.gridy = 0;

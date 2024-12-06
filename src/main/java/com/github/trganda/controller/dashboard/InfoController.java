@@ -9,7 +9,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -21,8 +20,8 @@ import javax.swing.table.TableRowSorter;
 
 public class InfoController implements DataChangeListener, FilterChangeListener {
 
-  private InformationPane infoPane;
-  private InfoDetailController infoDetailController;
+  private final InformationPane infoPane;
+  private final InfoDetailController infoDetailController;
 
   public InfoController(InformationPane infoPane, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
@@ -39,7 +38,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               updateActiveInfoView(Filter.getFilter());
             });
 
-    // Setup click event listener for 'All' tab in information panel
+    // Setup click event listener for 'All' tab
     this.setupTabEventListener(infoPane.getActiveTabView());
   }
 
@@ -54,17 +53,30 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
       if (title.equals(InformationPane.ALL)) {
         this.updateInfoView(model, data);
       } else {
-        List<InfoDataModel> filteredData =
-            data.stream().filter(d -> d.getRuleName().equals(title)).collect(Collectors.toList());
-        updateInfoView(model, filteredData);
+        SwingWorker<List<InfoDataModel>, Void> worker =
+            new SwingWorker<>() {
+              @Override
+              protected List<InfoDataModel> doInBackground() {
+                return data.stream()
+                    .filter(d -> d.getRuleName().equals(title))
+                    .collect(Collectors.toList());
+              }
+
+              @Override
+              protected void done() {
+                try {
+                  updateInfoView(model, get());
+                } catch (InterruptedException | ExecutionException e) {
+                  FindSomething.API.logging().logToError(new RuntimeException(e));
+                }
+              }
+            };
+        worker.execute();
       }
     }
   }
 
-  private void updateInfoView(List<InfoDataModel> data) {
-    // Update active tab view
-    this.updateActiveInfoView(data);
-
+  private void updateTabView(List<InfoDataModel> data) {
     // Classified with rule name
     Map<String, List<InfoDataModel>> classified =
         data.stream().collect(Collectors.groupingBy(InfoDataModel::getRuleName));
@@ -88,14 +100,9 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   private void updateInfoView(DefaultTableModel model, List<InfoDataModel> data) {
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
-
           @Override
-          protected List<Object[]> doInBackground() throws Exception {
-            List<Object[]> info = new ArrayList<>();
-            for (InfoDataModel row : data) {
-              info.add(row.getInfoData());
-            }
-            return info;
+          protected List<Object[]> doInBackground() {
+            return data.stream().map(InfoDataModel::getInfoData).collect(Collectors.toList());
           }
 
           @Override
@@ -104,9 +111,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             try {
               model.setRowCount(0);
               List<Object[]> rows = get();
-              for (Object[] row : rows) {
-                model.addRow(row);
-              }
+              rows.forEach(model::addRow);
               model.fireTableDataChanged();
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
@@ -139,32 +144,39 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   @Override
   public void onDataChanged() {
-    String ruleType = Filter.getFilter().getGroup();
-    String selectedHost = Filter.getFilter().getHost();
-    List<InfoDataModel> data =
-        CachePool.getInstance().getInfoData(ruleType).stream()
-            .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
-            .collect(Collectors.toList());
-    if (data.isEmpty()) {
-      return;
-    }
-
-    updateInfoView(data);
+    updateActiveInfoView(Filter.getFilter());
   }
 
   @Override
-  public void onFilterChanged() {
-    //    updateActiveInfoView();
-  }
+  public void onFilterChanged() {}
 
   public void updateActiveInfoView(Filter filter) {
-    String ruleType = filter.getGroup();
-    String selectedHost = filter.getHost();
-    List<InfoDataModel> data =
-        CachePool.getInstance().getInfoData(ruleType).stream()
-            .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
-            .collect(Collectors.toList());
-    updateActiveInfoView(data);
+    SwingWorker<List<InfoDataModel>, Void> worker =
+        new SwingWorker<>() {
+          @Override
+          protected List<InfoDataModel> doInBackground() {
+            String ruleType = filter.getGroup();
+            String selectedHost = filter.getHost();
+            return CachePool.getInstance().getInfoData(ruleType).stream()
+                .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+                .collect(Collectors.toList());
+          }
+
+          @Override
+          protected void done() {
+            try {
+              List<InfoDataModel> data = get();
+              // Update active tab view
+              updateActiveInfoView(data);
+              // Create other tab view with rule name if not exist
+              updateTabView(data);
+            } catch (InterruptedException | ExecutionException e) {
+              FindSomething.API.logging().logToError(new RuntimeException(e));
+            }
+          }
+        };
+
+    worker.execute();
   }
 
   public void updateTableFilter(
