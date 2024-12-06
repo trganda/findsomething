@@ -13,11 +13,6 @@ public class YamlLoader {
     dop.setExplicitStart(false);
     Representer representer = new Representer(dop);
 
-    //    TypeDescription typeDescription = new TypeDescription(ConfigManager.class);
-    //    // fields to exclude
-    //    typeDescription.setExcludes("rules", "listeners");
-    //    representer.addTypeDescription(typeDescription);
-
     // ignore class name
     representer.addClassTag(Config.class, Tag.MAP);
     representer.addClassTag(Rules.class, Tag.MAP);

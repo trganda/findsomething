@@ -49,7 +49,6 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
     pool.submit(
         () -> {
-          // FindSomething.API.logging().logToOutput("processing, " + req.url());
           process(interceptedResponse);
         });
 
@@ -168,6 +167,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
 
   private String[] match(InterceptedResponse interceptedResponse, Rule rule) {
     Scope scope = rule.getScope();
+    int[] groups = Arrays.stream(rule.getCaptureGroup().split(",")).mapToInt(Integer::parseInt).toArray();
     HttpRequest req = interceptedResponse.request();
 
     String reqBody = req.bodyToString();
@@ -178,39 +178,39 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
         Pattern.compile(rule.getRegex(), rule.isSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
     switch (scope) {
       case RESPONSE_BODY:
-        matchList.addAll(Arrays.asList(match(rspBody, pattern)));
+        matchList.addAll(Arrays.asList(match(rspBody, pattern, groups)));
         break;
       case RESPONSE_HEADER:
         interceptedResponse
             .headers()
             .forEach(
                 h -> {
-                  matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
+                  matchList.addAll(Arrays.asList(match(h.toString(), pattern, groups)));
                 });
         break;
       case REQUEST_BODY:
-        matchList.addAll(Arrays.asList(match(reqBody, pattern)));
+        matchList.addAll(Arrays.asList(match(reqBody, pattern, groups)));
         break;
       case REQUEST_HEADER:
         req.headers()
             .forEach(
                 h -> {
-                  matchList.addAll(Arrays.asList(match(h.toString(), pattern)));
+                  matchList.addAll(Arrays.asList(match(h.toString(), pattern, groups)));
                 });
         break;
       case REQUEST_PATH:
-        matchList.addAll(Arrays.asList(match(req.pathWithoutQuery(), pattern)));
+        matchList.addAll(Arrays.asList(match(req.pathWithoutQuery(), pattern, groups)));
         break;
       case REQUEST_QUERY:
         req.parameters().stream()
             .filter(p -> p.type() != HttpParameterType.COOKIE)
             .forEach(
-                p -> matchList.addAll(Arrays.asList(match(p.name() + "=" + p.value(), pattern))));
+                p -> matchList.addAll(Arrays.asList(match(p.name() + "=" + p.value(), pattern, groups))));
         break;
       case REQUEST_QUERY_PARAMS:
         req.parameters().stream()
             .filter(p -> p.type() != HttpParameterType.COOKIE)
-            .forEach(p -> matchList.addAll(Arrays.asList(match(p.name(), pattern))));
+            .forEach(p -> matchList.addAll(Arrays.asList(match(p.name(), pattern, groups))));
         break;
       default:
         break;
@@ -218,12 +218,18 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     return matchList.toArray(new String[0]);
   }
 
-  private String[] match(String text, Pattern pattern) {
+  private String[] match(String text, Pattern pattern, int[] groups) {
     Matcher matcher = pattern.matcher(text);
     HashSet<String> set = new HashSet<>();
 
     while (matcher.find()) {
-      set.add(matcher.group());
+      Arrays.stream(groups).mapToObj(g -> {
+        try {
+          return matcher.group(g);
+        } catch (IndexOutOfBoundsException e) {
+          return "";
+        }
+      }).filter(String::isEmpty).forEach(set::add);
     }
 
     return set.toArray(new String[0]);

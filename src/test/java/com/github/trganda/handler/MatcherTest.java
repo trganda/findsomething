@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,14 +67,9 @@ public class MatcherTest {
     String text = " 19197284453 ";
 
     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-    Matcher matcher = pattern.matcher(text);
 
-    matcher.find();
-    // 获取完整匹配的组 0（整个正则匹配的内容）
-    System.out.println("完整匹配: " + matcher.group(0));
-
-    // 获取组 1（手机号本体）
-    System.out.println("手机号: " + matcher.group(1));
+    String[] results = match(text, pattern, new int[]{1});
+    Arrays.stream(results).forEach(System.out::println);
   }
 
   private String[] match(String text, Pattern pattern) {
@@ -82,6 +78,23 @@ public class MatcherTest {
 
     while (matcher.find()) {
       set.add(matcher.group());
+    }
+
+    return set.toArray(new String[0]);
+  }
+
+  private String[] match(String text, Pattern pattern, int[] groups) {
+    Matcher matcher = pattern.matcher(text);
+    HashSet<String> set = new HashSet<>();
+
+    while (matcher.find()) {
+      Arrays.stream(groups).mapToObj(g -> {
+        try {
+          return matcher.group(g);
+        } catch (IndexOutOfBoundsException e) {
+          return "";
+        }
+      }).filter(String::isEmpty).forEach(set::add);
     }
 
     return set.toArray(new String[0]);
