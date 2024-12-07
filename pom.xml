@@ -14,6 +14,7 @@
         <kotlin.version>2.0.21</kotlin.version>
         <kotlin.code.style>official</kotlin.code.style>
         <spotless.version>2.43.0</spotless.version>
+        <flatlaf.version>3.4</flatlaf.version>
     </properties>
 
     <dependencies>
@@ -21,15 +22,16 @@
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
-            <version>3.5.2</version>
-            <scope>runtime</scope>
+            <version>${flatlaf.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf-extras -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf-extras</artifactId>
-            <version>3.5.2</version>
+            <version>${flatlaf.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

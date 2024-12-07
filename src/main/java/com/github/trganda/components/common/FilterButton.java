@@ -4,9 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class FilterButton extends JButton {
-  public FilterButton() {
-    super();
-  }
 
   public FilterButton(String text, Icon icon) {
     super(text, icon);
@@ -29,6 +26,7 @@ public class FilterButton extends JButton {
   @Override
   public void updateUI() {
     super.updateUI();
+    this.setBorderPainted(false);
     this.setBackground(UIManager.getColor("Burp.tableFilterBarBackground"));
   }
 }

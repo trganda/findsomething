@@ -9,7 +9,7 @@ public class VersionUtil {
     Properties properties = new Properties();
     String version = "unknown";
 
-    try (InputStream inputStream = VersionUtil.class.getResourceAsStream("version.properties")) {
+    try (InputStream inputStream = VersionUtil.class.getClassLoader().getResourceAsStream("version.properties")) {
       if (inputStream != null) {
         properties.load(inputStream);
         version = properties.getProperty("version", version);

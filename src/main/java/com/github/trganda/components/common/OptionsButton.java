@@ -10,6 +10,7 @@ public class OptionsButton extends JButton {
   public OptionsButton(Icon icon) {
     super(icon);
     this.setBorderPainted(false);
+    this.setBorder(null);
     this.setBackground(UIManager.getColor("Panel.background"));
     this.getModel()
         .addChangeListener(
@@ -26,6 +27,7 @@ public class OptionsButton extends JButton {
   @Override
   public void updateUI() {
     super.updateUI();
+    this.setBorder(null);
     this.setBorderPainted(false);
     this.setBackground(UIManager.getColor("Panel.background"));
   }

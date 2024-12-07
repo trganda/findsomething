@@ -1,6 +1,7 @@
 package com.github.trganda.components.dashboard.filter;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.FilterButton;
 import com.github.trganda.components.common.OptionsButton;
 import java.awt.*;
@@ -35,14 +36,40 @@ public class FilterPane extends JPanel {
     fontSize = UIManager.getFont("Button.font").getSize();
     filterIcon =
         new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
+    filterIcon = filterIcon.derive(1.2f);
+    filterIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> {
+      if (c.getRGB() == Color.BLACK.getRGB()) {
+        return UIManager.getColor("Burp.buttonForeground");
+      }
+      return c;
+    }));
+
     optionsIcon =
         new FlatSVGIcon(
             "svg/options.svg",
-            (int) (fontSize * 1.5),
-            (int) (fontSize * 1.5),
+            fontSize,fontSize,
             this.getClass().getClassLoader());
 
-    filterButton = new FilterButton("Filter", filterIcon);
-    optionsButton = new OptionsButton(optionsIcon);
+    optionsIcon = optionsIcon.derive(1.5f);
+    optionsIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> {
+      if (c.getRGB() == Color.BLACK.getRGB()) {
+        return UIManager.getColor("Burp.buttonForeground");
+      }
+      return c;
+    }));
+
+    if (filterButton != null) {
+      filterButton.setIcon(filterIcon);
+    } else {
+      filterButton = new FilterButton("Filter", filterIcon);
+    }
+
+    if (optionsButton != null) {
+      optionsButton.setIcon(optionsIcon);
+    } else {
+      optionsButton = new OptionsButton(optionsIcon);
+    }
+//    filterButton = new FilterButton("Filter", filterIcon);
+//    optionsButton = new OptionsButton(optionsIcon);
   }
 }

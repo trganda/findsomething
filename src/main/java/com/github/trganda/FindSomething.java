@@ -2,6 +2,7 @@ package com.github.trganda;
 
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
+import com.formdev.flatlaf.FlatLaf;
 import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.dashboard.InformationDetailsPane;
 import com.github.trganda.components.dashboard.InformationPane;
