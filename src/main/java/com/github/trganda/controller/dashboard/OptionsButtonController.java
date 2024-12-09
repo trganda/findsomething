@@ -8,18 +8,18 @@ import javax.swing.*;
 public class OptionsButtonController {
 
   private JButton optionsButton;
+  private OptionsMenu optionsMenu;
 
   public OptionsButtonController(JButton optionsButton) {
     this.optionsButton = optionsButton;
+    this.optionsMenu =
+            new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
     this.setupEventListener();
   }
 
   private void setupEventListener() {
-    OptionsMenu optionsMenu =
-        new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
     optionsButton.addActionListener(
         e -> {
-          FindSomething.API.userInterface().applyThemeToComponent(optionsMenu);
           optionsMenu.show(optionsButton, 0, 0);
         });
   }

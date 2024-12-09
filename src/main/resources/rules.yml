@@ -25,6 +25,355 @@ groups:
     captureGroup: 1
     scope: RESPONSE_BODY
     sensitive: true
+  - enabled: false
+    name: AWS Access Key ID
+    regex: (AKIA[0-9A-Z]{16})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: AWS Secret Access Key
+    regex: (?:AWS|aws)?_?(SECRET|secret)?_?(ACCESS|access)?_?(KEY|key)?[^a-zA-Z0-9]?([0-9a-zA-Z\/+=]{40})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: GitHub Personal Access Token
+    regex: (ghp_[0-9A-Za-z]{36})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google API Key
+    regex: (AIza[0-9A-Za-z-_]{35})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google OAuth Client ID
+    regex: ([0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Slack Token
+    regex: (xox[baprs]-[0-9A-Za-z]{10,48})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Facebook Access Token
+    regex: (EAACEdEose0cBA[0-9A-Za-z]+)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Twitter API Key
+    regex: ([0-9a-zA-Z]{25,35})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Twitter API Secret Key
+    regex: ([0-9a-zA-Z]{35,44})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Salesforce Access Token
+    regex: (00D[0-9A-Za-z]{15,18}![A-Za-z0-9]{40})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Twitter Bearer Token
+    regex: ((?i)^AAAAAAAAAAAAAAAAAAAAA[A-Za-z0-9]{30,45}$)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Firebase Url
+    regex: (https://[a-z0-9-]+\.firebaseio\.com)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Pem Private Key
+    regex: (-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google Cloud Sa Key
+    regex: '("type": "service_account")'
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Publishable Key
+    regex: (pk_live_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Azure Storage Account Key
+    regex: ((?i)^[A-Za-z0-9]{44}=[A-Za-z0-9+/=]{0,43}$)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Instagram Access Token
+    regex: (IGQV[A-Za-z0-9._-]{10,})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Test Publishable Key
+    regex: (pk_test_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Test Secret Key
+    regex: (sk_test_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Slack Bot Token
+    regex: (xoxb-[A-Za-z0-9-]{24,34})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Slack User Token
+    regex: (xoxp-[A-Za-z0-9-]{24,34})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google Gmail Api Key
+    regex: (AIza[0-9A-Za-z\\-_]{35})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google Gmail Oauth
+    regex: (\b[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com\b)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google Oauth Access Token
+    regex: (ya29\.[0-9A-Za-z\\-_]+)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Mailchimp Api Key
+    regex: ([0-9a-f]{32}-us[0-9]{1,2})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Mailgun Api Key
+    regex: (key-[0-9a-zA-Z]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Google Drive Oauth
+    regex: (\b[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com\b)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Paypal Braintree Access Token
+    regex: (access_token\\$production\\$[0-9a-z]{16}\\$[0-9a-f]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Picatic Api Key
+    regex: (sk_live_[0-9a-z]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Api Key
+    regex: (sk_live_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Restricted Api Key
+    regex: (rk_live_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Square Access Token
+    regex: (sq0atp-[0-9A-Za-z\\-_]{22})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Square Oauth Secret
+    regex: (sq0csp-[0-9A-Za-z\\-_]{43})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Heroku API Key
+    regex: ([0-9a-f]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: SendGrid API Key
+    regex: (SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Twilio API Key
+    regex: (SK[0-9a-fA-F]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: PagerDuty API Key
+    regex: (p[a-zA-Z0-9]{29})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Shopify API Key
+    regex: ([a-f0-9]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Shopify Access Token
+    regex: ([a-f0-9]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Shopify Shared Secret
+    regex: ([a-f0-9]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: AWS MWS Key
+    regex: (amzn\\.mws\\.[a-z0-9_]+)
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Github OAuth Token
+    regex: (gho_[A-Za-z0-9]{36})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Bitly Access Token
+    regex: ([a-zA-Z0-9_-]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Asana Personal Access Token
+    regex: (0/[a-f0-9]{32})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: DigitalOcean API Key
+    regex: ([a-f0-9]{64})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Dropbox Access Token
+    regex: (sl\\.[a-zA-Z0-9_-]{8,64})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Hashicorp Vault Token
+    regex: (s\\.[a-zA-Z0-9_-]{8,64})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: LinkedIn Client ID
+    regex: ([a-zA-Z0-9]{12})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: LinkedIn Client Secret
+    regex: ([a-zA-Z0-9]{16})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
+
+  - enabled: false
+    name: Stripe Publishable Test Key
+    regex: (pk_test_[0-9a-zA-Z]{24})
+    captureGroup: 1
+    scope: RESPONSE_BODY
+    sensitive: true
 - group: Sensitive
   rule:
   - enabled: true
@@ -90,12 +439,6 @@ groups:
 - group: Vulnerability
   rule:
   - enabled: true
-    name: Java Deserialization
-    regex: (javax\.faces\.ViewState)
-    captureGroup: 1
-    scope: RESPONSE_BODY
-    sensitive: false
-  - enabled: true
     name: URL As A Value
     regex: (=(https?)(://|%3a%2f%2f))
     captureGroup: 1
@@ -108,7 +451,7 @@ groups:
     scope: RESPONSE_BODY
     sensitive: false
   - enabled: true
-    name: DoS Paramters
+    name: DoS Parameters
     regex: ((size=)|(page=)|(num=)|(limit=)|(start=)|(end=)|(count=))
     captureGroup: 1
     scope: REQUEST_QUERY
@@ -116,7 +459,7 @@ groups:
 - group: Information
   rule:
   - enabled: true
-    name: Linkfinder
+    name: Link
     regex: (?:"|')(((?:[a-zA-Z]{1,10}://|//)[^"'/]{1,}\.[a-zA-Z]{2,}[^"']{0,})|((?:/|\.\./|\./)[^"'><,;|*()(%%$^/\\\[\]][^"'><,;|()]{1,})|([a-zA-Z0-9_\-/]{1,}/[a-zA-Z0-9_\-/]{1,}\.(?:[a-zA-Z]{1,4}|action)(?:[\?|#][^"|']{0,}|))|([a-zA-Z0-9_\-/]{1,}/[a-zA-Z0-9_\-/]{3,}(?:[\?|#][^"|']{0,}|))|([a-zA-Z0-9_\-]{1,}\.(?:\w)(?:[\?|#][^"|']{0,}|)))(?:"|')
     captureGroup: 1
     scope: RESPONSE_BODY
