@@ -58,7 +58,7 @@ public class SuggestionDocumentListener implements DocumentListener {
     }
 
     // Show the popup if there are suggestions
-    if (model.getSize() > 0 && !suggestionComboBox.isMatched()) {
+    if (model.getSize() > 0 && suggestionComboBox.isActivite()) {
       comboBox.setPopupVisible(true);
     } else {
       comboBox.setPopupVisible(false);

@@ -42,7 +42,9 @@ public class InfoFilterController {
         e -> {
           prevFilter = Filter.getFilter();
           filterEditor.pack();
+          filterEditor.getHostFilter().getSuggestion().setActivite(false);
           filterEditor.setVisible(true);
+          filterEditor.getHostFilter().getSuggestion().setActivite(true);
           filterEditor.setFilter(prevFilter);
         });
     this.filterButtonPanel.getCancel().addActionListener(e -> this.filterEditor.setVisible(false));
