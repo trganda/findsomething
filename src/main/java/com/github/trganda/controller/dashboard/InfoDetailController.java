@@ -8,6 +8,7 @@ import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -73,6 +74,20 @@ public class InfoDetailController {
                 infoDetailTableModel.addRow(row);
               }
               infoDetailTableModel.fireTableDataChanged();
+              JTable infoDetailTable = informationDetailsPane.getTable();
+              // select the first row
+              infoDetailTable.setRowSelectionInterval(0, 0);
+              // trigger the mouse event
+              infoDetailTable.dispatchEvent(new MouseEvent(
+                      infoDetailTable,
+                      MouseEvent.MOUSE_CLICKED,
+                      System.currentTimeMillis(),
+                      0,
+                      infoDetailTable.getCellRect(0, 0, true).x + 5,
+                      infoDetailTable.getCellRect(0, 0, true).y + 5,
+                      1,
+                      false
+              ));
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }
