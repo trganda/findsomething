@@ -15,7 +15,8 @@ public class SuggestionComboBox extends JPanel {
   private JTextField hostTextField;
   // Identify the user are typing for match a host (true) or not (false)
   private boolean matching;
-  private boolean activite;
+  private boolean matched;
+  private boolean activate;
   private static final String placeHolder = "Enter a host";
 
   public SuggestionComboBox() {
@@ -23,7 +24,8 @@ public class SuggestionComboBox extends JPanel {
     this.hostComboBox = new JComboBox<>(hostComboBoxModel);
     this.hostTextField = new JTextField();
     this.matching = false;
-    this.activite = false;
+    this.matched = false;
+    this.activate = false;
 
     this.hostComboBox.setMaximumRowCount(6);
     this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
@@ -57,7 +59,9 @@ public class SuggestionComboBox extends JPanel {
         e -> {
           if (!this.isMatching() && hostComboBox.getSelectedIndex() >= 0) {
             String selectedHost = hostComboBox.getSelectedItem().toString();
+            matched = true;
             hostTextField.setText(selectedHost);
+            matched = false;
             hostComboBox.setPopupVisible(false);
           }
         });
