@@ -82,11 +82,12 @@ public class FilterEditor extends JDialog {
   }
 
   public void setFilter(Filter filter) {
-    this.hostFilter.getSuggestion().setMatched(true);
     this.filter = filter;
     if (!filter.getHost().isEmpty()) {
+      this.hostFilter.getSuggestion().setMatched(true);
       this.hostFilter.getSuggestion().getHostTextField().setText(filter.getHost());
       this.hostFilter.getSuggestion().getHostComboBox().setPopupVisible(false);
+      this.hostFilter.getSuggestion().setMatched(false);
     }
     this.hostFilter.getSelector().setSelectedItem(filter.getGroup());
     if (!filter.getSearchTerm().isEmpty()) {
@@ -94,7 +95,6 @@ public class FilterEditor extends JDialog {
     }
     this.informationFilter.getNegative().setSelected(filter.isNegative());
     this.informationFilter.getSensitive().setSelected(filter.isSensitive());
-    this.hostFilter.getSuggestion().setMatched(false);
   }
 
 }

@@ -49,7 +49,7 @@ public class Utils {
 
   public static boolean isDomainMatch(String pattern, String domain) {
     // If the pattern and domain are exactly the same, they match
-    if (pattern.equals(domain) || pattern.equals("*")) {
+    if (pattern.equals(domain) || pattern.equals("*") || pattern.isEmpty()) {
       return true;
     }
 

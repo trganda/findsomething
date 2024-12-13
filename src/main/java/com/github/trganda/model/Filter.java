@@ -18,7 +18,7 @@ public class Filter {
 
   private static final Filter FILTER =
       Filter.builder()
-          .host("*")
+          .host("")
           .group(GROUP_GENERAL)
           .searchTerm("")
           .negative(false)
