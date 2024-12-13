@@ -82,6 +82,7 @@ public class FilterEditor extends JDialog {
   }
 
   public void setFilter(Filter filter) {
+    this.hostFilter.getSuggestion().setMatched(true);
     this.filter = filter;
     if (!filter.getHost().isEmpty()) {
       this.hostFilter.getSuggestion().getHostTextField().setText(filter.getHost());
