@@ -38,7 +38,7 @@ public class InformationFilterPane extends JPanel {
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(0, 0, 5, 2);
+    gbc.insets = new Insets(0, 2, 5, 2);
     this.add(filterField, gbc);
 
     gbc.gridx = 0;
