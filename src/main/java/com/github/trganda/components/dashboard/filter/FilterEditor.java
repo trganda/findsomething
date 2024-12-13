@@ -94,5 +94,7 @@ public class FilterEditor extends JDialog {
     }
     this.informationFilter.getNegative().setSelected(filter.isNegative());
     this.informationFilter.getSensitive().setSelected(filter.isSensitive());
+    this.hostFilter.getSuggestion().setMatched(false);
   }
+
 }
