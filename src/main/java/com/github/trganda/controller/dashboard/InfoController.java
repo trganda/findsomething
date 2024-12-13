@@ -110,6 +110,9 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     Map<String, List<InfoDataModel>> classified =
         data.stream().collect(Collectors.groupingBy(InfoDataModel::getRuleName));
 
+    // Clear other tab first
+    infoPane.clearTab();
+
     // Create other tab view with rule name
     classified.forEach(
         (ruleName, vals) -> {
@@ -221,10 +224,10 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
           protected void done() {
             try {
               List<InfoDataModel> data = get();
-              // Update active tab view
-              updateActiveInfoView(data);
               // Create other tab view with rule name if not exist
               updateTabView(data);
+              // Update active tab view
+              updateActiveInfoView(data);
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }

@@ -4,6 +4,7 @@ import static javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT;
 
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -72,9 +73,17 @@ public class InformationPane extends JPanel {
   public void clearTab() {
     int index = getTabComponentIndexByName(ALL);
     if (index != -1) {
-      Component all = tabbedPane.getComponentAt(index);
-      tabbedPane.removeAll();
-      tabbedPane.addTab(ALL, all);
+      int cnt = tabbedPane.getTabCount();
+      java.util.List<Component> components = new ArrayList<>();
+      for (int i = 0; i < cnt; i++) {
+        if (i != index) {
+          components.add(tabbedPane.getComponentAt(i));
+        }
+      }
+
+      for (Component component : components) {
+        tabbedPane.remove(component);
+      }
     }
   }
 }
