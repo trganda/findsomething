@@ -66,7 +66,7 @@ public class InfoFilterController {
               modifiedFields.forEach(
                   f -> {
                     if (f.equals("1")) {
-                      infoController.updateActiveInfoView(currentFilter);
+                      infoController.updateInfoView(currentFilter, false);
                     } else if (f.equals("2")) {
                       infoController.updateTableFilter(
                           currentFilter.getSearchTerm(),

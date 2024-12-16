@@ -9,6 +9,9 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -44,9 +47,14 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     // Information tab
     infoPane
         .getTabbedPane()
-        .addChangeListener(
-            e -> {
-              updateActiveInfoView(Filter.getFilter());
+            .addMouseListener(
+                new MouseAdapter() {
+                  @Override
+                  public void mouseClicked(MouseEvent e) {
+                    // TODO: ignore click event if we click on the activate tab
+                    // ref: https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
+                    updateInfoView(Filter.getFilter(), true);
+                  }
             });
 
     // Setup click event listener for 'All' tab
@@ -62,7 +70,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    *
    * @param data The data to update the view with.
    */
-  private void updateActiveInfoView(List<InfoDataModel> data) {
+  private void updateActivateInfoView(List<InfoDataModel> data) {
     int selectedIndex = infoPane.getTabbedPane().getSelectedIndex();
     if (selectedIndex != -1) {
       String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
@@ -197,7 +205,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    */
   @Override
   public void onDataChanged() {
-    updateActiveInfoView(Filter.getFilter());
+    updateInfoView(Filter.getFilter(), false);
   }
 
   @Override
@@ -208,7 +216,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    * <p>
    * This method will also update other tab views with rule name if not exist.
    */
-  public void updateActiveInfoView(Filter filter) {
+  public void updateInfoView(Filter filter, boolean onlyActivate) {
     SwingWorker<List<InfoDataModel>, Void> worker =
         new SwingWorker<>() {
           @Override
@@ -224,10 +232,12 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
           protected void done() {
             try {
               List<InfoDataModel> data = get();
-              // Create other tab view with rule name if not exist
-              updateTabView(data);
+              if (!onlyActivate) {
+                // Create other tab view with rule name if not exist
+                updateTabView(data);
+              }
               // Update active tab view
-              updateActiveInfoView(data);
+              updateActivateInfoView(data);
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }

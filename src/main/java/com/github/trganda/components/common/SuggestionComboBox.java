@@ -22,7 +22,10 @@ public class SuggestionComboBox extends JPanel {
     this.hostComboBoxModel = new DefaultComboBoxModel<>();
     this.hostComboBox = new JComboBox<>(hostComboBoxModel);
     this.hostTextField = new JTextField();
+    // Identify the user are typing for match a host (true) or not (false)
     this.matching = false;
+
+    // Identify the user selected a host (true) or not (false), use for prevent flash view of combobox.
     this.matched = false;
 
     this.hostComboBox.setMaximumRowCount(6);
