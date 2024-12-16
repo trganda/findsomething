@@ -83,18 +83,14 @@ public class FilterEditor extends JDialog {
 
   public void setFilter(Filter filter) {
     this.filter = filter;
-    if (!filter.getHost().isEmpty()) {
-      this.hostFilter.getSuggestion().setMatched(true);
-      this.hostFilter.getSuggestion().getHostTextField().setText(filter.getHost());
-      this.hostFilter.getSuggestion().getHostComboBox().setPopupVisible(false);
-      this.hostFilter.getSuggestion().setMatched(false);
-    }
+
+    this.hostFilter.getSuggestion().setMatched(true);
+    this.hostFilter.getSuggestion().getHostTextField().setText(filter.getHost());
+    this.hostFilter.getSuggestion().getHostComboBox().setPopupVisible(false);
+    this.hostFilter.getSuggestion().setMatched(false);
     this.hostFilter.getSelector().setSelectedItem(filter.getGroup());
-    if (!filter.getSearchTerm().isEmpty()) {
-      this.informationFilter.getFilterField().setText(filter.getSearchTerm());
-    }
+    this.informationFilter.getFilterField().setText(filter.getSearchTerm());
     this.informationFilter.getNegative().setSelected(filter.isNegative());
     this.informationFilter.getSensitive().setSelected(filter.isSensitive());
   }
-
 }

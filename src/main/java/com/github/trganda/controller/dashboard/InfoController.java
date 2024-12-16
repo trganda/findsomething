@@ -55,11 +55,11 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   /**
    * Updates the active tab view with the given data.
-   * 
+   *
    * <p>If the active tab is the 'All' tab, the data is filtered and updated directly.
    * Otherwise, a SwingWorker is used to filter the data with the rule name and update
    * the view when done.
-   * 
+   *
    * @param data The data to update the view with.
    */
   private void updateActiveInfoView(List<InfoDataModel> data) {
@@ -98,11 +98,11 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   /**
    * Creates other tab view with rule name.
-   * 
+   *
    * <p>
    * The given data is classified with rule name and for each rule name, a new tab is
    * created if the tab does not exist. The event listener is set up for the new tab.
-   * 
+   *
    * @param data The data to classify and create tab for.
    */
   private void updateTabView(List<InfoDataModel> data) {

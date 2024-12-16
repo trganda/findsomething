@@ -45,7 +45,13 @@ public class InfoFilterController {
           filterEditor.setVisible(true);
           filterEditor.setFilter(prevFilter);
         });
-    this.filterButtonPanel.getCancel().addActionListener(e -> this.filterEditor.setVisible(false));
+    this.filterButtonPanel
+        .getCancel()
+        .addActionListener(
+            e -> {
+              this.filterEditor.setVisible(false);
+              this.filterEditor.setFilter(prevFilter);
+            });
     this.filterButtonPanel
         .getApply()
         .addActionListener(

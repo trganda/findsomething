@@ -2,7 +2,6 @@ package com.github.trganda;
 
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
-import com.formdev.flatlaf.FlatLaf;
 import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.dashboard.InformationDetailsPane;
 import com.github.trganda.components.dashboard.InformationPane;
@@ -18,14 +17,10 @@ import com.github.trganda.controller.dashboard.OptionsButtonController;
 import com.github.trganda.handler.InfoHttpResponseHandler;
 import com.github.trganda.handler.UnloadHandler;
 import com.github.trganda.model.RuleModel;
-
-import java.io.IOException;
-import java.util.Properties;
+import com.github.trganda.utils.VersionUtil;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
-
-import com.github.trganda.utils.VersionUtil;
 import lombok.Getter;
 
 @Getter

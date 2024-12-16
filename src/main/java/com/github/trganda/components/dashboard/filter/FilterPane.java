@@ -1,7 +1,6 @@
 package com.github.trganda.components.dashboard.filter;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.FilterButton;
 import com.github.trganda.components.common.OptionsButton;
 import java.awt.*;
@@ -37,26 +36,27 @@ public class FilterPane extends JPanel {
     filterIcon =
         new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
     filterIcon = filterIcon.derive(1.2f);
-    filterIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> {
-      if (c.getRGB() == Color.BLACK.getRGB()) {
-        return UIManager.getColor("Burp.buttonForeground");
-      }
-      return c;
-    }));
+    filterIcon.setColorFilter(
+        new FlatSVGIcon.ColorFilter(
+            c -> {
+              if (c.getRGB() == Color.BLACK.getRGB()) {
+                return UIManager.getColor("Burp.buttonForeground");
+              }
+              return c;
+            }));
 
     optionsIcon =
-        new FlatSVGIcon(
-            "svg/options.svg",
-            fontSize,fontSize,
-            this.getClass().getClassLoader());
+        new FlatSVGIcon("svg/options.svg", fontSize, fontSize, this.getClass().getClassLoader());
 
     optionsIcon = optionsIcon.derive(1.5f);
-    optionsIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> {
-      if (c.getRGB() == Color.BLACK.getRGB()) {
-        return UIManager.getColor("Burp.buttonForeground");
-      }
-      return c;
-    }));
+    optionsIcon.setColorFilter(
+        new FlatSVGIcon.ColorFilter(
+            c -> {
+              if (c.getRGB() == Color.BLACK.getRGB()) {
+                return UIManager.getColor("Burp.buttonForeground");
+              }
+              return c;
+            }));
 
     if (filterButton != null) {
       filterButton.setIcon(filterIcon);
@@ -69,7 +69,7 @@ public class FilterPane extends JPanel {
     } else {
       optionsButton = new OptionsButton(optionsIcon);
     }
-//    filterButton = new FilterButton("Filter", filterIcon);
-//    optionsButton = new OptionsButton(optionsIcon);
+    //    filterButton = new FilterButton("Filter", filterIcon);
+    //    optionsButton = new OptionsButton(optionsIcon);
   }
 }

@@ -1,6 +1,5 @@
 package com.github.trganda.controller.dashboard;
 
-import com.github.trganda.FindSomething;
 import com.github.trganda.components.common.OptionsMenu;
 import java.util.Arrays;
 import javax.swing.*;
@@ -12,8 +11,7 @@ public class OptionsButtonController {
 
   public OptionsButtonController(JButton optionsButton) {
     this.optionsButton = optionsButton;
-    this.optionsMenu =
-            new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
+    this.optionsMenu = new OptionsMenu(Arrays.asList("#", "Method", "URL", "Referer", "Status"));
     this.setupEventListener();
   }
 

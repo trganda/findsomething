@@ -1,7 +1,6 @@
 package com.github.trganda.components.common;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-
 import java.util.List;
 import javax.swing.*;
 

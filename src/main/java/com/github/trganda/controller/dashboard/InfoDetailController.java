@@ -78,7 +78,8 @@ public class InfoDetailController {
               // select the first row
               infoDetailTable.setRowSelectionInterval(0, 0);
               // trigger the mouse event
-              infoDetailTable.dispatchEvent(new MouseEvent(
+              infoDetailTable.dispatchEvent(
+                  new MouseEvent(
                       infoDetailTable,
                       MouseEvent.MOUSE_CLICKED,
                       System.currentTimeMillis(),
@@ -86,8 +87,7 @@ public class InfoDetailController {
                       infoDetailTable.getCellRect(0, 0, true).x + 5,
                       infoDetailTable.getCellRect(0, 0, true).y + 5,
                       1,
-                      false
-              ));
+                      false));
             } catch (InterruptedException | ExecutionException e) {
               FindSomething.API.logging().logToError(new RuntimeException(e));
             }
