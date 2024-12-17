@@ -49,10 +49,17 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         .getTabbedPane()
             .addMouseListener(
                 new MouseAdapter() {
+                  private int actIdx;
+
                   @Override
                   public void mouseClicked(MouseEvent e) {
                     // TODO: ignore click event if we click on the activate tab
                     // ref: https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
+                    int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
+                    if (index == -1) {
+                      return;
+                    }
+
                     updateInfoView(Filter.getFilter(), true);
                   }
             });
