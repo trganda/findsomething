@@ -1,7 +1,12 @@
 package com.github.trganda.components.common;
 
+import com.formdev.flatlaf.ui.FlatButtonBorder;
+import com.formdev.flatlaf.ui.FlatEmptyBorder;
+import com.formdev.flatlaf.ui.FlatRoundBorder;
+
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class FilterButton extends JButton {
 
@@ -11,6 +16,7 @@ public class FilterButton extends JButton {
     this.setHorizontalTextPosition(SwingConstants.RIGHT);
     this.setBackground(UIManager.getColor("Burp.tableFilterBarBackground"));
     this.setBorderPainted(false);
+    this.setBorder(new RoundedBorder(2, 8, 2, 8));
     this.getModel()
         .addChangeListener(
             e -> {
@@ -27,6 +33,7 @@ public class FilterButton extends JButton {
   public void updateUI() {
     super.updateUI();
     this.setBorderPainted(false);
+    this.setBorder(new RoundedBorder(2, 8, 2, 8));
     this.setBackground(UIManager.getColor("Burp.tableFilterBarBackground"));
   }
 }

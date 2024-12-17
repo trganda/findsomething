@@ -12,9 +12,9 @@ public class FilterPane extends JPanel {
 
   private JButton filterButton;
   private JButton optionsButton;
-  private int fontSize = UIManager.getFont("Button.font").getSize();
   private FlatSVGIcon filterIcon;
   private FlatSVGIcon optionsIcon;
+  private int fontSize = UIManager.getFont("Button.font").getSize();
 
   public FilterPane() {
     this.setupComponents();
@@ -32,7 +32,7 @@ public class FilterPane extends JPanel {
   @Override
   public void updateUI() {
     super.updateUI();
-    fontSize = UIManager.getFont("Button.font").getSize();
+    fontSize = UIManager.getFont("TitlePane.small.font").getSize();
     filterIcon =
         new FlatSVGIcon("svg/filter.svg", fontSize, fontSize, this.getClass().getClassLoader());
     filterIcon = filterIcon.derive(1.2f);
@@ -61,7 +61,7 @@ public class FilterPane extends JPanel {
     if (filterButton != null) {
       filterButton.setIcon(filterIcon);
     } else {
-      filterButton = new FilterButton("Filter", filterIcon);
+      filterButton = new FilterButton("Filter settings", filterIcon);
     }
 
     if (optionsButton != null) {
@@ -69,7 +69,5 @@ public class FilterPane extends JPanel {
     } else {
       optionsButton = new OptionsButton(optionsIcon);
     }
-    //    filterButton = new FilterButton("Filter", filterIcon);
-    //    optionsButton = new OptionsButton(optionsIcon);
   }
 }
