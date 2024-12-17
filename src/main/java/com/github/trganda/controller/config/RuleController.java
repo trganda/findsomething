@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
-import javax.swing.JTable;
-import javax.swing.SwingWorker;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class RuleController implements ConfigChangeListener {
 
@@ -42,6 +44,50 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               this.onConfigChange(ConfigManager.getInstance());
+            });
+
+    this.innerPane
+        .getRuleSearch()
+        .getDocument()
+        .addDocumentListener(
+            new DocumentListener() {
+              @Override
+              public void insertUpdate(DocumentEvent e) {
+                updateTableFilter(
+                    innerPane.getRuleSearch().getText(),
+                    innerPane.getRuleSearch().isPlaceholderActive());
+              }
+
+              @Override
+              public void removeUpdate(DocumentEvent e) {
+                updateTableFilter(
+                    innerPane.getRuleSearch().getText(),
+                    innerPane.getRuleSearch().isPlaceholderActive());
+              }
+
+              @Override
+              public void changedUpdate(DocumentEvent e) {
+                updateTableFilter(
+                    innerPane.getRuleSearch().getText(),
+                    innerPane.getRuleSearch().isPlaceholderActive());
+              }
+
+              public void updateTableFilter(String filter, boolean isPlaceholderActive) {
+                RowFilter<TableModel, Object> rf = null;
+                if (!isPlaceholderActive) {
+                  try {
+                    filter = "(?i)" + filter;
+                    rf = RowFilter.regexFilter(filter, 1);
+                  } catch (java.util.regex.PatternSyntaxException e) {
+                    return;
+                  }
+
+                  TableRowSorter<TableModel> sorter =
+                      new TableRowSorter<TableModel>(innerPane.getModel());
+                  sorter.setRowFilter(rf);
+                  innerPane.getTable().setRowSorter(sorter);
+                }
+              }
             });
 
     // table event

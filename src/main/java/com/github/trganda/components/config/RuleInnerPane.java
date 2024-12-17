@@ -65,6 +65,7 @@ public class RuleInnerPane extends JPanel {
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.LINE_END;
+    gbc.insets = new Insets(0, 0, 5, 0);
     this.add(ruleSearch, gbc);
 
     gbc.gridx = 0;
@@ -135,8 +136,7 @@ public class RuleInnerPane extends JPanel {
             });
 
     ruleSearch = new PlaceHolderTextField("Search");
-    ruleSearch.setPreferredSize(new Dimension(200, ruleSearch.getPreferredSize().height));
-//    ruleSearch.setMaximumSize();
+    ruleSearch.setPreferredSize(new Dimension(260, ruleSearch.getPreferredSize().height));
     wrap = this.setupTable();
     countLabel = new JLabel("0");
   }

@@ -9,7 +9,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -47,21 +46,22 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     // Information tab
     infoPane
         .getTabbedPane()
-            .addMouseListener(
-                new MouseAdapter() {
-                  private int actIdx;
+        .addMouseListener(
+            new MouseAdapter() {
+              private int actIdx;
 
-                  @Override
-                  public void mouseClicked(MouseEvent e) {
-                    // TODO: ignore click event if we click on the activate tab
-                    // ref: https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
-                    int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
-                    if (index == -1) {
-                      return;
-                    }
+              @Override
+              public void mouseClicked(MouseEvent e) {
+                // TODO: ignore click event if we click on the activate tab
+                // ref:
+                // https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
+                int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
+                if (index == -1) {
+                  return;
+                }
 
-                    updateInfoView(Filter.getFilter(), true);
-                  }
+                updateInfoView(Filter.getFilter(), true);
+              }
             });
 
     // Setup click event listener for 'All' tab
@@ -289,15 +289,15 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
       } catch (java.util.regex.PatternSyntaxException e) {
         return;
       }
-    }
 
-    // update all tabs
-    for (int i = 0; i < this.infoPane.getTabbedPane().getTabCount(); i++) {
-      JScrollPane wrap = (JScrollPane) this.infoPane.getTabbedPane().getComponentAt(i);
-      JTable table = (JTable) wrap.getViewport().getView();
-      TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-      sorter.setRowFilter(rf);
-      table.setRowSorter(sorter);
+      // update all tabs
+      for (int i = 0; i < this.infoPane.getTabbedPane().getTabCount(); i++) {
+        JScrollPane wrap = (JScrollPane) this.infoPane.getTabbedPane().getComponentAt(i);
+        JTable table = (JTable) wrap.getViewport().getView();
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        sorter.setRowFilter(rf);
+        table.setRowSorter(sorter);
+      }
     }
   }
 }

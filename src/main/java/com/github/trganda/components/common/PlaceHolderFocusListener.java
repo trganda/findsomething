@@ -47,6 +47,7 @@ public class PlaceHolderFocusListener extends FocusAdapter {
   public void focusLost(FocusEvent e) {
     super.focusLost(e);
     if (textField.getText().isEmpty()) {
+      isPlaceholderActive = true;
       textField.setFont(
           new Font(
               Utils.getBurpDisplayFont().getName(),
@@ -54,7 +55,6 @@ public class PlaceHolderFocusListener extends FocusAdapter {
               Utils.getBurpDisplayFont().getSize()));
       textField.setForeground(Color.GRAY);
       textField.setText(placeHolder);
-      isPlaceholderActive = true;
     }
   }
 }

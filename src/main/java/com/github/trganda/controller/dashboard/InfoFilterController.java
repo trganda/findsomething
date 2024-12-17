@@ -80,14 +80,8 @@ public class InfoFilterController {
         .getApplyClose()
         .addActionListener(
             e -> {
-              //              Filter filter = Filter.getFilter();
-              //              PlaceHolderTextField filterField =
-              // this.filter.getInformationFilter().getFilterField();
-              //              infoController.updateTableFilter(filter.getSearchTerm(),
-              // filter.isSensitive(), filter.isNegative(), filterField.isPlaceholderActive());
-              //              infoController.updateActiveInfoView();
-              //              updateFilter();
               this.filterEditor.setVisible(false);
+              this.filterEditor.setFilter(prevFilter);
             });
   }
 
@@ -96,12 +90,4 @@ public class InfoFilterController {
       listener.onFilterChanged();
     }
   }
-
-  //  private void updateFilter() {
-  //    Filter.getFilter().setHost(this.filterEditor.getHost());
-  //    Filter.getFilter().setGroup(this.filterEditor.getRuleType());
-  //    Filter.getFilter().setSearchTerm(this.filterEditor.getSearchTerm());
-  //    Filter.getFilter().setSensitive(this.filterEditor.isSensitive());
-  //    Filter.getFilter().setNegative(this.filterEditor.isNegative());
-  //  }
 }
