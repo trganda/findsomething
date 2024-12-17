@@ -2,6 +2,7 @@ package com.github.trganda.components.config;
 
 import static com.github.trganda.config.ConfigManager.*;
 
+import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -14,12 +15,14 @@ import lombok.Getter;
 @Getter
 public class RuleInnerPane extends JPanel {
 
-  private RuleInnerButtonsPane ruleButtonsPane;
   private JComboBox<String> selector;
+  private JLabel countLabel;
+
+  private PlaceHolderTextField ruleSearch;
+  private RuleInnerButtonsPane ruleButtonsPane;
   private JTable table;
   private DefaultTableModel model;
   private JComponent wrap;
-  private JLabel countLabel;
 
   public RuleInnerPane() {
     this.setupComponents();
@@ -55,11 +58,17 @@ public class RuleInnerPane extends JPanel {
     gbc.gridwidth = 2;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(15, 0, 20, 0);
-    JSeparator separator = new JSeparator();
-    this.add(separator, gbc);
+    this.add(new JSeparator(), gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 3;
+    gbc.gridwidth = 1;
+    gbc.fill = GridBagConstraints.NONE;
+    gbc.anchor = GridBagConstraints.LINE_END;
+    this.add(ruleSearch, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 3;
+    gbc.gridy = 4;
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -67,7 +76,7 @@ public class RuleInnerPane extends JPanel {
     this.add(ruleButtonsPane, gbc);
 
     gbc.gridx = 1;
-    gbc.gridy = 3;
+    gbc.gridy = 4;
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 0);
@@ -125,6 +134,9 @@ public class RuleInnerPane extends JPanel {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
+    ruleSearch = new PlaceHolderTextField("Search");
+    ruleSearch.setPreferredSize(new Dimension(200, ruleSearch.getPreferredSize().height));
+//    ruleSearch.setMaximumSize();
     wrap = this.setupTable();
     countLabel = new JLabel("0");
   }
