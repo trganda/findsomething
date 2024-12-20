@@ -1,7 +1,6 @@
 package com.github.trganda.components.common;
 
 import com.formdev.flatlaf.ui.FlatButtonBorder;
-
 import java.awt.*;
 
 class RoundedBorder extends FlatButtonBorder {

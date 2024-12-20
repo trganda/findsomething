@@ -2,6 +2,7 @@ package com.github.trganda.controller.dashboard;
 
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.dashboard.InformationPane;
+import com.github.trganda.components.dashboard.StatusPane;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.handler.FilterChangeListener;
 import com.github.trganda.model.Filter;
@@ -24,9 +25,12 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   private final InformationPane infoPane;
   private final InfoDetailController infoDetailController;
+  private final StatusPane statusPane;
+  private int actIdx = 0;
 
-  public InfoController(InformationPane infoPane, InfoDetailController infoDetailController) {
+  public InfoController(InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
+    this.statusPane = statusPane;
     this.infoDetailController = infoDetailController;
     this.setupEventListener();
   }
@@ -48,11 +52,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         .getTabbedPane()
         .addMouseListener(
             new MouseAdapter() {
-              private int actIdx;
-
               @Override
               public void mouseClicked(MouseEvent e) {
-                // TODO: ignore click event if we click on the activate tab
                 // ref:
                 // https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
                 int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
@@ -60,7 +61,13 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
                   return;
                 }
 
+                if (index == actIdx) {
+                  e.consume();
+                  return;
+                }
+
                 updateInfoView(Filter.getFilter(), true);
+                actIdx = index;
               }
             });
 
@@ -226,13 +233,16 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   public void updateInfoView(Filter filter, boolean onlyActivate) {
     SwingWorker<List<InfoDataModel>, Void> worker =
         new SwingWorker<>() {
+
           @Override
           protected List<InfoDataModel> doInBackground() {
             String ruleType = filter.getGroup();
             String selectedHost = filter.getHost();
-            return CachePool.getInstance().getInfoData(ruleType).stream()
+            List<InfoDataModel> data = CachePool.getInstance().getInfoData(ruleType).stream()
                 .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
                 .collect(Collectors.toList());
+
+            return data;
           }
 
           @Override

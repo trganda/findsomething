@@ -1,12 +1,11 @@
 package com.github.trganda.components.config;
 
+import com.github.trganda.components.common.PrimaryButton;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import com.github.trganda.components.common.PrimaryButton;
 import lombok.Getter;
 
 @Getter

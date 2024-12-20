@@ -1,12 +1,7 @@
 package com.github.trganda.components.common;
 
-import com.formdev.flatlaf.ui.FlatButtonBorder;
-import com.formdev.flatlaf.ui.FlatEmptyBorder;
-import com.formdev.flatlaf.ui.FlatRoundBorder;
-
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 public class FilterButton extends JButton {
 

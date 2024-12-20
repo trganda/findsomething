@@ -6,6 +6,7 @@ import com.github.trganda.components.ExtensionFrame;
 import com.github.trganda.components.dashboard.InformationDetailsPane;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.components.dashboard.RequestPane;
+import com.github.trganda.components.dashboard.StatusPane;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
@@ -75,8 +76,9 @@ public class FindSomething implements BurpExtension {
     InfoDetailController infoDetailController =
         new InfoDetailController(informationDetailsPane, requestPane);
     InformationPane informationPane = extensionFrame.getDashboard().getInformationPane();
+    StatusPane statusPane = extensionFrame.getDashboard().getStatusPane();
 
-    InfoController infoController = new InfoController(informationPane, infoDetailController);
+    InfoController infoController = new InfoController(informationPane, statusPane, infoDetailController);
     handler.registerDataChangeListener(infoController);
 
     JButton filterButton = informationDetailsPane.getFilterPane().getFilterButton();

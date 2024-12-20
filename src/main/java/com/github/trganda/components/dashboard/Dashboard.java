@@ -36,9 +36,9 @@ public class Dashboard extends JPanel {
 
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.weightx = 0.0;
+    gbc.weightx = 1.0;
     gbc.weighty = 0.0;
-    gbc.fill = GridBagConstraints.NONE;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.anchor = GridBagConstraints.LINE_END;
     gbc.insets = new Insets(0, 0, 0, 0);
     this.add(statusPane, gbc);

@@ -1,12 +1,9 @@
 package com.github.trganda.components.dashboard.filter;
 
-import javax.swing.*;
-
-import com.formdev.flatlaf.extras.components.FlatButton;
 import com.github.trganda.components.common.PrimaryButton;
-import lombok.Getter;
-
 import java.awt.*;
+import javax.swing.*;
+import lombok.Getter;
 
 @Getter
 public class FilterButtonPanel extends JPanel {
