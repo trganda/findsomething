@@ -25,13 +25,10 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   private final InformationPane infoPane;
   private final InfoDetailController infoDetailController;
-  private final StatusPane statusPane;
-  private int actIdx = 0;
 
   public InfoController(
-      InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
+      InformationPane infoPane, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
-    this.statusPane = statusPane;
     this.infoDetailController = infoDetailController;
     this.setupEventListener();
   }
@@ -49,32 +46,6 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    */
   private void setupEventListener() {
     // Information tab
-//    infoPane
-//        .getTabbedPane()
-//        .addMouseListener(
-//            new MouseAdapter() {
-//              @Override
-//              public void mouseClicked(MouseEvent e) {
-//                // ref:
-//                // https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
-//                int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
-//                if (index == -1) {
-//                  return;
-//                }
-//
-//                // Ignore multiple click on the same tab
-//                if (index == actIdx) {
-//                  return;
-//                }
-//
-//                Filter filter = Filter.getFilter();
-//                updateInfoView(filter, true);
-//                updateTableFilter(
-//                    filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
-//                actIdx = index;
-//              }
-//            });
-
     infoPane
         .getTabbedPane()
         .addChangeListener(
@@ -263,11 +234,9 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
       return;
     }
 
-    // update active tabs
     JTable table = this.infoPane.getActiveTabView();
     TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
     sorter.setRowFilter(rf);
     table.setRowSorter(sorter);
-    //    }
   }
 }

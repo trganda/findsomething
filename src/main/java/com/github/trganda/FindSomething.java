@@ -76,10 +76,9 @@ public class FindSomething implements BurpExtension {
     InfoDetailController infoDetailController =
         new InfoDetailController(informationDetailsPane, requestPane);
     InformationPane informationPane = extensionFrame.getDashboard().getInformationPane();
-    StatusPane statusPane = extensionFrame.getDashboard().getStatusPane();
 
     InfoController infoController =
-        new InfoController(informationPane, statusPane, infoDetailController);
+        new InfoController(informationPane, infoDetailController);
     handler.registerDataChangeListener(infoController);
 
     JButton filterButton = informationDetailsPane.getFilterPane().getFilterButton();
