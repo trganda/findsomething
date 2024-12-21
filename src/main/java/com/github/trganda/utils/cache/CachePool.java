@@ -20,10 +20,7 @@ public class CachePool {
   private static final int MAX_SIZE = 100000;
   private static final int EXPIRES_IN_HOURS = 3;
   private static final Cache<String, InterceptedResponse> httpMessageCache =
-      Caffeine.newBuilder()
-          .maximumSize(MAX_SIZE)
-          .expireAfterWrite(EXPIRES_IN_HOURS, TimeUnit.HOURS)
-          .build();
+      Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<InfoDataModel>> infoCache =
       Caffeine.newBuilder().maximumSize(MAX_SIZE).build();
   private static final Cache<String, List<RequestDetailModel>> reqInfoCache =

@@ -1,6 +1,5 @@
 package com.github.trganda.controller.dashboard;
 
-import com.github.trganda.FindSomething;
 import com.github.trganda.components.dashboard.InformationPane;
 import com.github.trganda.components.dashboard.StatusPane;
 import com.github.trganda.handler.DataChangeListener;
@@ -12,6 +11,7 @@ import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -28,7 +28,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   private final StatusPane statusPane;
   private int actIdx = 0;
 
-  public InfoController(InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
+  public InfoController(
+      InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
     this.statusPane = statusPane;
     this.infoDetailController = infoDetailController;
@@ -48,74 +49,112 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    */
   private void setupEventListener() {
     // Information tab
+//    infoPane
+//        .getTabbedPane()
+//        .addMouseListener(
+//            new MouseAdapter() {
+//              @Override
+//              public void mouseClicked(MouseEvent e) {
+//                // ref:
+//                // https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
+//                int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
+//                if (index == -1) {
+//                  return;
+//                }
+//
+//                // Ignore multiple click on the same tab
+//                if (index == actIdx) {
+//                  return;
+//                }
+//
+//                Filter filter = Filter.getFilter();
+//                updateInfoView(filter, true);
+//                updateTableFilter(
+//                    filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
+//                actIdx = index;
+//              }
+//            });
+
     infoPane
         .getTabbedPane()
-        .addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                // ref:
-                // https://stackoverflow.com/questions/41528601/java-swing-how-to-detect-doubleclick-on-tab-header-in-jtabbedpane/41528659
-                int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
-                if (index == -1) {
-                  return;
-                }
-
-                if (index == actIdx) {
-                  e.consume();
-                  return;
-                }
-
-                updateInfoView(Filter.getFilter(), true);
-                actIdx = index;
-              }
+        .addChangeListener(
+            e -> {
+              Filter filter = Filter.getFilter();
+              updateInfoView(filter, true);
+              updateTableFilter(
+                      filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
             });
 
     // Setup click event listener for 'All' tab
     this.setupTabEventListener(infoPane.getActiveTabView());
   }
 
-  /**
-   * Updates the active tab view with the given data.
-   *
-   * <p>If the active tab is the 'All' tab, the data is filtered and updated directly.
-   * Otherwise, a SwingWorker is used to filter the data with the rule name and update
-   * the view when done.
-   *
-   * @param data The data to update the view with.
-   */
-  private void updateActivateInfoView(List<InfoDataModel> data) {
+  public void updateInfoView(Filter filter, boolean onlyActivate) {
+    String ruleType = filter.getGroup();
+    String selectedHost = filter.getHost();
     int selectedIndex = infoPane.getTabbedPane().getSelectedIndex();
-    if (selectedIndex != -1) {
-      String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
-      JScrollPane wrap = (JScrollPane) infoPane.getTabbedPane().getComponentAt(selectedIndex);
-      JTable table = (JTable) wrap.getViewport().getView();
-      DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-      if (title.equals(InformationPane.ALL)) {
-        this.updateInfoView(model, data);
-      } else {
-        SwingWorker<List<InfoDataModel>, Void> worker =
-            new SwingWorker<>() {
-              @Override
-              protected List<InfoDataModel> doInBackground() {
-                return data.stream()
+    SwingWorker<List<InfoDataModel>, Object[]> worker =
+        new SwingWorker<>() {
+          private List<InfoDataModel> data = new ArrayList<>();
+          private DefaultTableModel model;
+          private boolean initialize = true;
+
+          @Override
+          protected List<InfoDataModel> doInBackground() throws Exception {
+            if (selectedIndex != -1) {
+              data =
+                  CachePool.getInstance().getInfoData(ruleType).stream()
+                      .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+                      .collect(Collectors.toList());
+
+              String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
+              JScrollPane wrap =
+                  (JScrollPane) infoPane.getTabbedPane().getComponentAt(selectedIndex);
+              JTable table = (JTable) wrap.getViewport().getView();
+              model = (DefaultTableModel) table.getModel();
+
+              if (title.equals(InformationPane.ALL)) {
+                data.forEach(
+                    d -> {
+                      publish(d.getInfoData());
+                    });
+              } else {
+                data.stream()
                     .filter(d -> d.getRuleName().equals(title))
-                    .collect(Collectors.toList());
+                    .forEach(
+                        d -> {
+                          publish(d.getInfoData());
+                        });
               }
+            }
 
-              @Override
-              protected void done() {
-                try {
-                  updateInfoView(model, get());
-                } catch (InterruptedException | ExecutionException e) {
-                  FindSomething.API.logging().logToError(new RuntimeException(e));
-                }
+            return data;
+          }
+
+          @Override
+          protected void process(List<Object[]> chunks) {
+            if (initialize) {
+              model.setRowCount(0);
+              initialize = false;
+            }
+            chunks.forEach(model::addRow);
+          }
+
+          @Override
+          protected void done() {
+            if (!onlyActivate) {
+              // Create other tab view with rule name if not exist
+              try {
+                updateTabView(get());
+              } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
               }
-            };
-        worker.execute();
-      }
-    }
+            }
+            model.fireTableDataChanged();
+          }
+        };
+    worker.execute();
   }
 
   /**
@@ -149,41 +188,6 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             }
           }
         });
-  }
-
-  /**
-   * Updates the given table model.
-   * <p>
-   * This works by creating a SwingWorker that asynchronously converts the data into a list of
-   * {@code Object[]} arrays, and then sets the model rows to the produced list. If the worker
-   * encounters an exception, a runtime exception is logged.
-   *
-   * @param model the table model to update
-   * @param data the data to update the model with
-   */
-  private void updateInfoView(DefaultTableModel model, List<InfoDataModel> data) {
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
-          @Override
-          protected List<Object[]> doInBackground() {
-            return data.stream().map(InfoDataModel::getInfoData).collect(Collectors.toList());
-          }
-
-          @Override
-          protected void done() {
-            // update when work done
-            try {
-              model.setRowCount(0);
-              List<Object[]> rows = get();
-              rows.forEach(model::addRow);
-              model.fireTableDataChanged();
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-
-    worker.execute();
   }
 
   /**
@@ -226,45 +230,6 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   public void onFilterChanged() {}
 
   /**
-   * Update the active info view with the given filter.
-   * <p>
-   * This method will also update other tab views with rule name if not exist.
-   */
-  public void updateInfoView(Filter filter, boolean onlyActivate) {
-    SwingWorker<List<InfoDataModel>, Void> worker =
-        new SwingWorker<>() {
-
-          @Override
-          protected List<InfoDataModel> doInBackground() {
-            String ruleType = filter.getGroup();
-            String selectedHost = filter.getHost();
-            List<InfoDataModel> data = CachePool.getInstance().getInfoData(ruleType).stream()
-                .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
-                .collect(Collectors.toList());
-
-            return data;
-          }
-
-          @Override
-          protected void done() {
-            try {
-              List<InfoDataModel> data = get();
-              if (!onlyActivate) {
-                // Create other tab view with rule name if not exist
-                updateTabView(data);
-              }
-              // Update active tab view
-              updateActivateInfoView(data);
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-
-    worker.execute();
-  }
-
-  /**
    * Updates the table filter.
    * <p>
    * The filter string is interpreted as a regular expression. If the filter string is empty,
@@ -277,37 +242,32 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    * @param filter the filter string
    * @param sensitive whether the filter is case-sensitive
    * @param negative whether the filter is inverted
-   * @param isPlaceholderActive whether the filter is currently inactive
    */
-  public void updateTableFilter(
-      String filter, boolean sensitive, boolean negative, boolean isPlaceholderActive) {
+  public void updateTableFilter(String filter, boolean sensitive, boolean negative) {
     RowFilter<TableModel, Object> rf = null;
-    if (!isPlaceholderActive) {
-      // if current expression doesn't parse, don't update.
-      try {
-        if (!sensitive) {
-          filter = "(?i)" + filter;
-        }
-
-        if (negative) {
-          // filter the first column
-          rf = RowFilter.notFilter(RowFilter.regexFilter(filter, 0));
-        } else {
-          rf = RowFilter.regexFilter(filter, 0);
-        }
-
-      } catch (java.util.regex.PatternSyntaxException e) {
-        return;
+    //    if (!isPlaceholderActive) {
+    // if current expression doesn't parse, don't update.
+    try {
+      if (!sensitive) {
+        filter = "(?i)" + filter;
       }
 
-      // update all tabs
-      for (int i = 0; i < this.infoPane.getTabbedPane().getTabCount(); i++) {
-        JScrollPane wrap = (JScrollPane) this.infoPane.getTabbedPane().getComponentAt(i);
-        JTable table = (JTable) wrap.getViewport().getView();
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        sorter.setRowFilter(rf);
-        table.setRowSorter(sorter);
+      if (negative) {
+        // filter the first column
+        rf = RowFilter.notFilter(RowFilter.regexFilter(filter, 0));
+      } else {
+        rf = RowFilter.regexFilter(filter, 0);
       }
+
+    } catch (java.util.regex.PatternSyntaxException e) {
+      return;
     }
+
+    // update active tabs
+    JTable table = this.infoPane.getActiveTabView();
+    TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+    sorter.setRowFilter(rf);
+    table.setRowSorter(sorter);
+    //    }
   }
 }

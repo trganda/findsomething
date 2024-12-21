@@ -50,38 +50,40 @@ public class InfoFilterController {
         .addActionListener(
             e -> {
               this.filterEditor.setVisible(false);
-              this.filterEditor.setFilter(prevFilter);
             });
     this.filterButtonPanel
         .getApply()
         .addActionListener(
             e -> {
-              Filter currentFilter = this.filterEditor.getFilter();
-              List<String> modifiedFields = prevFilter.getModifiedFields(currentFilter);
-              if (modifiedFields.isEmpty()) {
-                return;
-              }
-
-              Filter.getFilter().update(currentFilter);
-              modifiedFields.forEach(
-                  f -> {
-                    if (f.equals("1")) {
-                      infoController.updateInfoView(currentFilter, false);
-                    } else if (f.equals("2")) {
-                      infoController.updateTableFilter(
-                          currentFilter.getSearchTerm(),
-                          currentFilter.isSensitive(),
-                          currentFilter.isNegative(),
-                          false);
-                    }
-                  });
+              apply();
             });
     this.filterButtonPanel
         .getApplyClose()
         .addActionListener(
             e -> {
               this.filterEditor.setVisible(false);
-              this.filterEditor.setFilter(prevFilter);
+              apply();
+            });
+  }
+
+  private void apply() {
+    Filter currentFilter = this.filterEditor.getFilter();
+    List<String> modifiedFields = prevFilter.getModifiedFields(currentFilter);
+    if (modifiedFields.isEmpty()) {
+      return;
+    }
+
+    Filter.getFilter().update(currentFilter);
+    modifiedFields.forEach(
+            f -> {
+              if (f.equals("1")) {
+                infoController.updateInfoView(currentFilter, false);
+              } else if (f.equals("2")) {
+                infoController.updateTableFilter(
+                        currentFilter.getSearchTerm(),
+                        currentFilter.isSensitive(),
+                        currentFilter.isNegative());
+              }
             });
   }
 
