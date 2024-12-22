@@ -18,9 +18,10 @@ public class FilterListInnerButtonsPane extends JPanel {
   public static final String BLACKLIST_SUFFIX = "Suffix";
   public static final String BLACKLIST_HOST = "Host";
   public static final String BLACKLIST_STATUS = "Status";
+  public static final String BLACKLIST_TYPE = "MIME";
 
   public FilterListInnerButtonsPane() {
-    type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS});
+    type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS, BLACKLIST_TYPE});
     remove = new JButton("Remove");
     clear = new JButton("Clear");
 

@@ -97,6 +97,23 @@ public class ConfigManager implements ConfigChangeListener {
     notifyListeners();
   }
 
+  public void syncType(String suffix, Operation type) {
+    switch (type) {
+      case ADD:
+        config.getContentType().add(suffix);
+        break;
+      case DEL:
+        config.getContentType().remove(suffix);
+        break;
+      case CLR:
+        config.getContentType().clear();
+        break;
+      default:
+        break;
+    }
+    notifyListeners();
+  }
+
   public void syncRules(String group, Rule rule, Operation type) {
     switch (type) {
       case ADD:

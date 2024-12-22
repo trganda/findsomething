@@ -120,6 +120,9 @@ public class FilterController implements ConfigChangeListener {
         case BLACKLIST_STATUS:
           ConfigManager.getInstance().syncStatus(val, type);
           break;
+        case BLACKLIST_TYPE:
+          ConfigManager.getInstance().syncType(val, type);
+          break;
       }
     }
   }
@@ -147,6 +150,9 @@ public class FilterController implements ConfigChangeListener {
                 break;
               case BLACKLIST_STATUS:
                 configManager.getConfig().getStatus().forEach(s -> list.add(new String[] {s}));
+                break;
+              case BLACKLIST_TYPE:
+                configManager.getConfig().getContentType().forEach(s -> list.add(new String[] {s}));
                 break;
             }
 
