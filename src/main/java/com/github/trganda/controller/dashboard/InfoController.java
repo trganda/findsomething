@@ -9,8 +9,6 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +23,12 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   private final InformationPane infoPane;
   private final InfoDetailController infoDetailController;
+  private StatusPane statusPane;
 
   public InfoController(
-      InformationPane infoPane, InfoDetailController infoDetailController) {
+      InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
+    this.statusPane = statusPane;
     this.infoDetailController = infoDetailController;
     this.setupEventListener();
   }
@@ -52,8 +52,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             e -> {
               Filter filter = Filter.getFilter();
               updateInfoView(filter, true);
-              updateTableFilter(
-                      filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
+              updateTableFilter(filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
             });
 
     // Setup click event listener for 'All' tab
@@ -70,6 +69,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
           private List<InfoDataModel> data = new ArrayList<>();
           private DefaultTableModel model;
           private boolean initialize = true;
+          private int progress = 0;
 
           @Override
           protected List<InfoDataModel> doInBackground() throws Exception {
@@ -85,18 +85,13 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               JTable table = (JTable) wrap.getViewport().getView();
               model = (DefaultTableModel) table.getModel();
 
+//              statusPane.getProgressBar().setValue(0);
               if (title.equals(InformationPane.ALL)) {
-                data.forEach(
-                    d -> {
-                      publish(d.getInfoData());
-                    });
+                data.forEach(d -> publish(d.getInfoData()));
               } else {
                 data.stream()
                     .filter(d -> d.getRuleName().equals(title))
-                    .forEach(
-                        d -> {
-                          publish(d.getInfoData());
-                        });
+                    .forEach(d -> publish(d.getInfoData()));
               }
             }
 
@@ -110,6 +105,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               initialize = false;
             }
             chunks.forEach(model::addRow);
+            progress += chunks.size();
+//            statusPane.getProgressBar().setValue((int) ((progress / (double) data.size()) * 100));
           }
 
           @Override
@@ -123,6 +120,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               }
             }
             model.fireTableDataChanged();
+//            statusPane.getProgressBar().setValue(100);
+            statusPane.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
           }
         };
     worker.execute();

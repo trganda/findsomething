@@ -153,6 +153,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
   private boolean filter(InterceptedResponse interceptedResponse) {
     HttpRequest req = interceptedResponse.request();
     String path = req.pathWithoutQuery();
+
     for (String suffix : ConfigManager.getInstance().getConfig().getSuffixes()) {
       if (path.endsWith(suffix)) {
         return true;
@@ -168,6 +169,15 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
     for (String status : ConfigManager.getInstance().getConfig().getStatus()) {
       if (String.valueOf(interceptedResponse.statusCode()).equals(status)) {
         return true;
+      }
+    }
+
+    if (interceptedResponse.hasHeader("Content-Type")) {
+      String contentType = interceptedResponse.headerValue("Content-Type");
+      for (String type : ConfigManager.getInstance().getConfig().getContentType()) {
+        if (contentType.contains(type)) {
+          return true;
+        }
       }
     }
 

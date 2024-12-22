@@ -112,3 +112,9 @@ hosts:
   - trganda.top
 status:
   - 500
+contentType:
+  - image/jpeg
+  - image/apng
+  - image/avif
+  - image/png
+  - image/webp

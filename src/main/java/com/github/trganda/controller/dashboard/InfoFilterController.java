@@ -75,16 +75,16 @@ public class InfoFilterController {
 
     Filter.getFilter().update(currentFilter);
     modifiedFields.forEach(
-            f -> {
-              if (f.equals("1")) {
-                infoController.updateInfoView(currentFilter, false);
-              } else if (f.equals("2")) {
-                infoController.updateTableFilter(
-                        currentFilter.getSearchTerm(),
-                        currentFilter.isSensitive(),
-                        currentFilter.isNegative());
-              }
-            });
+        f -> {
+          if (f.equals("1")) {
+            infoController.updateInfoView(currentFilter, false);
+          } else if (f.equals("2")) {
+            infoController.updateTableFilter(
+                currentFilter.getSearchTerm(),
+                currentFilter.isSensitive(),
+                currentFilter.isNegative());
+          }
+        });
   }
 
   private void notifyListeners() {
