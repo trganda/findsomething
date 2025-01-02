@@ -1,5 +1,7 @@
 package com.github.trganda.controller.dashboard;
 
+import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
+
 import com.github.trganda.components.dashboard.InformationPanel;
 import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.handler.DataChangeListener;
@@ -9,7 +11,8 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,37 +54,33 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     // Information tab
     infoPane
         .getTabbedPane()
-        .addChangeListener(
-            e -> {
-              Filter filter = Filter.getFilter();
-              updateInfoView(filter, true);
-              updateTableFilter(filter.getSearchTerm(), filter.isSensitive(), filter.isNegative());
+        .addMouseListener(
+            new MouseAdapter() {
+              @Override
+              public void mouseClicked(MouseEvent e) {
+                int index = infoPane.getTabbedPane().indexAtLocation(e.getX(), e.getY());
+                if (index == -1) {
+                  return;
+                }
+
+                JTable table = infoPane.getTabAtIndex(index);
+                statusPanel.getCountLabel().setText(String.valueOf(table.getModel().getRowCount()));
+              }
             });
 
     // Setup click event listener for 'All' tab
     this.setupTabEventListener(infoPane.getActiveTabView());
   }
 
-  public void updateInfoView(Filter filter, boolean onlyActivate) {
-    DefaultTableModel model = (DefaultTableModel) infoPane.getActiveTabView().getModel();
-
+  public void refreshInfoView(Filter filter) {
     SwingWorker<List<InfoDataModel>, Void> worker =
         new SwingWorker<>() {
-          private List<InfoDataModel> data = new ArrayList<>();
-
           @Override
           protected List<InfoDataModel> doInBackground() throws Exception {
-            Filter filter = Filter.getFilter();
-            data =
+            List<InfoDataModel> data =
                 CachePool.getInstance().getInfoData(filter.getGroup()).stream()
                     .filter(d -> Utils.isDomainMatch(filter.getHost(), d.getHost()))
                     .collect(Collectors.toList());
-
-            if (!"title".equals(InformationPanel.ALL)) {
-              return data.stream()
-                  .filter(d -> d.getRuleName().equals(""))
-                  .collect(Collectors.toList());
-            }
 
             return data;
           }
@@ -89,11 +88,15 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
           @Override
           protected void done() {
             try {
-              List<InfoDataModel> info = get();
-              model.setRowCount(0);
-              info.forEach(i -> model.addRow(i.getInfoData()));
-              model.fireTableDataChanged();
-              statusPanel.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
+              infoPane.clearTab();
+              List<InfoDataModel> data = get();
+              DefaultTableModel model =
+                  (DefaultTableModel)
+                      infoPane
+                          .getTabAtIndex(infoPane.getTabComponentIndexByName(InformationPanel.ALL))
+                          .getModel();
+              updateInfoView(data, model);
+              updateTabView(data);
             } catch (InterruptedException | ExecutionException e) {
               throw new RuntimeException(e);
             }
@@ -111,7 +114,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
    *
    * @param data The data to classify and create tab for.
    */
-  private void addTabView(List<InfoDataModel> data) {
+  private void updateTabView(List<InfoDataModel> data) {
     // Classified with rule name
     Map<String, List<InfoDataModel>> classified =
         data.stream().collect(Collectors.groupingBy(InfoDataModel::getRuleName));
@@ -127,7 +130,11 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               table = infoPane.addTableTab(ruleName);
               // Setup event listener for the new tab
               this.setupTabEventListener(table);
+            } else {
+              table = infoPane.getTabAtIndex(idx);
             }
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            updateInfoView(data, model);
           }
         });
   }
@@ -160,23 +167,19 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         });
   }
 
-  private void updateInfoView(List<InfoDataModel> data) {
-    DefaultTableModel model = (DefaultTableModel) infoPane.getActiveTabView().getModel();
-
-    SwingWorker<Object[], Void> worker =
+  private void updateInfoView(List<InfoDataModel> data, DefaultTableModel model) {
+    SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
-          private List<InfoDataModel> finalData = new ArrayList<>();
           @Override
-          protected Object[] doInBackground() throws Exception {
-            finalData = filterData(data, Filter.getFilter());
-            return finalData.stream().map(InfoDataModel::getInfoData).toArray(Object[]::new);
+          protected List<Object[]> doInBackground() throws Exception {
+            return data.stream().map(InfoDataModel::getInfoData).collect(Collectors.toList());
           }
 
           @Override
           protected void done() {
             try {
-              model.addRow(get());
-              addTabView(finalData);
+              List<Object[]> data = get();
+              data.forEach(model::addRow);
             } catch (InterruptedException | ExecutionException e) {
               throw new RuntimeException(e);
             }
@@ -186,10 +189,42 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     worker.execute();
   }
 
+  private void updateInfoView(List<InfoDataModel> data) {
+    SwingWorker<Void, Void> worker =
+        new SwingWorker<>() {
+          private List<InfoDataModel> finalData = new ArrayList<>();
+
+          @Override
+          protected Void doInBackground() throws Exception {
+            finalData = filterData(data, Filter.getFilter());
+            return null;
+          }
+
+          @Override
+          protected void done() {
+            DefaultTableModel model = (DefaultTableModel) infoPane.getActiveTabView().getModel();
+            updateInfoView(finalData, model);
+            updateTabView(finalData);
+            statusPanel.getCountLabel().setText(String.valueOf(model.getRowCount()));
+          }
+        };
+
+    worker.execute();
+  }
+
   private List<InfoDataModel> filterData(List<InfoDataModel> data, Filter filter) {
     String group = filter.getGroup();
     String selectedHost = filter.getHost();
-    return data.stream().filter(d->d.getGroupName().equals(group)).filter(d -> Utils.isDomainMatch(selectedHost, d.getHost())).collect(Collectors.toList());
+    if (group.equals(GROUP_GENERAL)) {
+      return data.stream()
+          .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+          .collect(Collectors.toList());
+    } else {
+      return data.stream()
+          .filter(d -> d.getGroupName().equals(group))
+          .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
+          .collect(Collectors.toList());
+    }
   }
 
   /**
@@ -201,7 +236,6 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
       return;
     }
     updateInfoView(data);
-//    updateInfoView(Filter.getFilter(), false);
   }
 
   @Override

@@ -73,6 +73,17 @@ public class InformationPanel extends JPanel {
     throw new RuntimeException("No active tab found.");
   }
 
+  public String getActiveTabName() {
+    if (tabbedPane.getSelectedIndex() >= 0) {
+      return tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+    }
+    return null;
+  }
+
+  public JTable getTabAtIndex(int index) {
+    return (JTable) ((JScrollPane) tabbedPane.getComponentAt(index)).getViewport().getView();
+  }
+
   public void clearTab() {
     int index = getTabComponentIndexByName(ALL);
     if (index != -1) {
