@@ -9,13 +9,13 @@ import javax.swing.border.TitledBorder;
 import lombok.Getter;
 
 @Getter
-public class InformationFilterPane extends JPanel {
+public class InformationFilterPanel extends JPanel {
   private final String filterPlaceHolder = "Search";
   private JTextField filterField;
   private JCheckBox sensitive;
   private JCheckBox negative;
 
-  public InformationFilterPane() {
+  public InformationFilterPanel() {
     this.setupComponents();
     this.setupLayout();
     this.setBorder(new TitledBorder("Filter by search term"));

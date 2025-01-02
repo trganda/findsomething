@@ -69,7 +69,7 @@ public class FindSomething implements BurpExtension {
 
     InformationDetailsPanel informationDetailsPanel =
         extensionFrame.getDashboard().getRequestSplitFrame().getInformationDetailsPanel();
-    JButton optionsButton = informationDetailsPanel.getFilterPane().getOptionsButton();
+    JButton optionsButton = informationDetailsPanel.getFilterPanel().getOptionsButton();
     new OptionsButtonController(optionsButton);
 
     RequestPanel requestPanel = extensionFrame.getDashboard().getRequestSplitFrame().getRequestPanel();
@@ -82,7 +82,7 @@ public class FindSomething implements BurpExtension {
         new InfoController(informationPanel, statusPanel, infoDetailController);
     handler.registerDataChangeListener(infoController);
 
-    JButton filterButton = informationDetailsPanel.getFilterPane().getFilterButton();
+    JButton filterButton = informationDetailsPanel.getFilterPanel().getFilterButton();
     new InfoFilterController(filterButton, infoController);
 
     // register HTTP response handler

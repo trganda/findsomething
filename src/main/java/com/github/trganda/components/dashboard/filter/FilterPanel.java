@@ -8,7 +8,7 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class FilterPane extends JPanel {
+public class FilterPanel extends JPanel {
 
   private JButton filterButton;
   private JButton optionsButton;
@@ -16,7 +16,7 @@ public class FilterPane extends JPanel {
   private FlatSVGIcon optionsIcon;
   private int fontSize = UIManager.getFont("Button.font").getSize();
 
-  public FilterPane() {
+  public FilterPanel() {
     this.setupComponents();
     this.setupLayout();
   }

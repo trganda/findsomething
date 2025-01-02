@@ -8,16 +8,16 @@ import lombok.Getter;
 @Getter
 public class FilterEditor extends JDialog {
 
-  private final HostFilterPane hostFilter;
-  private final InformationFilterPane informationFilter;
+  private final HostFilterPanel hostFilter;
+  private final InformationFilterPanel informationFilter;
   private final FilterButtonPanel filterButtonPanel;
   private final JPanel innerPanel;
   private Filter filter;
 
   public FilterEditor(Frame pFrame) {
     super(pFrame, "Filter");
-    this.hostFilter = new HostFilterPane();
-    this.informationFilter = new InformationFilterPane();
+    this.hostFilter = new HostFilterPanel();
+    this.informationFilter = new InformationFilterPanel();
     this.filterButtonPanel = new FilterButtonPanel();
     this.innerPanel = new JPanel();
 

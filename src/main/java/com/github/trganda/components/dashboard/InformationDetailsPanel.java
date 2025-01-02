@@ -1,6 +1,6 @@
 package com.github.trganda.components.dashboard;
 
-import com.github.trganda.components.dashboard.filter.FilterPane;
+import com.github.trganda.components.dashboard.filter.FilterPanel;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -22,7 +22,7 @@ public class InformationDetailsPanel extends JPanel {
   private JTable table;
   private DefaultTableModel tableModel;
   private JScrollPane scrollPane;
-  private FilterPane filterPane;
+  private FilterPanel filterPanel;
 
   public InformationDetailsPanel() {
     this.setupComponents();
@@ -54,7 +54,7 @@ public class InformationDetailsPanel extends JPanel {
             resizePane();
           }
         });
-    filterPane = new FilterPane();
+    filterPanel = new FilterPanel();
   }
 
   private void setupLayout() {
@@ -68,7 +68,7 @@ public class InformationDetailsPanel extends JPanel {
     gbc.insets = new Insets(0, 0, 5, 0);
     gbc.anchor = GridBagConstraints.CENTER;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    this.add(filterPane, gbc);
+    this.add(filterPanel, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;

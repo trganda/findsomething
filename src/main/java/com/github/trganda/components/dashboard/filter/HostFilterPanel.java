@@ -17,11 +17,11 @@ import javax.swing.border.TitledBorder;
 import lombok.Getter;
 
 @Getter
-public class HostFilterPane extends JPanel {
+public class HostFilterPanel extends JPanel {
   private SuggestionComboBox suggestion;
   private JComboBox<String> selector;
 
-  public HostFilterPane() {
+  public HostFilterPanel() {
     this.setupComponents();
     this.setupLayout();
     this.setBorder(new TitledBorder("Filter by host"));
