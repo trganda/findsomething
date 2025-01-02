@@ -6,14 +6,17 @@ import lombok.Data;
 public class InfoDataModel {
   //  private final Long id;
 
+  private String groupName;
+
   private String ruleName;
 
   private final String result;
 
   private final String host;
 
-  public InfoDataModel(String ruleName, String result, String host) {
+  public InfoDataModel(String groupName, String ruleName, String result, String host) {
     //    this.id = id;
+    this.groupName = groupName;
     this.ruleName = ruleName;
     this.result = result;
     this.host = host;
