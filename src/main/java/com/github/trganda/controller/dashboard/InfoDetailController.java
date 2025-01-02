@@ -21,7 +21,7 @@ public class InfoDetailController {
   private RequestPanel requestPanel;
 
   public InfoDetailController(
-          InformationDetailsPanel informationDetailsPanel, RequestPanel requestPanel) {
+      InformationDetailsPanel informationDetailsPanel, RequestPanel requestPanel) {
     this.informationDetailsPanel = informationDetailsPanel;
     this.requestPanel = requestPanel;
     this.setupEventListener();

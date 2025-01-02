@@ -5,6 +5,8 @@ import static javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -14,6 +16,7 @@ import lombok.Getter;
 public class InformationPanel extends JPanel {
   public static final String ALL = "All";
   private JTabbedPane tabbedPane;
+  private Set<String> tabNames = new HashSet<>();
 
   public InformationPanel() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
@@ -22,11 +25,10 @@ public class InformationPanel extends JPanel {
 
   private void setupComponents() {
     // Add tab with 'All' default
-    JComponent wrap = createTableView();
     this.setLayout(new BorderLayout());
     tabbedPane = new JTabbedPane();
     tabbedPane.setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
-    tabbedPane.addTab(ALL, wrap);
+    this.addTableTab(ALL);
 
     this.add(tabbedPane, BorderLayout.CENTER);
   }
@@ -51,6 +53,7 @@ public class InformationPanel extends JPanel {
   public JTable addTableTab(String tabName) {
     JScrollPane wrap = createTableView();
     tabbedPane.addTab(tabName, wrap);
+    tabNames.add(tabName);
     return (JTable) wrap.getViewport().getView();
   }
 

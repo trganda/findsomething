@@ -94,11 +94,13 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                               suggestions.forEach(CachePool.getInstance()::addHost);
                             }
 
+                            List<InfoDataModel> data = new ArrayList<>();
                             for (String result : results) {
                               InfoDataModel infoDataModel =
                                   new InfoDataModel(r.getName(), result, req.httpService().host());
 
                               CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
+                              data.add(infoDataModel);
 
                               // set request info
                               String hash = Utils.calHash(result);
@@ -123,7 +125,7 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                             }
 
                             for (DataChangeListener listener : listeners) {
-                              listener.onDataChanged();
+                              listener.onDataChanged(data);
                             }
                           }
                         }));

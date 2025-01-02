@@ -21,7 +21,9 @@ public class FilterListInnerButtonsPanel extends JPanel {
   public static final String BLACKLIST_TYPE = "MIME";
 
   public FilterListInnerButtonsPanel() {
-    type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS, BLACKLIST_TYPE});
+    type =
+        new JComboBox<>(
+            new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS, BLACKLIST_TYPE});
     remove = new JButton("Remove");
     clear = new JButton("Clear");
 

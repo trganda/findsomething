@@ -9,6 +9,9 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,9 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   private StatusPanel statusPanel;
 
   public InfoController(
-          InformationPanel infoPane, StatusPanel statusPanel, InfoDetailController infoDetailController) {
+      InformationPanel infoPane,
+      StatusPanel statusPanel,
+      InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
     this.statusPanel = statusPanel;
     this.infoDetailController = infoDetailController;
@@ -64,12 +69,14 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
     String selectedHost = filter.getHost();
     int selectedIndex = infoPane.getTabbedPane().getSelectedIndex();
 
-    SwingWorker<List<InfoDataModel>, Object[]> worker =
+    String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
+    JScrollPane wrap = (JScrollPane) infoPane.getTabbedPane().getComponentAt(selectedIndex);
+    JTable table = (JTable) wrap.getViewport().getView();
+    DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+    SwingWorker<List<InfoDataModel>, Void> worker =
         new SwingWorker<>() {
           private List<InfoDataModel> data = new ArrayList<>();
-          private DefaultTableModel model;
-          private boolean initialize = true;
-          private int progress = 0;
 
           @Override
           protected List<InfoDataModel> doInBackground() throws Exception {
@@ -79,19 +86,10 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
                       .filter(d -> Utils.isDomainMatch(selectedHost, d.getHost()))
                       .collect(Collectors.toList());
 
-              String title = infoPane.getTabbedPane().getTitleAt(selectedIndex);
-              JScrollPane wrap =
-                  (JScrollPane) infoPane.getTabbedPane().getComponentAt(selectedIndex);
-              JTable table = (JTable) wrap.getViewport().getView();
-              model = (DefaultTableModel) table.getModel();
-
-//              statusPane.getProgressBar().setValue(0);
-              if (title.equals(InformationPanel.ALL)) {
-                data.forEach(d -> publish(d.getInfoData()));
-              } else {
-                data.stream()
+              if (!title.equals(InformationPanel.ALL)) {
+                return data.stream()
                     .filter(d -> d.getRuleName().equals(title))
-                    .forEach(d -> publish(d.getInfoData()));
+                    .collect(Collectors.toList());
               }
             }
 
@@ -99,29 +97,20 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
           }
 
           @Override
-          protected void process(List<Object[]> chunks) {
-            if (initialize) {
-              model.setRowCount(0);
-              initialize = false;
-            }
-            chunks.forEach(model::addRow);
-            progress += chunks.size();
-//            statusPane.getProgressBar().setValue((int) ((progress / (double) data.size()) * 100));
-          }
-
-          @Override
           protected void done() {
-            if (!onlyActivate) {
-              // Create other tab view with rule name if not exist
-              try {
-                updateTabView(get());
-              } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
+            try {
+              List<InfoDataModel> info = get();
+              if (!onlyActivate) {
+                // Create other tab view with rule name if not exist
+                updateTabView(info);
               }
+              model.setRowCount(0);
+              info.forEach(i -> model.addRow(i.getInfoData()));
+              model.fireTableDataChanged();
+              statusPanel.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
+            } catch (InterruptedException | ExecutionException e) {
+              throw new RuntimeException(e);
             }
-            model.fireTableDataChanged();
-//            statusPane.getProgressBar().setValue(100);
-            statusPanel.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
           }
         };
     worker.execute();
@@ -142,7 +131,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         data.stream().collect(Collectors.groupingBy(InfoDataModel::getRuleName));
 
     // Clear other tab first
-    infoPane.clearTab();
+//    infoPane.clearTab();
 
     // Create other tab view with rule name
     classified.forEach(
@@ -188,11 +177,39 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         });
   }
 
+  private void updateInfoView(List<InfoDataModel> data) {
+
+    DefaultTableModel model = (DefaultTableModel) infoPane.getActiveTabView().getModel();
+    SwingWorker<Object[], Void> worker =
+        new SwingWorker<>() {
+          @Override
+          protected Object[] doInBackground() throws Exception {
+//          data = data.filter();
+
+            return data.stream().map(InfoDataModel::getInfoData).toArray(Object[]::new);
+          }
+
+          @Override
+          protected void done() {
+            try {
+              model.addRow(get());
+            } catch (InterruptedException | ExecutionException e) {
+              throw new RuntimeException(e);
+            }
+          }
+        };
+
+    worker.execute();
+  }
+
   /**
    * Triggered when data source changed, update the active info view to reflect the changes.
    */
   @Override
-  public void onDataChanged() {
+  public void onDataChanged(List<InfoDataModel> data) {
+    if (data == null || data.isEmpty()) {
+      return;
+    }
     updateInfoView(Filter.getFilter(), false);
   }
 
