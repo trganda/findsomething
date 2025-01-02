@@ -7,18 +7,18 @@ import lombok.Getter;
 
 @Getter
 public class Dashboard extends JPanel {
-  private InformationPane informationPane;
+  private InformationPanel informationPanel;
   private RequestSplitFrame requestSplitFrame;
   private InvisibleSplitPane dashSplitPane;
-  private StatusPane statusPane;
+  private StatusPanel statusPanel;
 
   public Dashboard() {
-    informationPane = new InformationPane();
+    informationPanel = new InformationPanel();
     requestSplitFrame = new RequestSplitFrame();
-    statusPane = new StatusPane();
+    statusPanel = new StatusPanel();
 
     dashSplitPane = new InvisibleSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-    dashSplitPane.setLeftComponent(informationPane);
+    dashSplitPane.setLeftComponent(informationPanel);
     dashSplitPane.setRightComponent(requestSplitFrame);
 
     this.setLayout(new GridBagLayout());
@@ -41,6 +41,6 @@ public class Dashboard extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.anchor = GridBagConstraints.LINE_END;
     gbc.insets = new Insets(0, 0, 0, 0);
-    this.add(statusPane, gbc);
+    this.add(statusPanel, gbc);
   }
 }

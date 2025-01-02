@@ -11,11 +11,11 @@ import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
-public class InformationPane extends JPanel {
+public class InformationPanel extends JPanel {
   public static final String ALL = "All";
   private JTabbedPane tabbedPane;
 
-  public InformationPane() {
+  public InformationPanel() {
     this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
     this.setupComponents();
   }

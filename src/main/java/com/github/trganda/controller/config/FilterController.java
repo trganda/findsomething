@@ -1,9 +1,9 @@
 package com.github.trganda.controller.config;
 
-import static com.github.trganda.components.config.FilterListInnerButtonsPane.*;
+import static com.github.trganda.components.config.FilterListInnerButtonsPanel.*;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.config.FilterListInnerPane;
+import com.github.trganda.components.config.FilterListInnerPanel;
 import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Operation;
@@ -20,13 +20,13 @@ import javax.swing.JComboBox;
 import javax.swing.SwingWorker;
 
 public class FilterController implements ConfigChangeListener {
-  private FilterListInnerPane innerPane;
+  private FilterListInnerPanel innerPane;
 
   public FilterController() {
     ConfigManager.getInstance().registerConfigListener(this);
   }
 
-  public FilterController(FilterListInnerPane innerPane) {
+  public FilterController(FilterListInnerPanel innerPane) {
     this();
     this.innerPane = innerPane;
     this.setupEventListener();

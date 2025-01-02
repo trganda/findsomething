@@ -5,17 +5,17 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class RulePane extends JPanel {
+public class RulePanel extends JPanel {
 
   private JLabel label;
   private JLabel description;
-  private RuleInnerPane ruleInnerPane;
+  private RuleInnerPanel ruleInnerPanel;
 
-  public RulePane() {
+  public RulePanel() {
     label = new JLabel("Rules set");
     label.setFont(new Font("Arial", Font.BOLD, 16));
     description = new JLabel("Defining rules to extract information that you are looking for.");
-    ruleInnerPane = new RuleInnerPane();
+    ruleInnerPanel = new RuleInnerPanel();
 
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
@@ -37,7 +37,7 @@ public class RulePane extends JPanel {
     gbc.insets = new Insets(0, 0, 0, 0);
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    this.add(ruleInnerPane, gbc);
+    this.add(ruleInnerPanel, gbc);
 
     // Config.getInstance().registerConfigListener(ruleInnerPane);
   }

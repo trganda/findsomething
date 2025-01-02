@@ -3,10 +3,10 @@ package com.github.trganda;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import com.github.trganda.components.ExtensionFrame;
-import com.github.trganda.components.dashboard.InformationDetailsPane;
-import com.github.trganda.components.dashboard.InformationPane;
-import com.github.trganda.components.dashboard.RequestPane;
-import com.github.trganda.components.dashboard.StatusPane;
+import com.github.trganda.components.dashboard.InformationDetailsPanel;
+import com.github.trganda.components.dashboard.InformationPanel;
+import com.github.trganda.components.dashboard.RequestPanel;
+import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.controller.config.FilterController;
 import com.github.trganda.controller.config.RuleController;
@@ -59,30 +59,30 @@ public class FindSomething implements BurpExtension {
     ExecutorService pool = Executors.newSingleThreadExecutor();
     handler = new InfoHttpResponseHandler(pool);
     extensionFrame = new ExtensionFrame();
-    extensionFrame.getConfig().getRulePane();
+    extensionFrame.getConfig().getRulePanel();
 
     RuleEditorController editorController = new RuleEditorController(new RuleModel());
     new RuleController(
-        extensionFrame.getConfig().getRulePane().getRuleInnerPane(), editorController);
+        extensionFrame.getConfig().getRulePanel().getRuleInnerPanel(), editorController);
 
     new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
-    InformationDetailsPane informationDetailsPane =
-        extensionFrame.getDashboard().getRequestSplitFrame().getInformationDetailsPane();
-    JButton optionsButton = informationDetailsPane.getFilterPane().getOptionsButton();
+    InformationDetailsPanel informationDetailsPanel =
+        extensionFrame.getDashboard().getRequestSplitFrame().getInformationDetailsPanel();
+    JButton optionsButton = informationDetailsPanel.getFilterPane().getOptionsButton();
     new OptionsButtonController(optionsButton);
 
-    RequestPane requestPane = extensionFrame.getDashboard().getRequestSplitFrame().getRequestPane();
+    RequestPanel requestPanel = extensionFrame.getDashboard().getRequestSplitFrame().getRequestPanel();
     InfoDetailController infoDetailController =
-        new InfoDetailController(informationDetailsPane, requestPane);
-    InformationPane informationPane = extensionFrame.getDashboard().getInformationPane();
-    StatusPane statusPane = extensionFrame.getDashboard().getStatusPane();
+        new InfoDetailController(informationDetailsPanel, requestPanel);
+    InformationPanel informationPanel = extensionFrame.getDashboard().getInformationPanel();
+    StatusPanel statusPanel = extensionFrame.getDashboard().getStatusPanel();
 
     InfoController infoController =
-        new InfoController(informationPane, statusPane, infoDetailController);
+        new InfoController(informationPanel, statusPanel, infoDetailController);
     handler.registerDataChangeListener(infoController);
 
-    JButton filterButton = informationDetailsPane.getFilterPane().getFilterButton();
+    JButton filterButton = informationDetailsPanel.getFilterPane().getFilterButton();
     new InfoFilterController(filterButton, infoController);
 
     // register HTTP response handler

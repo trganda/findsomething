@@ -1,7 +1,7 @@
 package com.github.trganda.controller.config;
 
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.config.RuleInnerPane;
+import com.github.trganda.components.config.RuleInnerPanel;
 import com.github.trganda.config.ConfigChangeListener;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Operation;
@@ -21,7 +21,7 @@ import javax.swing.table.TableRowSorter;
 
 public class RuleController implements ConfigChangeListener {
 
-  private RuleInnerPane innerPane;
+  private RuleInnerPanel innerPane;
   private List<Rule> rules;
   private RuleEditorController editorController;
 
@@ -29,7 +29,7 @@ public class RuleController implements ConfigChangeListener {
     ConfigManager.getInstance().registerConfigListener(this);
   }
 
-  public RuleController(RuleInnerPane innerPane, RuleEditorController editorController) {
+  public RuleController(RuleInnerPanel innerPane, RuleEditorController editorController) {
     this();
     this.innerPane = innerPane;
     this.editorController = editorController;

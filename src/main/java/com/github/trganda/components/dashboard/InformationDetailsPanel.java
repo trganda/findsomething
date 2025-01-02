@@ -17,14 +17,14 @@ import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
-public class InformationDetailsPane extends JPanel {
+public class InformationDetailsPanel extends JPanel {
 
   private JTable table;
   private DefaultTableModel tableModel;
   private JScrollPane scrollPane;
   private FilterPane filterPane;
 
-  public InformationDetailsPane() {
+  public InformationDetailsPanel() {
     this.setupComponents();
     this.setupLayout();
   }

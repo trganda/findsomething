@@ -13,18 +13,18 @@ import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
-public class RuleInnerPane extends JPanel {
+public class RuleInnerPanel extends JPanel {
 
   private JComboBox<String> selector;
   private JLabel countLabel;
 
   private PlaceHolderTextField ruleSearch;
-  private RuleInnerButtonsPane ruleButtonsPane;
+  private RuleInnerButtonsPanel ruleButtonsPane;
   private JTable table;
   private DefaultTableModel model;
   private JComponent wrap;
 
-  public RuleInnerPane() {
+  public RuleInnerPanel() {
     this.setupComponents();
     this.setupLayout();
   }
@@ -128,7 +128,7 @@ public class RuleInnerPane extends JPanel {
   }
 
   private void setupComponents() {
-    ruleButtonsPane = new RuleInnerButtonsPane();
+    ruleButtonsPane = new RuleInnerButtonsPanel();
     selector =
         new JComboBox<>(
             new String[] {

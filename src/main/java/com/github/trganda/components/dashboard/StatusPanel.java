@@ -5,13 +5,13 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class StatusPane extends JPanel {
+public class StatusPanel extends JPanel {
 
   private final JLabel countLabel;
   private final JLabel groupLabel;
   private final JProgressBar progressBar;
 
-  public StatusPane() {
+  public StatusPanel() {
     countLabel = new JLabel("0");
     groupLabel = new JLabel("0");
     progressBar = new JProgressBar();

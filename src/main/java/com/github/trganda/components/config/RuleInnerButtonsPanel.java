@@ -5,30 +5,27 @@ import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import lombok.Getter;
 
 @Getter
-public class FilterListInnerButtonsPane extends JPanel {
-  private final JComboBox<String> type;
-  private final JButton remove;
-  private final JButton clear;
+public class RuleInnerButtonsPanel extends JPanel {
+  private JButton add;
+  private JButton edit;
+  private JButton remove;
+  private JButton clear;
 
-  public static final String BLACKLIST_SUFFIX = "Suffix";
-  public static final String BLACKLIST_HOST = "Host";
-  public static final String BLACKLIST_STATUS = "Status";
-  public static final String BLACKLIST_TYPE = "MIME";
-
-  public FilterListInnerButtonsPane() {
-    type = new JComboBox<>(new String[] {BLACKLIST_SUFFIX, BLACKLIST_HOST, BLACKLIST_STATUS, BLACKLIST_TYPE});
+  public RuleInnerButtonsPanel() {
+    add = new JButton("Add");
+    edit = new JButton("Edit");
     remove = new JButton("Remove");
     clear = new JButton("Clear");
 
-    setAlign(remove, clear);
+    setAlign(add, edit, remove, clear);
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-    this.add(type);
+    this.add(add);
+    this.add(Box.createVerticalStrut(5));
+    this.add(edit);
     this.add(Box.createVerticalStrut(5));
     this.add(remove);
     this.add(Box.createVerticalStrut(5));

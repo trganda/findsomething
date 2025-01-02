@@ -18,7 +18,7 @@ public class Editor extends JDialog {
   private JTextField groupField;
   private JComboBox<Scope> scope;
   private JCheckBox sensitive;
-  private EditorButtonsPane editorButtonsPane;
+  private EditorButtonsPanel editorButtonsPanel;
   private JPanel innerPanel;
 
   private String group;
@@ -38,7 +38,7 @@ public class Editor extends JDialog {
     groupField = new JTextField();
     groupField.setPreferredSize(new Dimension(300, groupField.getPreferredSize().height));
     sensitive = new JCheckBox();
-    editorButtonsPane = new EditorButtonsPane();
+    editorButtonsPanel = new EditorButtonsPanel();
     scope = new JComboBox<>(Scope.values());
 
     setupLayout();
@@ -115,7 +115,7 @@ public class Editor extends JDialog {
     gbc.gridwidth = 2;
     gbc.anchor = GridBagConstraints.LINE_END;
     gbc.fill = GridBagConstraints.NONE;
-    innerPanel.add(editorButtonsPane, gbc);
+    innerPanel.add(editorButtonsPanel, gbc);
   }
 
   public void setRule(Rule rule) {

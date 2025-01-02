@@ -8,17 +8,17 @@ import lombok.Getter;
 @Getter
 public class RequestSplitFrame extends JPanel {
 
-  private final InformationDetailsPane informationDetailsPane;
-  private final RequestPane requestPane;
+  private final InformationDetailsPanel informationDetailsPanel;
+  private final RequestPanel requestPanel;
   private InvisibleSplitPane dashSplitPane;
 
   public RequestSplitFrame() {
-    requestPane = new RequestPane();
-    informationDetailsPane = new InformationDetailsPane();
+    requestPanel = new RequestPanel();
+    informationDetailsPanel = new InformationDetailsPanel();
 
     dashSplitPane = new InvisibleSplitPane(JSplitPane.VERTICAL_SPLIT);
-    dashSplitPane.setTopComponent(informationDetailsPane);
-    dashSplitPane.setBottomComponent(requestPane);
+    dashSplitPane.setTopComponent(informationDetailsPanel);
+    dashSplitPane.setBottomComponent(requestPanel);
     this.setLayout(new BorderLayout());
     this.add(dashSplitPane);
   }

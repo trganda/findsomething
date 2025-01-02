@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import lombok.Getter;
 
 @Getter
-public class EditorButtonsPane extends JPanel {
+public class EditorButtonsPanel extends JPanel {
 
   private JButton cancel;
   private JButton save;
 
-  public EditorButtonsPane() {
+  public EditorButtonsPanel() {
     cancel = new JButton("Cancel");
     save = new PrimaryButton("Save");
 

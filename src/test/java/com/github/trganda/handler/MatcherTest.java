@@ -25,7 +25,8 @@ public class MatcherTest {
 
   @Test
   public void testURLRule() {
-    InputStream is = MatcherTest.class.getClassLoader().getResourceAsStream("app.dae7b379.js");
+    // https://g.alicdn.com/aliretail/microfront-app/1.0.32/static/js/main.js
+    InputStream is = MatcherTest.class.getClassLoader().getResourceAsStream("main.js");
     try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
       StringBuilder sb = new StringBuilder();
       int ch;
@@ -39,7 +40,7 @@ public class MatcherTest {
           .ifPresent(
               g -> {
                 g.getRule().stream()
-                    .filter(r -> r.getName().equals("Linkfinder"))
+                    .filter(r -> r.getName().equals("Link"))
                     .findFirst()
                     .ifPresent(
                         r -> {

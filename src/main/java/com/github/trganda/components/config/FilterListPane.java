@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class FilterListPane extends JPanel {
 
-  private FilterListInnerPane blackListInnerPane;
+  private FilterListInnerPanel blackListInnerPane;
 
   public FilterListPane() {
-    blackListInnerPane = new FilterListInnerPane();
+    blackListInnerPane = new FilterListInnerPanel();
     JLabel label = new JLabel("Filter setting");
     label.setFont(new Font("Arial", Font.BOLD, 16));
     JLabel description =

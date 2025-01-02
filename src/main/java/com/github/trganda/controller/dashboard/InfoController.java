@@ -1,7 +1,7 @@
 package com.github.trganda.controller.dashboard;
 
-import com.github.trganda.components.dashboard.InformationPane;
-import com.github.trganda.components.dashboard.StatusPane;
+import com.github.trganda.components.dashboard.InformationPanel;
+import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.handler.FilterChangeListener;
 import com.github.trganda.model.Filter;
@@ -21,14 +21,14 @@ import javax.swing.table.TableRowSorter;
 
 public class InfoController implements DataChangeListener, FilterChangeListener {
 
-  private final InformationPane infoPane;
+  private final InformationPanel infoPane;
   private final InfoDetailController infoDetailController;
-  private StatusPane statusPane;
+  private StatusPanel statusPanel;
 
   public InfoController(
-      InformationPane infoPane, StatusPane statusPane, InfoDetailController infoDetailController) {
+          InformationPanel infoPane, StatusPanel statusPanel, InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
-    this.statusPane = statusPane;
+    this.statusPanel = statusPanel;
     this.infoDetailController = infoDetailController;
     this.setupEventListener();
   }
@@ -86,7 +86,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
               model = (DefaultTableModel) table.getModel();
 
 //              statusPane.getProgressBar().setValue(0);
-              if (title.equals(InformationPane.ALL)) {
+              if (title.equals(InformationPanel.ALL)) {
                 data.forEach(d -> publish(d.getInfoData()));
               } else {
                 data.stream()
@@ -121,7 +121,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             }
             model.fireTableDataChanged();
 //            statusPane.getProgressBar().setValue(100);
-            statusPane.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
+            statusPanel.getCountLabel().setText(infoPane.getActiveTabView().getRowCount() + "");
           }
         };
     worker.execute();

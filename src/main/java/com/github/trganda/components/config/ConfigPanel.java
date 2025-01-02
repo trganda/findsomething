@@ -5,18 +5,18 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class ConfigPane extends JPanel {
+public class ConfigPanel extends JPanel {
 
-  private RulePane rulePane;
+  private RulePanel rulePanel;
   private FilterListPane blackListPane;
 
-  public ConfigPane() {
+  public ConfigPanel() {
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     this.setLayout(gridBagLayout);
     this.setBorder(BorderFactory.createEmptyBorder(20, 20, 50, 20));
 
-    rulePane = new RulePane();
+    rulePanel = new RulePanel();
     blackListPane = new FilterListPane();
 
     gbc.gridx = 0;
@@ -25,7 +25,7 @@ public class ConfigPane extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.anchor = GridBagConstraints.PAGE_START;
     gbc.insets = new Insets(0, 0, 20, 0);
-    this.add(rulePane, gbc);
+    this.add(rulePanel, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;

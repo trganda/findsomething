@@ -25,7 +25,7 @@ public class RuleEditorController {
 
   private void setupEventListener() {
     this.editor
-        .getEditorButtonsPane()
+        .getEditorButtonsPanel()
         .getCancel()
         .addActionListener(
             e -> {
@@ -34,7 +34,7 @@ public class RuleEditorController {
             });
 
     this.editor
-        .getEditorButtonsPane()
+        .getEditorButtonsPanel()
         .getSave()
         .addActionListener(
             e -> {

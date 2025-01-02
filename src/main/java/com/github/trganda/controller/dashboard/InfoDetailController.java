@@ -2,8 +2,8 @@ package com.github.trganda.controller.dashboard;
 
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.trganda.FindSomething;
-import com.github.trganda.components.dashboard.InformationDetailsPane;
-import com.github.trganda.components.dashboard.RequestPane;
+import com.github.trganda.components.dashboard.InformationDetailsPanel;
+import com.github.trganda.components.dashboard.RequestPanel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
@@ -17,19 +17,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class InfoDetailController {
 
-  private InformationDetailsPane informationDetailsPane;
-  private RequestPane requestPane;
+  private InformationDetailsPanel informationDetailsPanel;
+  private RequestPanel requestPanel;
 
   public InfoDetailController(
-      InformationDetailsPane informationDetailsPane, RequestPane requestPane) {
-    this.informationDetailsPane = informationDetailsPane;
-    this.requestPane = requestPane;
+          InformationDetailsPanel informationDetailsPanel, RequestPanel requestPanel) {
+    this.informationDetailsPanel = informationDetailsPanel;
+    this.requestPanel = requestPanel;
     this.setupEventListener();
   }
 
   private void setupEventListener() {
     // Information details
-    JTable infoDetailTable = informationDetailsPane.getTable();
+    JTable infoDetailTable = informationDetailsPanel.getTable();
     infoDetailTable.addMouseListener(
         new MouseAdapter() {
           @Override
@@ -44,15 +44,15 @@ public class InfoDetailController {
             String hash = Utils.calHash(messageId, url);
             InterceptedResponse resp = CachePool.getInstance().getInterceptedResponse(hash);
             if (resp != null) {
-              requestPane.getRequestEditor().setRequest(resp.request());
-              requestPane.getResponseEditor().setResponse(resp);
+              requestPanel.getRequestEditor().setRequest(resp.request());
+              requestPanel.getResponseEditor().setResponse(resp);
             }
           }
         });
   }
 
   public void updateDetailsView(List<RequestDetailModel> data) {
-    DefaultTableModel infoDetailTableModel = informationDetailsPane.getTableModel();
+    DefaultTableModel infoDetailTableModel = informationDetailsPanel.getTableModel();
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
           @Override
@@ -74,7 +74,7 @@ public class InfoDetailController {
                 infoDetailTableModel.addRow(row);
               }
               infoDetailTableModel.fireTableDataChanged();
-              JTable infoDetailTable = informationDetailsPane.getTable();
+              JTable infoDetailTable = informationDetailsPanel.getTable();
               // select the first row
               infoDetailTable.setRowSelectionInterval(0, 0);
               // trigger the mouse event

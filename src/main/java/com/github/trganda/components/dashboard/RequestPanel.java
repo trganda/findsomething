@@ -8,12 +8,12 @@ import javax.swing.*;
 import lombok.Getter;
 
 @Getter
-public class RequestPane extends JPanel {
+public class RequestPanel extends JPanel {
 
   private final HttpRequestEditor requestEditor;
   private final HttpResponseEditor responseEditor;
 
-  public RequestPane() {
+  public RequestPanel() {
     requestEditor = FindSomething.API.userInterface().createHttpRequestEditor();
     responseEditor = FindSomething.API.userInterface().createHttpResponseEditor();
 
