@@ -99,23 +99,6 @@ public class CachePool {
         GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
   }
 
-  public List<InfoDataModel> getInfoData(String key) {
-    List<InfoDataModel> vals = null;
-    if (key == GROUP_GENERAL) {
-      vals =
-          getAllInfoData(
-              GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
-    } else {
-      vals = infoCache.getIfPresent(key);
-    }
-
-    if (vals == null) {
-      vals = new ArrayList<>();
-    }
-
-    return vals;
-  }
-
   private List<InfoDataModel> getAllInfoData(String... key) {
     List<InfoDataModel> vals = new ArrayList<>();
     for (String k : key) {
