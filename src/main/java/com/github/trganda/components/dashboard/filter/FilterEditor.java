@@ -9,7 +9,6 @@ import lombok.Getter;
 public class FilterEditor extends JDialog {
 
   private final HostFilterPanel hostFilter;
-  private final InformationFilterPanel informationFilter;
   private final FilterButtonPanel filterButtonPanel;
   private final JPanel innerPanel;
   private Filter filter;
@@ -17,9 +16,9 @@ public class FilterEditor extends JDialog {
   public FilterEditor(Frame pFrame) {
     super(pFrame, "Filter");
     this.hostFilter = new HostFilterPanel();
-    this.informationFilter = new InformationFilterPanel();
     this.filterButtonPanel = new FilterButtonPanel();
     this.innerPanel = new JPanel();
+    this.hostFilter.setPreferredSize(new Dimension(600, hostFilter.getPreferredSize().height));
 
     this.setupLayout();
   }
@@ -38,11 +37,6 @@ public class FilterEditor extends JDialog {
     gbc.insets = new Insets(0, 0, 0, 5);
     innerPanel.add(hostFilter, gbc);
 
-    gbc.gridx = 1;
-    gbc.gridy = 0;
-    gbc.insets = new Insets(0, 0, 0, 0);
-    innerPanel.add(informationFilter, gbc);
-
     gbc.gridx = 0;
     gbc.gridy = 1;
     gbc.gridwidth = 2;
@@ -59,25 +53,10 @@ public class FilterEditor extends JDialog {
     return hostFilter.getSelector().getSelectedItem().toString();
   }
 
-  public String getSearchTerm() {
-    return informationFilter.getFilterField().getText();
-  }
-
-  public boolean isNegative() {
-    return informationFilter.getNegative().isSelected();
-  }
-
-  public boolean isSensitive() {
-    return informationFilter.getSensitive().isSelected();
-  }
-
   public Filter getFilter() {
     return Filter.builder()
         .host(this.getHost())
         .group(this.getRuleType())
-        .searchTerm(this.getSearchTerm())
-        .negative(this.isNegative())
-        .sensitive(this.isSensitive())
         .build();
   }
 
@@ -89,8 +68,5 @@ public class FilterEditor extends JDialog {
     this.hostFilter.getSuggestion().getHostComboBox().setPopupVisible(false);
     this.hostFilter.getSuggestion().setMatched(false);
     this.hostFilter.getSelector().setSelectedItem(filter.getGroup());
-    this.informationFilter.getFilterField().setText(filter.getSearchTerm());
-    this.informationFilter.getNegative().setSelected(filter.isNegative());
-    this.informationFilter.getSensitive().setSelected(filter.isSensitive());
   }
 }

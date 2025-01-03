@@ -30,9 +30,9 @@ public class SuggestionComboBox extends JPanel {
     this.matched = false;
 
     this.hostComboBox.setMaximumRowCount(6);
-    this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
-    this.hostTextField.setPreferredSize(
-        new Dimension(200, hostTextField.getPreferredSize().height));
+//    this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
+//    this.hostTextField.setPreferredSize(
+//        new Dimension(200, hostTextField.getPreferredSize().height));
 
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
@@ -41,6 +41,7 @@ public class SuggestionComboBox extends JPanel {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.weightx = 1;
     this.add(hostTextField, gbc);
     this.add(hostComboBox, gbc);
 

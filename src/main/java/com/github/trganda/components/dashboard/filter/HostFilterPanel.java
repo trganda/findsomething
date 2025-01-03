@@ -56,15 +56,18 @@ public class HostFilterPanel extends JPanel {
     gbc.gridy = 0;
     gbc.insets = new Insets(0, 0, 5, 2);
     gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.weightx = 1;
     this.add(suggestion, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
+    gbc.weightx = 0;
     gbc.insets = new Insets(0, 2, 5, 5);
     this.add(new JLabel("Group:"), gbc);
 
     gbc.gridx = 1;
     gbc.gridy = 1;
+    gbc.weightx = 1;
     gbc.insets = new Insets(0, 0, 5, 2);
     this.add(selector, gbc);
   }

@@ -19,7 +19,7 @@ public class InfoFilterController {
   private InfoController infoController;
   private Filter prevFilter;
 
-  private JTextField filterField;
+//  private JTextField filterField;
 
   public InfoFilterController(JButton filterButton, InfoController infoController) {
     this.filterButton = filterButton;
@@ -29,7 +29,6 @@ public class InfoFilterController {
     this.filterEditor = new FilterEditor(pFrame);
     this.filterEditor.setLocationRelativeTo(pFrame);
     this.filterButtonPanel = this.filterEditor.getFilterButtonPanel();
-    this.filterField = this.filterEditor.getInformationFilter().getFilterField();
     this.setupEventListener();
   }
 
@@ -79,10 +78,7 @@ public class InfoFilterController {
           if (f.equals("1")) {
             infoController.refreshInfoView(currentFilter);
           } else if (f.equals("2")) {
-            //            infoController.updateTableFilter(
-            //                currentFilter.getSearchTerm(),
-            //                currentFilter.isSensitive(),
-            //                currentFilter.isNegative());
+
           }
         });
   }
