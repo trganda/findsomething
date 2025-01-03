@@ -18,8 +18,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class InfoController implements DataChangeListener, FilterChangeListener {
 
@@ -162,7 +160,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             if (selectedRow == -1) {
               return;
             }
-            String info = table.getValueAt(selectedRow, 0).toString();
+            String info = table.getValueAt(selectedRow, 1).toString();
             String hashKey = Utils.calHash(info);
             List<RequestDetailModel> reqInfos =
                 CachePool.getInstance().getRequestDataModelList(hashKey);
@@ -187,7 +185,12 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
         new SwingWorker<>() {
           @Override
           protected List<Object[]> doInBackground() throws Exception {
-            return data.stream().map(InfoDataModel::getInfoData).collect(Collectors.toList());
+            int size = model.getRowCount();
+            List<Object[]> result = new ArrayList<>();
+            for (InfoDataModel d : data) {
+              result.add(new Object[] {size++, d.getResult()});
+            }
+            return result;
           }
 
           @Override

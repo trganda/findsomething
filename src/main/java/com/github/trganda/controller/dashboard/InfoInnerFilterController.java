@@ -2,7 +2,6 @@ package com.github.trganda.controller.dashboard;
 
 import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.dashboard.InformationInnerPanel;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -21,11 +20,15 @@ public class InfoInnerFilterController {
 
   private void setupEventListener() {
     // Set up a default table filter
-    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(infoInnerPanel.getInfoTableModel());
+    TableRowSorter<DefaultTableModel> sorter =
+        new TableRowSorter<>(infoInnerPanel.getInfoTableModel());
     infoInnerPanel.getInfoTable().setRowSorter(sorter);
 
     PlaceHolderTextField textField = this.infoInnerPanel.getFilterField();
-    this.infoInnerPanel.getFilterField().getDocument().addDocumentListener(
+    this.infoInnerPanel
+        .getFilterField()
+        .getDocument()
+        .addDocumentListener(
             new DocumentListener() {
               @Override
               public void insertUpdate(DocumentEvent e) {
@@ -33,9 +36,9 @@ public class InfoInnerFilterController {
                   return;
                 }
                 updateTableFilter(
-                        textField.getText(),
-                        infoInnerPanel.getSensitive().isSelected(),
-                        infoInnerPanel.getNegative().isSelected());
+                    textField.getText(),
+                    infoInnerPanel.getSensitive().isSelected(),
+                    infoInnerPanel.getNegative().isSelected());
               }
 
               @Override
@@ -44,9 +47,9 @@ public class InfoInnerFilterController {
                   return;
                 }
                 updateTableFilter(
-                        textField.getText(),
-                        infoInnerPanel.getSensitive().isSelected(),
-                        infoInnerPanel.getNegative().isSelected());
+                    textField.getText(),
+                    infoInnerPanel.getSensitive().isSelected(),
+                    infoInnerPanel.getNegative().isSelected());
               }
 
               @Override
@@ -55,12 +58,11 @@ public class InfoInnerFilterController {
                   return;
                 }
                 updateTableFilter(
-                        textField.getText(),
-                        infoInnerPanel.getSensitive().isSelected(),
-                        infoInnerPanel.getNegative().isSelected());
+                    textField.getText(),
+                    infoInnerPanel.getSensitive().isSelected(),
+                    infoInnerPanel.getNegative().isSelected());
               }
-            }
-    );
+            });
   }
 
   /**
@@ -87,9 +89,9 @@ public class InfoInnerFilterController {
 
       if (negative) {
         // filter the first column
-        rf = RowFilter.notFilter(RowFilter.regexFilter(filter, 0));
+        rf = RowFilter.notFilter(RowFilter.regexFilter(filter, 1));
       } else {
-        rf = RowFilter.regexFilter(filter, 0);
+        rf = RowFilter.regexFilter(filter, 1);
       }
 
     } catch (java.util.regex.PatternSyntaxException e) {

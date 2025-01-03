@@ -2,13 +2,14 @@ package com.github.trganda.components.dashboard;
 
 import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
+import com.github.trganda.controller.dashboard.InfoInnerFilterController;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
-import com.github.trganda.controller.dashboard.InfoInnerFilterController;
 import lombok.Getter;
 
 @Getter
@@ -40,8 +41,8 @@ public class InformationInnerPanel extends JPanel {
     settingMenu.add(negative);
 
     infoTable = new JTable();
-     infoTableModel =
-        new DefaultTableModel(new Object[] {"Info"}, 0) {
+    infoTableModel =
+        new DefaultTableModel(new Object[] {"#", "Info"}, 0) {
           @Override
           public boolean isCellEditable(int row, int column) {
             return false;
@@ -51,6 +52,13 @@ public class InformationInnerPanel extends JPanel {
     TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
     infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
     infoTableScrollPane = new JScrollPane(infoTable);
+    infoTableScrollPane.addComponentListener(
+        new ComponentAdapter() {
+          @Override
+          public void componentResized(ComponentEvent e) {
+            resizePane();
+          }
+        });
 
     settingButton = new JButton("Settings");
     settingButton.addActionListener(
@@ -91,5 +99,11 @@ public class InformationInnerPanel extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 0);
     this.add(filterField, gbc);
+  }
+
+  private void resizePane() {
+    int width = infoTableScrollPane.getWidth();
+    infoTable.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
+    infoTable.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.9));
   }
 }

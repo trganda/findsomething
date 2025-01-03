@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class InfoDataModel {
-  //  private final Long id;
+  //  private int id;
 
   private String groupName;
 
@@ -15,7 +15,6 @@ public class InfoDataModel {
   private final String host;
 
   public InfoDataModel(String groupName, String ruleName, String result, String host) {
-    //    this.id = id;
     this.groupName = groupName;
     this.ruleName = ruleName;
     this.result = result;
