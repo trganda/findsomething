@@ -79,10 +79,10 @@ public class InfoFilterController {
           if (f.equals("1")) {
             infoController.refreshInfoView(currentFilter);
           } else if (f.equals("2")) {
-            infoController.updateTableFilter(
-                currentFilter.getSearchTerm(),
-                currentFilter.isSensitive(),
-                currentFilter.isNegative());
+//            infoController.updateTableFilter(
+//                currentFilter.getSearchTerm(),
+//                currentFilter.isSensitive(),
+//                currentFilter.isNegative());
           }
         });
   }

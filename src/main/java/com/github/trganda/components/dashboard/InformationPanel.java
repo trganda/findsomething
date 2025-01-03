@@ -2,24 +2,18 @@ package com.github.trganda.components.dashboard;
 
 import static javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT;
 
-import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import lombok.Getter;
 
 @Getter
 public class InformationPanel extends JPanel {
   public static final String ALL = "All";
   private JTabbedPane tabbedPane;
-  private Set<String> tabNames = new HashSet<>();
 
   public InformationPanel() {
-    this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
+    this.setPreferredSize(new Dimension(520, this.getPreferredSize().height));
     this.setupComponents();
   }
 
@@ -33,28 +27,10 @@ public class InformationPanel extends JPanel {
     this.add(tabbedPane, BorderLayout.CENTER);
   }
 
-  private JScrollPane createTableView() {
-    JTable infoTable = new JTable();
-    DefaultTableModel infoTableModel =
-        new DefaultTableModel(new Object[] {"Info"}, 0) {
-          @Override
-          public boolean isCellEditable(int row, int column) {
-            return false;
-          }
-        };
-    infoTable.setModel(infoTableModel);
-    TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
-    infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
-
-    JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
-    return infoTableScrollPane;
-  }
-
   public JTable addTableTab(String tabName) {
-    JScrollPane wrap = createTableView();
-    tabbedPane.addTab(tabName, wrap);
-    tabNames.add(tabName);
-    return (JTable) wrap.getViewport().getView();
+    InformationInnerPanel inner = new InformationInnerPanel();
+    tabbedPane.addTab(tabName, inner);
+    return inner.getInfoTable();
   }
 
   public int getTabComponentIndexByName(String tabName) {
@@ -68,7 +44,7 @@ public class InformationPanel extends JPanel {
 
   public JTable getActiveTabView() throws RuntimeException {
     if (tabbedPane.getSelectedIndex() >= 0) {
-      return (JTable) ((JScrollPane) tabbedPane.getSelectedComponent()).getViewport().getView();
+      return ((InformationInnerPanel) tabbedPane.getSelectedComponent()).getInfoTable();
     }
     throw new RuntimeException("No active tab found.");
   }
@@ -81,7 +57,7 @@ public class InformationPanel extends JPanel {
   }
 
   public JTable getTabAtIndex(int index) {
-    return (JTable) ((JScrollPane) tabbedPane.getComponentAt(index)).getViewport().getView();
+    return ((InformationInnerPanel) tabbedPane.getComponentAt(index)).getInfoTable();
   }
 
   public void clearTab() {

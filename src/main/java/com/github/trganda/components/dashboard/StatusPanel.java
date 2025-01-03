@@ -2,8 +2,6 @@ package com.github.trganda.components.dashboard;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-
 import lombok.Getter;
 
 @Getter
@@ -11,23 +9,24 @@ public class StatusPanel extends JPanel {
 
   private final JLabel countLabel;
   private final JLabel groupLabel;
-//  private final JProgressBar progressBar;
+
+  //  private final JProgressBar progressBar;
 
   public StatusPanel() {
     countLabel = new JLabel("0");
     groupLabel = new JLabel("0");
-//    progressBar = new JProgressBar();
+    //    progressBar = new JProgressBar();
 
     this.setLayout(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
 
-//    gbc.gridx = 0;
-//    gbc.gridy = 0;
-//    gbc.weightx = 1;
-//    gbc.fill = GridBagConstraints.HORIZONTAL;
-//    gbc.insets = new Insets(0, 0, 0, 5);
-//    gbc.anchor = GridBagConstraints.LINE_START;
-//    this.add(progressBar, gbc);
+    //    gbc.gridx = 0;
+    //    gbc.gridy = 0;
+    //    gbc.weightx = 1;
+    //    gbc.fill = GridBagConstraints.HORIZONTAL;
+    //    gbc.insets = new Insets(0, 0, 0, 5);
+    //    gbc.anchor = GridBagConstraints.LINE_START;
+    //    this.add(progressBar, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 0;
