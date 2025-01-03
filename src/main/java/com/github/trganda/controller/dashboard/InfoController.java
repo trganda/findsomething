@@ -23,7 +23,7 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
   private final InformationPanel infoPane;
   private final InfoDetailController infoDetailController;
-  private StatusPanel statusPanel;
+  private final StatusPanel statusPanel;
 
   public InfoController(
       InformationPanel infoPane,
@@ -165,6 +165,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
             List<RequestDetailModel> reqInfos =
                 CachePool.getInstance().getRequestDataModelList(hashKey);
 
+            statusPanel.getInfo().setText("Info:");
+            statusPanel.getInfoLabel().setText(info);
             infoDetailController.updateDetailsView(reqInfos);
           }
         });
