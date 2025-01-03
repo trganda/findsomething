@@ -1,6 +1,5 @@
 package com.github.trganda.components.common;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.*;
@@ -30,9 +29,6 @@ public class SuggestionComboBox extends JPanel {
     this.matched = false;
 
     this.hostComboBox.setMaximumRowCount(6);
-//    this.hostComboBox.setPreferredSize(new Dimension(200, hostComboBox.getPreferredSize().height));
-//    this.hostTextField.setPreferredSize(
-//        new Dimension(200, hostTextField.getPreferredSize().height));
 
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();

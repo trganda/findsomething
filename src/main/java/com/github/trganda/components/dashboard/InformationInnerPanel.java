@@ -1,20 +1,20 @@
 package com.github.trganda.components.dashboard;
 
-import com.github.trganda.components.common.PlaceHolderTextField;
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.components.FlatTextField;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import com.github.trganda.controller.dashboard.InfoInnerFilterController;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import lombok.Getter;
 
 @Getter
 public class InformationInnerPanel extends JPanel {
-  private PlaceHolderTextField filterField;
+  private FlatTextField filterField;
   private JCheckBox sensitive;
   private JCheckBox negative;
   private JTable infoTable;
@@ -30,7 +30,8 @@ public class InformationInnerPanel extends JPanel {
   }
 
   private void setupComponents() {
-    filterField = new PlaceHolderTextField("Search");
+    filterField = new FlatTextField();
+    filterField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
     sensitive = new JCheckBox("Case sensitive");
     sensitive.setBorder(new EmptyBorder(5, 5, 5, 5));
     negative = new JCheckBox("Negative search");
@@ -51,14 +52,13 @@ public class InformationInnerPanel extends JPanel {
     infoTable.setModel(infoTableModel);
     TableCellRenderer headerRenderer = infoTable.getTableHeader().getDefaultRenderer();
     infoTable.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
+
+    TableColumn firstColumn = infoTable.getColumnModel().getColumn(0);
+    firstColumn.setPreferredWidth(50);
+    firstColumn.setMinWidth(50);
+    firstColumn.setMaxWidth(50);
+
     infoTableScrollPane = new JScrollPane(infoTable);
-    infoTableScrollPane.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentResized(ComponentEvent e) {
-            resizePane();
-          }
-        });
 
     settingButton = new JButton("Settings");
     settingButton.addActionListener(
@@ -99,11 +99,5 @@ public class InformationInnerPanel extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 0);
     this.add(filterField, gbc);
-  }
-
-  private void resizePane() {
-    int width = infoTableScrollPane.getWidth();
-    infoTable.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
-    infoTable.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.9));
   }
 }

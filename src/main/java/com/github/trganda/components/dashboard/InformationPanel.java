@@ -13,7 +13,8 @@ public class InformationPanel extends JPanel {
   private JTabbedPane tabbedPane;
 
   public InformationPanel() {
-    this.setPreferredSize(new Dimension(520, this.getPreferredSize().height));
+    this.setPreferredSize(new Dimension(420, this.getPreferredSize().height));
+    this.setMinimumSize(new Dimension(420, this.getPreferredSize().height));
     this.setupComponents();
   }
 

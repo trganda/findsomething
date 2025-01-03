@@ -3,8 +3,10 @@ package com.github.trganda.components.dashboard.filter;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.github.trganda.components.common.FilterButton;
 import com.github.trganda.components.common.OptionsButton;
+import com.github.trganda.components.common.RoundTextField;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import lombok.Getter;
 
 @Getter
@@ -14,19 +16,36 @@ public class FilterPanel extends JPanel {
   private JButton optionsButton;
   private FlatSVGIcon filterIcon;
   private FlatSVGIcon optionsIcon;
+  private final JTextField search;
   private int fontSize = UIManager.getFont("Button.font").getSize();
+  private static final Border border = new JButton().getBorder();
 
   public FilterPanel() {
-    this.setupComponents();
+    search = new RoundTextField("Search");
     this.setupLayout();
   }
 
-  private void setupComponents() {}
-
   private void setupLayout() {
-    this.setLayout(new BorderLayout());
-    this.add(filterButton, BorderLayout.CENTER);
-    this.add(optionsButton, BorderLayout.EAST);
+    this.setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.weightx = 1;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 0, 0, 10);
+    this.add(filterButton, gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    gbc.weightx = 0;
+    gbc.fill = GridBagConstraints.NONE;
+    this.add(search, gbc);
+
+    gbc.gridx = 2;
+    gbc.gridy = 0;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    this.add(optionsButton, gbc);
   }
 
   @Override

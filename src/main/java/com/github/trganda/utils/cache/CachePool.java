@@ -1,7 +1,6 @@
 package com.github.trganda.utils.cache;
 
 import static com.github.trganda.config.ConfigManager.GROUP_FINGERPRINT;
-import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
 import static com.github.trganda.config.ConfigManager.GROUP_INFORMATION;
 import static com.github.trganda.config.ConfigManager.GROUP_SENSITIVE;
 import static com.github.trganda.config.ConfigManager.GROUP_VULNERABILITY;

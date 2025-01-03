@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,18 +40,12 @@ public class InformationDetailsPanel extends JPanel {
     TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
     table.getTableHeader().setDefaultRenderer(new LeftAlignTableCellRenderer(headerRenderer));
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    this.setColumnsWidth();
 
     scrollPane = new JScrollPane(table);
 
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width, 200));
-    scrollPane.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentResized(ComponentEvent e) {
-            resizePane();
-          }
-        });
+    scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width, 260));
     filterPanel = new FilterPanel();
   }
 
@@ -79,12 +71,11 @@ public class InformationDetailsPanel extends JPanel {
     this.add(scrollPane, gbc);
   }
 
-  private void resizePane() {
-    int width = scrollPane.getWidth();
-    table.getColumnModel().getColumn(0).setPreferredWidth((int) (width * 0.1));
-    table.getColumnModel().getColumn(1).setPreferredWidth((int) (width * 0.1));
-    table.getColumnModel().getColumn(2).setPreferredWidth((int) (width * 0.4));
-    table.getColumnModel().getColumn(3).setPreferredWidth((int) (width * 0.3));
-    table.getColumnModel().getColumn(4).setPreferredWidth((int) (width * 0.1));
+  private void setColumnsWidth() {
+    table.getColumnModel().getColumn(0).setPreferredWidth(100);
+    table.getColumnModel().getColumn(1).setPreferredWidth(100);
+    table.getColumnModel().getColumn(2).setPreferredWidth(400);
+    table.getColumnModel().getColumn(3).setPreferredWidth(300);
+    table.getColumnModel().getColumn(4).setPreferredWidth(100);
   }
 }

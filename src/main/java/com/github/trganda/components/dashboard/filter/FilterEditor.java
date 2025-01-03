@@ -54,10 +54,7 @@ public class FilterEditor extends JDialog {
   }
 
   public Filter getFilter() {
-    return Filter.builder()
-        .host(this.getHost())
-        .group(this.getRuleType())
-        .build();
+    return Filter.builder().host(this.getHost()).group(this.getRuleType()).build();
   }
 
   public void setFilter(Filter filter) {

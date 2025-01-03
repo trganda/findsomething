@@ -19,7 +19,7 @@ public class InfoFilterController {
   private InfoController infoController;
   private Filter prevFilter;
 
-//  private JTextField filterField;
+  //  private JTextField filterField;
 
   public InfoFilterController(JButton filterButton, InfoController infoController) {
     this.filterButton = filterButton;

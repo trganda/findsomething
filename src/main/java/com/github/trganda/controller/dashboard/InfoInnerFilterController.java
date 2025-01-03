@@ -1,6 +1,5 @@
 package com.github.trganda.controller.dashboard;
 
-import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.dashboard.InformationInnerPanel;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -24,7 +23,7 @@ public class InfoInnerFilterController {
         new TableRowSorter<>(infoInnerPanel.getInfoTableModel());
     infoInnerPanel.getInfoTable().setRowSorter(sorter);
 
-    PlaceHolderTextField textField = this.infoInnerPanel.getFilterField();
+    JTextField textField = this.infoInnerPanel.getFilterField();
     this.infoInnerPanel
         .getFilterField()
         .getDocument()
@@ -32,9 +31,6 @@ public class InfoInnerFilterController {
             new DocumentListener() {
               @Override
               public void insertUpdate(DocumentEvent e) {
-                if (textField.isPlaceholderActive()) {
-                  return;
-                }
                 updateTableFilter(
                     textField.getText(),
                     infoInnerPanel.getSensitive().isSelected(),
@@ -43,9 +39,6 @@ public class InfoInnerFilterController {
 
               @Override
               public void removeUpdate(DocumentEvent e) {
-                if (textField.isPlaceholderActive()) {
-                  return;
-                }
                 updateTableFilter(
                     textField.getText(),
                     infoInnerPanel.getSensitive().isSelected(),
@@ -54,9 +47,6 @@ public class InfoInnerFilterController {
 
               @Override
               public void changedUpdate(DocumentEvent e) {
-                if (textField.isPlaceholderActive()) {
-                  return;
-                }
                 updateTableFilter(
                     textField.getText(),
                     infoInnerPanel.getSensitive().isSelected(),
