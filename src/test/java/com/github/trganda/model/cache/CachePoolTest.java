@@ -11,6 +11,6 @@ public class CachePoolTest {
 
     CachePool cachePool = CachePool.getInstance();
     cachePool.addInfoDataModel("test", new InfoDataModel("test", "rule", "test", "example.com"));
-    System.out.println(cachePool.getInfoData("test"));
+    //    System.out.println(cachePool.getInfoData("test"));
   }
 }

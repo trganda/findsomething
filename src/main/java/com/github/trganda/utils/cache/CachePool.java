@@ -77,18 +77,26 @@ public class CachePool {
     return httpMessageCache.getIfPresent(key);
   }
 
-  public void addInfoDataModel(String group, InfoDataModel infoDataModel) {
+  public boolean addInfoDataModel(String group, InfoDataModel infoDataModel) {
     List<InfoDataModel> vals = infoCache.getIfPresent(group);
     if (vals == null) {
       infoCache.put(group, List.of(infoDataModel));
+      return true;
     } else {
       List<InfoDataModel> copyVals = new ArrayList<>(vals);
       // de-duplicate
       if (copyVals.stream().noneMatch(v -> v.getResult().equals(infoDataModel.getResult()))) {
         copyVals.add(infoDataModel);
         infoCache.put(group, copyVals);
+        return true;
       }
     }
+    return false;
+  }
+
+  public List<InfoDataModel> getInfoData() {
+    return getAllInfoData(
+        GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
   }
 
   public List<InfoDataModel> getInfoData(String key) {

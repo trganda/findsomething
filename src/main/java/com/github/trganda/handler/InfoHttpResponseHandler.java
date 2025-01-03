@@ -100,8 +100,10 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
                                   new InfoDataModel(
                                       g.getGroup(), r.getName(), result, req.httpService().host());
 
-                              CachePool.getInstance().addInfoDataModel(g.getGroup(), infoDataModel);
-                              data.add(infoDataModel);
+                              if (CachePool.getInstance()
+                                  .addInfoDataModel(g.getGroup(), infoDataModel)) {
+                                data.add(infoDataModel);
+                              }
 
                               // set request info
                               String hash = Utils.calHash(result);
