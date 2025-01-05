@@ -53,40 +53,32 @@ public class RuleController implements ConfigChangeListener {
             new DocumentListener() {
               @Override
               public void insertUpdate(DocumentEvent e) {
-                updateTableFilter(
-                    innerPane.getRuleSearch().getText(),
-                    innerPane.getRuleSearch().isPlaceholderActive());
+                updateTableFilter(innerPane.getRuleSearch().getText());
               }
 
               @Override
               public void removeUpdate(DocumentEvent e) {
-                updateTableFilter(
-                    innerPane.getRuleSearch().getText(),
-                    innerPane.getRuleSearch().isPlaceholderActive());
+                updateTableFilter(innerPane.getRuleSearch().getText());
               }
 
               @Override
               public void changedUpdate(DocumentEvent e) {
-                updateTableFilter(
-                    innerPane.getRuleSearch().getText(),
-                    innerPane.getRuleSearch().isPlaceholderActive());
+                updateTableFilter(innerPane.getRuleSearch().getText());
               }
 
-              public void updateTableFilter(String filter, boolean isPlaceholderActive) {
+              public void updateTableFilter(String filter) {
                 RowFilter<TableModel, Object> rf = null;
-                if (!isPlaceholderActive) {
-                  try {
-                    filter = "(?i)" + filter;
-                    rf = RowFilter.regexFilter(filter, 1);
-                  } catch (java.util.regex.PatternSyntaxException e) {
-                    return;
-                  }
-
-                  TableRowSorter<TableModel> sorter =
-                      new TableRowSorter<TableModel>(innerPane.getModel());
-                  sorter.setRowFilter(rf);
-                  innerPane.getTable().setRowSorter(sorter);
+                try {
+                  filter = "(?i)" + filter;
+                  rf = RowFilter.regexFilter(filter, 1);
+                } catch (java.util.regex.PatternSyntaxException e) {
+                  return;
                 }
+
+                TableRowSorter<TableModel> sorter =
+                    new TableRowSorter<TableModel>(innerPane.getModel());
+                sorter.setRowFilter(rf);
+                innerPane.getTable().setRowSorter(sorter);
               }
             });
 
@@ -125,7 +117,7 @@ public class RuleController implements ConfigChangeListener {
 
     // button event
     this.innerPane
-        .getRuleButtonsPane()
+        .getRuleButtonsPanel()
         .getAdd()
         .addActionListener(
             e -> {
@@ -137,7 +129,7 @@ public class RuleController implements ConfigChangeListener {
             });
 
     this.innerPane
-        .getRuleButtonsPane()
+        .getRuleButtonsPanel()
         .getEdit()
         .addActionListener(
             e -> {
@@ -152,7 +144,7 @@ public class RuleController implements ConfigChangeListener {
             });
 
     this.innerPane
-        .getRuleButtonsPane()
+        .getRuleButtonsPanel()
         .getRemove()
         .addActionListener(
             e -> {
@@ -164,7 +156,7 @@ public class RuleController implements ConfigChangeListener {
             });
 
     this.innerPane
-        .getRuleButtonsPane()
+        .getRuleButtonsPanel()
         .getClear()
         .addActionListener(
             e -> {

@@ -1,7 +1,6 @@
 package com.github.trganda.components.dashboard;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.extras.components.FlatTextField;
+import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import com.github.trganda.controller.dashboard.InfoInnerFilterController;
 import java.awt.*;
@@ -14,7 +13,7 @@ import lombok.Getter;
 
 @Getter
 public class InformationInnerPanel extends JPanel {
-  private FlatTextField filterField;
+  private JTextField filterField;
   private JCheckBox sensitive;
   private JCheckBox negative;
   private JTable infoTable;
@@ -30,8 +29,7 @@ public class InformationInnerPanel extends JPanel {
   }
 
   private void setupComponents() {
-    filterField = new FlatTextField();
-    filterField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
+    filterField = new PlaceHolderTextField("Search");
     sensitive = new JCheckBox("Case sensitive");
     sensitive.setBorder(new EmptyBorder(5, 5, 5, 5));
     negative = new JCheckBox("Negative search");

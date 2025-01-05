@@ -64,16 +64,14 @@ public class FilterController implements ConfigChangeListener {
                 String val = innerPane.getInputTextField().getText();
                 // highlight if already exists
                 if (innerPane.getBlackListTableModel().getDataVector().stream()
-                        .filter(row -> row.get(0).equals(val))
-                        .count()
-                    > 0) {
+                    .anyMatch(row -> row.get(0).equals(val))) {
                   innerPane.getInputTextField().setForeground(Color.RED);
                   innerPane
                       .getInputTextField()
                       .setFont(
                           new Font(
                               Utils.getBurpDisplayFont().getName(),
-                              Font.ITALIC,
+                              Font.BOLD,
                               Utils.getBurpDisplayFont().getSize()));
                 } else {
                   innerPane.getInputTextField().setForeground(defaultColor);

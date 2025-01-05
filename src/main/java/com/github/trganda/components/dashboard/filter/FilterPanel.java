@@ -3,7 +3,7 @@ package com.github.trganda.components.dashboard.filter;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.github.trganda.components.common.FilterButton;
 import com.github.trganda.components.common.OptionsButton;
-import com.github.trganda.components.common.RoundTextField;
+import com.github.trganda.components.common.PlaceHolderTextField;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,11 +17,15 @@ public class FilterPanel extends JPanel {
   private FlatSVGIcon filterIcon;
   private FlatSVGIcon optionsIcon;
   private final JTextField search;
-  private int fontSize = UIManager.getFont("Button.font").getSize();
+  private int fontSize = UIManager.getFont("TitlePane.small.font").getSize();
   private static final Border border = new JButton().getBorder();
 
   public FilterPanel() {
-    search = new RoundTextField("Search");
+    FlatSVGIcon icon =
+        new FlatSVGIcon("svg/search.svg", fontSize, fontSize, this.getClass().getClassLoader());
+    search = new PlaceHolderTextField("Search", icon, true);
+    //    search = new RoundSearchTextField("Search");
+    search.setPreferredSize(new Dimension(260, search.getPreferredSize().height));
     this.setupLayout();
   }
 

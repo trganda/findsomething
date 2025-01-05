@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public class PlaceHolderFocusListener extends FocusAdapter {
 

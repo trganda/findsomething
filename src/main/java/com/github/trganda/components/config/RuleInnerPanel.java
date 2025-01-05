@@ -2,6 +2,7 @@ package com.github.trganda.components.config;
 
 import static com.github.trganda.config.ConfigManager.*;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.github.trganda.components.common.PlaceHolderTextField;
 import com.github.trganda.components.renderer.LeftAlignTableCellRenderer;
 import java.awt.*;
@@ -18,8 +19,8 @@ public class RuleInnerPanel extends JPanel {
   private JComboBox<String> selector;
   private JLabel countLabel;
 
-  private PlaceHolderTextField ruleSearch;
-  private RuleInnerButtonsPanel ruleButtonsPane;
+  private JTextField ruleSearch;
+  private RuleInnerButtonsPanel ruleButtonsPanel;
   private JTable table;
   private DefaultTableModel model;
   private JComponent wrap;
@@ -60,8 +61,15 @@ public class RuleInnerPanel extends JPanel {
     gbc.insets = new Insets(15, 0, 20, 0);
     this.add(new JSeparator(), gbc);
 
-    gbc.gridx = 1;
+    gbc.gridx = 0;
     gbc.gridy = 3;
+    gbc.fill = GridBagConstraints.NONE;
+    gbc.anchor = GridBagConstraints.LINE_START;
+    gbc.insets = new Insets(0, 0, 5, 5);
+    this.add(new JLabel("Rule configuration"), gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 4;
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.LINE_END;
@@ -69,15 +77,15 @@ public class RuleInnerPanel extends JPanel {
     this.add(ruleSearch, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 4;
+    gbc.gridy = 5;
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     gbc.insets = new Insets(0, 0, 5, 5);
-    this.add(ruleButtonsPane, gbc);
+    this.add(ruleButtonsPanel, gbc);
 
     gbc.gridx = 1;
-    gbc.gridy = 4;
+    gbc.gridy = 5;
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 0);
@@ -128,14 +136,14 @@ public class RuleInnerPanel extends JPanel {
   }
 
   private void setupComponents() {
-    ruleButtonsPane = new RuleInnerButtonsPanel();
+    ruleButtonsPanel = new RuleInnerButtonsPanel();
     selector =
         new JComboBox<>(
             new String[] {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
-    ruleSearch = new PlaceHolderTextField("Search");
+    ruleSearch = new PlaceHolderTextField("Search", new FlatSVGIcon("svg/search.svg", 14, 14, this.getClass().getClassLoader()), true);
     ruleSearch.setPreferredSize(new Dimension(260, ruleSearch.getPreferredSize().height));
     wrap = this.setupTable();
     countLabel = new JLabel("0");
