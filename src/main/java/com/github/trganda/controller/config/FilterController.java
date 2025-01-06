@@ -39,7 +39,7 @@ public class FilterController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               String val = innerPane.getInputTextField().getText();
-              if (val.isEmpty() || val.equals(innerPane.getPlaceHolder())) {
+              if (val.isEmpty()) {
                 return;
               }
               // ignore if already exists same value

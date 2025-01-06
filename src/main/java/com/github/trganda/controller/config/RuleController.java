@@ -134,7 +134,7 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              showEditor(
+              process(
                   r -> {
                     RuleModel ruleModel = new RuleModel();
                     ruleModel.setGroup(group);
@@ -149,7 +149,7 @@ public class RuleController implements ConfigChangeListener {
         .addActionListener(
             e -> {
               String group = this.innerPane.getSelector().getSelectedItem().toString();
-              showEditor(
+              process(
                   r -> {
                     ConfigManager.getInstance().syncRules(group, r, Operation.DEL);
                   });
@@ -201,7 +201,7 @@ public class RuleController implements ConfigChangeListener {
     worker.execute();
   }
 
-  private void showEditor(Consumer<Rule> consumer) {
+  private void process(Consumer<Rule> consumer) {
     int idx = this.innerPane.getTable().getSelectedRow();
     if (idx == -1) {
       return;

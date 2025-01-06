@@ -7,15 +7,15 @@ import lombok.Getter;
 @Getter
 public class RulePanel extends JPanel {
 
-  private JLabel label;
-  private JLabel description;
-  private RuleInnerPanel ruleInnerPanel;
+  private final JLabel label;
+  private final RuleInnerPanel ruleInnerPanel;
+  private final GroupPanel groupPanel;
 
   public RulePanel() {
     label = new JLabel("Rules set");
     label.setFont(new Font("Arial", Font.BOLD, 16));
-    description = new JLabel("Defining rules to extract information that you are looking for.");
     ruleInnerPanel = new RuleInnerPanel();
+    groupPanel = new GroupPanel();
 
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
@@ -25,18 +25,24 @@ public class RulePanel extends JPanel {
     gbc.gridy = 0;
     gbc.weightx = 1.0;
     gbc.insets = new Insets(0, 0, 12, 5);
-    gbc.anchor = GridBagConstraints.NORTHWEST;
+    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     this.add(label, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
-    this.add(description, gbc);
-
-    gbc.gridx = 0;
-    gbc.gridy = 2;
     gbc.insets = new Insets(0, 0, 0, 0);
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     this.add(ruleInnerPanel, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    gbc.insets = new Insets(15, 0, 15, 0);
+    this.add(new JSeparator(), gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    this.add(groupPanel, gbc);
   }
 }

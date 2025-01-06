@@ -58,18 +58,25 @@ public class RuleInnerPanel extends JPanel {
     gbc.gridy = 2;
     gbc.gridwidth = 2;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(15, 0, 20, 0);
+    gbc.insets = new Insets(15, 0, 15, 0);
     this.add(new JSeparator(), gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 3;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.insets = new Insets(0, 0, 5, 5);
+    gbc.insets = new Insets(0, 0, 15, 5);
     this.add(new JLabel("Rule configuration"), gbc);
 
-    gbc.gridx = 1;
+    gbc.gridx = 0;
     gbc.gridy = 4;
+    gbc.fill = GridBagConstraints.NONE;
+    gbc.anchor = GridBagConstraints.LINE_START;
+    gbc.insets = new Insets(0, 0, 5, 5);
+    this.add(new JLabel("Defining rules to extract information that you are looking for."), gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 5;
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.LINE_END;
@@ -77,7 +84,7 @@ public class RuleInnerPanel extends JPanel {
     this.add(ruleSearch, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 5;
+    gbc.gridy = 6;
     gbc.gridwidth = 1;
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -85,7 +92,7 @@ public class RuleInnerPanel extends JPanel {
     this.add(ruleButtonsPanel, gbc);
 
     gbc.gridx = 1;
-    gbc.gridy = 5;
+    gbc.gridy = 6;
     gbc.weightx = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 0);
@@ -143,7 +150,11 @@ public class RuleInnerPanel extends JPanel {
               GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
             });
 
-    ruleSearch = new PlaceHolderTextField("Search", new FlatSVGIcon("svg/search.svg", 14, 14, this.getClass().getClassLoader()), true);
+    ruleSearch =
+        new PlaceHolderTextField(
+            "Search",
+            new FlatSVGIcon("svg/search.svg", 14, 14, this.getClass().getClassLoader()),
+            true);
     ruleSearch.setPreferredSize(new Dimension(260, ruleSearch.getPreferredSize().height));
     wrap = this.setupTable();
     countLabel = new JLabel("0");

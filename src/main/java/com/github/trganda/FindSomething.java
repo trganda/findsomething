@@ -9,6 +9,7 @@ import com.github.trganda.components.dashboard.RequestPanel;
 import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.controller.config.FilterController;
+import com.github.trganda.controller.config.GroupController;
 import com.github.trganda.controller.config.RuleController;
 import com.github.trganda.controller.config.RuleEditorController;
 import com.github.trganda.controller.dashboard.InfoController;
@@ -64,7 +65,7 @@ public class FindSomething implements BurpExtension {
     RuleEditorController editorController = new RuleEditorController(new RuleModel());
     new RuleController(
         extensionFrame.getConfig().getRulePanel().getRuleInnerPanel(), editorController);
-
+    new GroupController(extensionFrame.getConfig().getRulePanel().getGroupPanel());
     new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
     InformationDetailsPanel informationDetailsPanel =
