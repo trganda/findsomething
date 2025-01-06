@@ -19,23 +19,31 @@ public class GroupController implements ConfigChangeListener {
   }
 
   private void setupEvent() {
-    this.groupPanel.getGroupButtonsPanel().getRemove().addActionListener(e -> {
-      int selectedRow = this.groupPanel.getRuleGroupTable().getSelectedRow();
-      if (selectedRow >= 0) {
-        this.groupPanel.getRuleGroupTableModel().removeRow(selectedRow);
-      }
-    });
+    this.groupPanel
+        .getGroupButtonsPanel()
+        .getRemove()
+        .addActionListener(
+            e -> {
+              int selectedRow = this.groupPanel.getRuleGroupTable().getSelectedRow();
+              if (selectedRow >= 0) {
+                this.groupPanel.getRuleGroupTableModel().removeRow(selectedRow);
+              }
+            });
 
-    this.groupPanel.getAdd().addActionListener(e -> {
-      String val = groupPanel.getAddField().getText();
-      if (val.isEmpty()) {
-        return;
-      }
-      // ignore if already exists same value
-      if (groupPanel.getRuleGroupTableModel().getDataVector().stream().anyMatch(row -> row.get(0).equals(val))) {
-        return;
-      }
-    });
+    this.groupPanel
+        .getAdd()
+        .addActionListener(
+            e -> {
+              String val = groupPanel.getAddField().getText();
+              if (val.isEmpty()) {
+                return;
+              }
+              // ignore if already exists same value
+              if (groupPanel.getRuleGroupTableModel().getDataVector().stream()
+                  .anyMatch(row -> row.get(0).equals(val))) {
+                return;
+              }
+            });
   }
 
   private void loadDefaultData() {

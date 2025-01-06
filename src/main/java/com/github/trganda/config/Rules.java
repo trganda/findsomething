@@ -1,19 +1,16 @@
 package com.github.trganda.config;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.*;
 
 @Data
 public class Rules {
   private List<Group> groups;
 
-  // Getters and Setters
   public List<Group> getGroups() {
     return groups;
-  }
-
-  public void setGroups(List<Group> rules) {
-    this.groups = rules;
   }
 
   public List<Rule> getRulesWithGroup(String group) {
@@ -25,6 +22,10 @@ public class Rules {
         .findFirst()
         .orElse(new Group())
         .getRule();
+  }
+
+  public List<String> getGroupsName() {
+    return groups.stream().map(Group::getGroup).collect(Collectors.toList());
   }
 
   public static class Group {

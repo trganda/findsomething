@@ -1,9 +1,8 @@
 package com.github.trganda.components.config;
 
-import lombok.Getter;
-
 import java.awt.*;
 import javax.swing.*;
+import lombok.Getter;
 
 @Getter
 public class GroupButtonsPanel extends Panel {

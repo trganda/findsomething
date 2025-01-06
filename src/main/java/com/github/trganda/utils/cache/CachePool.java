@@ -1,18 +1,16 @@
 package com.github.trganda.utils.cache;
 
-import static com.github.trganda.config.ConfigManager.GROUP_FINGERPRINT;
-import static com.github.trganda.config.ConfigManager.GROUP_INFORMATION;
-import static com.github.trganda.config.ConfigManager.GROUP_SENSITIVE;
-import static com.github.trganda.config.ConfigManager.GROUP_VULNERABILITY;
-
 import burp.api.montoya.proxy.http.InterceptedResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.trganda.config.ConfigManager;
+import com.github.trganda.config.Rules;
 import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class CachePool {
 
@@ -94,11 +92,11 @@ public class CachePool {
   }
 
   public List<InfoDataModel> getInfoData() {
-    return getAllInfoData(
-        GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION);
+    List<String> groups = ConfigManager.getInstance().getRules().getGroupsName();
+    return getAllInfoData(groups);
   }
 
-  private List<InfoDataModel> getAllInfoData(String... key) {
+  private List<InfoDataModel> getAllInfoData(List<String> key) {
     List<InfoDataModel> vals = new ArrayList<>();
     for (String k : key) {
       List<InfoDataModel> temp = infoCache.getIfPresent(k);

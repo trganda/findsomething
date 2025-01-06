@@ -24,6 +24,7 @@ public class RuleController implements ConfigChangeListener {
   private RuleInnerPanel innerPane;
   private List<Rule> rules;
   private RuleEditorController editorController;
+  private boolean isEditing = false;
 
   public RuleController() {
     ConfigManager.getInstance().registerConfigListener(this);
@@ -43,6 +44,9 @@ public class RuleController implements ConfigChangeListener {
         .getSelector()
         .addActionListener(
             e -> {
+              if (isEditing) {
+                return;
+              }
               this.onConfigChange(ConfigManager.getInstance());
             });
 
@@ -171,6 +175,14 @@ public class RuleController implements ConfigChangeListener {
 
   @Override
   public void onConfigChange(ConfigManager configManager) {
+    isEditing = true;
+    this.innerPane.getSelectorModel().removeAllElements();
+    configManager
+        .getRules()
+        .getGroups()
+        .forEach(g -> this.innerPane.getSelectorModel().addElement(g.getGroup()));
+    isEditing = false;
+
     SwingWorker<List<Object[]>, Void> worker =
         new SwingWorker<>() {
           @Override

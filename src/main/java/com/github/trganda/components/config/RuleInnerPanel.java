@@ -17,6 +17,7 @@ import lombok.Getter;
 public class RuleInnerPanel extends JPanel {
 
   private JComboBox<String> selector;
+  private DefaultComboBoxModel<String> selectorModel;
   private JLabel countLabel;
 
   private JTextField ruleSearch;
@@ -144,11 +145,8 @@ public class RuleInnerPanel extends JPanel {
 
   private void setupComponents() {
     ruleButtonsPanel = new RuleInnerButtonsPanel();
-    selector =
-        new JComboBox<>(
-            new String[] {
-              GROUP_FINGERPRINT, GROUP_SENSITIVE, GROUP_VULNERABILITY, GROUP_INFORMATION
-            });
+    selectorModel = new DefaultComboBoxModel<>();
+    selector = new JComboBox<>(selectorModel);
 
     ruleSearch =
         new PlaceHolderTextField(
