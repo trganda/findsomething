@@ -2,6 +2,7 @@ package com.github.trganda.controller.dashboard;
 
 import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
 
+import com.github.trganda.FindSomething;
 import com.github.trganda.components.dashboard.InformationPanel;
 import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.handler.DataChangeListener;
