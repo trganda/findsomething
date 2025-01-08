@@ -47,7 +47,7 @@ public class RuleController implements ConfigChangeListener {
               if (isEditing) {
                 return;
               }
-              this.onConfigChange(ConfigManager.getInstance());
+              this.updateRuleTab(ConfigManager.getInstance());
             });
 
     this.innerPane
@@ -173,6 +173,37 @@ public class RuleController implements ConfigChangeListener {
     this.onConfigChange(ConfigManager.getInstance());
   }
 
+  private void updateRuleTab(ConfigManager configManager) {
+      SwingWorker<List<Object[]>, Void> worker =
+              new SwingWorker<>() {
+                  @Override
+                  protected List<Object[]> doInBackground() {
+                      List<Object[]> list = new ArrayList<>();
+                      String selectedItem = innerPane.getSelector().getSelectedItem().toString();
+                      for (Rule rule : configManager.getRules().getRulesWithGroup(selectedItem)) {
+                          list.add(rule.toObjectArray());
+                      }
+                      return list;
+                  }
+
+                  @Override
+                  protected void done() {
+                      try {
+                          List<Object[]> result = get();
+                          innerPane.getModel().setRowCount(0);
+                          for (Object[] row : result) {
+                              innerPane.getModel().addRow(row);
+                          }
+                          innerPane.getModel().fireTableDataChanged();
+                          innerPane.getCountLabel().setText(String.valueOf(result.size()));
+                      } catch (InterruptedException | ExecutionException e) {
+                          FindSomething.API.logging().logToError(new RuntimeException(e));
+                      }
+                  }
+              };
+      worker.execute();
+  }
+
   @Override
   public void onConfigChange(ConfigManager configManager) {
     isEditing = true;
@@ -183,34 +214,7 @@ public class RuleController implements ConfigChangeListener {
         .forEach(g -> this.innerPane.getSelectorModel().addElement(g.getGroup()));
     isEditing = false;
 
-    SwingWorker<List<Object[]>, Void> worker =
-        new SwingWorker<>() {
-          @Override
-          protected List<Object[]> doInBackground() {
-            List<Object[]> list = new ArrayList<>();
-            String selectedItem = innerPane.getSelector().getSelectedItem().toString();
-            for (Rule rule : configManager.getRules().getRulesWithGroup(selectedItem)) {
-              list.add(rule.toObjectArray());
-            }
-            return list;
-          }
-
-          @Override
-          protected void done() {
-            try {
-              List<Object[]> result = get();
-              innerPane.getModel().setRowCount(0);
-              for (Object[] row : result) {
-                innerPane.getModel().addRow(row);
-              }
-              innerPane.getModel().fireTableDataChanged();
-              innerPane.getCountLabel().setText(String.valueOf(result.size()));
-            } catch (InterruptedException | ExecutionException e) {
-              FindSomething.API.logging().logToError(new RuntimeException(e));
-            }
-          }
-        };
-    worker.execute();
+    updateRuleTab(configManager);
   }
 
   private void process(Consumer<Rule> consumer) {
