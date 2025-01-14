@@ -118,3 +118,4 @@ contentType:
   - image/avif
   - image/png
   - image/webp
+  - application/octet-stream

@@ -44,9 +44,9 @@ public class RuleController implements ConfigChangeListener {
         .getSelector()
         .addActionListener(
             e -> {
-              if (isEditing) {
-                return;
-              }
+//              if (isEditing) {
+//                return;
+//              }
               this.updateRuleTab(ConfigManager.getInstance());
             });
 
@@ -170,6 +170,10 @@ public class RuleController implements ConfigChangeListener {
   }
 
   private void loadDefaultRules() {
+    ConfigManager.getInstance()
+        .getRules()
+        .getGroups()
+        .forEach(g -> this.innerPane.getSelectorModel().addElement(g.getGroup()));
     this.onConfigChange(ConfigManager.getInstance());
   }
 
@@ -206,14 +210,13 @@ public class RuleController implements ConfigChangeListener {
 
   @Override
   public void onConfigChange(ConfigManager configManager) {
-    isEditing = true;
-    this.innerPane.getSelectorModel().removeAllElements();
-    configManager
-        .getRules()
-        .getGroups()
-        .forEach(g -> this.innerPane.getSelectorModel().addElement(g.getGroup()));
-    isEditing = false;
-
+//    isEditing = true;
+//    this.innerPane.getSelectorModel().removeAllElements();
+//    configManager
+//        .getRules()
+//        .getGroups()
+//        .forEach(g -> this.innerPane.getSelectorModel().addElement(g.getGroup()));
+//    isEditing = false;
     updateRuleTab(configManager);
   }
 

@@ -10,7 +10,7 @@ public class RequestSplitFrame extends JPanel {
 
   private final InformationDetailsPanel informationDetailsPanel;
   private final RequestPanel requestPanel;
-  private InvisibleSplitPane dashSplitPane;
+  private final InvisibleSplitPane dashSplitPane;
 
   public RequestSplitFrame() {
     requestPanel = new RequestPanel();

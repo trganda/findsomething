@@ -2,8 +2,10 @@ package com.github.trganda.controller.dashboard;
 
 import static com.github.trganda.config.ConfigManager.GROUP_GENERAL;
 
+import burp.api.montoya.ui.editor.Editor;
 import com.github.trganda.FindSomething;
 import com.github.trganda.components.dashboard.InformationPanel;
+import com.github.trganda.components.dashboard.RequestPanel;
 import com.github.trganda.components.dashboard.StatusPanel;
 import com.github.trganda.handler.DataChangeListener;
 import com.github.trganda.handler.FilterChangeListener;
@@ -25,13 +27,16 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
   private final InformationPanel infoPane;
   private final InfoDetailController infoDetailController;
   private final StatusPanel statusPanel;
+  private final RequestPanel requestPanel;
 
   public InfoController(
       InformationPanel infoPane,
       StatusPanel statusPanel,
+      RequestPanel requestPanel,
       InfoDetailController infoDetailController) {
     this.infoPane = infoPane;
     this.statusPanel = statusPanel;
+    this.requestPanel = requestPanel;
     this.infoDetailController = infoDetailController;
     this.setupEventListener();
   }
@@ -168,6 +173,8 @@ public class InfoController implements DataChangeListener, FilterChangeListener 
 
             statusPanel.getInfo().setText("Info:");
             statusPanel.getInfoLabel().setText(info);
+            requestPanel.getRequestEditor().setSearchExpression(info);
+            requestPanel.getResponseEditor().setSearchExpression(info);
             infoDetailController.updateDetailsView(reqInfos);
           }
         });

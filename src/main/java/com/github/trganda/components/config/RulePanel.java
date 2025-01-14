@@ -40,9 +40,9 @@ public class RulePanel extends JPanel {
     gbc.insets = new Insets(15, 0, 15, 0);
     this.add(new JSeparator(), gbc);
 
-    gbc.gridx = 0;
-    gbc.gridy = 3;
-    gbc.insets = new Insets(0, 0, 0, 0);
-    this.add(groupPanel, gbc);
+//    gbc.gridx = 0;
+//    gbc.gridy = 3;
+//    gbc.insets = new Insets(0, 0, 0, 0);
+//    this.add(groupPanel, gbc);
   }
 }

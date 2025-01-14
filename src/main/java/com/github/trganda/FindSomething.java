@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class FindSomething implements BurpExtension {
@@ -65,7 +66,7 @@ public class FindSomething implements BurpExtension {
     RuleEditorController editorController = new RuleEditorController(new RuleModel());
     new RuleController(
         extensionFrame.getConfig().getRulePanel().getRuleInnerPanel(), editorController);
-    new GroupController(extensionFrame.getConfig().getRulePanel().getGroupPanel());
+//    new GroupController(extensionFrame.getConfig().getRulePanel().getGroupPanel());
     new FilterController(extensionFrame.getConfig().getBlackListPane().getBlackListInnerPane());
 
     InformationDetailsPanel informationDetailsPanel =
@@ -73,15 +74,7 @@ public class FindSomething implements BurpExtension {
     JButton optionsButton = informationDetailsPanel.getFilterPanel().getOptionsButton();
     new OptionsButtonController(optionsButton);
 
-    RequestPanel requestPanel =
-        extensionFrame.getDashboard().getRequestSplitFrame().getRequestPanel();
-    InfoDetailController infoDetailController =
-        new InfoDetailController(informationDetailsPanel, requestPanel);
-    InformationPanel informationPanel = extensionFrame.getDashboard().getInformationPanel();
-    StatusPanel statusPanel = extensionFrame.getDashboard().getStatusPanel();
-
-    InfoController infoController =
-        new InfoController(informationPanel, statusPanel, infoDetailController);
+    InfoController infoController = getInfoController(informationDetailsPanel);
     handler.registerDataChangeListener(infoController);
 
     JButton filterButton = informationDetailsPanel.getFilterPanel().getFilterButton();
@@ -93,5 +86,17 @@ public class FindSomething implements BurpExtension {
 
     // shutdown thread pool while unloading
     api.extension().registerUnloadingHandler(new UnloadHandler(pool));
+  }
+
+  @NotNull
+  private InfoController getInfoController(InformationDetailsPanel informationDetailsPanel) {
+    RequestPanel requestPanel =
+        extensionFrame.getDashboard().getRequestSplitFrame().getRequestPanel();
+    InfoDetailController infoDetailController =
+        new InfoDetailController(informationDetailsPanel, requestPanel);
+    InformationPanel informationPanel = extensionFrame.getDashboard().getInformationPanel();
+    StatusPanel statusPanel = extensionFrame.getDashboard().getStatusPanel();
+
+    return new InfoController(informationPanel, statusPanel, requestPanel,infoDetailController);
   }
 }

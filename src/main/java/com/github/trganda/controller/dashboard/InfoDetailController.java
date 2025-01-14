@@ -17,8 +17,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class InfoDetailController {
 
-  private InformationDetailsPanel informationDetailsPanel;
-  private RequestPanel requestPanel;
+  private final InformationDetailsPanel informationDetailsPanel;
+  private final RequestPanel requestPanel;
 
   public InfoDetailController(
       InformationDetailsPanel informationDetailsPanel, RequestPanel requestPanel) {

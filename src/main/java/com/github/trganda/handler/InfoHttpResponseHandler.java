@@ -6,6 +6,7 @@ import burp.api.montoya.proxy.http.InterceptedResponse;
 import burp.api.montoya.proxy.http.ProxyResponseHandler;
 import burp.api.montoya.proxy.http.ProxyResponseReceivedAction;
 import burp.api.montoya.proxy.http.ProxyResponseToBeSentAction;
+import com.github.trganda.FindSomething;
 import com.github.trganda.cleaner.Cleaner;
 import com.github.trganda.config.ConfigManager;
 import com.github.trganda.config.Rules.Rule;
@@ -14,6 +15,11 @@ import com.github.trganda.model.InfoDataModel;
 import com.github.trganda.model.RequestDetailModel;
 import com.github.trganda.utils.Utils;
 import com.github.trganda.utils.cache.CachePool;
+import org.apache.tika.Tika;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -177,13 +183,18 @@ public class InfoHttpResponseHandler implements ProxyResponseHandler {
       }
     }
 
-    if (interceptedResponse.hasHeader("Content-Type")) {
+    InputStream is = new ByteArrayInputStream(interceptedResponse.body().getBytes());
+    Tika tika = new Tika();
+    try {
+      String detectedType = tika.detect(is);
       String contentType = interceptedResponse.headerValue("Content-Type");
       for (String type : ConfigManager.getInstance().getConfig().getContentType()) {
-        if (contentType.contains(type)) {
+        if ((contentType != null && contentType.contains(type)) || detectedType.contains(type)) {
           return true;
         }
       }
+    } catch (IOException e) {
+      FindSomething.API.logging().logToError(e);
     }
 
     return interceptedResponse.body().length() == 0;
